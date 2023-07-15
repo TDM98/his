@@ -1,0 +1,1112 @@
+﻿<commonctrl:AxUserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.SmallProcedureEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="600"
+    d:DesignWidth="800"
+    Background="White"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <DataTemplate x:Key="AutoCompleteItemTemplate">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <TextBlock MinWidth="100" Text="{Binding ICD10Code, Mode=OneWay}" />
+                <TextBlock Text="{Binding DiseaseNameVN, Mode=OneWay}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ColDeleteICD9Template">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button cal:Message.Attach="[Event Click] = [Action lnkDeleteICD9_Click($source, $eventArgs)]" ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ColDeleteHIRepResourceCode">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button cal:Message.Attach="[Event Click] = [Action lnkDeleteHIRepResourceCode_Click($datacontext)]" ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ShowICD9Code">
+            <StackPanel>
+                <TextBlock
+                    Name="txtICD9Code"
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource MainFrame.TextBlock.01}"
+                    Text="{Binding RefICD9.ICD9Code}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ICD9Code">
+            <commonctrl:AxAutoComplete
+                MinWidth="400"
+                cal:Message.Attach="[Event Loaded] = [Action aucICD9_Code_Loaded($source, $eventArgs)]                                         ;[Event Populating] = [Action aucICD9_Populating($source, $eventArgs)]                                         ;[Event DropDownClosed] = [Action aucICD9_DropDownClosed($source, $eventArgs)]                                         ;[Event DropDownClosing] = [Action aucICD9_DropDownClosing($source, $eventArgs)]"
+                FilterMode="None"
+                IsDropDownOpen="True"
+                ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                MinimumPopulateDelay="300"
+                MinimumPrefixLength="1"
+                Style="{StaticResource AxAutoCompleteMyStyle}"
+                ValueMemberBinding="{Binding ICD9Code}"
+                ValueMemberPath="ICD9Code" >
+                <commonctrl:AxAutoComplete.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Width="auto" Orientation="Horizontal">
+                            <TextBlock
+                                Name="txtDrugName"
+                                Width="50"
+                                Margin="0"
+                                Padding="0"
+                                Style="{StaticResource MainFrame.TextBlock.01}"
+                                Text="{Binding ICD9Code}" />
+                            <TextBlock
+                                Width="300"
+                                Margin="5,0,0,0"
+                                Padding="0"
+                                Style="{StaticResource MainFrame.TextBlock.01}"
+                                Text="{Binding ProcedureName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </commonctrl:AxAutoComplete.ItemTemplate>
+            </commonctrl:AxAutoComplete>
+        </DataTemplate>
+        <DataTemplate x:Key="ShowProcedureName">
+            <StackPanel>
+                <TextBlock
+                    MinWidth="150"
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource MainFrame.TextBlock.01}"
+                    Text="{Binding RefICD9.ProcedureName}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ProcedureNameTemplate">
+            <commonctrl:AxAutoComplete
+                Name="auProcedureName"
+                Grid.Row="0"
+                Grid.Column="1"
+                cal:Message.Attach="[Event Loaded] = [Action aucICD9_Name_Loaded($source, $eventArgs)]                                         ;[Event Populating] = [Action ProcedureName_Populating($source, $eventArgs)]                                         ;[Event DropDownClosed] = [Action ProcedureName_DropDownClosed($source, $eventArgs)]                                         ;[Event DropDownClosing] = [Action ProcedureName_DropDownClosing($source, $eventArgs)]"
+                FilterMode="None"
+                IsDropDownOpen="True"
+                ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                MinimumPopulateDelay="300"
+                MinimumPrefixLength="1"
+                Style="{StaticResource AxAutoCompleteMyStyle}"
+                Text="{Binding RefICD9.ProcedureName}"
+                ValueMemberBinding="{Binding ProcedureName, Mode=TwoWay}"
+                ValueMemberPath="ProcedureName">
+                <!--    -->
+                <commonctrl:AxAutoComplete.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock
+                                MinWidth="150"
+                                Margin="0"
+                                Padding="0"
+                                Style="{StaticResource MainFrame.TextBlock.01}"
+                                Text="{Binding ProcedureName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </commonctrl:AxAutoComplete.ItemTemplate>
+            </commonctrl:AxAutoComplete>
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border IsEnabled="{Binding FormEditorIsEnabled, Mode=OneWay}" Style="{StaticResource LightBlueBorderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="210" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding N0049_G1_NgBatDau, Source={StaticResource eHCMSResources}}" />
+                <ContentControl
+                    x:Name="SmallProcedureDateTime"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    MinWidth="300"
+                    MinHeight="22"
+                    Margin="2,2,2,2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Bottom" />
+
+                <TextBlock
+                    Grid.Row="1"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2811_G1_ChuanDoanVaoVien, Source={StaticResource eHCMSResources}}" />
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="2"
+                    VerticalAlignment="Center"
+                    IsEnabled="False"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding SmallProcedureObj.Diagnosis, Mode=TwoWay}" />
+
+                <TextBlock
+                    Grid.Row="2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2811_G1_ChuanDoanTruocPTTT, Source={StaticResource eHCMSResources}}" />
+
+                <commonctrl:AxAutoComplete
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Width="50"
+                    MinWidth="50"
+                    Margin="2"
+                    HorizontalAlignment="Left"
+                    cal:Message.Attach="[Event Loaded] = [Action BeforeAcbICD10Code_Loaded($source, $eventArgs)];             [Event Populating] = [Action BeforeAucICD10_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action BeforeAxAutoComplete_DropDownClosed($source, $eventArgs)];             [Event DropDownClosing] = [Action BeforeAxAutoComplete_DropDownClosing($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    IsEnabled="False"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    ItemTemplate="{StaticResource AutoCompleteItemTemplate}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    SelectedItem="{Binding SelectedBeforeICD10, Mode=TwoWay}"
+                    Style="{StaticResource AxAutoCompleteMyStyle}"
+                    ValueMemberBinding="{Binding ICD10Code}"
+                    ValueMemberPath="ICD10Code" />
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="52,2,2,2"
+                    HorizontalAlignment="Stretch"
+                    IsEnabled="False"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding BeforeDiagTreatment}" />
+
+                <TextBlock
+                    Grid.Row="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2811_G1_ChuanDoanTruocPTTT, Source={StaticResource eHCMSResources}}" />
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="2"
+                    VerticalAlignment="Center"
+                    IsEnabled="False"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding SmallProcedureObj.BeforeICD10.DiseaseNameVN, Mode=TwoWay}" />
+
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding K0762_G1_CDoanSauPhThuat, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Width="50"
+                    MinWidth="50"
+                    Margin="2"
+                    HorizontalAlignment="Left"
+                    cal:Message.Attach="[Event Loaded] = [Action AfterAcbICD10Code_Loaded($source, $eventArgs)];             [Event Populating] = [Action AfterAucICD10_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action AfterAxAutoComplete_DropDownClosed($source, $eventArgs)];             [Event DropDownClosing] = [Action AfterAxAutoComplete_DropDownClosing($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    ItemTemplate="{StaticResource AutoCompleteItemTemplate}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    SelectedItem="{Binding SelectedAfterICD10, Mode=TwoWay}"
+                    Style="{StaticResource AxAutoCompleteMyStyle}"
+                    ValueMemberBinding="{Binding ICD10Code}"
+                    ValueMemberPath="ICD10Code" />
+                <TextBox
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="52,2,2,2"
+                    HorizontalAlignment="Stretch"
+                    IsEnabled="False"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding AfterDiagTreatment}" />
+
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding K0762_G1_CDoanSauPhThuat, Source={StaticResource eHCMSResources}}" />
+                <TextBox
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Margin="2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding SmallProcedureObj.AfterICD10.DiseaseNameVN, Mode=TwoWay}" />
+
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2405_G1_PhuongPhapPhauThuatTT, Source={StaticResource eHCMSResources}}" />
+                <TextBox
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Margin="2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding SmallProcedureObj.ProcedureMethod, Mode=TwoWay}" />
+
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="Vị trí thực hiện DVKT" />
+                <commonctrl:KeyEnabledComboBox
+                    x:Name="cboV_SurgicalSite"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Margin="2"
+                    DisplayMemberPath="ObjectValue"
+                    ItemsSource="{Binding RefSurgicalSite}"
+                    SelectedValueEx="{Binding SmallProcedureObj.V_SurgicalSite, Mode=TwoWay}"
+                    SelectedValuePath="LookupID"
+                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                <TextBlock
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2406_G1_PhuongPhapVoCam, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:KeyEnabledComboBox
+                    x:Name="cboAnesthesiaTypes"
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Margin="2"
+                    DisplayMemberPath="ObjectValue"
+                    ItemsSource="{Binding RefAnesthesiaTypes}"
+                    SelectedValueEx="{Binding SmallProcedureObj.V_AnesthesiaType, Mode=TwoWay}"
+                    SelectedValuePath="LookupID"
+                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                <TextBlock
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2811_G1_TaiBienBienChung, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:KeyEnabledComboBox
+                    x:Name="cboCatactropheType"
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Margin="2"
+                    DisplayMemberPath="ObjectValue"
+                    ItemsSource="{Binding RefCatactropheTypes}"
+                    SelectedValueEx="{Binding SmallProcedureObj.V_CatactropheType, Mode=TwoWay}"
+                    SelectedValuePath="LookupID"
+                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                <TextBlock
+                    Grid.Row="10"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2811_G1_CheDoPhauThuat, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:KeyEnabledComboBox
+                    x:Name="CboSurgicalMode"
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Margin="2"
+                    DisplayMemberPath="ObjectValue"
+                    ItemsSource="{Binding RefSurgicalModes}"
+                    SelectedValueEx="{Binding SmallProcedureObj.V_SurgicalMode, Mode=TwoWay}"
+                    SelectedValuePath="LookupID"
+                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                <TextBlock
+                    Grid.Row="11"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding K0870_G1_5TuVong, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:KeyEnabledComboBox
+                    x:Name="CboDeathReason"
+                    Grid.Row="11"
+                    Grid.Column="1"
+                    Margin="2"
+                    DisplayMemberPath="ObjectValue"
+                    ItemsSource="{Binding RefDeathReasons}"
+                    SelectedValueEx="{Binding SmallProcedureObj.V_DeathReason, Mode=TwoWay}"
+                    SelectedValuePath="LookupID"
+                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                <TextBlock
+                    Grid.Row="12"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2811_G1_DanLuu, Source={StaticResource eHCMSResources}}" />
+                <TextBox
+                    Grid.Row="12"
+                    Grid.Column="1"
+                    Margin="2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding SmallProcedureObj.Drainage, Mode=TwoWay}" />
+
+                <TextBlock
+                    Grid.Row="13"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2811_G1_NgayRutChi, Source={StaticResource eHCMSResources}}" />
+                <ContentControl
+                    x:Name="SmallProcedureDateOffStitches"
+                    Grid.Row="13"
+                    Grid.Column="1"
+                    MinWidth="300"
+                    MinHeight="22"
+                    Margin="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Bottom" />
+
+                <TextBlock
+                    Grid.Row="14"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding K0832_G1_3Khac, Source={StaticResource eHCMSResources}}" />
+                <TextBox
+                    Grid.Row="14"
+                    Grid.Column="1"
+                    Margin="2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding SmallProcedureObj.Notes, Mode=TwoWay}" />
+
+                <TextBlock
+                    Grid.Row="15"
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2241_G1_MaMay, Source={StaticResource eHCMSResources}}" />
+
+                <commonctrl:AxDataGridNy
+                    Height="100"
+                    VerticalAlignment="Top"
+                    Grid.Row="16" 
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action grdHIRepResourceCode_Loaded($source, $eventArgs)]"
+                    AutoGenerateColumns="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    HorizontalScrollBarVisibility="Auto"
+                    ItemsSource="{Binding SelectedResourceList}"
+                    RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                    Style="{StaticResource MainFrame.DataGridStyle}"
+                    VerticalScrollBarVisibility="Auto" 
+                    IsReadOnly="True" >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn CellTemplate="{StaticResource ColDeleteHIRepResourceCode}" />
+                        <DataGridTextColumn  
+                            Binding="{Binding ItemName}" 
+                            Header="Tên máy thực hiện" 
+                            Width="*"/>
+                    </DataGrid.Columns>
+                </commonctrl:AxDataGridNy>
+
+                <commonctrl:AxComboBox
+                    Grid.Row="16"
+                    Grid.Column="0"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded]=[Action cboHiRepResourceCode_Loaded($source,$eventArgs)]                                                                ;[Event SelectionChanged]=[Action cboHiRepResourceCode_SelectionChanged($source,$eventArgs)]"
+                    DisplayMemberPath="ItemName"
+                    ItemsSource="{Binding ResourceList, Mode=OneWay}"
+                    SelectedItemEx="{Binding SelectedResource, Mode=TwoWay}"
+                    SelectedValuePath="HIRepResourceCode"
+                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                <Border
+                    Grid.Row="18"
+                    Grid.RowSpan="4"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="2"
+                    Style="{StaticResource LightBlueBorderStyle}"
+                    Visibility="{Binding IsVisibleICD9, Converter={StaticResource BooleanToVisibility}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="78*" />
+                            <ColumnDefinition Width="313*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Margin="10,-12,0,0"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource LightBlueBorderStyleNo}">
+                            <TextBlock
+                                FontWeight="Bold"
+                                Foreground="#FF6F8AA9"
+                                Style="{StaticResource TextBlock.Heading.Group}"
+                                Text="{Binding Z1911_G1_MaICD9, Source={StaticResource eHCMSResources}}" />
+                        </Border>
+                        <commonctrl:AxDataGridNyICD10
+                            Grid.ColumnSpan="2"
+                            MaxHeight="144"
+                            Margin="2"
+                            cal:Message.Attach="[Event Loaded] = [Action grdICD9_Loaded($source, $eventArgs)]                                                 ;[Event PreparingCellForEdit] = [Action grdICD9_PreparingCellForEdit($source, $eventArgs)]                                                 ;[Event CellEditEnding] = [Action grdICD9_CellEditEnding($source, $eventArgs)]                                                 ;[Event SelectionChanged] = [Action grdICD9_SelectionChanged($source, $eventArgs)]"
+                            AutoGenerateColumns="False"
+                            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                            HorizontalScrollBarVisibility="Auto"
+                            ItemsSource="{Binding refICD9List}"
+                            RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                            SelectedItem="{Binding refICD9Item, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.DataGridStyle}"
+                            VerticalScrollBarVisibility="Auto">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn
+                                    Width="50"
+                                    CellEditingTemplate="{StaticResource ICD9Code}"
+                                    CellTemplate="{StaticResource ShowICD9Code}"
+                                    Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" />
+                                <DataGridTemplateColumn
+                                    Width="*"
+                                    MinWidth="180"
+                                    CellEditingTemplate="{StaticResource ProcedureNameTemplate}"
+                                    CellTemplate="{StaticResource ShowProcedureName}"
+                                    Header="{Binding T0829_G1_Ten, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                                <DataGridCheckBoxColumn
+                                    Width="35"
+                                    Binding="{Binding IsMain, Mode=TwoWay}"
+                                    Header="{Binding K1737_G1_Ch, Source={StaticResource eHCMSResources}}" />
+                                <DataGridCheckBoxColumn
+                                    Width="40"
+                                    Binding="{Binding IsCongenital, Mode=TwoWay}"
+                                    Header="{Binding Z2318_G1_ManTinhGhiTat, Source={StaticResource eHCMSResources}}" />
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColDeleteICD9Template}" />
+                            </DataGrid.Columns>
+                        </commonctrl:AxDataGridNyICD10>
+                    </Grid>
+                </Border>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding N0081_G1_NgKetThuc, Source={StaticResource eHCMSResources}}" />
+                <ContentControl
+                    x:Name="SmallProcedureCompleteDateTime"
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    MinWidth="300"
+                    MinHeight="22"
+                    Margin="2,2,2,2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Bottom" />
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2407_G1_BSPhauThuatThuThuat, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action ProcedureDoctor_Loaded($source, $eventArgs)];             [Event Populating] = [Action ProcedureDoctor_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action ProcedureDoctor_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="Bác sĩ PT/TT chính thức" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="2"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action ProcedureDoctorOfficial_Loaded($source, $eventArgs)];             [Event Populating] = [Action ProcedureDoctorOfficial_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action ProcedureDoctorOfficial_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2407_G1_BSPhauThuatThuThuat, Source={StaticResource eHCMSResources}, StringFormat='{}{0} 2'}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="3"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action ProcedureDoctor2_Loaded($source, $eventArgs)];             [Event Populating] = [Action ProcedureDoctor2_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action ProcedureDoctor2_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="Bác sĩ PT/TT chính thức 2" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="4"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action ProcedureDoctorOfficial2_Loaded($source, $eventArgs)];             [Event Populating] = [Action ProcedureDoctorOfficial2_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action ProcedureDoctorOfficial2_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="5"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding K0983_G1_BSiGayMe, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="5"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action NarcoticDoctor_Loaded($source, $eventArgs)];             [Event Populating] = [Action ProcedureDoctor_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action NarcoticDoctor_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding K0983_G1_BSiGayMe, Source={StaticResource eHCMSResources}, StringFormat='{}{0} chính thức'}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="6"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action NarcoticDoctorOfficial_Loaded($source, $eventArgs)];             [Event Populating] = [Action NarcoticDoctorOfficial_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action NarcoticDoctorOfficial_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding K0983_G1_BSiGayMe, Source={StaticResource eHCMSResources}, StringFormat='{}{0} 2'}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="7"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action NarcoticDoctor3_Loaded($source, $eventArgs)];             [Event Populating] = [Action NarcoticDoctor3_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action NarcoticDoctor3_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="8"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2942_G1_PhuMe, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="8"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action NarcoticDoctor2_Loaded($source, $eventArgs)];             [Event Populating] = [Action ProcedureDoctor2_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action NarcoticDoctor2_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="9"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z1928_G1_DieuDuong, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="9"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action Nurse_Loaded($source, $eventArgs)];             [Event Populating] = [Action Nurse_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action Nurse_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}"
+                    ValueMemberBinding="{Binding TypeAndFullName, Mode=TwoWay}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="10"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z1928_G1_DieuDuong, Source={StaticResource eHCMSResources}, StringFormat='{}{0} 2'}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="10"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action Nurse2_Loaded($source, $eventArgs)];             [Event Populating] = [Action Nurse_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action Nurse2_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}"
+                    ValueMemberBinding="{Binding TypeAndFullName, Mode=TwoWay}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="11"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z1928_G1_DieuDuong, Source={StaticResource eHCMSResources}, StringFormat='{}{0} 3'}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="11"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action Nurse3_Loaded($source, $eventArgs)];             [Event Populating] = [Action Nurse_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action Nurse3_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}"
+                    ValueMemberBinding="{Binding TypeAndFullName, Mode=TwoWay}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="12"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2421_G1_BSDuyetHSTanSoi, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:AxAutoComplete
+                    Grid.Row="12"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    Margin="2"
+                    cal:Message.Attach="[Event Loaded] = [Action CheckRecordDoctor_Loaded($source, $eventArgs)];             [Event Populating] = [Action ProcedureDoctor_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action CheckRecordDoctor_DropDownClosed($source, $eventArgs)]"
+                    FilterMode="None"
+                    IsDropDownOpen="True"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="1"
+                    Style="{StaticResource AxAutoCompleteMyStyle}">
+                    <commonctrl:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    MinWidth="30"
+                                    Margin="0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding SCode}" />
+                                <TextBlock
+                                    Width="300"
+                                    Margin="5,0,0,0"
+                                    Padding="0"
+                                    Style="{StaticResource MainFrame.TextBlock.01}"
+                                    Text="{Binding FullName, StringFormat='{} - {0}'}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </commonctrl:AxAutoComplete.ItemTemplate>
+                </commonctrl:AxAutoComplete>
+
+                <TextBlock
+                    Grid.Row="13"
+                    Grid.Column="3"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                    Text="{Binding Z2449_G1_TrinhTu, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:AxTextBoxShorthand
+                    Grid.Row="14"
+                    Grid.RowSpan="7"
+                    Grid.Column="4"
+                    MinWidth="400"
+                    MaxHeight="350"
+                    Margin="2"
+                    AcceptsReturn="True"
+                    HorizontalScrollBarVisibility="Auto"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding SmallProcedureObj.TrinhTu, Mode=TwoWay}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto" />
+
+                <commonctrl:KeyEnabledComboBox
+                    Grid.Row="14"
+                    Grid.Column="3"
+                    Margin="2"
+                    DisplayMemberPath="NoteDetailsShortWithID"
+                    ItemsSource="{Binding ObjNoteTemplates_GetAll, Mode=TwoWay}"
+                    SelectedItemEx="{Binding ObjNoteTemplates_Selected, Mode=TwoWay}"
+                    SelectedValuePath="PrescriptNoteTemplateID"
+                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                <Button
+                    x:Name="btnConfirmDiagnosisTreatment"
+                    Grid.Row="15"
+                    Grid.Column="3"
+                    Width="150"
+                    Margin="0,3,0,3"
+                    Content="{Binding Z2894_G1_XacNhanChanDoan, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}"
+                    Visibility="{Binding bConfirmVisi, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+
+                <!--<Button x:Name="btnCreateOld" Grid.Row="14" Grid.Column="0"
+                Content="{Binding Z2136_G1_TaoMoiDuaTrenCu, Source={StaticResource eHCMSResources}}"
+                Width="130" Margin="80,3,0,3"
+                HorizontalAlignment="Left"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding IsVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+
+                <StackPanel Grid.Row="14" Grid.Column="0" Orientation="Horizontal" Margin="0,3,0,3">
+                    <Button x:Name="btnCreateNew" Width="75"
+                    Content="{Binding T0795_G1_TaoMoi, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}"
+                    Visibility="{Binding IsVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+                    <Button x:Name="btnSkip" Width="75" Margin="5 0 0 0"
+                    Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}"
+                    Visibility="{Binding IsVisibilitySkip, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+                </StackPanel>-->
+            </Grid>
+        </Border>
+        <StackPanel
+            Grid.Row="1"
+            Margin="10,5,0,0"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnCreateNew"
+                Width="75"
+                Content="{Binding T0795_G1_TaoMoi, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding IsVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+            <Button
+                x:Name="btnSkip"
+                Width="75"
+                Margin="5,0,0,0"
+                Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding IsVisibilitySkip, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+            <Button
+                x:Name="btnCreateOld"
+                Width="130"
+                HorizontalAlignment="Left"
+                Content="{Binding Z2136_G1_TaoMoiDuaTrenCu, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding IsVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+        </StackPanel>
+    </Grid>
+</commonctrl:AxUserControl>

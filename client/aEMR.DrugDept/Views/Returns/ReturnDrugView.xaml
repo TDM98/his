@@ -1,0 +1,328 @@
+﻿<UserControl    x:Class="aEMR.DrugDept.Views.ReturnDrugView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignWidth="885" d:DesignHeight="480">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <converter:IsEnableConverter x:Key="IsEnableConverter"/>
+        <converter:IsEnableFalseConverter x:Key="IsEnableFalseConverter"/>
+        <converter:DecimalConverter x:Key="DecimalConverter"/>
+        <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <DataTemplate x:Key="QtyReturnTemplate">
+            <TextBlock Text="{Binding OutQuantityReturn,Mode=TwoWay,Converter={StaticResource DecimalConverter}}" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="QtyReturnEditingTemplate">
+            <AxControls:AxTextBox Text="{Binding OutQuantityReturn,Mode=TwoWay,Converter={StaticResource DecimalConverter},UpdateSourceTrigger=PropertyChanged}" BorderBrush="Transparent" Background="Transparent" TextAlignment="Center" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="LayoutRoot" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="TitleForm" Text="{Binding strHienThi}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#3595CB" 
+                               FontSize="14" FontWeight="Bold" />
+            <StackPanel Grid.Column="0" Grid.Row="1" Margin="0,1" Grid.ColumnSpan="4" HorizontalAlignment="Right" Orientation="Horizontal"
+                    Visibility="{Binding mTim,Converter={StaticResource BooleanToVisibility} }">
+                <TextBlock HorizontalAlignment="Right"
+                           Text="{Binding T2144_G1_Kho, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource MainFrame.TextBlock.00}"
+                           Margin="20,1,1,1"  VerticalAlignment="Center"/>
+                <AxControls:KeyEnabledComboBox  Name="comboBox1" Style="{StaticResource MainFrame.ComboBox}" Margin="1,1,10,1" SelectedValueEx="{Binding StoreID,Mode=TwoWay}" SelectedValuePath="StoreID"  DisplayMemberPath="swhlName" ItemsSource="{Binding StoreCbx}" IsTabStop="True" MinWidth="120" MaxWidth="200"
+                                           cal:Message.Attach="[Event SelectionChanged] = [Action comboBox1_SelectionChanged($source, $eventArgs)]" TabIndex="2" />
+
+                <TextBlock HorizontalAlignment="Right"
+                           Text="{Binding N0194_G1_NhVien, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource MainFrame.TextBlock.00}"
+                           Margin="1" VerticalAlignment="Center"/>
+                <TextBlock Name="StaffName"
+                           Margin="1,1,10,1"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           TextWrapping="NoWrap"
+                           Grid.Row="1"
+                           Grid.Column="2"
+                           Style="{StaticResource MainFrame.TextBlock.00}" />
+            </StackPanel>
+            <Border  Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" Grid.ColumnSpan="4" Grid.Row="2" >
+                <!--Visibility="{Binding bView,Converter={StaticResource BooleanToVisibility} }"-->
+                <Grid  Visibility="{Binding mTim,Converter={StaticResource BooleanToVisibility} }">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="180"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding T0878_G1_TenNguoi_BV, Source={StaticResource eHCMSResources}}"
+                      VerticalAlignment="Center" Margin="5,0,5,0" Style="{StaticResource MainFrame.TextBlock.00}"></TextBlock>
+                        <TextBox x:Name="txtName" cal:Message.Attach="[Event KeyUp]=[Action Search_KeyUp($source,$eventArgs)]"
+                                                                   FontWeight="Bold" Height="22" Margin="0" Grid.Column="1" Style="{StaticResource MainFrame.TextBox}" Width="120"
+                                                                   HorizontalAlignment="Left"
+                                                                   Text="{Binding SearchCriteria.CustomerName, Mode=TwoWay}"
+                                                                   VerticalAlignment="Center"
+                                                                   TabIndex="0">
+                        </TextBox>
+                        <TextBlock Text="{Binding T3534_G1_MaPhX, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,0,5,0" Style="{StaticResource MainFrame.TextBlock.00}" ></TextBlock>
+                        <TextBox  Text="{Binding SearchCriteria.CodeInvoice, Mode=TwoWay}" Margin="2,1" Width="100" Style="{StaticResource MainFrame.TextBox}" TabIndex="1" cal:Message.Attach="[Event KeyUp]=[Action Search_KeyUp_MaPhieuXuat($source,$eventArgs)]"></TextBox>
+
+                        <TextBlock Text="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,0,5,0" Style="{StaticResource MainFrame.TextBlock.00}" ></TextBlock>
+                        <AxControls:KeyEnabledComboBox  SelectedValueEx="{Binding SearchCriteria.V_OutDrugInvStatus, Mode=TwoWay}" Margin="2,1" MinWidth="100" Style="{StaticResource MainFrame.ComboBox}" TabIndex="2" ItemsSource="{Binding ElementName=LayoutRoot,Path=DataContext.OutStatus}"   DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID"/>
+                        <Button x:Name="btnSearch" Grid.Column="2" HorizontalAlignment="Left"  Style="{StaticResource MainFrame.Button}" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Width="75" Margin="2,1" TabIndex="3" 
+                            />
+                        <!--Visibility="{Binding bView,Converter={StaticResource BooleanToVisibility} }"-->
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Border  Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" Grid.Row="3" Grid.Column="0">
+                <StackPanel >
+                    <StackPanel Visibility="{Binding ShowInvoiceInfo, Converter={StaticResource VisibilityConverter}}">
+                        <Grid Height="Auto" Width="Auto" ShowGridLines="False" DataContext="{Binding SelectedOutwardInfo}" >
+                            <Grid.ColumnDefinitions >
+                                <ColumnDefinition MinWidth="5"  Width="5"/>
+                                <!--0.Full name label-->
+                                <ColumnDefinition  Width="Auto"/>
+                                <!--1.Full name label-->
+                                <ColumnDefinition MinWidth="50" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                    <!--0.-->
+                                <RowDefinition Height="Auto"/>
+                                    <!--1.-->
+                                <RowDefinition Height="Auto"/>
+                                    <!--2.-->
+                                <RowDefinition Height="Auto"/>
+                                    <!--3.-->
+                                <RowDefinition Height="Auto"/>
+                                    <!--2.-->
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                            <!--Column 1-->
+                            <TextBlock Text="{Binding G0656_G1_TTinPhXuat, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Margin="0,6,1,7" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.00}" />
+                            <TextBlock Text="{Binding V_OutDrugInvStatus, Mode=OneWay,Converter={StaticResource OutDrugInvStatusConverter}}"  Margin="0,6,1,7" x:Name="txtFullNameBN"  HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="0"  Grid.Column="3" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="3" />
+
+                            <TextBlock Text="{Binding T3534_G1_MaPhX, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.01}"  />
+                            <TextBlock Text="{Binding N0130_G1_NgXuat, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.01}" />
+                            <!--<TextBlock Text="{Binding T3500_G1_MaPhTra, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.01}" />-->
+                            <!--Column 2-->
+                            <TextBlock Text="{Binding OutInvID}" x:Name="txtDOBBN" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="1"  Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBlock.02}" />
+                            <TextBlock Text="{Binding OutDate, StringFormat='dd/MM/yyyy'}" x:Name="txtPtCode" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="3"  Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBlock.02}" />
+                            <!--<TextBlock Text="{Binding ReturnInvoice}"  Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="5"  Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBlock.02}" />-->
+
+                            <Line Grid.ColumnSpan="8" Grid.Column="1" Grid.Row="2" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                            <Line Grid.ColumnSpan="8" Grid.Column="1" Grid.Row="4" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel Visibility="{Binding ShowReturnInvoiceInfo, Converter={StaticResource VisibilityConverter}}">
+                        <Grid Height="Auto" Width="Auto" ShowGridLines="False" DataContext="{Binding SelectedOutwardInfo}">
+                            <Grid.ColumnDefinitions >
+                                <ColumnDefinition MinWidth="5"  Width="5"/>
+                                <!--0.Full name label-->
+                                <ColumnDefinition  Width="Auto"/>
+                                <!--1.Full name label-->
+                                <ColumnDefinition MinWidth="50" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="17"/>
+                                <!--0.-->
+                                <RowDefinition MinHeight="18"/>
+                                <!--1.-->
+                                <RowDefinition MinHeight="1"/>
+                                <!--2.-->
+                                <RowDefinition MinHeight="18"/>
+                                <!--3.-->
+                                <RowDefinition MinHeight="1"/>
+                                <!--2.-->
+                                <RowDefinition MinHeight="18"/>
+                                <RowDefinition MinHeight="1"/>
+                                <!--2.-->
+                                <RowDefinition MinHeight="18"/>
+                            </Grid.RowDefinitions>
+                            <!--Column 1-->
+                            <TextBlock Text="{Binding G0654_G1_TTinPhTra, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Margin="0,6,1,7" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.00}" />
+                            <TextBlock Text="{Binding OutDrugInvStatus, Mode=OneWay}"  Margin="0,6,1,7" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="0"  Grid.Column="3" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="3" />
+
+                            <TextBlock Text="{Binding T3500_G1_MaPhTra, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.01}"  />
+                            <TextBlock Text="{Binding N0124_G1_NgTra, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.01}" />
+                            <TextBlock Text="{Binding T3534_G1_MaPhX, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.01}" />
+                            <TextBlock Text="{Binding N0130_G1_NgXuat, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.01}" />
+                            <!--Column 2-->
+                            <TextBlock Text="{Binding OutInvID}" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="1"  Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBlock.02}" />
+                            <TextBlock Text="{Binding OutDate, StringFormat='dd/MM/yyyy'}" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="3"  Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBlock.02}" />
+                            <TextBlock Text="{Binding OutInvoice.OutInvID}"  Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="5"  Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBlock.02}" />
+                            <TextBlock Text="{Binding OutInvoice.OutDate, StringFormat='dd/MM/yyyy'}"  Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="7"  Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                            <Line Grid.ColumnSpan="8" Grid.Column="1" Grid.Row="2" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                            <Line Grid.ColumnSpan="8" Grid.Column="1" Grid.Row="4" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                            <Line Grid.ColumnSpan="8" Grid.Column="1" Grid.Row="6" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                        </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <Border  Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" Grid.Row="3" Grid.Column="1">
+                <Grid Height="Auto" Width="Auto" ShowGridLines="False" >
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="{Binding G0620_G1_TTinKHg, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}"  Margin="0,6,1,7" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="3" Grid.Row="0" Grid.Column="0" Style="{StaticResource MainFrame.TextBlock.00}" />
+                    <TextBlock Text="{Binding T0858_G1_TenKhachHg, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Style="{StaticResource MainFrame.TextBlock.01}"  />
+                    <TextBlock Text="{Binding K3449_G1_DienThoai, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Style="{StaticResource MainFrame.TextBlock.01}" />
+                    <TextBlock Text="{Binding K3354_G1_DChi, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="5" Grid.Column="0" Style="{StaticResource MainFrame.TextBlock.01}" />
+
+                    <TextBlock Grid.Column="1" Grid.Row="1"  Margin="1"  Style="{StaticResource MainFrame.TextBlock.01}" Text="{Binding SelectedOutwardInfo.FullName}"  />
+                    <TextBlock Grid.Column="1" Grid.Row="3"  Style="{StaticResource MainFrame.TextBlock.01}" Text="{Binding SelectedOutwardInfo.NumberPhone}" Margin="1"/>
+                    <TextBlock Grid.Column="1" Grid.Row="5"  Style="{StaticResource MainFrame.TextBlock.01}" Text="{Binding SelectedOutwardInfo.Address}" Margin="1" />
+
+                    <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="2" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                    <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="4" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                </Grid>
+            </Border>
+            <Grid x:Name="Details" Grid.Row="4" Margin="3" Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding T3167_G1_LyDoTra, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" Style="{StaticResource MainFrame.TextBlock.01}"  />
+                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"  Text="{Binding SelectedOutwardInfo.Notes, Mode=TwoWay}" Margin="2,1"  Style="{StaticResource MainFrame.TextBox}"  IsReadOnly="{Binding SelectedOutwardInfo.ReturnID,TargetNullValue=True,Converter={StaticResource IsEnableConverter}}"></TextBox>
+
+            <DataGrid Grid.Row="1" x:Name="GridInward" HeadersVisibility="All" AutoGenerateColumns="False" ItemsSource="{Binding SelectedOutwardInfo.OutwardDrugMedDepts,Mode=OneWay}" SelectedItem="{Binding SelectedOutwardDrug,Mode=TwoWay}" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible" ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}" Grid.ColumnSpan="6" SelectionMode="Single"
+                    Margin="0,0,0,2" CanUserAddRows="False"
+                    IsReadOnly="{Binding SelectedOutwardInfo.CanReturn,Converter={StaticResource InverseBoolConverter}}"
+                    cal:Message.Attach="[Event MouseLeftButtonUp] = [Action GridInward_MouseLeftButtonUp($source, $eventArgs)]
+                                        ;[Event KeyUp] = [Action GridInward_KeyUp($source, $eventArgs)]
+                                        ;[Event CurrentCellChanged] = [Action GridInward_CurrentCellChanged($source, $eventArgs)]
+                                        ;[Event LoadingRow] = [Action GridInward_LoadingRow($source, $eventArgs)]
+                                        ;[Event Loaded] = [Action GridInward_Loaded($source, $eventArgs)]">
+                <!--;[Event CellEditEnding] = [Action GridInward_CellEditEnding($source, $eventArgs)]-->
+                <DataGrid.Columns>
+                        <DataGridTextColumn Header="{Binding K2569_G1_Code, Source={StaticResource eHCMSResources}}" x:Name="colDrugID"
+                                                  Binding="{Binding RefGenericDrugDetail.Code}" IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding T0854_G1_TenHg, Source={StaticResource eHCMSResources}}" x:Name="colDrugName"
+                                                  Binding="{Binding RefGenericDrugDetail.BrandName}" IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding T1316_G1_HLg, Source={StaticResource eHCMSResources}}" x:Name="colText"
+                                                  Binding="{Binding RefGenericDrugDetail.Content}" IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}" x:Name="colCityStateZipCode" Binding="{Binding RefGenericDrugDetail.SelectedUnit.UnitName}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding T2628_G1_LoSX, Source={StaticResource eHCMSResources}}" x:Name="colWebSiteAddress" Binding="{Binding InBatchNumber}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding S0656_G1_SLgg, Source={StaticResource eHCMSResources}}" x:Name="colContactPerson" 
+                                                  Binding="{Binding OutQuantityOld,Mode=OneWay,Converter={StaticResource DecimalConverter}}" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}" IsReadOnly="True"/>
+
+                        <DataGridTextColumn Header="{Binding S0592_G1_SLgDaTra, Source={StaticResource eHCMSResources}}" x:Name="colReturned" 
+                                                  Binding="{Binding QtyReturn,Mode=OneWay,Converter={StaticResource DecimalConverter}}" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}" IsReadOnly="True"/>
+
+                        <DataGridTemplateColumn Header="{Binding S0671_G1_SLggTra, Source={StaticResource eHCMSResources}}" CellEditingTemplate="{StaticResource QtyReturnEditingTemplate}" CellTemplate="{StaticResource QtyReturnTemplate}"/>
+
+                        <DataGridTextColumn Header="{Binding K3591_G1_DGia, Source={StaticResource eHCMSResources}}" x:Name="colSupplierDescription" Binding="{Binding OutPrice,Converter={StaticResource DecimalConverter}}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding G0085_G1_TTien, Source={StaticResource eHCMSResources}}" x:Name="colTelephoneNumber"  Binding="{Binding TotalPriceReturn,Converter={StaticResource DecimalConverter}}" 
+                                                  IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding G0085_G1_TTien, Source={StaticResource eHCMSResources}}" x:Name="colTotalPrice" Binding="{Binding TotalInvoicePrice,Converter={StaticResource DecimalConverter}}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding G1646_G1_TraBH, Source={StaticResource eHCMSResources}}" x:Name="colHIPayReturn" Binding="{Binding OutHIRebateReturn,Converter={StaticResource DecimalConverter}}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding G1646_G1_TraBH, Source={StaticResource eHCMSResources}}" x:Name="colHIPay" Binding="{Binding TotalHIPayment,Converter={StaticResource DecimalConverter}}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding G1662_G1_TraKH, Source={StaticResource eHCMSResources}}" x:Name="colPatientReturn" Binding="{Binding PatientReturn,Converter={StaticResource DecimalConverter}}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding G1662_G1_TraKH, Source={StaticResource eHCMSResources}}" x:Name="colPatientPay" Binding="{Binding TotalPatientPayment,Converter={StaticResource DecimalConverter}}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding T1363_G1_HDung, Source={StaticResource eHCMSResources}}" x:Name="colTelephone"  Binding="{Binding InExpiryDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"
+                                                  IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                        <DataGridTextColumn Header="{Binding T2013_G1_Ke, Source={StaticResource eHCMSResources}}" x:Name="colLocation"  Binding="{Binding RefGenericDrugDetail.ShelfName,Mode=OneWay}"
+                                                  IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+                      
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Left" Grid.ColumnSpan="3" 
+                        Visibility="{Binding mTim,Converter={StaticResource BooleanToVisibility} }">
+                    <TextBlock Text="{Binding T3502_G1_MaPhTraHgCu, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="4,0,0,2" />
+                    <TextBox  Margin="2,1" Width="180"  Style="{StaticResource MainFrame.TextBox}" Text="{Binding SearchCriteriaReturn.CodeInvoice,Mode=TwoWay}" cal:Message.Attach="[Event KeyUp]=[Action Search_KeyUp_Return($source,$eventArgs)]"></TextBox>
+                    <Button x:Name="btnSearchReturn"  Style="{StaticResource MainFrame.Button}" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Width="75" Margin="2,1"
+                        />
+                    <!--Visibility="{Binding bView,Converter={StaticResource BooleanToVisibility} }"-->
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Right" Grid.ColumnSpan="5">
+                    <TextBlock VerticalAlignment="Center"   Text="{Binding G1472_G1_TCong, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.01}"/>
+                    <TextBlock VerticalAlignment="Center"   FontWeight="Bold"  Text="{Binding SumTotalPriceReturn,Converter={StaticResource DecimalConverter}}" Foreground="Black" Margin="5,0,0,0"/>
+                    <TextBlock VerticalAlignment="Center"   Text="{Binding G1646_G1_TraBH, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="5,0,0,0"/>
+                    <TextBlock Margin="5,0,0,0" VerticalAlignment="Center"  FontWeight="Bold"  Text="{Binding SumTotalPriceHIReturn,Converter={StaticResource DecimalConverter}}" />
+                    <TextBlock VerticalAlignment="Center"   Text="{Binding P0336_G1_PhaiTraKH, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="5,0,0,0"/>
+                    <TextBlock Margin="5,0,0,0" VerticalAlignment="Center"  FontWeight="Bold"  Text="{Binding SumTotalPricePatientReturn,Converter={StaticResource DecimalConverter}}" Foreground="Red" />
+                </StackPanel>
+            </Grid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="6" Grid.ColumnSpan="3">
+                <Button Name="btnSave" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Width="75" Margin="2,1" VerticalAlignment="Bottom" Style="{StaticResource MainFrame.Button}"  IsEnabled="{Binding SelectedOutwardInfo.ReturnID,TargetNullValue=True,Converter={StaticResource IsEnableFalseConverter}}"
+                    Visibility="{Binding mLuu,Converter={StaticResource BooleanToVisibility} }"/>
+                <!--KMx: Hiện tại phiếu xuất đã trả tiền rồi thì không cho trả hàng. Nếu không sẽ bị lỗi. Khi nào Khoa Dược yêu cầu thì sẽ sửa lại (24/12/2014 15:11).-->
+                
+                <!--<Button Name="PayCmd" Content="{Binding G1673_G1_TraTien, Source={StaticResource eHCMSResources}}" Margin="2,1" VerticalAlignment="Bottom" Width="75" Style="{StaticResource MainFrame.Button}" IsEnabled="{Binding SelectedOutwardInfo.RefundMoney,TargetNullValue=False}"
+                    Visibility="{Binding mTraTien,Converter={StaticResource BooleanToVisibility} }"/>-->
+                <Button Name="btnPreview" Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"  Margin="2,1" VerticalAlignment="Bottom" Width="75" Style="{StaticResource MainFrame.Button}"  IsEnabled="{Binding SelectedOutwardInfo.ReturnID,TargetNullValue=False,Converter={StaticResource IsEnableConverter}}"
+                    Visibility="{Binding mIn,Converter={StaticResource BooleanToVisibility} }"/>
+                <Button Name="btnPrint" Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}"  Margin="2,1" VerticalAlignment="Bottom" Width="75" Style="{StaticResource MainFrame.Button}"  IsEnabled="{Binding SelectedOutwardInfo.ReturnID,TargetNullValue=False,Converter={StaticResource IsEnableConverter}}" 
+                    Visibility="{Binding mIn,Converter={StaticResource BooleanToVisibility} }"/>
+            </StackPanel>
+
+        </Grid>
+    <!--</toolkit:BusyIndicator>-->
+</UserControl>

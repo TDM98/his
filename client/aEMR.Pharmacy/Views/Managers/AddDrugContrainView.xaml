@@ -1,0 +1,87 @@
+﻿<UserControl        x:Class="aEMR.Pharmacy.Views.AddDrugContrainView"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                    d:DesignHeight="500" d:DesignWidth="600"
+                    mc:Ignorable="d">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <DataTemplate x:Key="ColDeleteTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"  ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="LayoutRoot" Background="White" MaxWidth="900" MaxHeight="650" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="5*" />
+                <RowDefinition Height="4*" MinHeight="200" />
+                <RowDefinition Height="30"  />
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="TitleForm" Text="{Binding G0335_G1_ThemThuocChoCCD, Source={StaticResource eHCMSResources}}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#3595CB" 
+                               FontSize="14" FontWeight="Bold" />
+            <ContentControl Name="DrugList" Grid.Row="1" >                
+                
+            </ContentControl>
+            
+            <DataGrid Grid.Row="2" x:Name="griddrug"  
+                          ItemsSource="{Binding allNewRefGenericDrugDetail,Mode=TwoWay}" AutoGenerateColumns="False" 
+                          IsReadOnly="True"  SelectedItem="{Binding selectedNewRefGenericDrugDetail, Mode=TwoWay}" 
+                          HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" 
+                          ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                          Style="{StaticResource MainFrame.DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn CellTemplate="{StaticResource ColDeleteTemplate}"  Header=""/>
+                    <DataGridTextColumn 
+                                                            Header="{Binding T0907_G1_TenThuongMai, Source={StaticResource eHCMSResources}}"
+                                                            x:Name="colBrandName" Binding="{Binding BrandName}"     >
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            Header="{Binding T0839_G1_TenChung, Source={StaticResource eHCMSResources}}"
+                                                            x:Name="colGenericName" Binding="{Binding GenericName}"     >
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            Header="{Binding T1316_G1_HLg, Source={StaticResource eHCMSResources}}"
+                                                            x:Name="colContent"   Binding="{Binding Content}"  >
+                   </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}"
+                                                            x:Name="colDUnits"  Binding="{Binding SeletedUnit.UnitName}"  >                 
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            Header="{Binding T1410_G1_HgSX2, Source={StaticResource eHCMSResources}}"
+                                                            x:Name="colPharmaceutical"  Binding="{Binding Pharmaceutical}" >
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            Header="{Binding Q0484_G1_QuocGia, Source={StaticResource eHCMSResources}}"
+                                                            x:Name="colCountryID"  Binding="{Binding SeletedCountry.CountryName}" >
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            Header="{Binding T2922_G1_LopThuoc, Source={StaticResource eHCMSResources}}"
+                                                            x:Name="colFaID" Binding="{Binding SeletedDrugClass.FaName}" >
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Width="204">
+                <Button x:Name="butSave" HorizontalAlignment="Left" Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" Height="20" Style="{StaticResource MainFrame.Button}" CommandParameter="{Binding Text, ElementName=txtSearchingKey, Mode=OneWay}" Width="80"/>
+                <Button x:Name="butExit" HorizontalAlignment="Right" Content="{Binding G0391_G1_Thoat, Source={StaticResource eHCMSResources}}" Height="20" Style="{StaticResource MainFrame.Button}" CommandParameter="{Binding Text, ElementName=txtSearchingKey, Mode=OneWay}" Width="80"  />
+            </StackPanel>
+
+        </Grid>
+    <!--</toolkit:BusyIndicator>-->
+    </Border>
+</UserControl>

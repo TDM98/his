@@ -1,0 +1,417 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.FindPatientView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AutoBoxTK="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Margin="0,0,0,0"
+    Padding="0,0,0,0"
+    cal:Message.Attach="[Event KeyUp]=[Action KeyUpCmd($eventArgs)]"
+    d:DesignHeight="480"
+    d:DesignWidth="640"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <converters:PatientAddressConverter x:Key="PatientAddressConverter" />
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid
+            x:Name="LayoutRoot"
+            Margin="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                Text="{Binding G1157_G1_TimBN, Source={StaticResource eHCMSResources}}" />
+
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Orientation="Vertical">
+
+                <StackPanel
+                    MinWidth="500"
+                    HorizontalAlignment="Center"
+                    Orientation="Vertical">
+                    <Grid
+                        Width="Auto"
+                        Margin="0,5,0,0"
+                        HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlock.Heading.04}"
+                            Text="{Binding T0917_G1_TenMaBNTheBH, Source={StaticResource eHCMSResources}}" />
+
+                        <commonctrl:AxSearchPatientTextBox
+                            x:Name="txtName"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            Width="450"
+                            Height="22"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event Loaded]=[Action txtName_Loaded($source,$eventArgs)]"
+                            FontWeight="Bold"
+                            FullName="{Binding SearchCriteria.FullName, Mode=TwoWay}"
+                            HICardNumber="{Binding SearchCriteria.InsuranceCard, Mode=TwoWay}"
+                            PatientCode="{Binding SearchCriteria.PatientCode, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            TabIndex="1"
+                            Text="{Binding SearchCriteria.PatientNameString, Mode=TwoWay}">
+                            <interact:Interaction.Triggers>
+                                <interact:EventTrigger EventName="KeyDown">
+                                    <commonctrl:TextBoxEnterButtonInvoke TargetName="SearchCmd" />
+                                </interact:EventTrigger>
+                            </interact:Interaction.Triggers>
+                        </commonctrl:AxSearchPatientTextBox>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlock.Heading.04}"
+                            Text="{Binding G1637_G1_TpTinh, Source={StaticResource eHCMSResources}}"
+                            TextWrapping="Wrap" />
+
+
+                        <commonctrl:AxAutoComplete
+                            x:Name="AcbCity"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Height="22"
+                            cal:Message.Attach="[Event Loaded]=[Action AcbCity_Loaded($source, $eventArgs)]                                                     ;[Event Populating] = [Action AcbCity_Populating($source, $eventArgs)]                                                     ;[Event DropDownClosed] = [Action AcbCity_DropDownClosed($source, $eventArgs)]"
+                            FilterMode="None"
+                            FontWeight="Bold"
+                            IsDropDownOpen="True"
+                            ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                            ItemsSource="{Binding allProvince, Mode=TwoWay}"
+                            MinimumPopulateDelay="300"
+                            MinimumPrefixLength="1"
+                            SelectedItem="{Binding SelectedProvince, Mode=TwoWay}"
+                            Style="{StaticResource AxAutoCompleteMyStyle}"
+                            TextBoxStyle="{StaticResource MainFrame.TextBox}"
+                            ValueMemberBinding="{Binding Path=CityProvinceName, Mode=TwoWay}">
+                            <AutoBoxTK:AutoCompleteBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=CityProvinceName}" />
+                                </DataTemplate>
+                            </AutoBoxTK:AutoCompleteBox.ItemTemplate>
+                        </commonctrl:AxAutoComplete>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlock.Heading.04}"
+                            Text="{Binding Q0446_G1_Quan, Source={StaticResource eHCMSResources}}"
+                            TextWrapping="Wrap" />
+                        <commonctrl:AxComboBox
+                            x:Name="cboSuburb"
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Height="22"
+                            Margin="0,0,0,1"
+                            VerticalAlignment="Bottom"
+                            cal:Message.Attach="[Event Loaded]=[Action cboSuburb_Loaded($source, $eventArgs)]                                                                 ;[Event SelectionChanged]=[Action cboSuburb_SelectionChanged($source, $eventArgs)]"
+                            DisplayMemberPath="SuburbName"
+                            ItemsSource="{Binding SuburbNames, Mode=OneWay}"
+                            SelectedValuePath="SuburbNameID"
+                            Style="{StaticResource MainFrame.ComboBox}" />
+
+                        <!--  TxD: Style="{StaticResource  MainFrame.Checkbox.Title1}"  -->
+                        <CheckBox
+                            Name="chkBirthdate"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="0,2,10,0"
+                            VerticalAlignment="Center"
+                            Content="{Binding T2898_G1_LocTheoNgSinh, Source={StaticResource eHCMSResources}}"
+                            IsChecked="{Binding SearchCriteria.BirthDateEnabled, Mode=TwoWay}"
+                            IsThreeState="False" />
+                        <!--  Style="{StaticResource MainFrame.DatePicker}"  -->
+                        <!--<DatePicker Name="dtBirthDateBegin" Width="200" VerticalAlignment="Center" Height="22" Grid.Row="2" Grid.Column="1"
+                                Style="{StaticResource MainFrame.DatePicker}" HorizontalAlignment="Left"
+                                IsEnabled="{Binding ElementName=chkBirthdate,Path=IsChecked}"
+                                SelectedDate="{Binding SearchCriteria.BirthDateBegin,Mode=TwoWay}" Margin="0"  />-->
+                        <TextBox
+                            Name="dtBirthDateBegin"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Width="200"
+                            Height="22"
+                            Margin="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event Loaded]=[Action txtBirthDateBegin_Loaded($source, $eventArgs)]                                                     ;[Event LostFocus] = [Action txtBirthDateBegin_Lostfocus($source,$eventArgs)]"
+                            IsEnabled="{Binding ElementName=chkBirthdate, Path=IsChecked}"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding DateOfBirthBegin, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Margin="5,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TBlock.Content.00}"
+                            Text="{Binding K3184_G1_Den, Source={StaticResource eHCMSResources}}" />
+                        <!--  Style="{StaticResource MainFrame.DatePicker}"  -->
+                        <!--<DatePicker Name="dtBirthDateEnd" VerticalAlignment="Center" HorizontalAlignment="Left" Width="200" Grid.Row="2" Grid.Column="3"
+                                Style="{StaticResource MainFrame.DatePicker}"
+                                IsEnabled="{Binding ElementName=chkBirthdate,Path=IsChecked}"
+                                SelectedDate="{Binding SearchCriteria.BirthDateEnd,Mode=TwoWay}" Margin="0" Height="22" />-->
+                        <TextBox
+                            Name="dtBirthDateEnd"
+                            Grid.Row="2"
+                            Grid.Column="3"
+                            Width="200"
+                            Height="22"
+                            Margin="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event Loaded]=[Action txtBirthDateEnd_Loaded($source, $eventArgs)]                                                     ;[Event LostFocus] = [Action txtBirthDateEnd_Lostfocus($source,$eventArgs)]"
+                            IsEnabled="{Binding ElementName=chkBirthdate, Path=IsChecked}"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding DateOfBirthEnd, Mode=TwoWay}" />
+
+                        <CheckBox
+                            Name="chkGender"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Margin="0,2,10,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{Binding T2893_G1_LocTheoGTinh, Source={StaticResource eHCMSResources}}"
+                            IsChecked="{Binding SearchCriteria.GenderEnabled, Mode=TwoWay}"
+                            IsThreeState="False"
+                            Style="{StaticResource MainFrame.Checkbox.Title1}" />
+
+                        <ComboBox
+                            x:Name="cboGender"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Width="200"
+                            Margin="0"
+                            HorizontalAlignment="Left"
+                            DisplayMemberPath="Name"
+                            IsEnabled="{Binding ElementName=chkGender, Path=IsChecked}"
+                            ItemsSource="{Binding Genders, Mode=OneWay}"
+                            SelectedItem="{Binding SearchCriteria.Gender, Mode=TwoWay}"
+                            SelectedValuePath="ID"
+                            Style="{StaticResource ComboBoxStyle}" />
+                        <!--  ▼====: #002  -->
+                        <CheckBox
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            Margin="0,2,10,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{Binding Z2150_G1_BNCoTheBH, Source={StaticResource eHCMSResources}}"
+                            IsChecked="{Binding SearchCriteria.IsShowHICardNo, Mode=TwoWay}"
+                            IsThreeState="False"
+                            Style="{StaticResource MainFrame.Checkbox.Title1}" />
+                        <!--  ▲====: #002  -->
+                        <StackPanel
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            Margin="0,0,0,0"
+                            HorizontalAlignment="Left"
+                            DataContext="{Binding ElementName=LayoutRoot, Path=DataContext, Mode=TwoWay}">
+                            <Button
+                                x:Name="SearchCmd"
+                                Width="75"
+                                Margin="5,0,0,0"
+                                HorizontalAlignment="Right"
+                                Content="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}" />
+                            <!--  Command="{Binding SearchCommand}"  -->
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            Width="Auto"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Left"
+                            DataContext="{Binding ElementName=LayoutRoot, Path=DataContext, Mode=TwoWay}"
+                            Orientation="Horizontal">
+                            <Button
+                                x:Name="ResetFilterCmd"
+                                Width="75"
+                                Margin="0,0,0,0"
+                                HorizontalAlignment="Right"
+                                Content="{Binding G2796_G1_XoaHet, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}" />
+                            <!--  Command="{Binding ResetFilterCommand}"  -->
+
+                        </StackPanel>
+
+                        <Button
+                            x:Name="CreatePatientCmd"
+                            Grid.Row="2"
+                            Grid.Column="4"
+                            Width="75"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Right"
+                            Content="{Binding G0247_G1_ThemBN, Source={StaticResource eHCMSResources}}"
+                            Style="{StaticResource MainFrame.Button}" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel
+                    Margin="2,5,0,2"
+                    VerticalAlignment="Top"
+                    Orientation="Vertical">
+                    <DataGrid
+                        x:Name="gridPatient"
+                        MinHeight="250"
+                        cal:Message.Attach="[Event MouseDoubleClick]=[Action DoubleClick($source, $eventArgs)];[Event Loaded]=[Action gridPatient_Loaded($source, $eventArgs)]"
+                        AutoGenerateColumns="False"
+                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyleWrap}"
+                        HeadersVisibility="All"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding Patients, Mode=OneWay}"
+                        RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                        RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                        SelectedItem="{Binding Path=SelectedPatient, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.DataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                x:Name="colPatientCode"
+                                Binding="{Binding PatientCode}"
+                                Header="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+
+                            <DataGridTextColumn
+                                x:Name="colFullName"
+                                Binding="{Binding FullName}"
+                                Header="{Binding T0836_G1_TenBN, Source={StaticResource eHCMSResources}}" />
+
+                            <DataGridTextColumn
+                                Width="90"
+                                Binding="{Binding DOBText}"
+                                Header="{Binding N0107_G1_NgSinh, Source={StaticResource eHCMSResources}}" />
+
+                            <DataGridTextColumn
+                                Width="Auto"
+                                MinWidth="150"
+                                Binding="{Binding Converter={StaticResource PatientAddressConverter}}"
+                                Header="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}" />
+
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding SuburbName.SuburbName}"
+                                Header="{Binding Q0446_G1_Quan, Source={StaticResource eHCMSResources}}" />
+
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding CitiesProvince.CityProvinceName}"
+                                Header="{Binding G1637_G1_TpTinh, Source={StaticResource eHCMSResources}}" />
+
+
+                            <!--<DataGridTemplateColumn  Width="Auto" MinWidth="150">
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}" />
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource PatientAddressConverter}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>-->
+
+                            <DataGridTextColumn
+                                x:Name="colPhone"
+                                MinWidth="100"
+                                Binding="{Binding PatientCellPhoneNumber}"
+                                Header="{Binding K3449_G1_DienThoai, Source={StaticResource eHCMSResources}}" />
+
+                            <DataGridTextColumn
+                                MinWidth="100"
+                                Binding="{Binding StaffName}"
+                                Header="{Binding N0165_G1_NguoiTao, Source={StaticResource eHCMSResources}}" />
+
+                            <!--  ▼====: #002  -->
+                            <DataGridTextColumn
+                                x:Name="colHICardNo"
+                                MinWidth="100"
+                                Binding="{Binding LastNewHealthInsurance.HICardNo}"
+                                Header="{Binding R0370_G1_MatheBHYT, Source={StaticResource eHCMSResources}}"
+                                Visibility="Collapsed" />
+                            <!--  ▲====: #002  -->
+                        </DataGrid.Columns>
+                        <!--<interact:Interaction.Behaviors>
+                        <commonctrl:DataGridDoubleClickBehavior DoubleClick="DataGridDoubleClickBehavior_DoubleClick">
+                        </commonctrl:DataGridDoubleClickBehavior>
+                    </interact:Interaction.Behaviors>-->
+                    </DataGrid>
+
+                    <commonctrl:DataPager
+                        x:Name="pagerGridPatients"
+                        Margin="0,-1,0,0"
+                        HorizontalContentAlignment="Left"
+                        PageSize="{Binding PageSize}"
+                        Source="{Binding Patients, Mode=OneWay}" />
+                </StackPanel>
+            </StackPanel>
+            <!--</toolkit:BusyIndicator>-->
+            <Button
+                x:Name="CancelCmd"
+                Grid.Row="2"
+                Width="75"
+                Height="23"
+                Margin="0,12,0,0"
+                HorizontalAlignment="Right"
+                Content="{Binding K1565_G1_Cancel, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}" />
+            <Button
+                x:Name="OkCmd"
+                Grid.Row="2"
+                Width="75"
+                Height="23"
+                Margin="0,12,79,0"
+                HorizontalAlignment="Right"
+                Content="{Binding O0303_G1_OK, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}" />
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

@@ -1,0 +1,188 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.InPatientSelectPclLABView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:controllib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="315"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converter:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+
+
+    <Grid
+        x:Name="LayoutRoot"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,5,0,0"
+            Style="{StaticResource TBlock.Heading.03}"
+            Text="{Binding T2871_G1_LoaiXN, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+        <controllib:AxComboBox
+            x:Name="cboV_PCLMainCategory"
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="20"
+            Margin="0,0,1,0"
+            VerticalAlignment="Top"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding ObjV_PCLMainCategory, Mode=OneWay}"
+            SelectedItemEx="{Binding ObjV_PCLMainCategory_Selected, Mode=TwoWay}"
+            SelectedValuePath="LookupID"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <TextBlock
+            Grid.Row="1"
+            Margin="0,5,0,0"
+            VerticalAlignment="Top"
+            Style="{StaticResource TBlock.Heading.03}"
+            Text="{Binding N0239_G1_Nhom, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            Visibility="{Binding VisibilityFrom}" />
+        <controllib:AxComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Height="22"
+            HorizontalAlignment="Stretch"
+            DisplayMemberPath="PCLFormName"
+            ItemsSource="{Binding PCLForms, Mode=OneWay}"
+            SelectedItemEx="{Binding SelectedPCLForm, Mode=TwoWay}"
+            SelectedValuePath="PCLFormID"
+            Style="{StaticResource MainFrame.ComboBox}"
+            Visibility="{Binding VisibilityFrom}" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="0,5,0,0"
+            Style="{StaticResource TBlock.Heading.03}"
+            Text="{Binding T0913_G1_TenXN, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+
+        <TextBox
+            x:Name="PCLExamTypeName"
+            Grid.Row="2"
+            Grid.Column="1"
+            cal:Message.Attach="[Event KeyUp]=[Action PCLExamTypeName_KeyUp($source,$eventArgs)]"
+            Text="{Binding PCLExamTypeName, Mode=TwoWay}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Margin="0,5,0,0"
+            VerticalAlignment="Top"
+            Style="{StaticResource TBlock.Heading.03}"
+            Text="{Binding K2705_G1_Combo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            Visibility="{Binding VisibilityCombo}" />
+        <controllib:AxComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Height="22"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            DisplayMemberPath="ComboName"
+            ItemsSource="{Binding PCLExamTypeCombos, Mode=OneWay}"
+            SelectedItemEx="{Binding SelectedCombo, Mode=TwoWay}"
+            SelectedValuePath="PCLExamTypeComboID"
+            Style="{StaticResource MainFrame.ComboBox}"
+            Visibility="{Binding VisibilityCombo}" />
+
+        <!--<controllib:AxListBox Grid.Row="2" Grid.Column="1" Height="100"
+                               HorizontalAlignment="Stretch"
+                               SelectedValuePath="PCLExamTypeID"
+                               DisplayMemberPath="PCLExamTypeName"
+                               SelectedItemEx="{Binding SelectedPCLExamType,Mode=TwoWay}"
+                               ItemsSource="{Binding PclExamTypes, Mode=OneWay}" />-->
+
+        <controllib:ReadOnlyDataGrid
+            x:Name="gridPcl"
+            Grid.Row="3"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Width="Auto"
+            Height="160"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            cal:Message.Attach="[Event DblClick]=[Action gridPcl_DoubleClick($eventArgs)]                                         ;[Event LoadingRow]=[Action dtgList_LoadingRow($source,$eventArgs)]"
+            AutoGenerateColumns="false"
+            CanUserResizeColumns="true"
+            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+            HeadersVisibility="Row"
+            IsTabStop="False"
+            ItemsSource="{Binding PclExamTypes, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            SelectedItem="{Binding SelectedPCLExamType, Mode=TwoWay}"
+            Style="{StaticResource MainFrame.DataGridStyle}">
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn MinWidth="120" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel
+                                Height="22"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="{Binding PCLExamTypeName, Mode=OneWay}" />
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Z0028_G1_DauNgoacTrai, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" />
+                                <TextBlock VerticalAlignment="Center" Text="{Binding PCLExamTypeCode, Mode=OneWay}" />
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Z0027_G1_DauNgoacPhai, Source={StaticResource eHCMSResources}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!--<sdk:DataGridTextColumn Binding="{Binding PCLExamTypeName,Mode=OneWay}"
+                                                     Width="*" IsReadOnly="True"
+                                                     MinWidth="120"
+                                                     Header="{Binding K2890_G1_DMuc, Source={StaticResource eHCMSResources}}"></sdk:DataGridTextColumn>-->
+            </DataGrid.Columns>
+
+
+        </controllib:ReadOnlyDataGrid>
+
+        <TextBlock
+            Grid.Row="4"
+            Margin="0,5,0,0"
+            Style="{StaticResource TBlock.Heading.03}"
+            Text="{Binding P0385_G1_Pg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            Visibility="{Binding ShowLocationSelection, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
+        <controllib:AxComboBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Height="22"
+            HorizontalAlignment="Stretch"
+            DisplayMemberPath="DeptLocation.Location.LocationName"
+            ItemsSource="{Binding SelectedPCLExamType.PCLExamTypeLocations, Mode=OneWay}"
+            SelectedItemEx="{Binding SelectedPclExamTypeLocation, Mode=TwoWay}"
+            SelectedValuePath="DeptLocationID"
+            Style="{StaticResource MainFrame.ComboBox}"
+            Visibility="{Binding ShowLocationSelection, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
+
+        <CheckBox
+            x:Name="Used"
+            Grid.Row="5"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Content="{Binding K2815_G1_DaSD, Source={StaticResource eHCMSResources}}"
+            Style="{StaticResource MainFrame.Checkbox.Title1}"
+            Visibility="Collapsed" />
+    </Grid>
+</UserControl>

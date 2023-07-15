@@ -1,0 +1,353 @@
+﻿<controlslib:AxUserControl  x:Class="aEMR.Common.Views.PrescriptionDetailSchedulesView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                            xmlns:cal="http://www.caliburnproject.org"
+                            xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" 
+                            mc:Ignorable="d"
+                            d:DesignHeight="300" d:DesignWidth="600" Width="590"
+                            xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <commonconverters:DecimalConverter x:Key="DecimalConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" x:Name="TitleForm" Text="{Binding K1846_G1_CTietLieuDungTheoTuan, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" 
+                       Style="{StaticResource MainFrame.TextBlock.Header.01}"  Margin="0,10,0,5"></TextBlock>
+
+            <Grid Grid.Row="1" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                    <ColumnDefinition Width="30*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">                    
+                    <Label Content="{Binding G0787_G1_Thuoc, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" FontSize="12" FontWeight="Bold"
+                               Style="{StaticResource MainFrame.Label.00}"/>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.BrandName,Mode=OneWay}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="12" FontWeight="Bold"></TextBlock>
+                    <Label Content=" - (" Foreground="#FF0084FF"
+                               Style="{StaticResource MainFrame.Label.00}"/>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.Content,Mode=OneWay}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="12" FontWeight="Bold"></TextBlock>
+                    <Label Content="{Binding Z0027_G1_DauNgoacPhai, Source={StaticResource eHCMSResources}}" Foreground="#FF0084FF"
+                               Style="{StaticResource MainFrame.Label.00}"/>                    
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left"
+                            >
+
+                    <Label Content="{Binding K3709_G1_DViTinh, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" FontSize="12"
+                               Style="{StaticResource MainFrame.Label.00}"/>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.UnitName,Mode=OneWay}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="12"></TextBlock>
+                    <Label Content=" - " Foreground="#FF0084FF"
+                               Style="{StaticResource MainFrame.Label.00}"/>
+                    <Label Content="{Binding K3685_G1_DViDung, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" FontSize="12"
+                               Style="{StaticResource MainFrame.Label.00}"/>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.UnitUse,Mode=OneWay}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="12"></TextBlock>
+                </StackPanel>
+
+            </Grid>                     
+
+            <Grid Grid.Row="2">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <!--ObjPrescriptionDetail.SelectedDrugForPrescription.DayRpts-->
+                    <TextBlock Text="{Binding Weeks,Mode=TwoWay}"  TextAlignment="Center" Width="40" FontWeight="Bold" Foreground="Brown"/>
+                    <TextBlock Text="{Binding G2047_G1_Tuan, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" Foreground="Brown"></TextBlock>
+                    <TextBlock Text=" = " VerticalAlignment="Center" FontWeight="Bold" Foreground="Brown"></TextBlock>
+                    <TextBlock Text="{Binding TongThuocPhaiDung,Mode=TwoWay}" VerticalAlignment="Center" FontWeight="Bold" Foreground="Brown" Margin="0,0,0,0"></TextBlock>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.UnitName,Mode=OneWay}" VerticalAlignment="Center" Foreground="Brown" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" 
+                            Visibility="{Binding IsMaxDay, Mode=OneWay,Converter={StaticResource BooleanToVisibility}}">
+                    <!--ObjPrescriptionDetail.SelectedDrugForPrescription.DayRpts-->
+                    <TextBox Text="{Binding Weeks,Mode=TwoWay}"  x:Name="tbSoNgayInput" TextAlignment="Center" Width="40" FontWeight="Bold" Foreground="Brown"
+                             cal:Message.Attach="[Event LostFocus]=[Action tbSoNgayInput_LostFocus($source,$eventArgs)]"/>
+                    <TextBlock Text="{Binding G2047_G1_Tuan, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" Foreground="Brown"></TextBlock>
+                    <TextBlock Text=" = " VerticalAlignment="Center" FontWeight="Bold" Foreground="Brown"></TextBlock>
+                    <TextBlock Text="{Binding TongThuocPhaiDung,Mode=TwoWay}" VerticalAlignment="Center" FontWeight="Bold" Foreground="Brown" Margin="0,0,0,0"></TextBlock>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.UnitName,Mode=OneWay}" VerticalAlignment="Center" Foreground="Brown" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"></TextBlock>
+
+                    <Label Content="{Binding G0872_G1_ThuocDungNganNgSoNgDung, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="Blue" FontSize="11"
+                               Style="{StaticResource MainFrame.Label.00}" Margin="50,0,0,0" />
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.MaxDayPrescribed,Mode=OneWay}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="12"></TextBlock>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="3" Margin="3">
+                <DataGrid x:Name="dtgList"
+                      AutoGenerateColumns="False"                                       
+                      HorizontalScrollBarVisibility="Auto"  
+                      VerticalScrollBarVisibility="Visible"   
+                      HeadersVisibility="All"    
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                   Style="{StaticResource MainFrame.DataGridStyle}"
+                      ItemsSource="{Binding ObjPrescriptionDetailSchedules_ByPrescriptDetailID,Mode=OneWay}"
+                              cal:Message.Attach="[Event PreparingCellForEdit]=[Action dtgList_PreparingCellForEdit($source,$eventArgs)]">
+                    <DataGrid.Columns>
+
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="hplDelete" ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                 cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)]">
+                                        <Button.Content>
+                                            <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                        </Button.Content>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="{Binding K1394_G1_Buoi, Source={StaticResource eHCMSResources}}" Binding="{Binding ObjV_PeriodOfDay.ObjectValue}"
+                                            IsReadOnly="True" Width="50"
+                                            Foreground="Green" FontWeight="Bold"/>
+                        <DataGridTemplateColumn Header="{Binding T2602_G1_LieuDung, Source={StaticResource eHCMSResources}}" Width="85">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <controlslib:AxComboBox Name="cboLieuDung" Style="{StaticResource MainFrame.ComboBox}" Margin="0,2,5,2"
+                                        ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="ID"                                                            
+                                        cal:Message.Attach="[Event SelectionChanged]=[Action cboLieuDung_SelectionChanged($source, $eventArgs)]"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding G0702_G1_Thu2, Source={StaticResource eHCMSResources}}" Width="55">
+                            <!--<sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Monday}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>-->
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <!--<Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" Grid.Column="0"/>-->                                    
+                                    <!--<TextBox x:Name="tbMonday" Text="{Binding Monday, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Grid.Column="1" 
+                                                 TextAlignment="Right" Width="40"/>-->                                                                      
+                                    <!--</Grid>-->
+                                    <controlslib:AxComboBox Name="cboLieuDungT2" Style="{StaticResource MainFrame.ComboBox}" Margin="0,2,5,2"
+                                        ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="ID"
+                                        SelectedValueEx="{Binding Monday,Mode=TwoWay}"
+                                                            cal:Message.Attach="[Event SelectionChanged]=[Action cboLieuDungT2_SelectionChanged($source, $eventArgs)]"/> 
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding G0704_G1_Thu3, Source={StaticResource eHCMSResources}}" Width="55">
+                            <!--<sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Tuesday}" VerticalAlignment="Center"
+                                               HorizontalAlignment="Right"/>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>-->
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <!--<Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" Grid.Column="0" />-->
+                                        <!--<TextBox x:Name="tbTuesday" Text="{Binding Tuesday, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Grid.Column="1" 
+                                                 TextAlignment="Right" Width="40"/>-->
+                                    <!--</Grid>-->
+
+                                    <controlslib:AxComboBox Name="cboLieuDungT3" Style="{StaticResource MainFrame.ComboBox}" Margin="0,2,5,2"
+                                        ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="ID"
+                                        SelectedValueEx="{Binding Tuesday,Mode=TwoWay}"
+                                                            cal:Message.Attach="[Event SelectionChanged]=[Action cboLieuDungT3_SelectionChanged($source, $eventArgs)]"/> 
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding G0706_G1_Thu4, Source={StaticResource eHCMSResources}}" Width="55">
+                            <!--<sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Wednesday}" VerticalAlignment="Center" 
+                                               HorizontalAlignment="Right"/>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>-->
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <!--<Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" Grid.Column="0" />-->
+                                        <!--<TextBox x:Name="tbWednesday" Text="{Binding Wednesday, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Grid.Column="1" 
+                                                 TextAlignment="Right" Width="40"/>-->
+                                    <!--</Grid>-->
+                                    <controlslib:AxComboBox Name="cboLieuDungT4" Style="{StaticResource MainFrame.ComboBox}" Margin="0,2,5,2"
+                                        ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="ID"
+                                        SelectedValueEx="{Binding Wednesday,Mode=TwoWay}"
+                                                            cal:Message.Attach="[Event SelectionChanged]=[Action cboLieuDungT4_SelectionChanged($source, $eventArgs)]"/> 
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding G0708_G1_Thu5, Source={StaticResource eHCMSResources}}" Width="55">
+                            <!--<sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Thursday}" VerticalAlignment="Center"
+                                               HorizontalAlignment="Right"/>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>-->
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <!--<Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" Grid.Column="0" />-->
+                                        <!--<TextBox x:Name="tbThursday" Text="{Binding Thursday, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Grid.Column="1" 
+                                                 TextAlignment="Right" Width="40"/>-->
+                                    <!--</Grid>-->
+                                    <controlslib:AxComboBox Name="cboLieuDungT5" Style="{StaticResource MainFrame.ComboBox}" Margin="0,2,5,2"
+                                        ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="ID"
+                                        SelectedValueEx="{Binding Thursday,Mode=TwoWay}"
+                                                            cal:Message.Attach="[Event SelectionChanged]=[Action cboLieuDungT5_SelectionChanged($source, $eventArgs)]"/>                                    
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding G0710_G1_Thu6, Source={StaticResource eHCMSResources}}" Width="55">
+                            <!--<sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Friday}" VerticalAlignment="Center"
+                                               HorizontalAlignment="Right"/>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>-->
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <!--<Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" Grid.Column="0" />-->
+                                        <!--<TextBox x:Name="tbFriday" Text="{Binding Friday, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Grid.Column="1" 
+                                                 TextAlignment="Right" Width="40"/>-->
+                                    <!--</Grid>-->
+                                    <controlslib:AxComboBox Name="cboLieuDungT6" Style="{StaticResource MainFrame.ComboBox}" Margin="0,2,5,2"
+                                        ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="ID"
+                                        SelectedValueEx="{Binding Friday,Mode=TwoWay}"
+                                                            cal:Message.Attach="[Event SelectionChanged]=[Action cboLieuDungT6_SelectionChanged($source, $eventArgs)]"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding G0712_G1_Thu7, Source={StaticResource eHCMSResources}}" Width="55">
+                            <!--<sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Saturday}" VerticalAlignment="Center"
+                                               HorizontalAlignment="Right"/>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>-->
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <!--<Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" Grid.Column="0" />-->
+                                        <!--<TextBox x:Name="tbSaturday" Text="{Binding Saturday, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Grid.Column="1" 
+                                                 TextAlignment="Right" Width="40"/>-->
+                                    <!--</Grid>-->
+
+                                    <controlslib:AxComboBox Name="cboLieuDungT7" Style="{StaticResource MainFrame.ComboBox}" Margin="0,2,5,2"
+                                        ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="ID"
+                                        SelectedValueEx="{Binding Saturday,Mode=TwoWay}"
+                                                            cal:Message.Attach="[Event SelectionChanged]=[Action cboLieuDungT7_SelectionChanged($source, $eventArgs)]"/>
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding K2402_G1_Cn, Source={StaticResource eHCMSResources}}" Width="55">
+                            <!--<sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Sunday}" VerticalAlignment="Center"
+                                               HorizontalAlignment="Right"/>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>-->
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <!--<Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" Grid.Column="0" />-->
+                                        <!--<TextBox x:Name="tbSunday" Text="{Binding Sunday, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Grid.Column="1" 
+                                                 TextAlignment="Right" Width="40"/>-->
+                                    <!--</Grid>-->
+                                    <controlslib:AxComboBox Name="cboLieuDungCN" Style="{StaticResource MainFrame.ComboBox}" Margin="0,2,5,2"
+                                        ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="ID"
+                                        SelectedValueEx="{Binding Sunday,Mode=TwoWay}"
+                                                            cal:Message.Attach="[Event SelectionChanged]=[Action cboLieuDungCN_SelectionChanged($source, $eventArgs)]"/>
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+
+            <Grid Grid.Row="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="{Binding T2912_G1_LoiDan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Foreground="#1f1f1f"  FontWeight="Bold" Margin="5,0,0,0" />
+                <controlslib:AxTextBox MaxLength="1024" Text="{Binding ObjPrescriptionDetail.DrugInstructionNotes, Mode=TwoWay}" Grid.Row="1" Margin="1,2,0,0" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" Style="{StaticResource MainFrame.TextBox}"/>
+
+            </Grid>            
+            
+            <Grid Grid.Row="5" HorizontalAlignment="Right" Margin="3,3,0,10">
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="btSave" Content="{Binding T0842_G1_GNhan, Source={StaticResource eHCMSResources}}" Margin="0,0,5,0" Width="80"
+                            Style="{StaticResource MainFrame.Button}"/>
+                    <Button Name="btCancel" Content="{Binding K3818_G1_DongLai, Source={StaticResource eHCMSResources}}" Margin="0,0,3,0" Width="80"
+                            Style="{StaticResource MainFrame.Button}"/>
+                    <Button Name="btDelete" Content="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" Margin="0,0,5,0" Width="80"
+                            Style="{StaticResource MainFrame.Button}"/>                    
+                </StackPanel>
+            </Grid>                       
+
+        </Grid>
+    </Grid>
+</controlslib:AxUserControl>

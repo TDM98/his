@@ -1,0 +1,152 @@
+﻿<UserControl    x:Class="aEMR.DrugDept.Views.AdjustOutPriceView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                mc:Ignorable="d"  
+                d:DesignHeight="300" d:DesignWidth="900"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <converter:DecimalConverter2 x:Key="DecimalConverter2"/>
+        <DataTemplate x:Key="ColDeleteTemplate">
+            <Button x:Name="lnkDelete" cal:Message.Attach="[Event Click] = [Action lnkDelete_Click($source, $eventArgs)]" ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button.Content>
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                </Button.Content>
+            </Button>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AutoCompleteTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock  Text="{Binding RefGenMedProductDetails.Code}" Style="{StaticResource MainFrame.TextBlock.Auto}" Margin="5,1,10,1" />
+                <TextBlock  Name="txtDrugName" Text="{Binding RefGenMedProductDetails.BrandName}" Style="{StaticResource MainFrame.TextBlock.Auto}" Margin="0" Padding="0" />
+                
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TitleForm" Text="{Binding TitleForm}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#3595CB" 
+                               FontSize="14" FontWeight="Bold" />
+
+        <Border  Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="2" Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="2">
+                    <TextBlock Text="{Binding K1973_G1_ChonKho, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Margin="2" Style="{StaticResource MainFrame.TextBlock.00}"></TextBlock>
+                    <AxControls:KeyEnabledComboBox  Name="comboBox1" Style="{StaticResource MainFrame.ComboBox}" Margin="2,1" SelectedValueEx="{Binding StoreID,Mode=TwoWay}" SelectedValuePath="StoreID"  DisplayMemberPath="swhlName" ItemsSource="{Binding StoreCbx}" IsTabStop="True" MinWidth="150"/>
+                    
+                </StackPanel>
+
+            </Grid>
+               
+        </Border>
+
+        <Border Margin="2" Style="{StaticResource LightBlueBorderStyle}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
+            <AxControls:AxGrid Name="grid1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MaxWidth="60"></ColumnDefinition>
+                    <ColumnDefinition Width="2*" MaxWidth="100"></ColumnDefinition>
+                    <ColumnDefinition Width="*" MaxWidth="80"></ColumnDefinition>
+                    <ColumnDefinition Width="4*" MaxWidth="400"></ColumnDefinition>
+                    <ColumnDefinition Width="*" MaxWidth="100"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="10,0,2,0" Text="{Binding K2569_G1_Code, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Style="{StaticResource MainFrame.TextBlock.02}"></TextBlock>
+
+                <AxControls:AxTextBox Grid.Column="1" Margin="2,1" VerticalAlignment="Center" Style="{StaticResource MainFrame.TextBox}" Text="{Binding SelectedInwardDrugMedDept.RefGenMedProductDetails.Code,Mode=TwoWay}" cal:Message.Attach="[Event LostFocus] = [Action AxTextBox_LostFocus($source, $eventArgs)];[Event Loaded] = [Action AxTextBox_Loaded($source, $eventArgs)]" />
+                <TextBlock Grid.Column="2" Margin="15,0,2,0" Text="{Binding T0854_G1_TenHg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Style="{StaticResource MainFrame.TextBlock.02}"></TextBlock>
+                <AxControls:AxAutoComplete Name="AutoDrug_Text" Grid.Column="3" Margin="2,1" VerticalAlignment="Center" IsTabStop="False" ValueMemberBinding="{Binding RefGenMedProductDetails.BrandName, Mode=TwoWay}"
+                                              cal:Message.Attach="[Event Populating] = [Action AutoCompleteBox_Populating($source, $eventArgs)]
+                                                       ;[Event Loaded] = [Action AutoDrug_Text_Loaded($source, $eventArgs)]"
+                                                     TextBoxStyle="{StaticResource MainFrame.TextBox}" FontWeight="Bold" MinimumPopulateDelay="300"
+                                             IsEnabled="{Binding VisibilityName,Mode=OneWay}" TabIndex="7" SelectedItem="{Binding SelectedInwardDrugMedDept,Mode=TwoWay}"
+                                                  Style="{StaticResource AxAutoCompleteMyStyle}"  ItemTemplate="{StaticResource AutoCompleteTemplate}" FilterMode="None"
+                                           ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}">
+                </AxControls:AxAutoComplete>
+                <Button Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" Grid.Column="4" Margin="2,1" HorizontalAlignment="Left" Name="AddItem" VerticalAlignment="Center" Width="75" Style="{StaticResource MainFrame.Button}"  TabIndex="9" cal:Message.Attach="[Event Loaded] = [Action AddItem_Loaded($source, $eventArgs)]; [Event Click] = [Action AddItem_Click($source, $eventArgs)]" />
+            </AxControls:AxGrid>
+        </Border>
+
+
+
+
+        <AxControls:AxDataGridNy x:Name="GridInward" HeadersVisibility="All" AutoGenerateColumns="False" ItemsSource="{Binding InwardDrugMedDeptGrid}" 
+                                 SelectedItem="{Binding SelectedInwardDrugInGrid,Mode=TwoWay}" HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Visible" Grid.Row="3" ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn x:Name="colDelete" CellTemplate="{StaticResource ColDeleteTemplate}"/>
+                <DataGridTextColumn Header="{Binding T3379_G1_MaHg, Source={StaticResource eHCMSResources}}" x:Name="colDrugID"
+                                                  Binding="{Binding RefGenMedProductDetails.Code}" IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                <DataGridTextColumn Header="{Binding T0854_G1_TenHg, Source={StaticResource eHCMSResources}}" x:Name="colDrugName"
+                                                  Binding="{Binding RefGenMedProductDetails.BrandName}" IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" MinWidth="200"/>
+
+                <DataGridTextColumn Header="{Binding T1316_G1_HLg, Source={StaticResource eHCMSResources}}" x:Name="colContent"
+                                                  Binding="{Binding RefGenMedProductDetails.RefGenMedDrugDetails.Content}" IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                <DataGridTextColumn Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}" x:Name="colCityStateZipCode" Binding="{Binding RefGenMedProductDetails.SelectedUnit.UnitName}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                <DataGridTextColumn Header="{Binding S0610_G1_SLgTon, Source={StaticResource eHCMSResources}}" x:Name="colContactPerson" 
+                                                  Binding="{Binding Remaining,Mode=OneWay,StringFormat=#\,###.#}" IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                <!--KMx: A.Tuấn nói, không cần hiển thị giá mua (18/05/2015 11:38)-->
+                <!--<DataGridTextColumn x:Name="colSupplierDescription" Binding="{Binding InBuyingPrice, Converter={StaticResource DecimalConverter2}}" IsReadOnly="True"
+                                                 Header="{Binding T1138_G1_GiaMuaChuaVAT, Source={StaticResource eHCMSResources}}" ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}">
+                </DataGridTextColumn>
+                <DataGridTextColumn x:Name="colTelephoneNumber"  Binding="{Binding RemainTotalSell,Mode=OneWay, Converter={StaticResource DecimalConverter2}}" 
+                                               Header="Thành Tiền(chưa VAT)" IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}">
+                </DataGridTextColumn>-->
+                <DataGridTextColumn Header="{Binding T0860_G1_GiaBan, Source={StaticResource eHCMSResources}}" x:Name="colNormalPrice" Binding="{Binding NormalPrice, Mode=TwoWay, Converter={StaticResource DecimalConverter2}}"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                <DataGridTextColumn Header="{Binding Z0461_G1_GiaBNBH, Source={StaticResource eHCMSResources}}" x:Name="colHIPatientPrice" Binding="{Binding HIPatientPrice, Mode=TwoWay, Converter={StaticResource DecimalConverter2}}"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                <DataGridTextColumn Header="{Binding T0895_G1_GiaBH, Source={StaticResource eHCMSResources}}" x:Name="colHIAllowedPrice" Binding="{Binding HIAllowedPrice, Mode=TwoWay, Converter={StaticResource DecimalConverter2}}"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"/>
+
+                <DataGridTextColumn Header="{Binding T2628_G1_LoSX, Source={StaticResource eHCMSResources}}" x:Name="colInBatchNumber" Binding="{Binding InBatchNumber}" IsReadOnly="True"
+                                                  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                <DataGridTextColumn Header="{Binding T1363_G1_HDung, Source={StaticResource eHCMSResources}}" x:Name="colInExpiryDate"  Binding="{Binding InExpiryDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"
+                                                  IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                <DataGridTextColumn Header="{Binding T2013_G1_Ke, Source={StaticResource eHCMSResources}}" x:Name="colShelfName"  Binding="{Binding RefGenMedProductDetails.ShelfName,Mode=OneWay}"
+                                                  IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+
+                <DataGridTextColumn Header="{Binding T3575_G1_MaPN, Source={StaticResource eHCMSResources}}" x:Name="colInvID"  Binding="{Binding SelectedInwardDrugMedDeptInvoice.InvID,Mode=OneWay}"
+                                                  IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+
+                <DataGridTextColumn Header="{Binding N0094_G1_NgNhap, Source={StaticResource eHCMSResources}}" x:Name="colDSPTModifiedDate"  Binding="{Binding SelectedInwardDrugMedDeptInvoice.DSPTModifiedDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"
+                                                  IsReadOnly="True" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+            </DataGrid.Columns>
+        </AxControls:AxDataGridNy>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+
+            <Button Name="btnNew" Content="{Binding P0373_G1_PhMoi, Source={StaticResource eHCMSResources}}" Grid.Row="3" HorizontalAlignment="Right" Margin="2,1" VerticalAlignment="Bottom" Width="75" Style="{StaticResource MainFrame.Button}" />
+            <Button Name="btnSave" Content="{Binding G0739_G1_THien, Source={StaticResource eHCMSResources}}" Grid.Row="3" HorizontalAlignment="Right" Margin="2,1" VerticalAlignment="Bottom" Width="95"   Style="{StaticResource MainFrame.Button}" 
+                    />
+        </StackPanel>
+
+    </Grid>
+</UserControl>

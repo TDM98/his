@@ -1,0 +1,1030 @@
+﻿<UserControl
+    x:Class="aEMR.Registration.Views.PatientRegistrationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="500"
+    d:DesignWidth="1000"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:ByteConverter x:Key="ByteConverter" />
+        <converters:DecimalToPercentConverter x:Key="DecimalConverter" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <converters:IfNotNullVisibilityConverter x:Key="IfNotNullVisibilityConverter" />
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNotConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <toolkit:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+            <Grid d:LayoutOverrides="Height">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" MinHeight="24" />
+                </Grid.RowDefinitions>
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{Binding IsProcess, Converter={StaticResource BooleanToVisibilityNotConverter}}">
+                    <TextBlock
+                        Height="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="{Binding ViewTitle, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" />
+                    <TextBlock
+                        Height="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="Brown"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="{Binding A0005_G1_BNChuaDK, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mChuaDangKy, Converter={StaticResource BooleanToVisibility}}" />
+                    <TextBlock
+                        Height="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="Blue"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="{Binding A0006_G1_BNDKCoBH, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mDangKyBH, Converter={StaticResource BooleanToVisibility}}" />
+                    <TextBlock
+                        Height="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="BlueViolet"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="{Binding A0007_G1_BNDKKhongBH, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mDangKyChuaBH, Converter={StaticResource BooleanToVisibility}}" />
+                    <TextBlock
+                        Height="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="Green"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="{Binding A0058_G1_TuCuocHen_DungHen, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mCuocHen_DungHen, Converter={StaticResource BooleanToVisibility}}" />
+                    <TextBlock
+                        Height="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="OrangeRed"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="{Binding A0059_G1_TuCuocHen_KhongDungHen, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mCuocHen_TraiHen, Converter={StaticResource BooleanToVisibility}}" />
+                    <TextBlock
+                        Height="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="Green"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="{Binding Z2793_G1_BNDKKhamSucKhoe, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mCuocHen_KSK, Converter={StaticResource BooleanToVisibility}}" />
+                </StackPanel>
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{Binding IsProcess, Converter={StaticResource BooleanToVisibility}}">
+                    <TextBlock
+                        Height="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="Blue"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="MUA GÓI DỊCH VỤ" />
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    Visibility="{Binding IsRegistrationView, Converter={StaticResource BooleanToVisibility}}">
+                    <Grid
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        d:LayoutOverrides="Height">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="61*" />
+                            <ColumnDefinition Width="169*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Grid.ColumnSpan="2"
+                            Height="30"
+                            MinWidth="500"
+                            Padding="5,0,5,0"
+                            HorizontalAlignment="Stretch"
+                            BorderThickness="1"
+                            Style="{StaticResource LightBlueBorderStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <ContentControl
+                                    Name="SearchRegistrationContent"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch" />
+                                <Button
+                                    x:Name="OldRegistrationsCmd"
+                                    Grid.Column="4"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding K1461_G1_LanDKTruoc, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                    Visibility="{Binding CurrentPatient, Mode=OneWay, Converter={StaticResource IfNotNullVisibilityConverter}}" />
+                            </StackPanel>
+                        </Border>
+                        <Border
+                            Grid.Column="2"
+                            Width="520"
+                            Height="30"
+                            Padding="5,0,5,0"
+                            BorderThickness="1"
+                            Style="{StaticResource LightBlueBorderStyle}">
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Border
+                                    Height="26"
+                                    Padding="1,0,1,0"
+                                    HorizontalAlignment="Stretch"
+                                    Background="AntiqueWhite"
+                                    BorderThickness="1"
+                                    Style="{StaticResource LightBlueBorderStyle}">
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="11"
+                                            FontWeight="Bold"
+                                            Foreground="Blue"
+                                            Style="{StaticResource TextBlock.Heading.04}"
+                                            Text="{Binding T3332_G1_MaDK, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                            TextWrapping="Wrap" />
+                                        <TextBox
+                                            MinWidth="80"
+                                            Margin="5,0,10,0"
+                                            VerticalAlignment="Center"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            FontFamily="Portable User Interface"
+                                            FontSize="13"
+                                            FontWeight="Bold"
+                                            Foreground="#CC0033"
+                                            IsReadOnly="True"
+                                            Text="{Binding CurRegistration.PtRegistrationCode, Mode=OneWay}" />
+                                    </StackPanel>
+                                </Border>
+                                <!--  Foreground="{StaticResource TextFontLightColor}"  -->
+                                <TextBlock
+                                    Margin="0,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource TextBlock.Heading.04}"
+                                    Text="{Binding N0045_G1_Ng, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"
+                                    TextWrapping="Wrap" />
+                                <TextBox
+                                    x:Name="txtToday"
+                                    Width="100"
+                                    Height="22"
+                                    Margin="0,0,0,0"
+                                    Text="{Binding CurRegistration.ExamDate, Mode=TwoWay, StringFormat=dd/MM/yyyy}" />
+
+                                <TextBlock
+                                    Margin="0,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource TextBlock.Heading.04}"
+                                    Text="STT PV: "
+                                    TextWrapping="Wrap"
+                                    Visibility="{Binding IsUseSystemQMS, Converter={StaticResource BooleanToVisibility}}" />
+                                <TextBox
+                                    Width="60"
+                                    Height="22"
+                                    Margin="0,0,0,0"
+                                    IsEnabled="False"
+                                    Text="{Binding RegistrationDetailsContent.TicketIssueObj.TicketNumberText, Mode=OneWay}"
+                                    Visibility="{Binding IsUseSystemQMS, Converter={StaticResource BooleanToVisibility}}" />
+
+                                <TextBlock
+                                    Margin="0,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource TextBlock.Heading.04}"
+                                    Text="{Binding K0758_G1_STT, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{Binding IsUseSystemQMS, Converter={StaticResource BooleanToVisibility}}" />
+                                <TextBox
+                                    Width="60"
+                                    Height="22"
+                                    Margin="0,0,0,0"
+                                    IsEnabled="False"
+                                    Text="{Binding TicketNumberText, Mode=OneWay}"
+                                    Visibility="{Binding IsUseSystemQMS, Converter={StaticResource BooleanToVisibility}}" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                    <ContentControl
+                        Name="PatientSummaryInfoContent"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Visibility="{Binding IsRegistrationView, Converter={StaticResource BooleanToVisibility}}" />
+                    <Grid Visibility="{Binding IsMedicalServiceGroupView, Converter={StaticResource BooleanToVisibility}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Grid.ColumnSpan="4"
+                            Margin="0,0,0,20"
+                            Style="{StaticResource LightBlueBorderStyle}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="5"
+                                    Style="{StaticResource TextBlock.Heading.02}"
+                                    Text="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="5"
+                                    Style="{StaticResource MainFrame.TextBox}"
+                                    Text="{Binding SearchMedicalServiceGroupCode, Mode=TwoWay}" />
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="2"
+                                    Margin="5"
+                                    Style="{StaticResource TextBlock.Heading.02}"
+                                    Text="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    Grid.Row="0"
+                                    Grid.Column="3"
+                                    Margin="5"
+                                    Style="{StaticResource MainFrame.TextBox}"
+                                    Text="{Binding SearchMedicalServiceGroupName, Mode=TwoWay}" />
+                                <Button
+                                    x:Name="btnSearchMedServiceGroups"
+                                    Grid.Row="0"
+                                    Grid.Column="4"
+                                    MinWidth="60"
+                                    Margin="15,5,5,5"
+                                    Padding="5,0"
+                                    Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}" />
+
+                            </Grid>
+
+                        </Border>
+                        <Button
+                            Name="CreateNewMedicalServiceGroupCmd"
+                            Grid.Row="0"
+                            Grid.Column="4"
+                            MinWidth="60"
+                            Margin="10,0,10,20"
+                            VerticalAlignment="Center"
+                            Content="{Binding T0795_G1_TaoMoi, Source={StaticResource eHCMSResources}}"
+                            Style="{StaticResource MainFrame.Button}" />
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="5"
+                            Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource TextBlock.Heading.02}" Text="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" />
+                            <TextBlock Style="{StaticResource TextBlock.Heading.02}" Text="{Binding Z0028_G1_DauNgoacTrai, Source={StaticResource eHCMSResources}}" />
+                            <TextBlock Style="{StaticResource TextBlock.Heading.02}" Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+                            <TextBlock Style="{StaticResource TextBlock.Heading.02}" Text="{Binding Z0027_G1_DauNgoacPhai, Source={StaticResource eHCMSResources}}" />
+                        </StackPanel>
+
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="5"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding RefMedicalServiceGroupObj.MedicalServiceGroupCode, Mode=TwoWay}" />
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="5"
+                            Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource TextBlock.Heading.02}" Text="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" />
+                            <TextBlock Style="{StaticResource TextBlock.Heading.02}" Text="{Binding Z0028_G1_DauNgoacTrai, Source={StaticResource eHCMSResources}}" />
+                            <TextBlock Style="{StaticResource TextBlock.Heading.02}" Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+                            <TextBlock Style="{StaticResource TextBlock.Heading.02}" Text="{Binding Z0027_G1_DauNgoacPhai, Source={StaticResource eHCMSResources}}" />
+                        </StackPanel>
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Grid.ColumnSpan="2"
+                            Margin="5"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding RefMedicalServiceGroupObj.MedicalServiceGroupName, Mode=TwoWay}" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="5"
+                            Style="{StaticResource TextBlock.Heading.02}"
+                            Text="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="5"
+                            Margin="5"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding RefMedicalServiceGroupObj.MedicalServiceGroupDescription, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Margin="5"
+                            Style="{StaticResource TextBlock.Heading.02}"
+                            Text="Nhóm cha"
+                            Visibility="{Binding IsKioskPack, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibility}}" />
+                        <commonctrl:AxComboBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Margin="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            DisplayMemberPath="ObjectValue"
+                            ItemsSource="{Binding ListV_MedicalServiceParentGroup}"
+                            SelectedValue="{Binding RefMedicalServiceGroupObj.V_MedicalServiceParentGroup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="LookupID"
+                            Style="{StaticResource MainFrame.ComboBox}"
+                            Visibility="{Binding IsKioskPack, Converter={StaticResource BooleanToVisibility}}" />
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Margin="5"
+                            Style="{StaticResource TextBlock.Heading.02}"
+                            Text="Giới tính"
+                            Visibility="{Binding IsKioskPack, Converter={StaticResource BooleanToVisibility}}" />
+                        <StackPanel
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Visibility="{Binding IsKioskPack, Converter={StaticResource BooleanToVisibility}}">
+                            <RadioButton
+                                Margin="0,2,5,0"
+                                cal:Message.Attach="[Event Checked] = [Action rdGender_Checked($source, $eventArgs)]"
+                                Content="Nam"
+                                GroupName="Gender"
+                                IsChecked="{Binding MaleChecked, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource MainFrame.RadioButton01}" />
+                            <RadioButton
+                                Margin="0,2,5,0"
+                                cal:Message.Attach="[Event Checked] = [Action rdGender_Checked($source, $eventArgs)]"
+                                Content="Nữ"
+                                GroupName="Gender"
+                                IsChecked="{Binding FemaleChecked, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource MainFrame.RadioButton01}" />
+                            <RadioButton
+                                Margin="0,2,5,0"
+                                cal:Message.Attach="[Event Checked] = [Action rdGender_Checked($source, $eventArgs)]"
+                                Content="Không"
+                                GroupName="Gender"
+                                IsChecked="{Binding NoGenderChecked, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource MainFrame.RadioButton01}" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            Width="400"
+                            Margin="5"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Visibility="{Binding IsKioskPack, Converter={StaticResource BooleanToVisibility}}">
+                            <TextBlock
+                                Margin="5"
+                                Style="{StaticResource TextBlock.Heading.02}"
+                                Text="Tuổi từ" />
+                            <TextBox
+                                MinWidth="50"
+                                Margin="5"
+                                Style="{StaticResource MainFrame.TextBox}"
+                                Text="{Binding RefMedicalServiceGroupObj.AgeFrom, Converter={StaticResource ByteConverter}, Mode=TwoWay}" />
+                            <TextBlock
+                                Margin="5"
+                                Style="{StaticResource TextBlock.Heading.02}"
+                                Text=" đến" />
+                            <TextBox
+                                MinWidth="50"
+                                Margin="5"
+                                Style="{StaticResource MainFrame.TextBox}"
+                                Text="{Binding RefMedicalServiceGroupObj.AgeTo, Converter={StaticResource ByteConverter}, Mode=TwoWay}" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="3"
+                            Grid.Column="3"
+                            Width="200"
+                            Margin="5"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Visibility="{Binding IsKioskPack, Converter={StaticResource BooleanToVisibility}}">
+                            <TextBlock
+                                Margin="5"
+                                Style="{StaticResource TextBlock.Heading.02}"
+                                Text="Miễn giảm" />
+                            <TextBox
+                                MinWidth="50"
+                                Margin="5"
+                                Style="{StaticResource MainFrame.TextBox}"
+                                Text="{Binding RefMedicalServiceGroupObj.DiscountPercent, Converter={StaticResource DecimalConverter}, Mode=TwoWay}" />
+                        </StackPanel>
+                        <TextBlock
+                            Grid.Row="7"
+                            Margin="5,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlock.Heading.02}"
+                            Text="Loại hình" />
+
+                        <StackPanel
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <RadioButton
+                                Margin="0,2,5,0"
+                                cal:Message.Attach="[Event Checked] = [Action rdRegistrationType_Checked($source, $eventArgs)]"
+                                Content="{Binding T3719_G1_Mau20NgTru, Source={StaticResource eHCMSResources}}"
+                                GroupName="V_RegistrationType"
+                                IsChecked="{Binding OutPatientChecked, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource MainFrame.RadioButton01}" />
+                            <RadioButton
+                                Margin="0,2,5,0"
+                                cal:Message.Attach="[Event Checked] = [Action rdRegistrationType_Checked($source, $eventArgs)]"
+                                Content="{Binding T3713_G1_NoiTru, Source={StaticResource eHCMSResources}}"
+                                GroupName="V_RegistrationType"
+                                IsChecked="{Binding InPatientChecked, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource MainFrame.RadioButton01}" />
+                            <RadioButton
+                                Margin="0,2,5,0"
+                                cal:Message.Attach="[Event Checked] = [Action rdRegistrationType_Checked($source, $eventArgs)]"
+                                Content="{Binding T0822_G1_TatCa, Source={StaticResource eHCMSResources}}"
+                                GroupName="V_RegistrationType"
+                                IsChecked="{Binding AllPatientChecked, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource MainFrame.RadioButton01}" />
+                        </StackPanel>
+
+                        <TextBlock
+                            Grid.Row="7"
+                            Grid.Column="2"
+                            Margin="5,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlock.Heading.02}"
+                            Text="{Binding P0344_G1_PhanLoai, Source={StaticResource eHCMSResources}}" />
+                        <commonctrl:AxComboBox
+                            Grid.Row="7"
+                            Grid.Column="3"
+                            Grid.ColumnSpan="2"
+                            Margin="5"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event SelectionChanged]=[Action AxComboBox_SelectionChanged($source, $eventArgs)]"
+                            DisplayMemberPath="ObjectValue"
+                            ItemsSource="{Binding ListV_MedicalServiceGroupType}"
+                            SelectedValue="{Binding RefMedicalServiceGroupObj.V_MedicalServiceGroupType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="LookupID"
+                            Style="{StaticResource MainFrame.ComboBox}" />
+                    </Grid>
+                </StackPanel>
+                <DockPanel
+                    Grid.Row="3"
+                    HorizontalAlignment="Stretch"
+                    LastChildFill="True">
+                    <GroupBox
+                        x:Name="grpRegInfo"
+                        Margin="0,5,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        DockPanel.Dock="Top"
+                        Header="{Binding RegistrationTitle}"
+                        IsEnabled="{Binding bCreateNewRegistration}"
+                        Style="{StaticResource MainFrame.GroupBox}">
+                        <Grid
+                            Width="Auto"
+                            Height="Auto"
+                            Margin="0,0,0,0"
+                            HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel
+                                Grid.Row="3"
+                                Margin="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                                <Border
+                                    BorderBrush="#FF5E5E5E"
+                                    BorderThickness="1"
+                                    Style="{StaticResource LightBlueBorderStyleNew}">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Margin="0"
+                                            Foreground="#FF5E5E5E"
+                                            Style="{StaticResource TBlock.Heading.02}"
+                                            Text="{Binding Z0015_G1_DSCacDV, Source={StaticResource eHCMSResources}}"
+                                            TextWrapping="Wrap" />
+                                        <StackPanel
+                                            Grid.Row="1"
+                                            Orientation="Horizontal"
+                                            Visibility="{Binding ShowCBBDoctor, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
+                                            <TextBlock
+                                                Margin="0,5,0,0"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding R0012_G1_BSiCDinh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <commonctrl:AxAutoComplete
+                                                Width="200"
+                                                Height="22"
+                                                Margin="5,5,0,0"
+                                                HorizontalAlignment="Stretch"
+                                                cal:Message.Attach="[Event Populating] = [Action DoctorStaff_Populating($source, $eventArgs)];                                                     [Event DropDownClosed] = [Action DoctorStaff_DropDownClosed($source, $eventArgs)]"
+                                                FilterMode="None"
+                                                IsDropDownOpen="True"
+                                                ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                                MinimumPopulateDelay="300"
+                                                MinimumPrefixLength="0"
+                                                SelectedItem="{Binding gSelectedDoctorStaff, Mode=TwoWay}"
+                                                Style="{StaticResource AxAutoCompleteMyStyle}"
+                                                Text="{Binding gSelectedDoctorStaff.FullName}"
+                                                ValueMemberBinding="{Binding FullName, Mode=TwoWay}"
+                                                ValueMemberPath="FullName">
+                                                <commonctrl:AxAutoComplete.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+                                                            <TextBlock Style="{StaticResource MainFrame.TextBlock.01}" Text="{Binding FullName}" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </commonctrl:AxAutoComplete.ItemTemplate>
+                                            </commonctrl:AxAutoComplete>
+                                        </StackPanel>
+                                        <StackPanel
+                                            Grid.Row="2"
+                                            Height="Auto"
+                                            Margin="0,0,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch">
+                                            <TabControl
+                                                x:Name="tabPatientInfo"
+                                                Width="280"
+                                                Height="380"
+                                                Margin="0,2,0,0"
+                                                IsTabStop="False"
+                                                Style="{StaticResource MainFrame.TabControl}">
+                                                <TabItem x:Name="tabitemService" Header="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}">
+                                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="192" MinWidth="192" />
+                                                            <ColumnDefinition Width="50" />
+                                                            <ColumnDefinition Width="1" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="22" />
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="22" />
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="22" />
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+
+                                                        <TextBlock
+                                                            Grid.Row="0"
+                                                            Margin="0,5,0,0"
+                                                            Style="{StaticResource TextBlock.Heading.04}"
+                                                            Text="{Binding T2707_G1_LoaiDV, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                                        <commonctrl:AxComboBox
+                                                            Grid.Row="1"
+                                                            Grid.ColumnSpan="3"
+                                                            HorizontalAlignment="Stretch"
+                                                            DisplayMemberPath="MedicalServiceTypeName"
+                                                            IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}"
+                                                            ItemsSource="{Binding ServiceTypes, Mode=OneWay}"
+                                                            SelectedItemEx="{Binding MedServiceType, Mode=TwoWay}"
+                                                            SelectedValuePath="MedicalServiceTypeID"
+                                                            Style="{StaticResource MainFrame.ComboBox}" />
+                                                        <TextBlock
+                                                            Grid.Row="2"
+                                                            Margin="0,5,0,0"
+                                                            Style="{StaticResource TextBlock.Heading.04}"
+                                                            Text="{Binding K3421_G1_DV, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                                        <commonctrl:KeySearchableComboBox
+                                                            x:Name="cboSelectedService"
+                                                            Grid.Row="3"
+                                                            Grid.ColumnSpan="3"
+                                                            Width="243"
+                                                            Height="22"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Top"
+                                                            IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}"
+                                                            ItemSourceEx="{Binding MedicalServiceItems, Mode=OneWay}"
+                                                            SelectedItem="{Binding MedServiceItem, Mode=TwoWay}"
+                                                            Style="{StaticResource MainFrame.ComboBox}" />
+                                                        <!--<ContentControl x:Name="DefaultPclExamTypeContent" Grid.Row="4" Grid.ColumnSpan="3" />-->
+                                                        <TextBlock
+                                                            Grid.Row="4"
+                                                            Margin="0,5,0,0"
+                                                            Style="{StaticResource TextBlock.Heading.04}"
+                                                            Text="{Binding P0385_G1_Pg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                                            Visibility="{Binding ShowLocationAndDoctor, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
+                                                        <commonctrl:AxComboBox
+                                                            x:Name="cboLocation"
+                                                            Grid.Row="5"
+                                                            Grid.ColumnSpan="3"
+                                                            HorizontalAlignment="Stretch"
+                                                            DisplayMemberPath="Location.LocationName"
+                                                            IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}"
+                                                            ItemsSource="{Binding DeptLocations, Mode=OneWay}"
+                                                            SelectedItemEx="{Binding DeptLocation, Mode=TwoWay}"
+                                                            SelectedValuePath="LID"
+                                                            Style="{StaticResource MainFrame.ComboBox}"
+                                                            Visibility="{Binding ShowLocationAndDoctor, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
+                                                        <!--  KMx: Khi nào sử dụng thì mở ra lại.  -->
+                                                        <!--<TextBlock Text="{Binding K0961_G1_BSi, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" Margin="0,5,0,0" Style="{StaticResource TextBlock.Heading.04}"
+                                 Visibility="{Binding ShowLocationAndDoctor, Mode=OneWay, Converter={StaticResource VisibilityConverter}}"
+                                 Grid.Row="6" />
+                                                            <ComboBox x:Name="cboDoctor" HorizontalAlignment="Stretch"
+                                Visibility="{Binding ShowLocationAndDoctor, Mode=OneWay, Converter={StaticResource VisibilityConverter}}"
+                                IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}" Grid.ColumnSpan="2"
+                                Style="{StaticResource MainFrame.ComboBox}" Grid.Row="7" />-->
+                                                        <TextBlock
+                                                            Grid.Row="6"
+                                                            Margin="0,5,0,0"
+                                                            Style="{StaticResource TextBlock.Heading.04}"
+                                                            Text="{Binding K0961_G1_BSi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                                            Visibility="Collapsed" />
+                                                        <ComboBox
+                                                            x:Name="cboDoctor"
+                                                            Grid.Row="7"
+                                                            Grid.ColumnSpan="2"
+                                                            HorizontalAlignment="Stretch"
+                                                            IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}"
+                                                            Style="{StaticResource MainFrame.ComboBox}"
+                                                            Visibility="Collapsed" />
+
+                                                        <StackPanel
+                                                            Grid.Row="8"
+                                                            Grid.ColumnSpan="3"
+                                                            Margin="0,3,0,0"
+                                                            HorizontalAlignment="Left"
+                                                            Orientation="Vertical"
+                                                            d:LayoutOverrides="GridBox">
+                                                            <StackPanel
+                                                                Grid.Row="8"
+                                                                Grid.ColumnSpan="3"
+                                                                Margin="0,3,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                Orientation="Horizontal"
+                                                                d:LayoutOverrides="GridBox">
+                                                                <CheckBox
+                                                                    Grid.Row="6"
+                                                                    Width="90"
+                                                                    Height="22"
+                                                                    Margin="0,3,0,3"
+                                                                    HorizontalAlignment="Left"
+                                                                    VerticalContentAlignment="Center"
+                                                                    Content="{Binding Z3116_G1_BNUuTien, Source={StaticResource eHCMSResources}}"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#CC0033"
+                                                                    IsChecked="{Binding IsPriority, Mode=TwoWay}"
+                                                                    IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}" />
+
+                                                                <TextBlock
+                                                                    Grid.Row="2"
+                                                                    Grid.Column="1"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Margin="0,3,0,3"
+                                                                    Style="{StaticResource TextBlock.Heading.04}"
+                                                                    Text="{Binding S0583_G1_SLg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                                                    Visibility="{Binding IsMedicalServiceGroupView, Converter={StaticResource BooleanToVisibility}}" />
+                                                                <TextBox
+                                                                    Grid.Row="3"
+                                                                    Grid.Column="1"
+                                                                    Grid.ColumnSpan="2"
+                                                                    Width="30"
+                                                                    Height="22"
+                                                                    Margin="5,3,0,3"
+                                                                    HorizontalAlignment="Left"
+                                                                    VerticalAlignment="Center"
+                                                                    VerticalContentAlignment="Center"
+                                                                    Style="{StaticResource MainFrame.TextBox}"
+                                                                    Text="{Binding ServiceQty, Mode=TwoWay}"
+                                                                    Visibility="{Binding IsMedicalServiceGroupView, Converter={StaticResource BooleanToVisibility}}" />
+                                                            </StackPanel>
+                                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                                <Button
+                                                                    x:Name="AddRegItemCmd"
+                                                                    Height="22"
+                                                                    MinWidth="55"
+                                                                    Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}"
+                                                                    IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}"
+                                                                    Style="{StaticResource MainFrame.Button}"
+                                                                    Visibility="{Binding mDangKyDV_DichVu_Them, Converter={StaticResource BooleanToVisibility}}" />
+                                                                <Button
+                                                                    x:Name="AddRegPackCmd"
+                                                                    Height="22"
+                                                                    MinWidth="80"
+                                                                    Margin="5,0,0,0"
+                                                                    Padding="5,0"
+                                                                    Content="{Binding Z2350_G1_ThemGoiDichVu, Source={StaticResource eHCMSResources}}"
+                                                                    IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}"
+                                                                    Style="{StaticResource MainFrame.Button}"
+                                                                    Visibility="{Binding IsAddRegPackVisible, Converter={StaticResource BooleanToVisibility}}" />
+                                                                <Button
+                                                                    x:Name="SetEkip"
+                                                                    Height="22"
+                                                                    MinWidth="80"
+                                                                    Margin="5,0,0,0"
+                                                                    Padding="5,0"
+                                                                    Content="{Binding Z2732_G1_ThietLapEkip, Source={StaticResource eHCMSResources}}"
+                                                                    Style="{StaticResource MainFrame.Button}" />
+                                                            </StackPanel>
+                                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                                <Button
+                                                                    x:Name="ChooseDoctorStaff"
+                                                                    Height="22"
+                                                                    MinWidth="80"
+                                                                    Margin="0,5,0,0"
+                                                                    Padding="5,0"
+                                                                    Content="{Binding Z2931_G1_ChonBacSi, Source={StaticResource eHCMSResources}}"
+                                                                    Style="{StaticResource MainFrame.Button}" />
+                                                            </StackPanel>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem x:Name="tabitemPCL" Header="{Binding T1520_G1_HA, Source={StaticResource eHCMSResources}}">
+                                                    <StackPanel>
+                                                        <ContentControl
+                                                            Name="SelectPCLContent"
+                                                            Width="auto"
+                                                            MinWidth="250"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalContentAlignment="Stretch"
+                                                            IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}" />
+                                                        <StackPanel
+                                                            Margin="0,2,40,0"
+                                                            HorizontalAlignment="Left"
+                                                            Orientation="Horizontal">
+                                                            <CheckBox
+                                                                Grid.Row="6"
+                                                                Width="70"
+                                                                Height="22"
+                                                                Margin="0,3,0,3"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalContentAlignment="Center"
+                                                                Content="{Binding Z3116_G1_BNUuTien, Source={StaticResource eHCMSResources}}"
+                                                                FontWeight="Bold"
+                                                                Foreground="#CC0033"
+                                                                IsChecked="{Binding IsPriority, Mode=TwoWay}"
+                                                                IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}" />
+
+                                                            <TextBlock
+                                                                Margin="0,3,0,3"
+                                                                VerticalAlignment="Center"
+                                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                                Text="{Binding S0583_G1_SLg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                                                Visibility="Collapsed" />
+                                                            <TextBox
+                                                                Grid.Row="3"
+                                                                Grid.Column="1"
+                                                                Grid.ColumnSpan="2"
+                                                                Width="30"
+                                                                Height="22"
+                                                                Margin="5,3,5,3"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                VerticalContentAlignment="Center"
+                                                                Style="{StaticResource MainFrame.TextBox}"
+                                                                Text="{Binding PCLQty, Mode=TwoWay}"
+                                                                Visibility="Collapsed" />
+
+                                                            <Button
+                                                                x:Name="AddPclExamTypeCmd"
+                                                                Width="80"
+                                                                Height="22"
+                                                                Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}"
+                                                                IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}"
+                                                                Style="{StaticResource MainFrame.Button}"
+                                                                Visibility="{Binding mDangKyDV_DichVu_Them, Converter={StaticResource BooleanToVisibility}}" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </TabItem>
+
+                                                <TabItem x:Name="tabitemLAB" Header="{Binding G2613_G1_XN, Source={StaticResource eHCMSResources}}">
+                                                    <ContentControl>
+                                                        <StackPanel>
+                                                            <ContentControl
+                                                                Name="SelectPCLContentLAB"
+                                                                MinWidth="250"
+                                                                HorizontalContentAlignment="Stretch"
+                                                                VerticalContentAlignment="Stretch"
+                                                                IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}" />
+                                                            <StackPanel
+                                                                Margin="0,2,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                Orientation="Horizontal">
+                                                                <CheckBox
+                                                                    Width="90"
+                                                                    Height="22"
+                                                                    Margin="0,3,0,3"
+                                                                    HorizontalAlignment="Left"
+                                                                    VerticalContentAlignment="Center"
+                                                                    Content="{Binding Z3116_G1_BNUuTien, Source={StaticResource eHCMSResources}}"
+                                                                    FontWeight="Bold"
+                                                                    Foreground="#CC0033"
+                                                                    IsChecked="{Binding IsPriority, Mode=TwoWay}"
+                                                                    IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}" />
+                                                                <TextBlock
+                                                                    Margin="0,3,0,3"
+                                                                    VerticalAlignment="Center"
+                                                                    Style="{StaticResource TextBlock.Heading.04}"
+                                                                    Text="{Binding S0583_G1_SLg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                                                    Visibility="Collapsed" />
+                                                                <TextBox
+                                                                    Width="30"
+                                                                    Height="22"
+                                                                    Margin="5,3,5,3"
+                                                                    HorizontalAlignment="Left"
+                                                                    VerticalAlignment="Center"
+                                                                    VerticalContentAlignment="Center"
+                                                                    Style="{StaticResource MainFrame.TextBox}"
+                                                                    Text="{Binding PCLQty, Mode=TwoWay}"
+                                                                    Visibility="Collapsed" />
+                                                            </StackPanel>
+
+                                                            <StackPanel
+                                                                Margin="0,2,40,0"
+                                                                HorizontalAlignment="Left"
+                                                                Orientation="Horizontal">
+                                                                <Button
+                                                                    x:Name="AddPclExamTypeCmd_LAB"
+                                                                    Width="80"
+                                                                    Height="22"
+                                                                    Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}"
+                                                                    IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}"
+                                                                    Style="{StaticResource MainFrame.Button}"
+                                                                    Visibility="{Binding mDangKyDV_DichVu_Them, Converter={StaticResource BooleanToVisibility}}" />
+                                                                <Button
+                                                                    x:Name="AddAllPclExamTypeCmd_LAB"
+                                                                    Width="100"
+                                                                    Height="22"
+                                                                    Margin="5,0,0,0"
+                                                                    Content="{Binding G0331_G1_ThemTCa, Source={StaticResource eHCMSResources}}"
+                                                                    IsEnabled="{Binding RegistrationDetailsContent.CanAddService, Mode=OneWay}"
+                                                                    Style="{StaticResource MainFrame.Button}"
+                                                                    Visibility="{Binding mDangKyDV_DichVu_Them, Converter={StaticResource BooleanToVisibility}}" />
+                                                            </StackPanel>
+                                                        </StackPanel>
+                                                    </ContentControl>
+                                                </TabItem>
+                                            </TabControl>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                            <Grid
+                                Grid.Row="1"
+                                Grid.RowSpan="3"
+                                Grid.Column="2"
+                                Margin="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Border
+                                    BorderBrush="#FF5E5E5E"
+                                    BorderThickness="1"
+                                    Style="{StaticResource LightBlueBorderStyleNew}">
+                                    <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                        <ContentControl
+                                            Name="RegistrationDetailsContent"
+                                            HorizontalContentAlignment="Stretch"
+                                            VerticalContentAlignment="Stretch" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </GroupBox>
+                </DockPanel>
+                <StackPanel
+                    Grid.Row="4"
+                    Grid.RowSpan="3"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    Orientation="Vertical"
+                    Visibility="{Binding IsRegistrationView, Converter={StaticResource BooleanToVisibility}}">
+                    <ContentControl IsEnabled="{Binding CanCreateNewRegistration}">
+                        <StackPanel Margin="0,10,0,5" Orientation="Horizontal">
+                            <Button
+                                Name="CreateNewRegistrationForThisPatientCmd"
+                                Width="100"
+                                Margin="1,0"
+                                Content="{Binding K2867_G1_DKMoi, Source={StaticResource eHCMSResources}}"
+                                IsEnabled="{Binding CanCreateNewRegistration, Mode=OneWay}"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding mDangKyDV_DangKyMoi, Converter={StaticResource BooleanToVisibility}}">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="{Binding T0797_G1_TaoMoiDK, Source={StaticResource eHCMSResources}}" />
+                                </ToolTipService.ToolTip>
+                            </Button>
+                            <!--<Button x:Name="CheckAppointmentCmd"  Margin="1,0" Content="{Binding T2514_G1_KTraDK,Source={StaticResource eHCMSResources}}" Width="120"
+                  Visibility="{Binding mDangKyDV_HenBenh, Converter={StaticResource BooleanToVisibility}}"
+                  Style="{StaticResource MainFrame.Button}" />-->
+                            <Button
+                                x:Name="PayCmd"
+                                Width="80"
+                                Content="{Binding G1673_G1_TraTien, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="Collapsed" />
+                            <Button
+                                x:Name="CancelRegistrationCmd"
+                                Width="90"
+                                Margin="1,0"
+                                Content="{Binding T1743_G1_HuyDK, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding mDangKyDV_HuyDangKy, Converter={StaticResource BooleanToVisibility}}" />
+                            <Button
+                                x:Name="CancelRegistrationAndPayCmd"
+                                Width="80"
+                                Content="{Binding T1746_G1_HuyDKVaTraTien, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="Collapsed" />
+                            <Button
+                                Name="ReportRegistrationInfoInsuranceCmd"
+                                Margin="1,0"
+                                Content="{Binding T1933_G1_InPhDKTTBH, Source={StaticResource eHCMSResources}}"
+                                IsEnabled="{Binding CanReportRegistrationInfoInsuranceCmd, Mode=OneWay}"
+                                Style="{StaticResource MainFrame.Button}">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="{Binding T1930_G1_InPhDKTTinBHYT, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                                </ToolTipService.ToolTip>
+                            </Button>
+                            <Button
+                                Name="ConfirmEmergencyPatientCmd"
+                                Margin="1,0"
+                                Padding="5,0,5,0"
+                                Content="{Binding G2371_G1_XNhanBNCapCuu, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding ShowConfirmedEmergencyPatient, Converter={StaticResource BooleanToVisibility}, Mode=OneWay}" />
+                            <Button
+                                Name="ConfirmSpecialRegistrationCmd"
+                                Margin="1,0"
+                                Padding="5,0,5,0"
+                                Content="{Binding Z3071_G1_XNDKBHDBL2, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding ShowConfirmSpecialRegistration, Converter={StaticResource BooleanToVisibility}, Mode=OneWay}" />
+                        </StackPanel>
+                    </ContentControl>
+                </StackPanel>
+            </Grid>
+        </toolkit:BusyIndicator>
+    </Grid>
+</UserControl>

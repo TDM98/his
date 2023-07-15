@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="aEMR.CommonViews.Views.ImageEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="800"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             cal:Message.Attach="[Event KeyDown]=[Action UserControl_KeyDown($source, $eventArgs)]"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    <toolkit:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="800"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="600"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Width="22" HorizontalAlignment="Left" x:Name="btnPencilCase" Grid.Row="0" Grid.Column="0" Style="{StaticResource MainFrame.Button}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/ImageEditor/pencil.png" Height="13" Width="13" Opacity="1" />
+                </Button>
+                <Button Width="22" HorizontalAlignment="Left" x:Name="btnBrushCase" Grid.Row="0" Grid.Column="1" Style="{StaticResource MainFrame.Button}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/ImageEditor/brush.png" Height="13" Width="13" Opacity="1" />
+                </Button>
+                <Button Width="22" HorizontalAlignment="Left" x:Name="btnCircleCase" Grid.Row="1" Grid.Column="0" Style="{StaticResource MainFrame.Button}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/ImageEditor/circle.png" Height="13" Width="13" Opacity="1" />
+                </Button>
+                <Button Width="22" HorizontalAlignment="Left" x:Name="btnLineCase" Grid.Row="1" Grid.Column="1" Style="{StaticResource MainFrame.Button}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/ImageEditor/line.png" Height="13" Width="13" Opacity="1" />
+                </Button>
+                <Button Width="22" HorizontalAlignment="Left" x:Name="btnRectangleCase" Grid.Row="2" Grid.Column="0" Style="{StaticResource MainFrame.Button}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/ImageEditor/rectangle.png" Height="13" Width="13" Opacity="1" />
+                </Button>
+                <Button Width="22" HorizontalAlignment="Left" x:Name="btnTextCase" Grid.Row="2" Grid.Column="1" Style="{StaticResource MainFrame.Button}" Content="A"></Button>
+                <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 10"
+                        Visibility="{Binding IsVisibleSizePanel,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Button x:Name="btnLineSize1" Margin="0 5 0 0" Height="1" Background="{Binding gForceGroundColor}" BorderThickness="0"></Button>
+                    <Button x:Name="btnLineSize3" Margin="0 5 0 0" Height="3" Background="{Binding gForceGroundColor}" BorderThickness="0"></Button>
+                    <Button x:Name="btnLineSize5" Margin="0 5 0 0" Height="5" Background="{Binding gForceGroundColor}" BorderThickness="0"></Button>
+                    <Button x:Name="btnLineSize7" Margin="0 5 0 0" Height="7" Background="{Binding gForceGroundColor}" BorderThickness="0"></Button>
+                    <Button x:Name="btnLineSize9" Margin="0 5 0 0" Height="9" Background="{Binding gForceGroundColor}" BorderThickness="0"></Button>
+                </StackPanel>
+                <Button Width="22" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="0" Style="{StaticResource MainFrame.Button}" Height="22" Content="F"></Button>
+                <Button Width="22" HorizontalAlignment="Left" x:Name="btnChooseForcegroundColor" Grid.Row="4" Grid.Column="1" Background="{Binding gForceGroundColor}"></Button>
+                <Button Width="22" HorizontalAlignment="Left" Grid.Row="5" Grid.Column="0" Style="{StaticResource MainFrame.Button}" Height="22" Content="B"></Button>
+                <Button Width="22" HorizontalAlignment="Left" x:Name="btnChooseBackgroundColor" Grid.Row="5" Grid.Column="1" Background="{Binding gBackGroundColor}"></Button>
+                <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Margin="0 10"
+                        Visibility="{Binding IsVisibleTextPanel,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock Text="Font"></TextBlock>
+                    <ComboBox ItemsSource="{Binding SystemFontCollection}" SelectedItem="{Binding SelectedFont,Mode=TwoWay}"></ComboBox>
+                    <TextBlock Text="Size"></TextBlock>
+                    <ComboBox ItemsSource="{Binding FontSizeCollection}" SelectedItem="{Binding SelectedFontSize,Mode=TwoWay}"></ComboBox>
+                    <TextBlock Text="Text"></TextBlock>
+                    <TextBox Text="{Binding gAddingText,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MainFrame.TextBox}"></TextBox>
+                </StackPanel>
+            </Grid>
+            <Canvas Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    cal:Message.Attach="[Event Loaded]=[Action CanvasGraph_Loaded($source, $eventArgs)];
+                    [Event MouseLeftButtonDown]=[Action CanvasGraph_MouseLeftButtonDown($source, $eventArgs)];
+                    [Event MouseMove]=[Action CanvasGraph_MouseMove($source, $eventArgs)]" Cursor="Pen">
+            </Canvas>
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal">
+                <Button x:Name="btnSave" Content="{Binding T2937_G1_Luu,Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}"></Button>
+            </StackPanel>
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>

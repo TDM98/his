@@ -1,0 +1,370 @@
+﻿<UserControl x:Class="aEMR.ConsultantEPrescription.Views.TreatmentRegimenEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             MinWidth="1000" MinHeight="600"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <DataTemplate x:Key="clDelete">
+            <StackPanel Orientation="Horizontal">
+                <Button cal:Message.Attach="[Event Click]=[Action clDelete($source, $eventArgs)]"
+                        ToolTipService.ToolTip="Click here for Edit record"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="#FF0066"
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png"
+                           Width="15" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="clDeletePCL">
+            <StackPanel Orientation="Horizontal">
+                <Button cal:Message.Attach="[Event Click]=[Action clDeletePCL($source, $eventArgs)]"
+                        ToolTipService.ToolTip="Click here for Edit record"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="#FF0066"
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png"
+                           Width="15" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="clDeleteService">
+            <StackPanel Orientation="Horizontal">
+                <Button cal:Message.Attach="[Event Click]=[Action clDeleteService($source, $eventArgs)]"
+                        ToolTipService.ToolTip="Click here for Edit record"
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="#FF0066"
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png"
+                           Width="15" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="4"
+                   Text="{Binding Z2265_G1_MaPhacDo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                   Style="{StaticResource TextBlock.Heading.04}" />
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="4"
+                 Style="{StaticResource MainFrame.TextBox}"
+                 Text="{Binding gRefTreatmentRegimen.TreatmentRegimenCode}" />
+        <TextBlock Grid.Row="0" Grid.Column="2" Margin="4"
+                   Text="{Binding Z2266_G1_TenPhacDo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                   Style="{StaticResource TextBlock.Heading.04}" />
+        <TextBox Grid.Row="0" Grid.Column="3" Margin="4"
+                 Style="{StaticResource MainFrame.TextBox}"
+                 Text="{Binding gRefTreatmentRegimen.TreatmentRegimenName}" />
+        
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="4"
+                   Text="{Binding T3402_G1_MaICD10, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                   Style="{StaticResource TextBlock.Heading.04}" />
+        <ContentControl x:Name="Icd10ListingView" Grid.Row="1"
+                        Grid.Column="1" Margin="4"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+        <TextBlock Grid.Row="1" Grid.Column="2" Margin="4"
+                   Text="{Binding T0723_G1_GChu, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                   Style="{StaticResource TextBlock.Heading.04}" />
+        <TextBox Grid.Row="1" Grid.Column="3" Margin="4"
+                 Style="{StaticResource MainFrame.TextBox}"
+                 Text="{Binding gRefTreatmentRegimen.TreatmentRegimenNote}" />
+        
+        <TextBlock Grid.Row="2" Grid.Column="0" Margin="4"
+                   Text="{Binding Z2267_G1_ChuKy, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                   Style="{StaticResource TextBlock.Heading.04}" />
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="4"
+                  Style="{StaticResource MainFrame.ComboBox}"
+                  ItemsSource="{Binding V_TreatmentPeriodicCollection, Mode=OneWay}"
+                  DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID"
+                  SelectedValue="{Binding SelectedTreatmentPeriodic, Mode=TwoWay}"
+                  cal:Message.Attach="[Event SelectionChanged]=[Action TreatmentPeriodic_SelectionChanged($source, $eventArgs)]" />
+        <TabControl Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4">
+            <TabItem Header="{Binding T1681_G1_HoatChat, Source={StaticResource eHCMSResources}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                Orientation="Horizontal">
+                        <Label Content="{Binding T0857_G1_TenHoatChat,Source={StaticResource eHCMSResources}}"
+                               VerticalAlignment="Center" />
+                        <AxControls:AxAutoComplete Grid.Row="0" Grid.Column="0"
+                                                   IsDropDownOpen="True" MinimumPopulateDelay="300"
+                                                   MinimumPrefixLength="0" FilterMode="None"
+                                                   HorizontalAlignment="Stretch" Width="300"
+                                                   Height="22" Margin="10 4 0 4"
+                                                   cal:Message.Attach="[Event Populating] = [Action GenericClasses_Populating($source, $eventArgs)]"
+                                                   Style="{StaticResource AxAutoCompleteMyStyle}"
+                                                   ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}" />
+                    </StackPanel>
+                    
+                    <DataGrid Grid.Row="1" Grid.Column="0" Height="Auto"
+                              VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Auto"
+                              AutoGenerateColumns="False" CanUserAddRows="False"
+                              RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                              RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                              Style="{StaticResource MainFrame.DataGridStyle}"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                              ItemsSource="{Binding CV_GenericClasses, Mode=OneWay}"
+                              cal:Message.Attach="[Event MouseDoubleClick]=[Action gvGenericClasses_MouseDoubleClick($source, $eventArgs)]"
+                              HeadersVisibility="All" IsReadOnly="True"
+                              VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Margin" Value="1,1,1,1" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                    <Expander IsExpanded="{Binding ElementName=LayoutRoot, Path=DataContext.DefaultIsExpanded, Mode=OneTime}"
+                                                              Background="WhiteSmoke" BorderBrush="#FF002255"
+                                                              Foreground="DarkBlue" BorderThickness="1">
+                                                        <Expander.Header>
+                                                            <DockPanel>
+                                                                <TextBlock FontWeight="Bold" Foreground="DarkBlue"
+                                                                           Text="{Binding Path=Name}"
+                                                                           Margin="5,0,0,0" Width="300" />
+                                                            </DockPanel>
+                                                        </Expander.Header>
+                                                        <Expander.Content>
+                                                            <ItemsPresenter />
+                                                        </Expander.Content>
+                                                    </Expander>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{Binding Z2268_G1_MaHoatChat, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding DrugClassCode}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding T0857_G1_TenHoatChat, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding FaName}" IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DataGrid Grid.Row="1" Grid.Column="1" Height="Auto"
+                              VerticalAlignment="Stretch"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Auto"
+                              AutoGenerateColumns="False" CanUserAddRows="False"
+                              RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                              RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                              Style="{StaticResource MainFrame.DataGridStyle}"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                              ItemsSource="{Binding CV_RefTreatmentRegimenDrugDetails, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn CellTemplate="{StaticResource clDelete}" />
+                            <DataGridTextColumn Header="{Binding Z2268_G1_MaHoatChat, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding GenericCode}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding T0857_G1_TenHoatChat, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding GenericName}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding TreatmentRegimenDrugDetailNote, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding RecCreatedDate, StringFormat='dd/MM/yyyy'}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding Z1931_G1_NgCNhat, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding LastUpdatedDate, StringFormat='dd/MM/yyyy'}"
+                                                IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{Binding K1549_G1_CLS, Source={StaticResource eHCMSResources}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <TabControl x:Name="tabPatientInfo" Grid.Row="1" Grid.Column="0"
+                                Width="Auto" Height="Auto"
+                                Style="{StaticResource MainFrame.TabControl}">
+                        <TabItem x:Name="tabitemPCL" Header="{Binding T1520_G1_HA, Source={StaticResource eHCMSResources}}">
+                            <ContentControl >
+                                <StackPanel>
+                                    <ContentControl Name="SelectPCLContent"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    Width="Auto" MinWidth="250"
+                                                    VerticalContentAlignment="Stretch" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,2,40,0"
+                                                HorizontalAlignment="Right">
+                                        <Button x:Name="AddPclExamTypeCmd" Width="100"
+                                                Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}"
+                                                Style="{StaticResource MainFrame.Button}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </ContentControl>
+                        </TabItem>
+
+                        <TabItem x:Name="tabitemLAB"
+                                 Header="{Binding G2613_G1_XN, Source={StaticResource eHCMSResources}}">
+                            <ContentControl>
+                                <StackPanel>
+                                    <ContentControl Name="SelectPCLContentLAB" MinWidth="250"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,2,40,0"
+                                                HorizontalAlignment="Right">
+                                        <Button x:Name="AddPclExamTypeCmd_LAB" Width="100"
+                                                Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}"
+                                                Style="{StaticResource MainFrame.Button}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </ContentControl>
+                        </TabItem>
+                    </TabControl>
+                    <DataGrid Grid.Row="1" Grid.Column="1" Height="Auto"
+                              VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Auto"
+                              AutoGenerateColumns="False" CanUserAddRows="False"
+                              RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                              RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                              Style="{StaticResource MainFrame.DataGridStyle}"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                              ItemsSource="{Binding CV_RefTreatmentRegimenPCLDetails, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn CellTemplate="{StaticResource clDeletePCL}" />
+                            <DataGridTextColumn Header="{Binding Z1878_G1_MaCLS, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding PCLExamTypeCode}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding T0842_G1_TenCLS, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding PCLExamTypeName}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding T2699_G1_LoaiCLS, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding V_PCLMainCategoryValue, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding TreatmentRegimenPCLDetailNote, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding RecCreatedDate, StringFormat='dd/MM/yyyy'}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding Z1931_G1_NgCNhat, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding LastUpdatedDate, StringFormat='dd/MM/yyyy'}"
+                                                IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="260" />
+                        <ColumnDefinition Width="3*" />
+                    </Grid.ColumnDefinitions>
+                    <TabControl x:Name="tabPatientInfo_Service" Grid.Row="1" Grid.Column="0"
+                                Width="Auto" Height="Auto"
+                                Style="{StaticResource MainFrame.TabControl}">
+                        <TabItem x:Name="tabitemService" Header="{Binding T1520_G1_HA, Source={StaticResource eHCMSResources}}">
+                            <ContentControl >
+                                <StackPanel>
+                                    <TextBlock Text="{Binding T2707_G1_LoaiDV, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}"
+                                                                   Margin="0,5,0,0" Style="{StaticResource TextBlock.Heading.04}"
+                                                                   Grid.Row="0" />
+                                    <AxControls:AxComboBox  Grid.Row="1" Width="250"
+                                                                               HorizontalAlignment="Left"
+                                                                               Style="{StaticResource MainFrame.ComboBox}"
+                                                                               SelectedValuePath="MedicalServiceTypeID"
+                                                                               DisplayMemberPath="MedicalServiceTypeName"
+                                                                               SelectedItemEx="{Binding MedServiceType, Mode=TwoWay}"
+                                                                               ItemsSource="{Binding ServiceTypes, Mode=OneWay}" />
+
+                                    <TextBlock Text="{Binding K3421_G1_DV, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}"
+                                                                   Margin="0,5,0,0" Grid.Row="2"
+                                                                   Style="{StaticResource TextBlock.Heading.04}" />
+                                    <AxControls:KeySearchableComboBox x:Name="cboSelectedService"
+                                                                                          HorizontalAlignment="Left"
+                                                                                          SelectedItem="{Binding MedServiceItem, Mode=TwoWay}"
+                                                                                          ItemSourceEx="{Binding MedicalServiceItems, Mode=OneWay}"
+                                                                                          Style="{StaticResource MainFrame.ComboBox}"
+                                                                                          Grid.Row="2" Width="250" Height="22"
+                                                                                          VerticalAlignment="Top"  />
+                                    <StackPanel Orientation="Horizontal" Margin="0,10,5,0"
+                                                HorizontalAlignment="Right">
+                                        <Button x:Name="AddServiceCmd" Width="100"
+                                                Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}"
+                                                Style="{StaticResource MainFrame.Button}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </ContentControl>
+                        </TabItem>
+                    </TabControl>
+                    <DataGrid Grid.Row="1" Grid.Column="1" Height="Auto"
+                              VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Auto"
+                              AutoGenerateColumns="False" CanUserAddRows="False"
+                              RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                              RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                              Style="{StaticResource MainFrame.DataGridStyle}"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                              ItemsSource="{Binding CV_RefTreatmentRegimenServiceDetails, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn CellTemplate="{StaticResource clDeleteService}" />
+                            <DataGridTextColumn Header="{Binding T3320_G1_MaDV, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding MedServiceCode}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding T0844_G1_TenDV, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding MedServiceName}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding T2707_G1_LoaiDV, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding MedicalServiceTypeName}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding TreatmentRegimenServiceDetailNote, Mode=TwoWay}" />
+                            <DataGridTextColumn Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding RecCreatedDate, StringFormat='dd/MM/yyyy'}"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Header="{Binding Z1931_G1_NgCNhat, Source={StaticResource eHCMSResources}}"
+                                                Binding="{Binding LastUpdatedDate, StringFormat='dd/MM/yyyy'}"
+                                                IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="4" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button x:Name="btnSave" MinWidth="80" Margin="4"
+                    Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

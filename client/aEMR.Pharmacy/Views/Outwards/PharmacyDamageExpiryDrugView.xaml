@@ -1,0 +1,191 @@
+﻿<UserControl    x:Class="aEMR.Pharmacy.Views.PharmacyDamageExpiryDrugView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="750"   >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <converter:DecimalConverter x:Key="DecimalConverter"/>
+        <converter:IsEnableConverter x:Key="IsEnableConverter"/>
+        <converter:IsEnableFalseConverter x:Key="IsEnableFalseConverter"/>
+    </UserControl.Resources>
+    <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="TitleForm" Text="{Binding TitleForm}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#3595CB" 
+                               FontSize="14" FontWeight="Bold" />
+            <StackPanel Orientation="Horizontal"  Margin="2" Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility} }">
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding P0371_G1_PhHuyCu, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Margin="11,1,5,1" Style="{StaticResource MainFrame.TextBlock.02}"/>
+                <TextBox Name="txtSearch" Margin="1,1,1,1" d:LayoutOverrides="Width" Style="{StaticResource MainFrame.TextBox}" Width="150" Text="{Binding SearchCriteria.OutInvID,Mode=TwoWay}"  cal:Message.Attach="[Event KeyUp] = [Action txtSearch_KeyUp($source, $eventArgs)]"/>
+                <Button  Name="btnSearch" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Margin="2,1,2,1" Style="{StaticResource MainFrame.Button}" Width="75"
+                     Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility} }" />
+            </StackPanel>
+            <Border  Margin="2" Grid.Row="2" Style="{StaticResource LightBlueBorderStyle}">
+                <Grid DataContext="{Binding CurrentOutwardDrugInvoice}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition MinWidth="85"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding T3479_G1_MaPhHuy, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Margin="2,1" Style="{StaticResource MainFrame.TextBlock.02}"/>
+                    <TextBox Text="{Binding OutInvID}" Grid.Column="1" Margin="2,1" Style="{StaticResource MainFrame.TextBox}" IsReadOnly="True"></TextBox>
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding N0079_G1_NgHuy, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Margin="2,1" Style="{StaticResource MainFrame.TextBlock.02}"/>
+                    <DatePicker SelectedDate="{Binding OutDate}" Grid.Row="1" Grid.Column="1" Margin="2,1" Style="{StaticResource MainFrame.DatePicker}" IsEnabled="False"></DatePicker>
+                    <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding T2144_G1_Kho, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Margin="11,1,5,1" Style="{StaticResource MainFrame.TextBlock.02}"/>
+                    <AxControls:KeyEnabledComboBox Grid.Row="0" Grid.Column="3" Margin="2,1" Style="{StaticResource MainFrame.ComboBox}" SelectedValueEx="{Binding StoreID,Mode=TwoWay}" SelectedValuePath="StoreID"  DisplayMemberPath="swhlName" ItemsSource="{Binding ElementName=LayoutRoot,Path=DataContext.StoreCbx}" MinWidth="80"
+                                  cal:Message.Attach="[Event SelectionChanged] = [Action KeyEnabledComboBox_SelectionChanged($source, $eventArgs)]"></AxControls:KeyEnabledComboBox>
+
+                    <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding N0294_G1_NhVienTHien, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Margin="11,1,5,1" Style="{StaticResource MainFrame.TextBlock.02}"/>
+                    <TextBox Text="{Binding SelectedStaff.FullName}" Grid.Row="1" Grid.Column="3" Margin="2,1" Style="{StaticResource MainFrame.TextBox}" IsReadOnly="True"></TextBox>
+
+                    <StackPanel Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
+                        <RadioButton Content="{Binding K1830_G1_ChiHThiThuocDaHetHan, Source={StaticResource eHCMSResources}}" Name="rdtExpiry" GroupName="rdtFilter" Margin="0,2" Style="{StaticResource MainFrame.RadioButton}" cal:Message.Attach="[Event Checked] = [Action rdtExpiry_Checked($source, $eventArgs)]" IsChecked="True"></RadioButton>
+                        <RadioButton Content="{Binding K1827_G1_DSThuocConHDungHuyTruocThoiHan, Source={StaticResource eHCMSResources}}" Name="rdtPreExpiry" GroupName="rdtFilter" Margin="0,2" Style="{StaticResource MainFrame.RadioButton}" cal:Message.Attach="[Event Checked] = [Action rdtPreExpiry_Checked($source, $eventArgs)]"></RadioButton>
+                        <RadioButton Content="{Binding K1430_G1_Ca2DKienTren, Source={StaticResource eHCMSResources}}" Name="rdtAll" GroupName="rdtFilter" Margin="0,2" Style="{StaticResource MainFrame.RadioButton}"  cal:Message.Attach="[Event Checked] = [Action rdtAll_Checked($source, $eventArgs)]"></RadioButton>
+                    </StackPanel>
+                </Grid>
+
+            </Border>
+            <Border  Margin="2" Grid.Row="3" Style="{StaticResource LightBlueBorderStyle}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <CheckBox Content="{Binding P0353_G1_PhanTrang, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="2,1" Style="{StaticResource MainFrame.Checkbox}" cal:Message.Attach="[Event Checked] = [Action Paging_Checked($source, $eventArgs)];[Event Unchecked] = [Action Paging_Unchecked($source, $eventArgs)]"></CheckBox>
+                    <TextBlock Text="{Binding S0637_G1_SoDong_Trang, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,1,2,1" Style="{StaticResource MainFrame.TextBlock.01}" Visibility="{Binding VisibilityPaging}"></TextBlock>
+                    <ComboBox Margin="2,1" Name="cbxPageSize" Style="{StaticResource MainFrame.ComboBox}" MinWidth="50" cal:Message.Attach="[Event SelectionChanged] = [Action cbxPageSize_SelectionChanged($source, $eventArgs)]"
+                          Visibility="{Binding VisibilityPaging}">
+                        <ComboBoxItem Content="5"></ComboBoxItem>
+                        <ComboBoxItem Content="10"></ComboBoxItem>
+                        <ComboBoxItem IsSelected="True" Content="15"></ComboBoxItem>
+                        <ComboBoxItem Content="20"></ComboBoxItem>
+                        <ComboBoxItem Content="25"></ComboBoxItem>
+                    </ComboBox>
+                    <TextBlock Text="{Binding T2900_G1_LocTheoTenThuoc, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,1,2,1" Style="{StaticResource MainFrame.TextBlock.00}"></TextBlock>
+                    <TextBox Name="SearchKey" Style="{StaticResource MainFrame.TextBox}" MinWidth="120" Margin="2,1" cal:Message.Attach="[Event KeyUp] = [Action SearchKey_KeyUp($source, $eventArgs)]"></TextBox>
+                    <Button Name="btnFilter" Content="{Binding G0739_G1_THien, Source={StaticResource eHCMSResources}}" Width="75" Margin="2,1" Style="{StaticResource MainFrame.Button}"
+                        Visibility="{Binding bThem,Converter={StaticResource BooleanToVisibility} }"/>
+                </StackPanel>
+            </Border>
+            <DataGrid x:Name="GridStockTakes" HeadersVisibility="All" AutoGenerateColumns="False" ItemsSource="{Binding PCVOutwardDrugDetails,Mode=OneWay}"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible" 
+                          Grid.Row="4" ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}"
+                   cal:Message.Attach="[Event Loaded] = [Action GridStockTakes_Loaded($source, $eventArgs)];[Event LoadingRow] = [Action GridStockTakes_LoadingRow($source, $eventArgs)]" MaxHeight="600">
+                <DataGrid.Columns>
+                    <DataGridTextColumn 
+                                                            x:Name="colDrugID"  
+                                                            Header="{Binding T3649_G1_MaThuoc, Source={StaticResource eHCMSResources}}"
+                                                            Binding="{Binding GetDrugForSellVisitor.DrugCode}" 
+                                                            IsReadOnly="True" 
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}">
+                    </DataGridTextColumn>
+
+                <DataGridTextColumn 
+                                                            x:Name="colDrugName"  
+                                                            Binding="{Binding GetDrugForSellVisitor.BrandName}" 
+                                                            Header="{Binding T0904_G1_TenThuoc, Source={StaticResource eHCMSResources}}"
+                                                            IsReadOnly="True" 
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" 
+                                                            MinWidth="180" Width="*">
+                    
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            x:Name="colCityStateZipCode" 
+                                                            Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}"
+                                                            Binding="{Binding GetDrugForSellVisitor.UnitName}" 
+                                                            IsReadOnly="True"  
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}">
+                    
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn 
+                                                            x:Name="colCity" 
+                                                            Header="{Binding S0655_G1_SoLo, Source={StaticResource eHCMSResources}}"
+                                                            Binding="{Binding InBatchNumber}" 
+                                                            IsReadOnly="True"  
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}">
+                   
+                    </DataGridTextColumn>
+                <DataGridTextColumn 
+                                                            x:Name="colCon" 
+                                                            Header="{Binding T1363_G1_HDung, Source={StaticResource eHCMSResources}}" 
+                                                            Binding="{Binding InExpiryDate,StringFormat='dd/MM/yyyy'}" 
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}" 
+                                                            IsReadOnly="True">
+                    
+
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            x:Name="colSupplierDescription" 
+                                                            Header="{Binding S0610_G1_SLgTon, Source={StaticResource eHCMSResources}}"
+                                                            Binding="{Binding OutQuantity,Converter={StaticResource DecimalConverter}}"   
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}" 
+                                                            IsReadOnly="True">
+
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            x:Name="colAdjustQty" 
+                                                            Binding="{Binding OutPrice,Converter={StaticResource DecimalConverter}}"   
+                                                            Header="{Binding T1160_G1_GVon, Source={StaticResource eHCMSResources}}"
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}" 
+                                                            IsReadOnly="True">
+
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
+                                                            x:Name="colAdjustQty1" 
+                                                            Binding="{Binding TotalPrice,Converter={StaticResource DecimalConverter}}"  
+                                                            Header="{Binding G0085_G1_TTien, Source={StaticResource eHCMSResources}}"
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}" 
+                                                            IsReadOnly="True">
+
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click" SourceObject="{Binding ElementName=btnExportExcel}">
+                        <AxControls:DataGrid2ExcelAction />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </DataGrid>
+        <AxControls:DataPager x:Name="pagerStockTakes" PageSize="{Binding PCVPageSize,Mode=TwoWay}" Margin="2,1" 
+                              Grid.Row="6" 
+                       Height="24"  VerticalAlignment="Center" 
+                       Visibility="{Binding VisibilityPaging}" cal:Message.Attach="[Event Loaded] = [Action pagerStockTakes_Loaded($source, $eventArgs)]"></AxControls:DataPager>
+        <!--DisplayMode="FirstLastPreviousNextNumeric" NumericButtonCount="5"--> <!--bo ra tu AxControls:DataPager-->
+        <StackPanel Orientation="Horizontal" Grid.Row="7" HorizontalAlignment="Right">
+                <Button Name="btnNew" Content="{Binding P0373_G1_PhMoi, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Width="75" Margin="2,1"
+                    Visibility="{Binding bThem,Converter={StaticResource BooleanToVisibility} }"/>
+                <Button Name="btnSave" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Width="75" Margin="2,1" IsEnabled="{Binding CurrentOutwardDrugInvoice.outiID,TargetNullValue='False',Converter={StaticResource IsEnableFalseConverter}}"
+                    Visibility="{Binding bThem,Converter={StaticResource BooleanToVisibility} }"/>
+                <Button Name="btnExportExcel" Content="{Binding G2849_G1_XuatExcel, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Width="75" Margin="2,1"
+                    Visibility="{Binding bXuatExcel,Converter={StaticResource BooleanToVisibility} }"/>
+                <Button Name="btnPreview" Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Width="75" Margin="2,1" IsEnabled="{Binding CurrentOutwardDrugInvoice.outiID,TargetNullValue='False',Converter={StaticResource IsEnableConverter}}"
+                    Visibility="{Binding bIn,Converter={StaticResource BooleanToVisibility} }"/>
+              
+            </StackPanel>
+        </Grid>
+    <!--</toolkit:BusyIndicator>-->
+</UserControl>

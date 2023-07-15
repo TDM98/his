@@ -1,0 +1,961 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8A7BD89B-5E41-43FC-8671-311FD4EDAFC1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>aEMR.Configuration</RootNamespace>
+    <AssemblyName>aEMR.Configuration</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="aEMR.CommonViews">
+      <HintPath>P:\aEMR.CommonViews.dll</HintPath>
+    </Reference>
+    <Reference Include="aEMRLanguage">
+      <HintPath>P:\aEMRLanguage.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\packages\Caliburn.Micro.1.4.1\lib\net40\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\CastleWindsor\CastleNet40\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.Logging">
+      <HintPath>..\packages\CastleWindsor\CastleNet40\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.WcfIntegration">
+      <HintPath>..\packages\CastleWindsor\CastleNet40\Castle.Facilities.WcfIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Services.Logging.NLogIntegration">
+      <HintPath>..\packages\CastleWindsor\CastleNet40\Castle.Services.Logging.NLogIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\CastleWindsor\CastleNet40\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="DataEntities.Server">
+      <HintPath>P:\DataEntities.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Office.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v22.1.Export, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Drawing.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v22.1.Core, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Xpf.Printing.v22.1, Version=22.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="Service.Core.Server">
+      <HintPath>P:\Service.Core.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
+    <Reference Include="System.ServiceModel.Discovery" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit">
+      <HintPath>..\packages\WPF_ToolKit_ReBuilt\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit">
+      <HintPath>..\packages\WPF_ToolKit_ReBuilt\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WPFToolkit">
+      <HintPath>..\packages\WPF_ToolKit_ReBuilt\WPFToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\packages\WpfToolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdmissionCriterion_Mgnt\ViewModels\GroupPCLs_AddEditViewModel.cs" />
+    <Compile Include="AdmissionCriterion_Mgnt\ViewModels\AdmissionCriterion_AddEditViewModel.cs" />
+    <Compile Include="AdmissionCriterion_Mgnt\ViewModels\SymptomCategory_AddEditViewModel.cs" />
+    <Compile Include="AdmissionCriterion_Mgnt\ViewModels\AdmissionCriterion_ListFindViewModel.cs" />
+    <Compile Include="AdmissionCriterion_Mgnt\Views\GroupPCLs_AddEditView.xaml.cs">
+      <DependentUpon>GroupPCLs_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdmissionCriterion_Mgnt\Views\AdmissionCriterion_AddEditView.xaml.cs">
+      <DependentUpon>AdmissionCriterion_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdmissionCriterion_Mgnt\Views\SymptomCategory_AddEditView.xaml.cs">
+      <DependentUpon>SymptomCategory_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdmissionCriterion_Mgnt\Views\AdmissionCriterion_ListFindView.xaml.cs">
+      <DependentUpon>AdmissionCriterion_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedAllocations\ViewModels\ChildWindows\cwdBedAllocationViewModel.cs" />
+    <Compile Include="BedAllocations\ViewModels\ChildWindows\cwdBedAllocViewModel.cs" />
+    <Compile Include="BedAllocations\ViewModels\ChildWindows\cwdBedPatientViewModel.cs" />
+    <Compile Include="BedAllocations\ViewModels\PtBedAllocationsViewModel.cs" />
+    <Compile Include="BedAllocations\ViewModels\TreeDept\DeptTreeViewModel.cs" />
+    <Compile Include="BedAllocations\ViewModels\UserControls\BedPatientAllocViewModel.cs" />
+    <Compile Include="BedAllocations\ViewModels\UserControls\UCBedAllocGridViewModel.cs" />
+    <Compile Include="BedAllocations\ViewModels\UserControls\UCRoomEditViewModel.cs" />
+    <Compile Include="BedAllocations\ViewModels\UserControls\UCRoomInfoViewModel.cs" />
+    <Compile Include="BedAllocations\Views\ChildWindows\cwdBedAllocationView.xaml.cs">
+      <DependentUpon>cwdBedAllocationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedAllocations\Views\ChildWindows\cwdBedAllocView.xaml.cs">
+      <DependentUpon>cwdBedAllocView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedAllocations\Views\ChildWindows\cwdBedPatientView.xaml.cs">
+      <DependentUpon>cwdBedPatientView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedAllocations\Views\PtBedAllocationsView.xaml.cs">
+      <DependentUpon>PtBedAllocationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedAllocations\Views\TreeDept\DeptTreeView.xaml.cs">
+      <DependentUpon>DeptTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedAllocations\Views\UserControls\BedPatientAllocView.xaml.cs">
+      <DependentUpon>BedPatientAllocView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedAllocations\Views\UserControls\UCBedAllocGridView.xaml.cs">
+      <DependentUpon>UCBedAllocGridView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedAllocations\Views\UserControls\UCRoomEditView.xaml.cs">
+      <DependentUpon>UCRoomEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedAllocations\Views\UserControls\UCRoomInfoView.xaml.cs">
+      <DependentUpon>UCRoomInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CitiesProvinces\ViewModels\CitiesProvinces_ListFindViewModel.cs" />
+    <Compile Include="CitiesProvinces\ViewModels\CitiesProvinces_AddEditViewModel.cs" />
+    <Compile Include="CitiesProvinces\Views\CitiesProvinces_ListFindView.xaml.cs">
+      <DependentUpon>CitiesProvinces_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CitiesProvinces\Views\CitiesProvinces_AddEditView.xaml.cs">
+      <DependentUpon>CitiesProvinces_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationModule\ViewModels\ConfigurationModuleViewModel.cs" />
+    <Compile Include="ConfigurationModule\ViewModels\ConfigurationTopMenuViewModel.cs" />
+    <Compile Include="ConfigurationModule\Views\ConfigurationModuleView.xaml.cs">
+      <DependentUpon>ConfigurationModuleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigurationModule\Views\ConfigurationTopMenuView.xaml.cs">
+      <DependentUpon>ConfigurationTopMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreatePCLForm\ViewModels\CreatePCLFormViewModel.cs" />
+    <Compile Include="CreatePCLForm\Views\CreatePCLFormView.xaml.cs">
+      <DependentUpon>CreatePCLFormView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeptLocation_ByDeptID\ViewModels\DeptLocation_ByDeptIDViewModel.cs" />
+    <Compile Include="DeptLocation_ByDeptID\Views\DeptLocation_ByDeptIDView.xaml.cs">
+      <DependentUpon>DeptLocation_ByDeptIDView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeptLocMedServices\ViewModels\DeptLocMedServicesViewModel.cs" />
+    <Compile Include="DeptLocMedServices\Views\DeptLocMedServicesView.xaml.cs">
+      <DependentUpon>DeptLocMedServicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeptMedServiceItems\ViewModels\DeptMedServiceItems_AddEditViewModel.cs" />
+    <Compile Include="DeptMedServiceItems\ViewModels\DeptMedServiceItems_EditInfoViewModel.cs" />
+    <Compile Include="DeptMedServiceItems\Views\DeptMedServiceItems_AddEditView.xaml.cs">
+      <DependentUpon>DeptMedServiceItems_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeptMedServiceItems\Views\DeptMedServiceItems_EditInfoView.xaml.cs">
+      <DependentUpon>DeptMedServiceItems_EditInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookupList\ViewModels\Lookup_AddEditViewModel.cs" />
+    <Compile Include="LookupList\ViewModels\Lookup_ListFindViewModel.cs" />
+    <Compile Include="LookupList\Views\Lookup_AddEditView.xaml.cs">
+      <DependentUpon>Lookup_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LookupList\Views\Lookup_ListFindView.xaml.cs">
+      <DependentUpon>Lookup_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OutPatientTreatmentType\ViewModels\PatientTreatmentTypeICD10LinkEditViewModel.cs" />
+    <Compile Include="RefApplicationConfig\ViewModel\RefApplicationConfig_AddEditViewModel.cs" />
+    <Compile Include="RefApplicationConfig\ViewModel\RefApplicationConfig_ListFindViewModel.cs" />
+    <Compile Include="RefApplicationConfig\Views\RefApplicationConfig_AddEditView.xaml.cs">
+      <DependentUpon>RefApplicationConfig_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefApplicationConfig\Views\RefApplicationConfig_ListFindView.xaml.cs">
+      <DependentUpon>RefApplicationConfig_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DiseaseProgression\ViewModel\DiseaseProgression_AddEditViewModel.cs" />
+    <Compile Include="DiseaseProgression\ViewModel\DiseaseProgression_ListFindViewModel.cs" />
+    <Compile Include="DiseaseProgression\Views\DiseaseProgression_AddEditView.xaml.cs">
+      <DependentUpon>DiseaseProgression_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DiseaseProgression\Views\DiseaseProgression_ListFindView.xaml.cs">
+      <DependentUpon>DiseaseProgression_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EncryptConfig\ViewModels\EncryptViewModel.cs" />
+    <Compile Include="EncryptConfig\Views\EncryptView.xaml.cs">
+      <DependentUpon>EncryptView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Exemptions\ViewModel\PackageTechnicalServices_AddEditViewModel.cs" />
+    <Compile Include="Exemptions\ViewModel\Exemptions_AddEditViewModel.cs" />
+    <Compile Include="Exemptions\ViewModel\PackageTechnicalServices_ListFindViewModel.cs" />
+    <Compile Include="Exemptions\ViewModel\Exemptions_ListFindViewModel.cs" />
+    <Compile Include="Exemptions\Views\PackageTechnicalServices_AddEditView.xaml.cs">
+      <DependentUpon>PackageTechnicalServices_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Exemptions\Views\Exemptions_AddEditView.xaml.cs">
+      <DependentUpon>Exemptions_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Exemptions\Views\PackageTechnicalServices_ListFindView.xaml.cs">
+      <DependentUpon>PackageTechnicalServices_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Exemptions\Views\Exemptions_ListFindView.xaml.cs">
+      <DependentUpon>Exemptions_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Hospital\ViewModels\Hospital_ListFindViewModel.cs" />
+    <Compile Include="Hospital\Views\Hospital_ListFindView.xaml.cs">
+      <DependentUpon>Hospital_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InsuranceBenefitCategories\ViewModels\InsuranceBenefitCategories_AddEditViewModel.cs" />
+    <Compile Include="InsuranceBenefitCategories\ViewModels\InsuranceBenefitCategories_ListFindViewModel.cs" />
+    <Compile Include="InsuranceBenefitCategories\Views\InsuranceBenefitCategories_AddEditView.xaml.cs">
+      <DependentUpon>InsuranceBenefitCategories_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InsuranceBenefitCategories\Views\InsuranceBenefitCategories_ListFindView.xaml.cs">
+      <DependentUpon>InsuranceBenefitCategories_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Hospital\ViewModels\AcceptedHiHospitalViewModel.cs" />
+    <Compile Include="Hospital\ViewModels\HospitalAgencyContentViewModel.cs" />
+    <Compile Include="Hospital\ViewModels\HospitalAgencyViewModel.cs" />
+    <Compile Include="Hospital\ViewModels\PclAgencyViewModel.cs" />
+    <Compile Include="Hospital\Views\AcceptedHiHospitalView.xaml.cs">
+      <DependentUpon>AcceptedHiHospitalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Hospital\Views\HospitalAgencyContentView.xaml.cs">
+      <DependentUpon>HospitalAgencyContentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Hospital\Views\HospitalAgencyView.xaml.cs">
+      <DependentUpon>HospitalAgencyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Hospital\Views\PclAgencyView.xaml.cs">
+      <DependentUpon>PclAgencyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ICDList\ViewModels\ICD_AddEditViewModel.cs" />
+    <Compile Include="ICDList\Views\ICD_AddEditView.xaml.cs">
+      <DependentUpon>ICD_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedCategory\ViewModels\BedCategory_AddEditViewModel.cs" />
+    <Compile Include="BedCategory\ViewModels\BedCategory_ListFindViewModel.cs" />
+    <Compile Include="BedCategory\Views\BedCategory_AddEditView.xaml.cs">
+      <DependentUpon>BedCategory_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BedCategory\Views\BedCategory_ListFindView.xaml.cs">
+      <DependentUpon>BedCategory_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdmissionCriteria\ViewModels\AdmissionCriteria_AddEditViewModel.cs" />
+    <Compile Include="AdmissionCriteria\ViewModels\AdmissionCriteria_ListFindViewModel.cs" />
+    <Compile Include="AdmissionCriteria\Views\AdmissionCriteria_AddEditView.xaml.cs">
+      <DependentUpon>AdmissionCriteria_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdmissionCriteria\Views\AdmissionCriteria_ListFindView.xaml.cs">
+      <DependentUpon>AdmissionCriteria_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JobList\ViewModels\Job_AddEditViewModel.cs" />
+    <Compile Include="JobList\ViewModels\Job_ListFindViewModel.cs" />
+    <Compile Include="JobList\Views\Job_AddEditView.xaml.cs">
+      <DependentUpon>Job_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JobList\Views\Job_ListFindView.xaml.cs">
+      <DependentUpon>Job_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LeftMenu\ViewModels\ConfigurationLeftMenuViewModel.cs" />
+    <Compile Include="LeftMenu\Views\ConfigurationLeftMenuView.xaml.cs">
+      <DependentUpon>ConfigurationLeftMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ListDeptLocation_ByPCLExamTypeID\ViewModels\ListDeptLocation_ByPCLExamTypeIDViewModel.cs" />
+    <Compile Include="ListDeptLocation_ByPCLExamTypeID\Views\ListDeptLocation_ByPCLExamTypeIDView.xaml.cs">
+      <DependentUpon>ListDeptLocation_ByPCLExamTypeIDView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Locations\ViewModels\Locations_AddEditViewModel.cs" />
+    <Compile Include="ICDList\ViewModels\ICD_ListFindViewModel.cs" />
+    <Compile Include="Locations\ViewModels\Locations_ListFindViewModel.cs" />
+    <Compile Include="Locations\Views\Locations_AddEditView.xaml.cs">
+      <DependentUpon>Locations_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ICDList\Views\ICD_ListFindView.xaml.cs">
+      <DependentUpon>ICD_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Locations\Views\Locations_ListFindView.xaml.cs">
+      <DependentUpon>Locations_ListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MedServiceItemPriceList\ViewModels\MedServiceItemPriceListViewModel.cs" />
+    <Compile Include="MedServiceItemPriceList\ViewModels\MedServiceItemPriceList_ChooseFromDeleteViewModel.cs" />
+    <Compile Include="MedServiceItemPriceList\Views\MedServiceItemPriceListView.xaml.cs">
+      <DependentUpon>MedServiceItemPriceListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MedServiceItemPriceList\Views\MedServiceItemPriceList_ChooseFromDeleteView.xaml.cs">
+      <DependentUpon>MedServiceItemPriceList_ChooseFromDeleteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MedServiceItemPrice\ViewModels\MedServiceItemPriceViewModel.cs" />
+    <Compile Include="MedServiceItemPrice\ViewModels\MedServiceItemPrice_AddEditViewModel.cs" />
+    <Compile Include="MedServiceItemPrice\Views\MedServiceItemPriceView.xaml.cs">
+      <DependentUpon>MedServiceItemPriceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MedServiceItemPrice\Views\MedServiceItemPrice_AddEditView.xaml.cs">
+      <DependentUpon>MedServiceItemPrice_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OutPatientTreatmentType\ViewModels\OutPatientTreatmentTypeAddEditViewModel.cs" />
+    <Compile Include="OutPatientTreatmentType\ViewModels\OutPatientTreatmentTypeListFindViewModel.cs" />
+    <Compile Include="OutPatientTreatmentType\Views\OutPatientTreatmentTypeAddEditView.xaml.cs">
+      <DependentUpon>OutPatientTreatmentTypeAddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OutPatientTreatmentType\Views\OutPatientTreatmentTypeListFindView.xaml.cs">
+      <DependentUpon>OutPatientTreatmentTypeListFindView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatientApptLocTargets\ViewModels\PatientApptLocTargetsViewModel.cs" />
+    <Compile Include="PatientApptLocTargets\Views\PatientApptLocTargetsView.xaml.cs">
+      <DependentUpon>PatientApptLocTargetsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTestItems\ViewModels\PCLExamTestItemsNewViewModel.cs" />
+    <Compile Include="PCLExamTestItems\ViewModels\PCLExamTestItemsViewModel.cs" />
+    <Compile Include="PCLExamTestItems\Views\PCLExamTestItemsNewView.xaml.cs">
+      <DependentUpon>PCLExamTestItemsNewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTestItems\Views\PCLExamTestItemsView.xaml.cs">
+      <DependentUpon>PCLExamTestItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypeCombo\ViewModels\PCLExamTypeComboViewModel.cs" />
+    <Compile Include="PCLExamTypeCombo\ViewModels\PCLExamTypeCombo_AddEditViewModel.cs" />
+    <Compile Include="PCLExamTypeCombo\Views\PCLExamTypeComboView.xaml.cs">
+      <DependentUpon>PCLExamTypeComboView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypeCombo\Views\PCLExamTypeCombo_AddEditView.xaml.cs">
+      <DependentUpon>PCLExamTypeCombo_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypeExamTestPrint\ViewModels\PCLExamTypeExamTestPrintIndexViewModel.cs" />
+    <Compile Include="PCLExamTypeExamTestPrint\ViewModels\PCLExamTypeExamTestPrint_NewViewModel.cs" />
+    <Compile Include="PCLExamTypeExamTestPrint\ViewModels\PCLExamTypeExamTestPrintViewModel.cs" />
+    <Compile Include="PCLExamTypeExamTestPrint\Views\PCLExamTypeExamTestPrintIndexView.xaml.cs">
+      <DependentUpon>PCLExamTypeExamTestPrintIndexView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypeExamTestPrint\Views\PCLExamTypeExamTestPrint_NewView.xaml.cs">
+      <DependentUpon>PCLExamTypeExamTestPrint_NewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypeExamTestPrint\Views\PCLExamTypeExamTestPrintView.xaml.cs">
+      <DependentUpon>PCLExamTypeExamTestPrintView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypeLocations\ViewModels\PCLExamTypeLocationsViewModel.cs" />
+    <Compile Include="PCLExamTypeLocations\Views\PCLExamTypeLocationsView.xaml.cs">
+      <DependentUpon>PCLExamTypeLocationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypeMedServiceDefItems\ViewModels\PCLExamTypeMedServiceDefItemsViewModel.cs" />
+    <Compile Include="PCLExamTypeMedServiceDefItems\Views\PCLExamTypeMedServiceDefItemsView.xaml.cs">
+      <DependentUpon>PCLExamTypeMedServiceDefItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypePriceList\ViewModels\PCLExamTypePriceListViewModel.cs" />
+    <Compile Include="PCLExamTypePriceList\ViewModels\PCLExamTypePriceList_AddEditViewModel.cs" />
+    <Compile Include="PCLExamTypePriceList\ViewModels\PCLExamTypePriceList_ChooseFromDeleteViewModel.cs" />
+    <Compile Include="PCLExamTypePriceList\Views\PCLExamTypePriceListView.xaml.cs">
+      <DependentUpon>PCLExamTypePriceListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypePriceList\Views\PCLExamTypePriceList_AddEditView.xaml.cs">
+      <DependentUpon>PCLExamTypePriceList_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypePriceList\Views\PCLExamTypePriceList_ChooseFromDeleteView.xaml.cs">
+      <DependentUpon>PCLExamTypePriceList_ChooseFromDeleteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypePrices\ViewModels\PCLExamTypePricesViewModel.cs" />
+    <Compile Include="PCLExamTypePrices\ViewModels\PCLExamTypePrices_AddEditViewModel.cs" />
+    <Compile Include="PCLExamTypePrices\Views\PCLExamTypePricesView.xaml.cs">
+      <DependentUpon>PCLExamTypePricesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypePrices\Views\PCLExamTypePrices_AddEditView.xaml.cs">
+      <DependentUpon>PCLExamTypePrices_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypeServiceTarget\ViewModels\PCLExamTypeServiceTargetViewModel.cs" />
+    <Compile Include="PCLExamTypeServiceTarget\ViewModels\PCLExamTypeServiceTarget_AddEditViewModel.cs" />
+    <Compile Include="PCLExamTypeServiceTarget\Views\PCLExamTypeServiceTargetView.xaml.cs">
+      <DependentUpon>PCLExamTypeServiceTargetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypeServiceTarget\Views\PCLExamTypeServiceTarget_AddEditView.xaml.cs">
+      <DependentUpon>PCLExamTypeServiceTarget_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypes\ViewModels\PCLExamTypesViewModel.cs" />
+    <Compile Include="PCLExamTypes\ViewModels\PCLExamTypes_AddEditViewModel.cs" />
+    <Compile Include="PCLExamTypes\Views\PCLExamTypesView.xaml.cs">
+      <DependentUpon>PCLExamTypesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLExamTypes\Views\PCLExamTypes_AddEditView.xaml.cs">
+      <DependentUpon>PCLExamTypes_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLForms\ViewModels\PCLFormsViewModel.cs" />
+    <Compile Include="PCLForms\ViewModels\PCLForms_AddEditViewModel.cs" />
+    <Compile Include="PCLForms\Views\PCLFormsView.xaml.cs">
+      <DependentUpon>PCLFormsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLForms\Views\PCLForms_AddEditView.xaml.cs">
+      <DependentUpon>PCLForms_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLGroups\ViewModels\PCLGroupsViewModel.cs" />
+    <Compile Include="PCLGroups\ViewModels\PCLGroups_AddEditViewModel.cs" />
+    <Compile Include="PCLGroups\Views\PCLGroupsView.xaml.cs">
+      <DependentUpon>PCLGroupsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLGroups\Views\PCLGroups_AddEditView.xaml.cs">
+      <DependentUpon>PCLGroups_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLItems\ViewModels\PCLItemsViewModel.cs" />
+    <Compile Include="PCLItems\Views\PCLItemsView.xaml.cs">
+      <DependentUpon>PCLItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLSections\ViewModels\PCLSectionsViewModel.cs" />
+    <Compile Include="PCLSections\ViewModels\PCLSections_AddEditViewModel.cs" />
+    <Compile Include="PCLSections\Views\PCLSectionsView.xaml.cs">
+      <DependentUpon>PCLSectionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCLSections\Views\PCLSections_AddEditView.xaml.cs">
+      <DependentUpon>PCLSections_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RefDepartmentReqCashAdv\ViewModels\RefDepartmentReqCashAdvViewModel.cs" />
+    <Compile Include="RefDepartmentReqCashAdv\ViewModels\RefDepartmentReqCashAdv_AddEditViewModel.cs" />
+    <Compile Include="RefDepartmentReqCashAdv\Views\RefDepartmentReqCashAdvView.xaml.cs">
+      <DependentUpon>RefDepartmentReqCashAdvView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefDepartmentReqCashAdv\Views\RefDepartmentReqCashAdv_AddEditView.xaml.cs">
+      <DependentUpon>RefDepartmentReqCashAdv_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefDepartments\ViewModels\RefDepartmentsViewModel.cs" />
+    <Compile Include="RefDepartments\ViewModels\RefDepartments_InfoViewModel.cs" />
+    <Compile Include="RefDepartments\Views\RefDepartmentsView.xaml.cs">
+      <DependentUpon>RefDepartmentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefDepartments\Views\RefDepartments_InfoView.xaml.cs">
+      <DependentUpon>RefDepartments_InfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefMedicalServiceItems\ViewModels\DeptRefMedicalServiceItemsContentViewModel.cs" />
+    <Compile Include="RefMedicalServiceItems\ViewModels\DeptRefMedicalServiceItemsViewModel.cs" />
+    <Compile Include="RefMedicalServiceItems\ViewModels\RefMedicalServiceItemsViewModel.cs" />
+    <Compile Include="RefMedicalServiceItems\Views\DeptRefMedicalServiceItemsContentView.xaml.cs">
+      <DependentUpon>DeptRefMedicalServiceItemsContentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefMedicalServiceItems\Views\DeptRefMedicalServiceItemsView.xaml.cs">
+      <DependentUpon>DeptRefMedicalServiceItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefMedicalServiceItems\Views\RefMedicalServiceItemsView.xaml.cs">
+      <DependentUpon>RefMedicalServiceItemsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefMedicalServiceItems_IsPCL\ViewModels\RefMedicalServiceItems_IsPCLViewModel.cs" />
+    <Compile Include="RefMedicalServiceItems_IsPCL\ViewModels\RefMedicalServiceItems_IsPCL_AddEditViewModel.cs" />
+    <Compile Include="RefMedicalServiceItems_IsPCL\Views\RefMedicalServiceItems_IsPCLView.xaml.cs">
+      <DependentUpon>RefMedicalServiceItems_IsPCLView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefMedicalServiceItems_IsPCL\Views\RefMedicalServiceItems_IsPCL_AddEditView.xaml.cs">
+      <DependentUpon>RefMedicalServiceItems_IsPCL_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefMedicalServiceTypes\ViewModels\RefMedicalServiceTypesViewModel.cs" />
+    <Compile Include="RefMedicalServiceTypes\ViewModels\RefMedicalServiceTypes_AddEditViewModel.cs" />
+    <Compile Include="RefMedicalServiceTypes\Views\RefMedicalServiceTypesView.xaml.cs">
+      <DependentUpon>RefMedicalServiceTypesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RefMedicalServiceTypes\Views\RefMedicalServiceTypes_AddEditView.xaml.cs">
+      <DependentUpon>RefMedicalServiceTypes_AddEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RoomType\ViewModels\RoomTypeInfoViewModel.cs" />
+    <Compile Include="RoomType\ViewModels\RoomTypeViewModel.cs" />
+    <Compile Include="RoomType\Views\RoomTypeInfoView.xaml.cs">
+      <DependentUpon>RoomTypeInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RoomType\Views\RoomTypeView.xaml.cs">
+      <DependentUpon>RoomTypeView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\aEMR.CommonUserControls\aEMR.CommonUserControls.csproj">
+      <Project>{46ba906f-eca9-4cd3-bc90-4cb6f30c84c6}</Project>
+      <Name>aEMR.CommonUserControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aEMR.Common\aEMR.Common.csproj">
+      <Project>{71a86aed-a962-4eb7-afc0-4830055d1876}</Project>
+      <Name>aEMR.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aEMR.Controls\aEMR.Controls.csproj">
+      <Project>{19785d4b-91b0-4ba1-b7b9-6f07234ac5bd}</Project>
+      <Name>aEMR.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aEMR.DataContracts\aEMR.DataContracts.csproj">
+      <Project>{4d1163e8-82c8-4517-92c0-1d9ae146cc14}</Project>
+      <Name>aEMR.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aEMR.Infrastructure\aEMR.Infrastructure.csproj">
+      <Project>{90ca71d9-1529-44e9-934f-320bd663da0f}</Project>
+      <Name>aEMR.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aEMR.ReportModel\aEMR.ReportModel.csproj">
+      <Project>{19cefc1c-d111-42e0-93c2-7dc8338fb886}</Project>
+      <Name>aEMR.ReportModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aEMR.Resources\aEMR.Resources.csproj">
+      <Project>{1889ce9a-00b7-4baa-a804-7329932c17de}</Project>
+      <Name>aEMR.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aEMR.ServiceClient\aEMR.ServiceClient.csproj">
+      <Project>{a6887f7d-9b92-4c9c-9893-1ec4826300a8}</Project>
+      <Name>aEMR.ServiceClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aEMR.ViewContracts\aEMR.ViewContracts.csproj">
+      <Project>{6ce203de-5e11-4b39-92d1-ae18d0c5b221}</Project>
+      <Name>aEMR.ViewContracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="AdmissionCriterion_Mgnt\Views\GroupPCLs_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdmissionCriterion_Mgnt\Views\AdmissionCriterion_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdmissionCriterion_Mgnt\Views\SymptomCategory_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdmissionCriterion_Mgnt\Views\AdmissionCriterion_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedAllocations\Views\ChildWindows\cwdBedAllocationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedAllocations\Views\ChildWindows\cwdBedAllocView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedAllocations\Views\ChildWindows\cwdBedPatientView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedAllocations\Views\PtBedAllocationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedAllocations\Views\TreeDept\DeptTreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedAllocations\Views\UserControls\BedPatientAllocView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedAllocations\Views\UserControls\UCBedAllocGridView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedAllocations\Views\UserControls\UCRoomEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedAllocations\Views\UserControls\UCRoomInfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CitiesProvinces\Views\CitiesProvinces_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CitiesProvinces\Views\CitiesProvinces_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigurationModule\Views\ConfigurationModuleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ConfigurationModule\Views\ConfigurationTopMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="CreatePCLForm\Views\CreatePCLFormView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DeptLocation_ByDeptID\Views\DeptLocation_ByDeptIDView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DeptLocMedServices\Views\DeptLocMedServicesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DeptMedServiceItems\Views\DeptMedServiceItems_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DeptMedServiceItems\Views\DeptMedServiceItems_EditInfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookupList\Views\Lookup_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LookupList\Views\Lookup_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefApplicationConfig\Views\RefApplicationConfig_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefApplicationConfig\Views\RefApplicationConfig_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiseaseProgression\Views\DiseaseProgression_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiseaseProgression\Views\DiseaseProgression_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="EncryptConfig\Views\EncryptView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Exemptions\Views\PackageTechnicalServices_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Exemptions\Views\Exemptions_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Exemptions\Views\PackageTechnicalServices_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Exemptions\Views\Exemptions_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Hospital\Views\Hospital_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InsuranceBenefitCategories\Views\InsuranceBenefitCategories_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InsuranceBenefitCategories\Views\InsuranceBenefitCategories_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Hospital\Views\AcceptedHiHospitalView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Hospital\Views\HospitalAgencyContentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Hospital\Views\HospitalAgencyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Hospital\Views\PclAgencyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ICDList\Views\ICD_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedCategory\Views\BedCategory_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BedCategory\Views\BedCategory_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdmissionCriteria\Views\AdmissionCriteria_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AdmissionCriteria\Views\AdmissionCriteria_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="JobList\Views\Job_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="JobList\Views\Job_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LeftMenu\Views\ConfigurationLeftMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ListDeptLocation_ByPCLExamTypeID\Views\ListDeptLocation_ByPCLExamTypeIDView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Locations\Views\Locations_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ICDList\Views\ICD_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Locations\Views\Locations_ListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MedServiceItemPriceList\Views\MedServiceItemPriceListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MedServiceItemPriceList\Views\MedServiceItemPriceList_ChooseFromDeleteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MedServiceItemPrice\Views\MedServiceItemPriceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MedServiceItemPrice\Views\MedServiceItemPrice_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OutPatientTreatmentType\Views\OutPatientTreatmentTypeAddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OutPatientTreatmentType\Views\OutPatientTreatmentTypeListFindView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PatientApptLocTargets\Views\PatientApptLocTargetsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTestItems\Views\PCLExamTestItemsNewView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTestItems\Views\PCLExamTestItemsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypeCombo\Views\PCLExamTypeComboView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypeCombo\Views\PCLExamTypeCombo_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypeExamTestPrint\Views\PCLExamTypeExamTestPrintIndexView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypeExamTestPrint\Views\PCLExamTypeExamTestPrint_NewView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypeExamTestPrint\Views\PCLExamTypeExamTestPrintView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypeLocations\Views\PCLExamTypeLocationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypeMedServiceDefItems\Views\PCLExamTypeMedServiceDefItemsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypePriceList\Views\PCLExamTypePriceListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypePriceList\Views\PCLExamTypePriceList_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypePriceList\Views\PCLExamTypePriceList_ChooseFromDeleteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypePrices\Views\PCLExamTypePricesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypePrices\Views\PCLExamTypePrices_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypeServiceTarget\Views\PCLExamTypeServiceTargetView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypeServiceTarget\Views\PCLExamTypeServiceTarget_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypes\Views\PCLExamTypesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLExamTypes\Views\PCLExamTypes_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLForms\Views\PCLFormsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLForms\Views\PCLForms_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLGroups\Views\PCLGroupsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLGroups\Views\PCLGroups_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLItems\Views\PCLItemsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLSections\Views\PCLSectionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCLSections\Views\PCLSections_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefDepartmentReqCashAdv\Views\RefDepartmentReqCashAdvView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefDepartmentReqCashAdv\Views\RefDepartmentReqCashAdv_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefDepartments\Views\RefDepartmentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefDepartments\Views\RefDepartments_InfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefMedicalServiceItems\Views\DeptRefMedicalServiceItemsContentView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefMedicalServiceItems\Views\DeptRefMedicalServiceItemsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefMedicalServiceItems\Views\RefMedicalServiceItemsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefMedicalServiceItems_IsPCL\Views\RefMedicalServiceItems_IsPCLView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefMedicalServiceItems_IsPCL\Views\RefMedicalServiceItems_IsPCL_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefMedicalServiceTypes\Views\RefMedicalServiceTypesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RefMedicalServiceTypes\Views\RefMedicalServiceTypes_AddEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RoomType\Views\RoomTypeInfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RoomType\Views\RoomTypeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="OutPatientTreatmentType\Views\PatientTreatmentTypeICD10LinkEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>Copy  "$(TargetDir)$(TargetFileName)"  "P:\"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

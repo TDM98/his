@@ -1,0 +1,651 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.CommonRecs.Views.NutritionalRating_AddEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    x:Name="Me"
+    d:DesignHeight="950"
+    d:DesignWidth="1100"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Style TargetType="CheckBox">
+            <Setter Property="FlowDirection" Value="RightToLeft" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock
+                            Width="{Binding Path=Tag, RelativeSource={RelativeSource AncestorType=CheckBox}}"
+                            FlowDirection="LeftToRight"
+                            Text="{Binding}"
+                            TextWrapping="Wrap" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <toolkit:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <DockPanel
+            x:Name="SPLayout"
+            Margin="0,10,0,0"
+            VerticalAlignment="Stretch"
+            Background="White"
+            LastChildFill="True"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    x:Name="TitleForm"
+                    Grid.Row="0"
+                    Margin="5,5,0,5"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Foreground="#FF0084FF"
+                    Text="PHIẾU ĐÁNH GIÁ VÀ KẾ HOẠCH DINH DƯỠNG CHO NGƯỜI BỆNH"
+                    TextAlignment="Center" />
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Margin="5,2,0,2" Text="- Yếu tố nguy cơ suy dinh dưỡng:" />
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <CheckBox
+                            Grid.Column="0"
+                            Margin="5,2,0,2"
+                            cal:Message.Attach="[Event Checked] = [Action chkROM_Checked($source, $eventArgs)];[Event Unchecked] = [Action chkROM_Checked($source, $eventArgs)]"
+                            Content="1. BMI &lt; 20,5 kg/m"
+                            IsChecked="{Binding CurrentNutritionalRating.ROM_BMI}"
+                            Tag="320" />
+                        <CheckBox
+                            Grid.Column="1"
+                            Margin="5,2,0,2"
+                            cal:Message.Attach="[Event Checked] = [Action chkROM_Checked($source, $eventArgs)];[Event Unchecked] = [Action chkROM_Checked($source, $eventArgs)]"
+                            Content="2. Sụt &gt; 5% cân nặng"
+                            IsChecked="{Binding CurrentNutritionalRating.ROM_WeightLoss}"
+                            Tag="320" />
+                        <CheckBox
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="5,2,0,2"
+                            cal:Message.Attach="[Event Checked] = [Action chkROM_Checked($source, $eventArgs)];[Event Unchecked] = [Action chkROM_Checked($source, $eventArgs)]"
+                            Content="3. Ăn giảm &lt; 50%, &gt; 1 tuần"
+                            IsChecked="{Binding CurrentNutritionalRating.ROM_ReduceEat}"
+                            Tag="320" />
+                        <CheckBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="5,2,0,2"
+                            cal:Message.Attach="[Event Checked] = [Action chkROM_Checked($source, $eventArgs)];[Event Unchecked] = [Action chkROM_Checked($source, $eventArgs)]"
+                            Content="4. Bệnh nặng (chấn thương sọ não; bỏng nặng;&#x0a;bệnh nặng với APACHIE &gt; 10đ)"
+                            IsChecked="{Binding CurrentNutritionalRating.ROM_SevereIllness}"
+                            Tag="320" />
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Margin="5,2,0,2"
+                            Text="Xác định nguy cơ SDD: " />
+                        <CheckBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="-120,2,0,2"
+                            Content="Không"
+                            IsChecked="{Binding CurrentNutritionalRating.RiskOfMalnutrition, Converter={StaticResource InverseBoolConverter}}"
+                            IsEnabled="false"
+                            Tag="120" />
+                        <CheckBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Margin="-120,2,0,2"
+                            Content="Khi có &gt; 1 yếu tố trên"
+                            IsChecked="{Binding CurrentNutritionalRating.RiskOfMalnutrition}"
+                            IsEnabled="false"
+                            Tag="120" />
+                    </Grid>
+                    <TextBlock
+                        Grid.Row="2"
+                        Margin="5,2,0,2"
+                        Text="Đánh giá tình trạng dinh dưỡng:" />
+                    <Grid Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="64" />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Margin="5,0,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,2,0,2" Text="1.Sụt cân trước vào viện/ trong thời gian nằm viện:" />
+                                <CheckBox
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="5,2,0,2"
+                                    Content="Không:"
+                                    IsChecked="{Binding CurrentNutritionalRating.WeightLossHospitalStay, Converter={StaticResource InverseBoolConverter}}"
+                                    Tag="50" />
+                                <CheckBox
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="5,2,0,2"
+                                    Content="Có:"
+                                    IsChecked="{Binding CurrentNutritionalRating.WeightLossHospitalStay}"
+                                    Tag="50" />
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Orientation="Horizontal">
+                                    <TextBox
+                                        Width="30"
+                                        Margin="5,2,0,2"
+                                        IsEnabled="{Binding CurrentNutritionalRating.WeightLossHospitalStay}"
+                                        Text="{Binding CurrentNutritionalRating.WL_Weight}" />
+                                    <TextBlock Margin="5,2,0,2" Text=" kg trong " />
+                                    <TextBox
+                                        Width="30"
+                                        Margin="5,2,0,2"
+                                        IsEnabled="{Binding CurrentNutritionalRating.WeightLossHospitalStay}"
+                                        Text="{Binding CurrentNutritionalRating.WL_Month}" />
+                                    <TextBlock Margin="5,2,0,2" Text=" tháng (" />
+                                    <TextBox
+                                        Width="30"
+                                        Margin="5,2,0,2"
+                                        IsEnabled="{Binding CurrentNutritionalRating.WeightLossHospitalStay}"
+                                        Text="{Binding CurrentNutritionalRating.WL_Percent}" />
+                                    <TextBlock Margin="5,2,0,2" Text="%)" />
+                                </StackPanel>
+
+                            </Grid>
+                        </Border>
+                        <Border
+                            Grid.Row="1"
+                            Margin="5,0,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1,0,1,1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,2,0,2" Text="2. Ăn uống trong một tuần trước vào viện/ Thời gian nằm viện" />
+                                <ListBox
+                                    Name="listTopics"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding V_EatingType}"
+                                    SelectedValue="{Binding CurrentNutritionalRating.V_EatingType}"
+                                    SelectedValuePath="LookupID"
+                                    SelectionMode="Single">
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <CheckBox
+                                                Content="{Binding ObjectValue}"
+                                                IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                                Tag="130" />
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <!--<CheckBox
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="5,2,0,2"
+                                    Content="Bình thường"
+                                    Tag="120" />
+                                <CheckBox
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="5,2,0,2"
+                                    Content="Trên 50% bình thường"
+                                    Tag="120" />
+                                <CheckBox
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Margin="5,2,0,2"
+                                    Content="Dưới 50% bình thường"
+                                    Tag="120" />-->
+                            </Grid>
+                        </Border>
+                        <Border
+                            Grid.Row="2"
+                            Margin="5,0,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1,0,1,1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,2,0,2" Text="3. Khám" />
+                                <ListBox
+                                    Name="listKham"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    IsEnabled="False"
+                                    ItemsSource="{Binding V_ExaminationType}">
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <!--<CheckBox Content="{Binding ObjectValue}" Tag="120" />-->
+                                            <TextBlock Margin="40,0,40,0" Text="{Binding ObjectValue}" />
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Background="Transparent" Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="5,2,0,2"
+                                    Text="&#09;Teo lớp mỡ dưới da" />
+                                <ListBox
+                                    Name="listKham1"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding V_ExaminationType}"
+                                    SelectedValue="{Binding CurrentNutritionalRating.AtrophySubcutaneousFatLayer}"
+                                    SelectedValuePath="LookupID"
+                                    SelectionMode="Single">
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <CheckBox Margin="50,0,50,0" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Background="Transparent" Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="5,2,0,2"
+                                    Text="&#09;Teo cơ" />
+                                <ListBox
+                                    Name="listKham2"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding V_ExaminationType}"
+                                    SelectedValue="{Binding CurrentNutritionalRating.AmyotrophicLateralSclerosis}"
+                                    SelectedValuePath="LookupID"
+                                    SelectionMode="Single">
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <StackPanel Orientation="Vertical">
+                                                <CheckBox Margin="50,0,50,0" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Background="Transparent" Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="5,2,0,2"
+                                    Text="&#09;Phù ngoại vi" />
+                                <ListBox
+                                    Name="listKham3"
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding V_ExaminationType}"
+                                    SelectedValue="{Binding CurrentNutritionalRating.PeripheralEdema}"
+                                    SelectedValuePath="LookupID"
+                                    SelectionMode="Single">
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <CheckBox Margin="50,0,50,0" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Background="Transparent" Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Margin="5,2,0,2"
+                                    Text="&#x09;Báng bụng" />
+                                <ListBox
+                                    Name="listKham4"
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding V_ExaminationType}"
+                                    SelectedValue="{Binding CurrentNutritionalRating.BellyFlap}"
+                                    SelectedValuePath="LookupID"
+                                    SelectionMode="Single">
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <StackPanel Orientation="Vertical">
+                                                <CheckBox Margin="50,0,50,0" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Background="Transparent" Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                                <TextBlock
+                                    Grid.Row="5"
+                                    Grid.ColumnSpan="4"
+                                    Margin="5,2,0,2"
+                                    Text="Chú ý: Khám cơ, cơ nhị đầu hay cơ tam đầu; cơ vùng thái dương; delta; cơ ngực; tứ đầu đùi" />
+                            </Grid>
+                        </Border>
+                        <Border
+                            Grid.Row="3"
+                            Margin="5,0,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1,0,1,1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Margin="5,2,0,2" Text="4. Phân loại SGA (Sudjective Global Assessment)" />
+                                <ListBox
+                                    Name="listSGA"
+                                    Grid.Row="1"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    ItemContainerStyleSelector="{x:Null}"
+                                    ItemsSource="{Binding V_SGAType}"
+                                    SelectedValue="{Binding CurrentNutritionalRating.V_SGAType}"
+                                    SelectedValuePath="LookupID"
+                                    SelectionMode="Single">
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <CheckBox
+                                                Content="{Binding ObjectValue}"
+                                                IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                                Tag="520" />
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Background="Transparent" Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </Grid>
+                        </Border>
+                        <Border
+                            Grid.Row="4"
+                            Margin="5,0,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1,0,1,1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <TextBlock Margin="5,2,0,2" Text="5. Xác định nhu cầu dinh dưỡng:" />
+                                <ListBox
+                                    Name="listNutritionalRequire"
+                                    Grid.Row="1"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    ItemContainerStyleSelector="{x:Null}"
+                                    ItemsSource="{Binding V_NutritionalRequire}"
+                                    SelectedValue="{Binding CurrentNutritionalRating.V_NutritionalRequire}"
+                                    SelectedValuePath="LookupID"
+                                    SelectionMode="Single">
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <CheckBox
+                                                cal:Message.Attach="[Event Checked] = [Action chkNutritionalRequire_Checked($source, $eventArgs)];[Event Unchecked] = [Action chkNutritionalRequire_Checked($source, $eventArgs)]"
+                                                Content="{Binding ObjectValue}"
+                                                IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                                Tag="400" />
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Background="Transparent" Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </Grid>
+                        </Border>
+                        <Border
+                            Grid.Row="5"
+                            Margin="5,0,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1,0,1,1">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    Text="Hoặc nhu cầu khác:" />
+                                <TextBox
+                                    Height="32"
+                                    MinWidth="32"
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    IsEnabled="{Binding IsNutritionalRequireOtherEnable}"
+                                    Text="{Binding CurrentNutritionalRating.ONT_Kcal}" />
+                                <TextBlock
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    Text="kcal;" />
+                                <TextBox
+                                    Height="32"
+                                    MinWidth="32"
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    IsEnabled="{Binding IsNutritionalRequireOtherEnable}"
+                                    Text="{Binding CurrentNutritionalRating.ONT_Protein}" />
+                                <TextBlock
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    Text="(g) đạm;" />
+                                <TextBox
+                                    Height="32"
+                                    MinWidth="32"
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    IsEnabled="{Binding IsNutritionalRequireOtherEnable}"
+                                    Text="{Binding CurrentNutritionalRating.ONT_Fat}" />
+                                <TextBlock
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    Text="(g) béo;" />
+                                <TextBlock
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    Text="Chất khác:" />
+                                <TextBox
+                                    Height="32"
+                                    MinWidth="32"
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    IsEnabled="{Binding IsNutritionalRequireOtherEnable}"
+                                    Text="{Binding CurrentNutritionalRating.ONT_Other}" />
+                            </StackPanel>
+
+                        </Border>
+                        <Border
+                            Grid.Row="6"
+                            Margin="5,0,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1,0,1,1">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="5,2,0,2"
+                                    VerticalAlignment="Center"
+                                    Text="6. Phương pháp dinh dưỡng:" />
+                                <ListBox
+                                    Name="listNutritionalMethods"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    ItemsSource="{Binding V_NutritionalMethods}"
+                                    SelectedValue="{Binding CurrentNutritionalRating.V_NutritionalMethods}"
+                                    SelectedValuePath="LookupID"
+                                    SelectionMode="Single">
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <CheckBox Content="{Binding ObjectValue}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Background="Transparent" Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </StackPanel>
+                        </Border>
+                        <Border
+                            Grid.Row="7"
+                            Margin="5,0,5,5"
+                            BorderBrush="Black"
+                            BorderThickness="1,0,1,1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                    <TextBlock Margin="5,2,0,2" Text="7. Hội chẩn dinh dưỡng:" />
+                                    <CheckBox
+                                        Margin="5,2,0,2"
+                                        Content="Có:"
+                                        IsChecked="{Binding CurrentNutritionalRating.ConsultationNutritional}" />
+                                    <CheckBox
+                                        Margin="5,2,0,2"
+                                        Content="Không:"
+                                        IsChecked="{Binding CurrentNutritionalRating.ConsultationNutritional, Converter={StaticResource InverseBoolConverter}}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Margin="5,2,0,2"
+                                    Text="Cho bệnh nhân SDD nặng (BMI&lt;16 và/hoặc SGA-C) và/hoặc bệnh lý nặng phối hợp(như điều trị hồi sức)" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <!--<Button
+                        x:Name="btnPreview"
+                        Width="80"
+                        Height="22"
+                        Margin="5,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding G2430_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />-->
+                    <Button
+                        x:Name="btnSave"
+                        Width="80"
+                        Height="22"
+                        Margin="5,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Grid>
+        </DockPanel>
+    </toolkit:BusyIndicator>
+</UserControl>

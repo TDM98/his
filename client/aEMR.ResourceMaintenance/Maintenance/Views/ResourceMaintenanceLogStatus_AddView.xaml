@@ -1,0 +1,236 @@
+﻿<UserControl x:Class="aEMR.ResourceMaintenance.Maintenance.Views.ResourceMaintenanceLogStatus_AddView"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
+    xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"     
+    xmlns:cal="http://www.caliburnproject.org"
+    mc:Ignorable="d"
+    d:DesignHeight="420" d:DesignWidth="640"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid x:Name="GridMain" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <TextBlock Text="{Binding G1333_G1_TTrangBTri, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"></TextBlock>
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="500*"></ColumnDefinition>
+                            <ColumnDefinition Width="400*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                            <StackPanel>
+                                <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding K3089_G1_DSTTrang, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                                </Border>
+                                <Grid Margin="5,5,5,5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition Height="25"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <DataGrid Grid.Row="0" x:Name="dtgList"                              
+                ItemsSource="{Binding ObjGetResourceMaintenanceLogStatusByID,Mode=TwoWay}"
+                AutoGenerateColumns="False" 
+                              CanUserReorderColumns="True" 
+                              CanUserResizeColumns="True"
+                              CanUserSortColumns="True"
+                              IsReadOnly="True"
+                              Height="150"
+                              HeadersVisibility="All"
+                              HorizontalScrollBarVisibility="Visible"  
+                              VerticalScrollBarVisibility="Visible" 
+                              Margin="2" 
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                              Style="{StaticResource MainFrame.DataGridStyle}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn  Binding="{Binding StatusChangeDate,StringFormat='dd/MM/yyyy'}" 
+                                                MinWidth="60" Width="SizeToCells">
+                                            <DataGridTextColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                            <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                            <DataTemplate>
+                                            <TextBlock Text="{Binding N0045_G1_Ng, Source={StaticResource eHCMSResources}}" />
+                                            </DataTemplate>
+                                            </Setter.Value>
+                                            </Setter>
+                                            </Style>
+                                            </DataGridTextColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn  Binding="{Binding VCurrentStatus.ObjectValue}" 
+                                                MinWidth="100" Width="SizeToCells">
+                                            <DataGridTextColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                            <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                            <DataTemplate>
+                                            <TextBlock Text="{Binding G1319_G1_TTrang, Source={StaticResource eHCMSResources}}" />
+                                            </DataTemplate>
+                                            </Setter.Value>
+                                            </Setter>
+                                            </Style>
+                                            </DataGridTextColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn  Binding="{Binding VUpdateStaff.FullName, Mode=TwoWay}" 
+                                                MinWidth="150" Width="SizeToCells">
+                                            <DataGridTextColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                            <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                            <DataTemplate>
+                                            <TextBlock Text="{Binding N0197_G1_NhVienCNhat, Source={StaticResource eHCMSResources}}" />
+                                            </DataTemplate>
+                                            </Setter.Value>
+                                            </Setter>
+                                            </Style>
+                                            </DataGridTextColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <controlslib:DataPager PageSize="{Binding PageSize}" Grid.Row="1" VerticalAlignment="Bottom"
+                        Source="{Binding ObjGetResourceMaintenanceLogStatusByID,Mode=TwoWay}">
+                                    </controlslib:DataPager>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="1" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                            <StackPanel>
+                                <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding K1687_G1_CNhatTTrangBTri, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                                </Border>
+                                <Grid VerticalAlignment="Top">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="70*" />
+                                        <ColumnDefinition Width="175*" />
+                                        <ColumnDefinition Width="5*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.ColumnSpan="2" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding K2203_G1_ChonTrThaiMoi, Source={StaticResource eHCMSResources}}" FontWeight="Bold" Foreground="Blue" Margin="15,15,0,5"></Label >
+                                    <Label Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{Binding G1691_G1_TThai, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Margin="0,2" ></Label>
+                                    <controlslib:AxComboBox Name="cboCurrentStatus" Grid.Column="1" Grid.Row="1" FontWeight="Normal" Foreground="Black" Height="22" 
+                                        ItemsSource="{Binding ObjV_CurrentStatus,Mode=OneWay}" 
+                                        DisplayMemberPath="ObjectValue"
+                                        SelectedValuePath="LookupID"
+                                        SelectedValueEx="{Binding V_CurrentStatus_Seleted,Mode=TwoWay}"
+                                        Margin="0,2" 
+                                        cal:Message.Attach="[Event SelectionChanged]=[Action cboCurrentStatus_SelectedChanged($this.SelectedItem)]"/>
+
+                                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Grid.ColumnSpan="2" Margin="0,0,6,0">
+                                        <Button x:Name="btUpdateStatus" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Height="20" Width="70" Margin="0,2" IsEnabled="{Binding btUpdateStatus_IsEnabled,Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <Expander Name="ex1DoneAndWaiting" Margin="0,0,0,0"
+                                        cal:Message.Attach="[Event Expanded] = [Action ex1DoneAndWaiting_Expanded()]; [Event Collapsed] = [Action ex1DoneAndWaiting_Collapsed()]"  
+	                                Width="Auto"
+	                                VerticalAlignment="Stretch"                                    
+	                                ExpandDirection="Down"
+	                                MinWidth="10" 
+                                    IsExpanded="{Binding ex1DoneAndWaiting_IsExpanded,Mode=TwoWay}"
+	                                Header="{Binding T1671_G1_HTatBTriVDeNay, Source={StaticResource eHCMSResources}}"
+	                                Background="#FFDBE5F1"
+	                                RenderTransformOrigin="0,0"
+	                                Height="Auto"                                
+	                                HorizontalAlignment="Stretch"
+	                                HorizontalContentAlignment="Stretch"
+	                                VerticalContentAlignment="Stretch"
+	                                Style="{StaticResource LightExpanderStyle}" Foreground="#FF0E7EB8" FontWeight="Bold">
+                            <StackPanel>
+                                <Grid Name="Tab2GridAcceptAndFix">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="15"></RowDefinition>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Label HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0" Content="{Binding N0081_G1_NgKetThuc, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" Foreground="Black" Margin="0,2,5,2"></Label>
+                                    <Label HorizontalAlignment="Right" Grid.Row="2" Grid.Column="0" Content="{Binding N0178_G1_NCCBTri, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" Foreground="Black" Margin="0,2,5,2"></Label>
+                                    <Label HorizontalAlignment="Right" Grid.Row="3" Grid.Column="0" Content="{Binding K1916_G1_Chon, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" Foreground="Black" Margin="0,2,5,2"></Label>
+                                    <Label VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="4" Grid.Column="0" Content="{Binding T1721_G1_HuongGQuyet, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" Foreground="Black" Margin="0,2,5,0"></Label>
+                                    <Label VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Row="5" Grid.Column="0" Content="{Binding T0817_G1_GChuThem, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" Foreground="Black" Margin="0,2,5,0"></Label>
+                                    <DatePicker Name="dtDateFix" Grid.Row="1" Grid.Column="1" Width="130" HorizontalAlignment="Left" FontWeight="Normal" Foreground="Black" SelectedDateFormat="Short" 
+                                        SelectedDate="{Binding ObjResourceMaintenanceLog_Current.RecDateCreated,Mode=TwoWay}"
+                                                    cal:Message.Attach="[Event LostFocus] = [Action LostFocus_dtDateFix(dtDateFix.Text)]"/>
+                                    <CheckBox x:Name="chkIsSupplier" Grid.Row="2" Grid.Column="1" Margin="0,2,5,2" IsEnabled="{Binding chkIsSupplier_IsEnabled,Mode=TwoWay}" IsChecked="{Binding IsSupplierFix,Mode=TwoWay}"
+                                              cal:Message.Attach="[Event Click] = [Action chkIsSupplier_Click($eventArgs)]"></CheckBox>
+
+
+                                    <controlslib:AxComboBox Name="cboStaff" Grid.Row="3" Grid.Column="1" FontWeight="Normal" Foreground="Black" Margin="0,2,5,0" 
+                                        ItemsSource="{Binding ObjGetAllStaffByStaffCategory,Mode=OneWay}" 
+                                        DisplayMemberPath="FullName"
+                                        SelectedValuePath="StaffID"
+                                                SelectedValueEx="{Binding ObjResourceMaintenanceLog_Current.FixStaffID,Mode=TwoWay}" Visibility="{Binding cboStaff_Visibility,Mode=TwoWay}"/>
+
+                                    <controlslib:AxComboBox Name="cboSupplier" Grid.Row="3" Grid.Column="1" FontWeight="Normal" Foreground="Black" Margin="0,2,5,0" 
+                                        ItemsSource="{Binding ObjGetSupplierIsMaintenance_All,Mode=OneWay}" 
+                                        DisplayMemberPath="SupplierName"
+                                        SelectedValuePath="SupplierID"
+                                                SelectedValueEx="{Binding ObjResourceMaintenanceLog_Current.FixSupplierID,Mode=TwoWay}" Visibility="{Binding cboSupplier_Visibility,Mode=TwoWay}"/>
+
+
+                                    <TextBox x:Name="txtFixSolutions" Grid.Row="4" Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Height="52" VerticalAlignment="Top" Foreground="Black" FontWeight="Normal" Margin="0,2,5,0"
+                                         Text="{Binding ObjResourceMaintenanceLog_Current.FixSolutions,Mode=TwoWay}"/>
+                                    <TextBox x:Name="txtFixComments" Grid.Row="5" Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Height="50" VerticalAlignment="Top" Foreground="Black" FontWeight="Normal" Margin="0,2,5,0"
+                                         Text="{Binding ObjResourceMaintenanceLog_Current.FixComments,Mode=TwoWay}"/>
+                                    
+
+                                    <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" Margin="0,0,0,30">
+                                        <Button x:Name="btSaveWaitingVerified" HorizontalAlignment="Left" Width="80"  Margin="0,2,5,2" IsEnabled="{Binding btSaveWaitingVerified_IsEnabled,Mode=TwoWay}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Width="20" VerticalAlignment="Center" Height="18" Source="/aEMR.CommonViews;component/Assets/Images/saveanddown24x24border.png"/>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Margin="5,0,0,0"/>
+                                            </StackPanel>
+                                        </Button>
+
+                                        <Button x:Name="btCancel" HorizontalAlignment="Left" Width="80"  Margin="0,2,5,2" IsEnabled="{Binding btCancel_IsEnabled,Mode=TwoWay}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Width="20" VerticalAlignment="Center" Height="18" Source="/aEMR.CommonViews;component/Assets/Images/Button-exit-icon.png"/>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}" Margin="5,0,0,0"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

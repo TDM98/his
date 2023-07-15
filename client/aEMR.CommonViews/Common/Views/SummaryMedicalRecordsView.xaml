@@ -1,0 +1,480 @@
+﻿<AxControls:AxUserControl
+    x:Class="aEMR.Common.Views.SummaryMedicalRecordsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="900"
+    d:DesignWidth="1050"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <commonconverters:EnumConverter x:Key="EnumConverterObj" />
+        <commonconverters:EnumValueToStringConverter x:Key="EnumValueToStringConverter" />
+        <commonconverters:StringFormatConverter x:Key="StringFormatConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <commonconverters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility" />
+    </UserControl.Resources>
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                Grid.ColumnSpan="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                Text="{Binding TitleForm, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" />
+
+            <!--<Border
+                Grid.Row="1"
+                Height="30"
+                MinWidth="550"
+                Padding="5,0,5,0"
+                HorizontalAlignment="Stretch"
+                BorderThickness="1"
+                Style="{StaticResource LightBlueBorderStyle}"
+                Visibility="{Binding IsAllowFinding, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}">
+                <ContentControl
+                    x:Name="SearchRegistrationContent"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch" />
+            </Border>-->
+            <Grid
+                x:Name="LayoutRoot"
+                Grid.Row="2"
+                Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                <GroupBox
+                    Grid.Row="1"
+                    Header="{Binding G0525_G1_TTinBN, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.BlueGroupBox}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="115" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="70" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Column="1"
+                            Margin="0,2"
+                            IsReadOnly="True"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding PtRegistration.Patient.PatientCode, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Column="2"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding T1567_G1_HoTen, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Column="3"
+                            Grid.ColumnSpan="3"
+                            Margin="0,2"
+                            IsReadOnly="True"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding PtRegistration.Patient.FullName, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Column="6"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Column="7"
+                            Grid.ColumnSpan="3"
+                            Margin="0,2"
+                            IsReadOnly="True"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding PtRegistration.Patient.PatientStreetAddress, Mode=TwoWay}" />
+
+
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding N0036_G1_NSinh, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0,2"
+                            IsReadOnly="True"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding PtRegistration.Patient.YOB, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding G2057_G1_Tuoi, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Margin="0,2"
+                            IsReadOnly="True"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding PtRegistration.Patient.AgeString, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding T1223_G1_GTinh, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="5"
+                            Margin="0,2"
+                            VerticalAlignment="Center"
+                            IsReadOnly="True"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding PtRegistration.Patient.Gender, Mode=OneWay}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="6"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding Q0485_G1_QuocTich, Source={StaticResource eHCMSResources}}" />
+                        <AxControls:AxComboBox
+                            x:Name="cboNationality"
+                            Grid.Row="1"
+                            Grid.Column="7"
+                            Height="22"
+                            VerticalAlignment="Center"
+                            DisplayMemberPath="NationalityName"
+                            IsEnabled="False"
+                            ItemsSource="{Binding Nationalities}"
+                            SelectedValueEx="{Binding PtRegistration.Patient.NationalityID, Mode=OneWay}"
+                            SelectedValuePath="NationalityID"
+                            Style="{StaticResource MainFrame.ComboBox}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="8"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding K2840_G1_DanToc, Source={StaticResource eHCMSResources}}" />
+                        <AxControls:KeyEnabledComboBox
+                            x:Name="cboEthnic"
+                            Grid.Row="1"
+                            Grid.Column="9"
+                            Height="22"
+                            VerticalAlignment="Center"
+                            DisplayMemberPath="ObjectValue"
+                            IsEnabled="False"
+                            ItemsSource="{Binding EthnicsList}"
+                            SelectedValueEx="{Binding PtRegistration.Patient.V_Ethnic, Mode=OneWay}"
+                            SelectedValuePath="LookupID"
+                            Style="{StaticResource MainFrame.ComboBox}" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding N0136_G1_NgheNghiep, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="3"
+                            MinWidth="70"
+                            Margin="0,2"
+                            IsReadOnly="True"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding PtRegistration.Patient.PatientOccupation, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Row="2"
+                            Grid.Column="4"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding N0262_G1_NoiLamViec, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="5"
+                            Grid.ColumnSpan="5"
+                            Margin="0,2"
+                            IsReadOnly="True"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding PtRegistration.Patient.PatientEmployer, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Margin="0,0,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding T3593_G1_MaThe, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Margin="0,2"
+                            IsReadOnly="True"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding PtRegistration.HiCardNo, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Row="3"
+                            Grid.Column="4"
+                            Margin="0,6,4,6"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding Z0109_G1_NgVaoVien, Source={StaticResource eHCMSResources}}" />
+                        <StackPanel
+                            Grid.Row="3"
+                            Grid.Column="5"
+                            Grid.ColumnSpan="4"
+                            Orientation="Horizontal">
+                            <DatePicker
+                                x:Name="dtpFromDate"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                IsEnabled="False"
+                                SelectedDate="{Binding PtRegistration.AdmissionDate, Mode=TwoWay, NotifyOnValidationError=True}"
+                                SelectedDateFormat="Short" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Margin="0,0,5,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{Binding R0422_G1_NgRV, Source={StaticResource eHCMSResources}}" />
+                            <DatePicker
+                                x:Name="dtpToDate"
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                Margin="0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                IsEnabled="False"
+                                SelectedDate="{Binding PtRegistration.DischargeDate, Mode=TwoWay, NotifyOnValidationError=True}"
+                                SelectedDateFormat="Short" />
+
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox
+                    Grid.Row="3"
+                    Height="Auto"
+                    Header="{Binding Z3115_G1_TomTatHSBA, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.BlueGroupBox}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="40" />
+                            <RowDefinition Height="Auto" MinHeight="40" />
+                            <RowDefinition Height="Auto" MinHeight="60" />
+                            <RowDefinition Height="Auto" MinHeight="60" />
+                            <RowDefinition Height="Auto" MinHeight="40" />
+                            <RowDefinition Height="Auto" MinHeight="40" />
+                            <RowDefinition Height="Auto" MinHeight="40" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="800" />
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Margin="0,0,4,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding Z2811_G1_ChuanDoanVaoVien, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Height="42"
+                            Margin="0,2"
+                            AcceptsReturn="True"
+                            Text="{Binding CurrentSummaryMedicalRecords.AdmissionDiagnosis, Mode=TwoWay}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="0,0,4,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding Z2905_G1_ChanDoanRaVien, Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Height="66"
+                            Margin="0,2"
+                            AcceptsReturn="True"
+                            Text="{Binding CurrentSummaryMedicalRecords.DischargeDiagnosis, Mode=TwoWay}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+                        <TextBlock
+                            Grid.Row="2"
+                            Margin="0,0,4,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding K0787_G1_1QTrinhBLyVaDienBienLS, Source={StaticResource eHCMSResources}}"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Height="66"
+                            Margin="0,2"
+                            AcceptsReturn="True"
+                            Text="{Binding CurrentSummaryMedicalRecords.PathologicalProcess, Mode=TwoWay}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+                        <TextBlock
+                            Grid.Row="3"
+                            Margin="0,0,4,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding Z2905_G1_TomTatXNCoChanDoan, Source={StaticResource eHCMSResources}}"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Height="164"
+                            Margin="0,2"
+                            AcceptsReturn="True"
+                            Text="{Binding CurrentSummaryMedicalRecords.SummaryResultPCL, Mode=TwoWay}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+                        <TextBlock
+                            Grid.Row="4"
+                            Margin="0,0,4,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding K0841_G1_PPhapDTri, Source={StaticResource eHCMSResources}}"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Height="66"
+                            Margin="0,2"
+                            AcceptsReturn="True"
+                            Text="{Binding CurrentSummaryMedicalRecords.Treatment, Mode=TwoWay}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+                        <TextBlock
+                            Grid.Row="5"
+                            Margin="0,0,4,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding G1341_G1_TTrangNguoiBenhKhiRV, Source={StaticResource eHCMSResources}}"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Height="66"
+                            Margin="0,2"
+                            AcceptsReturn="True"
+                            Text="{Binding CurrentSummaryMedicalRecords.DischargeStatus, Mode=TwoWay}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+                        <TextBlock
+                            Grid.Row="6"
+                            Margin="0,0,4,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Text="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Height="66"
+                            Margin="0,2"
+                            AcceptsReturn="True"
+                            Text="{Binding CurrentSummaryMedicalRecords.Note, Mode=TwoWay}"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Auto" />
+
+                    </Grid>
+                </GroupBox>
+                <StackPanel
+                    Grid.Row="4"
+                    Margin="0,5,0,10"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="120"
+                        Margin="5,0,5,0"
+                        cal:Message.Attach="[Event Click]=[Action btnReset_Click]"
+                        Content="Tạo mới"
+                        FontWeight="Bold"
+                        Visibility="Collapsed" />
+                    <Button
+                        x:Name="SaveSummaryMedicalRecordsCmd"
+                        Width="80"
+                        Margin="5,0,5,0"
+                        Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                        FontWeight="Bold" />
+                    <Button
+                        x:Name="PrintSummaryMedicalRecordsCmd"
+                        Width="80"
+                        Margin="5,0,5,0"
+                        Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                        FontWeight="Bold"
+                        IsEnabled="{Binding IsNew, Converter={StaticResource InverseBoolConverter}}" />
+                    <Button
+                        x:Name="DeleteSummaryMedicalRecordsCmd"
+                        Width="80"
+                        Margin="5,0,5,0"
+                        Content="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}"
+                        FontWeight="Bold"
+                        IsEnabled="{Binding IsNew, Converter={StaticResource InverseBoolConverter}}" />
+
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </ScrollViewer>
+</AxControls:AxUserControl>

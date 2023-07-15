@@ -1,0 +1,79 @@
+﻿<UserControl    x:Class="aEMR.Common.Views.RegistrationFullDetailsView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit" mc:Ignorable="d"
+                xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                d:DesignHeight="500" d:DesignWidth="1000"  Height="500" Width="1200"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Margin="0">
+        <customcontrols:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding RegistrationLoading, Mode=OneWay}"
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">
+        <customcontrols:BusyIndicator.BusyContent>
+            <TextBlock Text="{Binding K2882_G1_DangTaiDLieu, Source={StaticResource eHCMSResources}}"
+                           FontSize="14"
+                           FontWeight="Bold" />
+        </customcontrols:BusyIndicator.BusyContent>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="24"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <ScrollViewer HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                            HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <StackPanel MaxWidth="1200">
+
+                    <Expander Margin="0,0,0,0" VerticalAlignment="Stretch"
+                                ExpandDirection="Down" IsExpanded="True" Header="{Binding K3434_G1_DVKCB, Source={StaticResource eHCMSResources}}" Background="#FFDBE5F1"
+                                RenderTransformOrigin="0,0" Height="Auto"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                >
+                        <ContentControl Name="ServiceContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                    </Expander>
+
+
+                    <Expander Margin="0,0,0,0" VerticalAlignment="Stretch"
+                                ExpandDirection="Down" IsExpanded="True" Header="{Binding K3430_G1_DVCLS, Source={StaticResource eHCMSResources}}" Background="#FFDBE5F1"
+                                RenderTransformOrigin="0,0" Height="Auto"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                >
+                        <ContentControl Name="PclContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                    </Expander>
+
+
+                    <Expander Margin="0,0,0,0" VerticalAlignment="Stretch"
+                                ExpandDirection="Down" IsExpanded="True" Header="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Background="#FFDBE5F1"
+                                RenderTransformOrigin="0,0" Height="Auto"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                >
+                        <ContentControl Name="DrugContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                    </Expander>
+
+
+                    <Expander Margin="0,0,0,0" VerticalAlignment="Stretch"
+                                ExpandDirection="Down" IsExpanded="True" Header="{Binding K1481_G1_LanTraTien, Source={StaticResource eHCMSResources}}" Background="#FFDBE5F1"
+                                RenderTransformOrigin="0,0" Height="Auto"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                >
+                        <ContentControl Name="PaymentContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Grid.Row="1">
+                <Button Content="{Binding G0391_G1_Thoat, Source={StaticResource eHCMSResources}}" Width="80" Name="CloseCmd"
+                      Style="{StaticResource MainFrame.Button}" />
+            </StackPanel>
+        </Grid>
+</customcontrols:BusyIndicator>
+    </Grid>
+</UserControl>

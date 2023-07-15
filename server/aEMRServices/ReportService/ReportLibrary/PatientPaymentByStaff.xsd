@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:mstns="http://tempuri.org/nwindDataSet.xsd" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" id="PatientPaymentByStaff" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection ConnectionStringObject="Data Source=AXSERVER01\SQL2008;Initial Catalog=eHCMS_DB_DEV;User ID=sa;Password=1" IsAppSettingsProperty="false" Modifier="Assembly" ParameterPrefix="@" Provider="System.Data.SqlClient" Name="Connection" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ReportPaymentReceiptByStaffAdapter" Name="ReportPaymentReceiptByStaff" UserDataComponentName="ReportPaymentReceiptByStaffAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="Connection" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT RepPaymentRecvID, ReportDateTime, StaffID, ApprovedStaffID, RepFromDate, RepToDate, RepTittle, RepNumCode FROM dbo.ReportPaymentReceiptByStaff</CommandText>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="RepPaymentRecvID" DataSetColumn="RepPaymentRecvID" />
+              <Mapping SourceColumn="ReportDateTime" DataSetColumn="ReportDateTime" />
+              <Mapping SourceColumn="StaffID" DataSetColumn="StaffID" />
+              <Mapping SourceColumn="ApprovedStaffID" DataSetColumn="ApprovedStaffID" />
+              <Mapping SourceColumn="RepFromDate" DataSetColumn="RepFromDate" />
+              <Mapping SourceColumn="RepToDate" DataSetColumn="RepToDate" />
+              <Mapping SourceColumn="RepTittle" DataSetColumn="RepTittle" />
+              <Mapping SourceColumn="RepNumCode" DataSetColumn="RepNumCode" />
+            </Mappings>
+          </TableAdapter>
+        </Tables>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="PatientPaymentByStaff" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ReportPaymentReceiptByStaff">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RepPaymentRecvID" msdata:ReadOnly="true" msdata:AutoIncrement="true" type="xs:long" />
+              <xs:element name="ReportDateTime" type="xs:dateTime" />
+              <xs:element name="StaffID" type="xs:long" />
+              <xs:element name="ApprovedStaffID" type="xs:long" minOccurs="0" />
+              <xs:element name="RepFromDate" type="xs:dateTime" />
+              <xs:element name="RepToDate" type="xs:dateTime" />
+              <xs:element name="RepTittle" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RepNumCode" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="15" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//ReportPaymentReceiptByStaff" />
+      <xs:field xpath="RepPaymentRecvID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

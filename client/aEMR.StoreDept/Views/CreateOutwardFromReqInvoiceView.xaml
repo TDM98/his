@@ -1,0 +1,423 @@
+﻿<UserControl
+    x:Class="aEMR.StoreDept.Views.CreateOutwardFromReqInvoiceView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="940"
+    d:DesignWidth="1050"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Converters:DecimalConverter3 x:Key="DecimalConverter3" />
+        <DataTemplate x:Key="cellCheckBox">
+            <CheckBox
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action chkReqOutwardDetail_Click($source,$eventArgs)]"
+                IsChecked="{Binding Checked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </DataTemplate>
+        <DataTemplate x:Key="CollnkDelete">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="lnkDelete"
+                    cal:Message.Attach="[Event Click]=[Action lnkDelete_Click($source,$eventArgs)]"
+                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <Style x:Key="GridCellWithNumberStyle" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Right" />
+        </Style>
+        <DataTemplate x:Key="ColDeleteTemplate">
+            <Button
+                x:Name="lnkDelete"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action lnkDelete_Click($source, $eventArgs)]"
+                ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                <Image
+                    Width="13"
+                    Height="13"
+                    Opacity="1"
+                    Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="SelectCountHITemplate">
+            <CheckBox
+                cal:Message.Attach="[Event Click]=[Action chkCountHI_Click($source,$eventArgs)]"
+                IsChecked="{Binding IsCountHI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+        </DataTemplate>
+        <DataTemplate x:Key="SelectCountPatientTemplate">
+            <CheckBox
+                cal:Message.Attach="[Event Click]=[Action chkCountPatient_Click($source,$eventArgs)]"
+                IsChecked="{Binding IsCountPatient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+        </DataTemplate>
+        <DataTemplate x:Key="ColMedicalMaterialTemplate">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <RadioButton
+                    Name="rdbReplaceMedicalMaterial"
+                    Content="{Binding G1836_G1_TT, Source={StaticResource eHCMSResources}}"
+                    IsChecked="{Binding IsReplaceMedMat, Mode=TwoWay}"
+                    Style="{StaticResource MainFrame.RadioButton}" />
+                <RadioButton
+                    Name="rdbDisposeMedicalMaterial"
+                    Margin="5,0,0,0"
+                    Content="{Binding G0033_G1_TH, Source={StaticResource eHCMSResources}}"
+                    IsChecked="{Binding IsDisposeMedMat, Mode=TwoWay}"
+                    Style="{StaticResource MainFrame.RadioButton}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="MDose_CellTemplate">
+            <TextBlock
+                Margin="1,0,1,0"
+                VerticalAlignment="Center"
+                Text="{Binding MDoseStr}"
+                TextAlignment="Right" />
+        </DataTemplate>
+        <DataTemplate x:Key="MDose_CellEditTemplate">
+            <AxControls:AxTextBox
+                x:Name="tbMDose"
+                Text="{Binding MDoseStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextAlignment="Right" />
+        </DataTemplate>
+        <DataTemplate x:Key="ADose_CellTemplate">
+            <TextBlock
+                Margin="1,0,1,0"
+                VerticalAlignment="Center"
+                Text="{Binding ADoseStr}"
+                TextAlignment="Right" />
+        </DataTemplate>
+        <DataTemplate x:Key="ADose_CellEditTemplate">
+            <AxControls:AxTextBox
+                x:Name="tbADose"
+                Text="{Binding ADoseStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextAlignment="Right" />
+        </DataTemplate>
+        <DataTemplate x:Key="EDose_CellTemplate">
+            <TextBlock
+                Margin="1,0,1,0"
+                VerticalAlignment="Center"
+                Text="{Binding EDoseStr}"
+                TextAlignment="Right" />
+        </DataTemplate>
+        <DataTemplate x:Key="EDose_CellEditTemplate">
+            <AxControls:AxTextBox
+                x:Name="tbEDose"
+                Text="{Binding EDoseStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextAlignment="Right" />
+        </DataTemplate>
+        <DataTemplate x:Key="NDose_CellTemplate">
+            <TextBlock
+                Margin="1,0,1,0"
+                VerticalAlignment="Center"
+                Text="{Binding NDoseStr}"
+                TextAlignment="Right" />
+        </DataTemplate>
+        <DataTemplate x:Key="NDose_CellEditTemplate">
+            <AxControls:AxTextBox
+                x:Name="tbNDose"
+                Text="{Binding NDoseStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextAlignment="Right" />
+        </DataTemplate>
+        <DataTemplate x:Key="ColChooseLoTemplate">
+            <Button
+                x:Name="lnkChooseBatchNumber"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action lnkChooseBatchNumber_Click($source, $eventArgs)]"
+                CommandParameter="{Binding GenMedProductItem.GenMedProductID}"
+                Content="{Binding InBatchNumber}"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="{Binding Z0056_G1_ChonLoKhac, Source={StaticResource eHCMSResources}}" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <ScrollViewer
+        CanContentScroll="True"
+        HorizontalScrollBarVisibility="Auto"
+        VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <AxControls:AxDataGridNy
+                Grid.Row="4"
+                Height="450"
+                Margin="0,1,0,1"
+                VerticalAlignment="Stretch"
+                cal:Message.Attach="[Event Loaded]=[Action gvDetails_Loaded($source,$eventArgs)];                                      [Event LoadingRow] = [Action gvDetails_LoadingRow($source, $eventArgs)]"
+                AutoGenerateColumns="False"
+                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle.01}"
+                HeadersVisibility="All"
+                HorizontalScrollBarVisibility="Auto"
+                ItemsSource="{Binding CollectionView_ReqDetails}"
+                Style="{StaticResource MainFrame.DataGridStyle}"
+                VerticalScrollBarVisibility="Auto"
+                VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn CellTemplate="{StaticResource ColDeleteTemplate}" IsReadOnly="True" />
+                    <DataGridTemplateColumn Width="Auto" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    cal:Message.Attach="[Event Click]=[Action chkAllOutwardDetail_Click($source,$eventArgs)]"
+                                    IsChecked="{Binding Path=DataContext.CheckAllOutwardDetail, ElementName=LayoutRoot, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsThreeState="False"
+                                    ToolTipService.ToolTip="{Binding K2122_G1_ChonTatCa, Source={StaticResource eHCMSResources}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    cal:Message.Attach="[Event Click]=[Action chkOutwardDetail_Click($source,$eventArgs)]"
+                                    IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn CellTemplate="{StaticResource SelectCountHITemplate}" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding K1209_G1_BH, Source={StaticResource eHCMSResources}}" />
+                                    <CheckBox
+                                        HorizontalAlignment="Center"
+                                        IsChecked="{Binding Path=DataContext.CheckAllCountHI, ElementName=LayoutRoot, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        IsThreeState="False"
+                                        ToolTipService.ToolTip="{Binding G1281_G1_TinhBHTCa, Source={StaticResource eHCMSResources}}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn CellTemplate="{StaticResource SelectCountPatientTemplate}" IsReadOnly="True">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding K1270_G1_BN, Source={StaticResource eHCMSResources}}" />
+                                    <CheckBox
+                                        HorizontalAlignment="Center"
+                                        IsChecked="{Binding Path=DataContext.CheckAllCountPatient, ElementName=LayoutRoot, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        IsThreeState="False"
+                                        ToolTipService.ToolTip="{Binding G1284_G1_TinhBnTCa, Source={StaticResource eHCMSResources}}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn
+                        x:Name="colMedicalMaterial"
+                        AxControls:DataGridColNamingUtil.ColName="colMedicalMaterial"
+                        CellTemplate="{StaticResource ColMedicalMaterialTemplate}"
+                        Header="{Binding T2853_G1_LoaiVT, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTextColumn
+                        x:Name="colDrugID"
+                        Binding="{Binding GenMedProductItem.Code}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                        Header="{Binding K2569_G1_Code, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        x:Name="colDrugName"
+                        Width="150"
+                        Binding="{Binding GenMedProductItem.BrandName}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                        Header="{Binding T0854_G1_TenHg, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        x:Name="colCityStateZipCode"
+                        Binding="{Binding GenMedProductItem.SelectedUnit.UnitName}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                        Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTemplateColumn
+                        Width="33"
+                        AxControls:DataGridColNamingUtil.ColName="colMDoseStr"
+                        CanUserReorder="True"
+                        CanUserResize="True"
+                        CanUserSort="True"
+                        CellEditingTemplate="{StaticResource MDose_CellEditTemplate}"
+                        CellStyle="{StaticResource CellStyleVerticalAlignCenter}"
+                        CellTemplate="{StaticResource MDose_CellTemplate}"
+                        Header="{Binding S0532_G1_S, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTemplateColumn
+                        Width="33"
+                        AxControls:DataGridColNamingUtil.ColName="colADoseStr"
+                        CanUserReorder="True"
+                        CanUserResize="True"
+                        CanUserSort="True"
+                        CellEditingTemplate="{StaticResource ADose_CellEditTemplate}"
+                        CellStyle="{StaticResource CellStyleVerticalAlignCenter}"
+                        CellTemplate="{StaticResource ADose_CellTemplate}"
+                        Header="{Binding G1638_G1_Tr, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTemplateColumn
+                        Width="35"
+                        AxControls:DataGridColNamingUtil.ColName="colEDoseStr"
+                        CanUserReorder="True"
+                        CanUserResize="True"
+                        CanUserSort="True"
+                        CellEditingTemplate="{StaticResource EDose_CellEditTemplate}"
+                        CellStyle="{StaticResource CellStyleVerticalAlignCenter}"
+                        CellTemplate="{StaticResource EDose_CellTemplate}"
+                        Header="{Binding K1737_G1_Ch, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTemplateColumn
+                        Width="33"
+                        AxControls:DataGridColNamingUtil.ColName="colNDoseStr"
+                        CanUserReorder="True"
+                        CanUserResize="True"
+                        CanUserSort="True"
+                        CellEditingTemplate="{StaticResource NDose_CellEditTemplate}"
+                        CellStyle="{StaticResource CellStyleVerticalAlignCenter}"
+                        CellTemplate="{StaticResource NDose_CellTemplate}"
+                        Header="{Binding T0748_G1_T, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTextColumn
+                        Binding="{Binding RequestQty, Converter={StaticResource DecimalConverter3}}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"
+                        Header="{Binding K3943_G1_Duyet, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        AxControls:DataGridColNamingUtil.ColName="colQty"
+                        Binding="{Binding OutQuantity, Mode=TwoWay, UpdateSourceTrigger=LostFocus, Converter={StaticResource DecimalConverter3}}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"
+                        Header="{Binding G2835_G1_Xuat, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTextColumn
+                        Binding="{Binding OutPrice, Converter={StaticResource DecimalConverter}}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"
+                        Header="{Binding T0860_G1_GiaBan, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding HIAllowedPrice, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"
+                        Header="{Binding T0895_G1_GiaBH, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding OutAmount, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"
+                        Header="{Binding G0085_G1_TTien, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding TotalHIPayment, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"
+                        Header="{Binding K1232_G1_BHTra, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Binding="{Binding TotalPatientPayment, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"
+                        Header="{Binding T2090_G1_KHTra, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        x:Name="colTelephone"
+                        Binding="{Binding GenMedProductItem.InExpiryDate, Mode=OneWay, StringFormat='dd/MM/yyyy'}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                        Header="{Binding T1363_G1_HDung, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTemplateColumn
+                        CellTemplate="{StaticResource ColChooseLoTemplate}"
+                        Header="{Binding T2628_G1_LoSX, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        x:Name="colDoctorStaff"
+                        Width="100"
+                        Binding="{Binding DoctorStaff.FullName}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                        Header="{Binding K1377_G1_BSiCDinh, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        x:Name="colMedicalInstructionDate"
+                        Binding="{Binding MedicalInstructionDate, Mode=OneWay, StringFormat='dd/MM/yyyy'}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                        Header="{Binding N0133_G1_NgYLenh, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        MinWidth="80"
+                        Binding="{Binding Administration, Mode=TwoWay}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                        Header="{Binding Z2128_G1_YLenh, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTextColumn
+                        x:Name="colNotes"
+                        MinWidth="80"
+                        Binding="{Binding OutNotes, Mode=TwoWay}"
+                        ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                        Header="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}" />
+                </DataGrid.Columns>
+                <DataGrid.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="1,1,1,1" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander
+                                                Background="WhiteSmoke"
+                                                BorderBrush="#FF002255"
+                                                BorderThickness="1,1,1,1"
+                                                Foreground="DarkBlue"
+                                                IsExpanded="True">
+                                                <Expander.Header>
+                                                    <DockPanel>
+                                                        <TextBlock
+                                                            Width="300"
+                                                            Margin="5,0,0,0"
+                                                            FontWeight="ExtraBold"
+                                                            Foreground="DarkBlue"
+                                                            Text="{Binding Path=Name}" />
+                                                    </DockPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
+            </AxControls:AxDataGridNy>
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" MinWidth="800" />
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Name="btnSave"
+                        Width="75"
+                        Margin="2,1,2,1"
+                        Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                        IsEnabled="{Binding RequestDrug.CanSave}"
+                        Style="{StaticResource MainFrame.Button}"
+                        Visibility="{Binding mPhieuYeuCau_Them, Converter={StaticResource BooleanToVisibility}}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

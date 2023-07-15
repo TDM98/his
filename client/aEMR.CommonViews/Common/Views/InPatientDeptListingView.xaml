@@ -1,0 +1,166 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.InPatientDeptListingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:CustomControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <converters:EnumValueToStringConverter x:Key="EnumValueToStringConverter" />
+
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <DataGrid
+            x:Name="grid"
+            MaxHeight="200"
+            Margin="5,0,5,0"
+            cal:Message.Attach="[Event Loaded] = [Action grid_Loaded($source, $eventArgs)]"
+            AutoGenerateColumns="False"
+            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+            HorizontalScrollBarVisibility="Auto"
+            IsReadOnly="True"
+            ItemsSource="{Binding AllItems, Mode=OneWay}"
+            Style="{StaticResource MainFrame.DataGridStyle}"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <!--<DataGridTemplateColumn x:Name="colDelete" CellTemplate="{StaticResource DeleteDeptLocationTemplate}"/>
+                <DataGridTemplateColumn x:Name="colEdit" CellTemplate="{StaticResource EditDeptLocationTemplate}"/>-->
+                <DataGridTemplateColumn
+                    x:Name="colDelDeptDetail"
+                    CustomControls:DataGridColNamingUtil.ColName="colDelDeptDetail"
+                    Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                x:Name="lnkDeleteDeptLocation"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                cal:Message.Attach="[Event Click]=[Action DeleteDeptLocationCmd($datacontext, $eventArgs)]"
+                                ToolTipService.ToolTip="{Binding G2799_G1_XoaKhoaPh, Source={StaticResource eHCMSResources}}"
+                                Visibility="Collapsed">
+                                <Button.Content>
+                                    <Image
+                                        Width="13"
+                                        Height="13"
+                                        Opacity="1"
+                                        Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn
+                    x:Name="colEditDeptDetail"
+                    CustomControls:DataGridColNamingUtil.ColName="colEditDeptDetail"
+                    Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                x:Name="lnkEditDeptLocation"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                cal:Message.Attach="[Event Click]=[Action EditDeptLocationCmd($datacontext, $eventArgs)]"
+                                ToolTipService.ToolTip="{Binding K1883_G1_ChSuaKhoaPh, Source={StaticResource eHCMSResources}}">
+                                <Button.Content>
+                                    <Image
+                                        Width="13"
+                                        Height="13"
+                                        Opacity="1"
+                                        Source="/aEMR.CommonViews;component/Assets/Images/Edit-icon.png" />
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding DeptLocation.RefDepartment.DeptName, Mode=OneWay}"
+                    Header="{Binding T2222_G1_Khoa, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding DeptLocation.Location.LocationName, Mode=OneWay}"
+                    Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding FromDate, Mode=OneWay, StringFormat='dd/MM/yyyy hh:mm:ss tt'}"
+                    Header="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding ToDate, Mode=OneWay, StringFormat='dd/MM/yyyy hh:mm:ss tt'}"
+                    Header="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding V_InPatientDeptStatus, Mode=OneWay, Converter={StaticResource EnumValueToStringConverter}}"
+                    Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" />
+                <DataGridTemplateColumn
+                    x:Name="colBookingBed"
+                    CustomControls:DataGridColNamingUtil.ColName="colBookingBed"
+                    Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Button
+                                    Name="hplBookingBed"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    cal:Message.Attach="[Event Click]=[Action hplBookingBed_Click($datacontext)]"
+                                    FontSize="12"
+                                    Foreground="Blue"
+                                    Style="{StaticResource Mainframe.SiteMapHyperlinkButton}"
+                                    ToolTipService.ToolTip="{Binding K3103_G1_DatGiuong, Source={StaticResource eHCMSResources}}">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Opacity="1" Source="/aEMR.CommonViews;component/Assets/Images/hospital_bed_icon.jpg" />
+                                            <TextBlock
+                                                Padding="3,0,0,0"
+                                                Foreground="#FF0084FF"
+                                                Text="{Binding K3103_G1_DatGiuong, Source={StaticResource eHCMSResources}}" />
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn
+                    x:Name="colOutDept"
+                    CustomControls:DataGridColNamingUtil.ColName="colOutDept"
+                    Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                <Button
+                                    Name="hplOutDepartment"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    cal:Message.Attach="[Event Click]=[Action hplOutDepartment_Click($datacontext)]"
+                                    FontSize="12"
+                                    Foreground="Blue"
+                                    Style="{StaticResource Mainframe.SiteMapHyperlinkButton}"
+                                    ToolTipService.ToolTip="Xuất khỏi Khoa Phòng">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Opacity="1" Source="/aEMR.CommonViews;component/Assets/Images/exit_icon.png" />
+                                            <TextBlock
+                                                Padding="3,0,0,0"
+                                                Foreground="#FF0084FF"
+                                                Text="{Binding G2890_G1_XuatKhoaPh, Source={StaticResource eHCMSResources}}" />
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,268 @@
+﻿<UserControl
+    x:Class="aEMR.PCLDepartment.Views.PCLDeptImagingResultView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="489"
+    d:DesignWidth="836"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <DataTemplate x:Key="grdImportTPL_lnkView">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="lnkView"
+                    cal:Message.Attach="[Event Click]=[Action lnkView_Click($source,$eventArgs)]"
+                    Content="{Binding PCLResultFileName, Mode=TwoWay}"
+                    ToolTipService.ToolTip="Click here for view" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="grdImportTPL_lnkDelete">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="lnkDelete"
+                    cal:Message.Attach="[Event Click]=[Action lnkDelete_Click($source,$eventArgs)]"
+                    ToolTipService.ToolTip="Click here for delete">
+                    <Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1"
+                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <!--<ColumnDefinition Width="150" MaxWidth="150"></ColumnDefinition>-->
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl
+                            Name="vmSearchPCLRequest"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" />
+                    </StackPanel>
+                </Grid>
+                <!--<ScrollViewer Grid.Row="1" Grid.Column="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
+                    <ListBox x:Name="Snapshots" cal:Message.Attach="[Event Loaded]=[Action Snapshots_Loaded($source,$eventArgs)]
+                             ;[Event SelectionChanged]=[Action Snapshots_SelectionChanged($source,$eventArgs)]" VerticalContentAlignment="Top">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Name="gvImage">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="80" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding}" Margin="5" Stretch="UniformToFill" Height="70" Grid.Row="0" Grid.ColumnSpan="2" />
+                                    <CheckBox Name="cbImage" Grid.Row="1" Grid.Column="0" IsChecked="True" />
+                                    <Button Grid.Row="1" Grid.Column="1" x:Name="lnkDelete"  cal:Message.Attach="[Event Click]=[Action btnDeleteImage($source,$eventArgs)]"
+                                            ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </ScrollViewer>-->
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="5,5,5,5"
+                    HorizontalAlignment="Stretch"
+                    Background="White"
+                    ShowGridLines="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="1" MinWidth="1" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ContentControl
+                            x:Name="UCPatientProfileInfo"
+                            Grid.Column="0"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" />
+                        <ContentControl
+                            x:Name="UCDoctorProfileInfo"
+                            Grid.Column="2"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" />
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            Width="1000"
+                            HorizontalAlignment="Stretch">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                Foreground="#3595CB"
+                                Style="{StaticResource TextBlock.Heading.02}"
+                                Text="{Binding ParamName, ConverterParameter=Upper, Converter={StaticResource StringFormatConverter}}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <TabControl
+                            Name="TabSieuAm"
+                            Margin="0,0,0,0"
+                            Style="{StaticResource MainFrame.TabControl}">
+                            <TabItem
+                                Width="100"
+                                HorizontalAlignment="Center"
+                                Header="{Binding T2055_G1_KQua, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.TabItem}">
+                                <ContentControl
+                                    x:Name="UCPatientPCLImagingItemResult"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch" />
+                            </TabItem>
+                            <TabItem
+                                Name="TabHinhAnhSieuAm"
+                                Width="100"
+                                HorizontalAlignment="Center"
+                                Header="{Binding T1520_G1_HA, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.TabItem}">
+                                <ContentControl
+                                    x:Name="UCPatientPCLImageResults"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch" />
+                            </TabItem>
+                            <TabItem
+                                Width="100"
+                                HorizontalAlignment="Center"
+                                Header="{Binding T2068_G1_KQuaCu, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.TabItem}">
+                                <ContentControl
+                                    x:Name="UCPatientPCLGeneralResult"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch" />
+                            </TabItem>
+                            <!--<TabItem Header="{Binding T1536_G1_HinhCapture, Source={StaticResource eHCMSResources}}" Width="100" HorizontalAlignment="Center"
+                                     Style="{StaticResource MainFrame.TabItem}" Name="TabHinhAnhCapture">
+                                <ContentControl x:Name="UCPatientPCLImageCapture" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                            </TabItem>-->
+                        </TabControl>
+                    </Grid>
+                </Grid>
+                <Button
+                    x:Name="btHistory"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="{Binding Z2117_G1_LSCDHA, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.HyperlinkButton.02}"
+                    Visibility="{Binding IsShowBtnHistory, Converter={StaticResource VisibilityConverter}}" />
+                <StackPanel
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btnFormulaMedicine"
+                        Width="120"
+                        Margin="0,0,20,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding Z2595_G1_CongThucYKhoa, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource ResourceKey=MainFrame.Button}" />
+                    <Button
+                        x:Name="btnSaveCmd"
+                        Width="80"
+                        Margin="0,0,20,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding Content}"
+                        IsEnabled="{Binding IsReadOnly}"
+                        Style="{StaticResource ResourceKey=MainFrame.Button}" />
+                    <Button
+                        x:Name="btnDelete"
+                        Width="80"
+                        Margin="0,0,20,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}"
+                        IsEnabled="{Binding IsReadOnly}"
+                        Style="{StaticResource ResourceKey=MainFrame.Button}" />
+                    <Button
+                        x:Name="btnPrint"
+                        Width="80"
+                        Margin="0,0,20,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource ResourceKey=MainFrame.Button}" />
+                    <Button
+                        x:Name="btnViewPrint"
+                        Width="80"
+                        Margin="0,0,20,1"
+                        HorizontalAlignment="Right"
+                        Content="Xem/In cũ"
+                        Style="{StaticResource ResourceKey=MainFrame.Button}" />
+                    <Button
+                        x:Name="btnViewPrintNew"
+                        Width="80"
+                        Margin="0,0,20,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource ResourceKey=MainFrame.Button}" />
+                    <Button
+                        Name="BtnPrintBilingual"
+                        Width="80"
+                        Margin="0,0,20,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding Z3324_G1_XemInEng, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource ResourceKey=MainFrame.Button}"
+                        Visibility="{Binding IsLaboratory, Converter={StaticResource VisibilityConverter}}" />
+                    <Button
+                        x:Name="btnExportPDF"
+                        Width="80"
+                        Margin="0,0,20,1"
+                        HorizontalAlignment="Right"
+                        Content="Upload KQ"
+                        Style="{StaticResource ResourceKey=MainFrame.Button}"
+                        Visibility="{Binding IsShowUpload, Converter={StaticResource VisibilityConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

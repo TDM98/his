@@ -1,0 +1,150 @@
+﻿<UserControl    x:Class="aEMR.TransactionManager.Views.ScientificResearchActivityView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="1020"
+                UseLayoutRounding="True" IsTabStop="False" IsEnabled="True" IsHitTestVisible="True">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <!--<tookit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="18" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock x:Name="TitleForm" Text="TitleForm" HorizontalAlignment="Center" 
+                                   Style="{StaticResource TBlock.TitleFormSmall}"  />
+                <!--<TextBlock x:Name="TitleForm" Text="{Binding Z2118_G1_HDCDT , Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" Foreground="#3595CB" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"></TextBlock>-->
+            </Grid>
+            <Grid Grid.Row="1">
+                <ContentControl x:Name="SearchActivity" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+            </Grid>
+            <Border Grid.Row="2" Style="{StaticResource LightBlueBorderStyleNew}" BorderThickness="1" Grid.RowSpan="3">
+                <StackPanel Margin="0,10,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="140"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="24"></RowDefinition>
+                            <RowDefinition Height="28"></RowDefinition>
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding Z2121_G1_TTHDCDT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBlock.00}" />
+                        <TextBlock Grid.Row="1" Text="{Binding Z2120_G1_THD,  StringFormat='{}{0}:' , Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"  Margin="0,5,0,0" Grid.RowSpan="2"></TextBlock>
+                                                <TextBlock Grid.Row="3" Text="{Binding N0049_G1_NgBatDau,  StringFormat='{}{0}:' , Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"  Margin="0,8,0,0"></TextBlock>
+                        <DatePicker Style="{StaticResource MainFrame.DatePicker}" Grid.Row="3" Grid.Column="1" Margin="4,2,5,2" SelectedDate="{Binding ScientificResearchActivity_Current.StartDate,Mode=TwoWay}" ></DatePicker>
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Grid.Column="1" Orientation="Vertical" Grid.RowSpan="2">
+                            <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Text="{Binding ScientificResearchActivity_Current.ActivityName,Mode=TwoWay,NotifyOnValidationError=True}" Style="{StaticResource MainFrame.TextBox}" Margin="4,2,5,2" Height="54" TabIndex="1" TextWrapping="Wrap"></TextBox>
+                        </StackPanel>
+                        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding N0081_G1_NgKetThuc,  StringFormat='{}{0}:' , Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"  Margin="45,8,0,0"></TextBlock>
+                        <DatePicker   Style="{StaticResource MainFrame.DatePicker}" Grid.Row="3" Grid.Column="3" Margin="4,2,5,2" SelectedDate="{Binding ScientificResearchActivity_Current.EndDate,Mode=TwoWay}" ></DatePicker>
+
+                        <StackPanel Grid.Column="4" Grid.Row="3" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button  Name="btnSearch" HorizontalAlignment="Right" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Width="90" Margin="2,0,10,0" IsEnabled="{Binding CanEditAndDelete}"
+                                TabIndex="6"/>
+                            <Button  Name="btnAdd" HorizontalAlignment="Right" Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Width="90" Margin="2,0,10,0" IsEnabled="{Binding CanAdd}"
+                                TabIndex="7"/>
+                           
+                                                                              
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>   
+            </Border>
+            <!--15072018 TTM: Không có sự kiện doubleclick bên viewmodel
+        cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"-->
+        <ControlsLibrary:ReadOnlyDataGrid Grid.Row="5" Name="dtgList"                      
+                      AutoGenerateColumns="False" 
+                      HorizontalScrollBarVisibility="Visible"  
+                      VerticalScrollBarVisibility="Visible"
+                                              VerticalAlignment="Stretch"
+                                              HorizontalAlignment="Stretch"
+                                              Height="Auto"
+                      HeadersVisibility="All"                      
+                      Margin="0,2" 
+                      ItemsSource="{Binding ScientificResearchActivity_Paging,Mode=TwoWay}"
+                      >
+                <DataGrid.Columns>
+
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Button
+                                                cal:Message.Attach="[Event Click]=[Action hplEdit_Click($datacontext)]"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                x:Name="hplEdit" ToolTipService.ToolTip="{Binding Binding K1599_G1_CNhat, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Button.Content>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" />
+                                        </Button.Content>
+                                    </Button>
+
+                                    <Button
+                                                cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)]"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                x:Name="hplDelete" ToolTipService.ToolTip="{Binding Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Button.Content>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="15" Width="15" Opacity="1" />
+                                        </Button.Content>
+                                    </Button>
+
+
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                <DataGridTextColumn  Width="*" Binding="{Binding ActivityName}" Header="{Binding Z2120_G1_THD, Source={StaticResource eHCMSResources}}">
+                        
+                    </DataGridTextColumn>
+                <DataGridTextColumn  Width="200" Binding="{Binding AttendeeName }" Header="{Binding Z2127_G1_NTH, Source={StaticResource eHCMSResources}}">
+                   
+                    </DataGridTextColumn>
+
+
+
+
+                <DataGridTextColumn  Width="150"  Binding="{Binding V_ActivityTypeName }" Header="{Binding Z2123_G1_C, Source={StaticResource eHCMSResources}}">
+                      
+                    </DataGridTextColumn>
+
+
+
+
+
+                <DataGridTextColumn  Width="150"  Binding="{Binding V_ActivityMethodTypeName }" Header="{Binding Z2155_G1_PhuongThucThucHien, Source={StaticResource eHCMSResources}}">
+                        
+                    </DataGridTextColumn>
+
+
+                </DataGrid.Columns>
+            </ControlsLibrary:ReadOnlyDataGrid>
+
+
+        </Grid>
+    <!--</tookit:BusyIndicator>-->
+</UserControl>

@@ -1,0 +1,106 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:cal="http://www.caliburnproject.org"
+             xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" mc:Ignorable="d"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             x:Class="aEMR.Common.Views.SearchPatientAndRegistrationV2View" Padding="0,0,0,0" Margin="0,0,0,0"
+             d:DesignWidth="1200" d:DesignHeight="480"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusy}" >
+        <commonctrl:AxGrid x:Name="LayoutRoot">
+            <Grid Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="24" />
+                </Grid.RowDefinitions>
+                <TextBlock TextWrapping="Wrap" Text="{Binding K3587_G1_DoiTuong, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"
+                 VerticalAlignment="Center" Margin="0,0,0,0" />
+                <commonctrl:AxComboBox Grid.Column="1" Width="120"/>
+                <TextBlock Grid.Column="2" TextWrapping="Wrap" Text="{Binding Z2262_G1_HìnhThucDen, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"
+                 VerticalAlignment="Center" Margin="0,0,0,0" />
+                <commonctrl:AxComboBox Grid.Column="3" Width="120"/>
+                <TextBlock Grid.Column="4" TextWrapping="Wrap" Text="{Binding K1167_G1_BN, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"
+                 VerticalAlignment="Center" Margin="0,0,0,0" />
+                <StackPanel Grid.Column="5">
+                    <commonctrl:AxSearchPatientTextBox x:Name="txtName" Width="180" HorizontalAlignment="Left"
+                                                       Text="{Binding SearchCriteria.PatientNameString, Mode=TwoWay}"
+                                                       HICardNumber="{Binding SearchCriteria.InsuranceCard, Mode=TwoWay}"
+                                                       FullName="{Binding SearchCriteria.FullName, Mode=TwoWay}"
+                                                       PatientCode="{Binding SearchCriteria.PatientCode, Mode=TwoWay}"
+                                                       QRCode="{Binding SearchQRCode, Mode=TwoWay}"
+                                                       Height="22" VerticalAlignment="Center" TabIndex="1"
+                                                       PtRegistrationCode="{Binding SearchCriteria.PtRegistrationCode, Mode=TwoWay}"
+                                                       cal:Message.Attach="[Event Loaded]=[Action SearchPatientTextBox_Loaded($source,$eventArgs)]">
+                        <interact:Interaction.Triggers>
+                            <interact:EventTrigger x:Name="myTrigger" EventName="KeyDown">
+                                <commonctrl:TextBoxEnterButtonInvoke x:Name="txtNameInvoker" TargetName="SearchPatientCmd" />
+                            </interact:EventTrigger>
+                        </interact:Interaction.Triggers>
+                    </commonctrl:AxSearchPatientTextBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Column="6">
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" 
+                        Visibility="{Binding mTimDangKy,Converter={StaticResource BooleanToVisibility} }">
+                        <Button x:Name="SearchRegistrationCmd" Content="{Binding G1162_G1_TimDK, Source={StaticResource eHCMSResources}}" Width="85" Margin="5,0,0,0"
+                
+                Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Right" Height="22" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" 
+                        Visibility="{Binding mTimBN,Converter={StaticResource BooleanToVisibility} }">
+                        <Button x:Name="SearchPatientCmd" Content="{Binding G1158_G1_TimBn, Source={StaticResource eHCMSResources}}" Width="80" Margin="1,0,0,0"
+                Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Right" Height="22" />
+
+                        <Button x:Name="SearchAppointmentCmd" Content="{Binding G1160_G1_TimCuocHen, Source={StaticResource eHCMSResources}}" Width="90" Margin="1,0,0,0"
+                Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Right" Height="22" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" 
+                        Visibility="{Binding mThemBN,Converter={StaticResource BooleanToVisibility} }">
+                        <Button Content="{Binding G0247_G1_ThemBN, Source={StaticResource eHCMSResources}}" x:Name="CreateNewPatientCmd" Width="80" HorizontalAlignment="Right"
+                
+                Margin="1,0,0,0" Style="{StaticResource MainFrame.Button}" Height="22" />
+                    </StackPanel>
+                    <!--▼====: #004-->
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="{Binding Z2147_G1_TimHoiChan, Source={StaticResource eHCMSResources}}" x:Name="SerchConsultingDiagnosyCmd"
+                            Visibility="{Binding EnableSerchConsultingDiagnosy,Converter={StaticResource BooleanToVisibility}}"
+                            Width="85" Height="22" HorizontalAlignment="Right" Margin="1,0,0,0" Style="{StaticResource MainFrame.Button}" />
+                    </StackPanel>
+                    <!--▲====: #004-->
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" VerticalAlignment="Center"
+                        Visibility="{Binding PatientFindByVisibility,Converter={StaticResource BooleanToVisibility} }">
+                        <RadioButton IsChecked="{Binding bIsNgoaiTruChecked,Mode=TwoWay}" Style="{StaticResource MainFrame.RadioButton01}"
+                                 x:Name="rdoNgoaiTru" Content="{Binding T3719_G1_Mau20NgTru, Source={StaticResource eHCMSResources}}" GroupName="FindBy"
+                                 cal:Message.Attach="[Event Loaded]=[Action rdoNgoaiTru_Loaded($source,$eventArgs)]
+                                 ;[Event Click]=[Action rdoNgoaiTru_Click($source,$eventArgs)]"></RadioButton>
+                        <RadioButton IsChecked="{Binding bIsNoiTruChecked,Mode=TwoWay}" Style="{StaticResource MainFrame.RadioButton01}"
+                                 Content="{Binding T3713_G1_NoiTru, Source={StaticResource eHCMSResources}}" x:Name="rdoNoiTru" GroupName="FindBy"
+                                 cal:Message.Attach="[Event Loaded]=[Action rdoNoiTru_Loaded($source,$eventArgs)]
+                                 ;[Event Click]=[Action rdoNoiTru_Click($source,$eventArgs)]"></RadioButton>
+                        <RadioButton Visibility="Collapsed" Content="{Binding K1427_G1_Ca2, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.RadioButton01}"
+                                 x:Name="rdoCaHai" GroupName="FindBy"
+                                 cal:Message.Attach="[Event Loaded]=[Action rdoCaHai_Loaded($source,$eventArgs)]
+                                 ;[Event Click]=[Action rdoCaHai_Click($source,$eventArgs)]"></RadioButton>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Grid>
+        </commonctrl:AxGrid>
+    </xctk:BusyIndicator>
+</UserControl>

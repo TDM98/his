@@ -1,0 +1,961 @@
+﻿<customcontrols:AxUserControl
+    x:Class="aEMR.Registration.Views.PatientDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="600"
+    d:DesignWidth="950"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <commonconverters:EnumConverter x:Key="EnumConverterObj" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="LayoutRoot"
+        Width="940"
+        Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="24" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            x:Name="TitleForm"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.Header.01}"
+            Text="{Binding CurrentAction}" />
+        <StackPanel
+            x:Name="panelContent"
+            Grid.Row="1"
+            Margin="0,0,0,0">
+            <TabControl
+                x:Name="tabPatientInfo"
+                Width="920"
+                Height="430"
+                Margin="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                cal:Message.Attach="[Event SelectionChanged]=[Action PatientTabsChanged($source, $eventArgs)]"
+                IsTabStop="False"
+                Style="{StaticResource MainFrame.TabControl}">
+
+                <TabItem
+                    x:Name="tabitemGeneral"
+                    Header="{Binding G0574_G1_TTinChung, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding Path=ActivationMode, ConverterParameter=CREATE_PATIENT|NEW_PATIENT_FOR_NEW_REGISTRATION|VIEW_AND_EDIT_PATIENT|EDIT_PATIENT_FOR_REGISTRATION|EDIT_PATIENT_GENERAL_INFO, Mode=OneWay, Converter={StaticResource EnumVisibilityConverter}}">
+
+                    <Grid>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" MinHeight="24" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <ScrollViewer
+                                Grid.ColumnSpan="3"
+                                Padding="0"
+                                BorderThickness="0"
+                                HorizontalScrollBarVisibility="Auto"
+                                VerticalScrollBarVisibility="Auto">
+                                <!--  Visibility="{Binding ThongTinBN_View,Converter={StaticResource BooleanToVisibility} }"  -->
+                                <Grid x:Name="gridGeneralInfo">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Width="440">
+                                        <Border
+                                            x:Name="groupGeneralInfo"
+                                            Margin="0,0,0,0"
+                                            Style="{StaticResource LightBlueBorderStyleNew}">
+
+                                            <StackPanel>
+                                                <TextBlock
+                                                    Margin="0"
+                                                    Foreground="#FF5E5E5E"
+                                                    Style="{StaticResource TBlock.Heading.02}"
+                                                    Text="{Binding G0574_G1_TTinChung, Source={StaticResource eHCMSResources}}"
+                                                    TextWrapping="Wrap" />
+                                                <Grid Width="430" Margin="0,0,0,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="10" />
+                                                        <ColumnDefinition Width="10" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="10" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}" />
+
+                                                    <customcontrols:AxDateTextBox
+                                                        x:Name="txtDateBecamePatient"
+                                                        Grid.Column="1"
+                                                        Height="24"
+                                                        VerticalAlignment="Top"
+                                                        cal:Message.Attach="[Event TextChanged] = [Action txtDateBecamePatient_TextChanged($source,$eventArgs)]"
+                                                        Date="{Binding CurrentPatient.DateBecamePatient, Mode=OneWay}"
+                                                        IsEnabled="{Binding Path=FormState, ConverterParameter=NEW|EDIT, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                        TabIndex="30" />
+
+                                                    <!--<maskedInput:MaskedEdit Mask="LongDate" x:Name="txtDateBecamePatient"
+                                                                            IsEnabled="{Binding Path=FormState, ConverterParameter=NEW|EDIT,Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                                            Text="{Binding CurrentPatient.DateBecamePatient, Mode=TwoWay,ConverterCulture=vi-VN}" Grid.Column="1"
+                                                                             TabIndex="30" Height="24" VerticalAlignment="Top" />-->
+
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="4"
+                                                        Margin="10,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding T3220_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                                    <TextBox
+                                                        Grid.Row="0"
+                                                        Grid.Column="5"
+                                                        IsReadOnly="True"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        Text="{Binding CurrentPatient.PatientCode, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding T1567_G1_HoTen, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtFullName"
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding Path=FormState, ConverterParameter=NONE|READONLY, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                        IsTabStop="True"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="1"
+                                                        Text="{Binding CurrentPatient.FullName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="6"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding N0036_G1_NSinh, Source={StaticResource eHCMSResources}}" />
+
+                                                    <StackPanel
+                                                        Grid.Row="2"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        HorizontalAlignment="Stretch"
+                                                        Orientation="Horizontal">
+                                                        <TextBox
+                                                            x:Name="txtYOB"
+                                                            Width="40"
+                                                            Height="22"
+                                                            Margin="0"
+                                                            VerticalAlignment="Center"
+                                                            cal:Message.Attach="[Event LostFocus] = [Action txtYOB_LostFocus($source,$eventArgs)];[Event KeyUp] = [Action txtYOB_KeyUp($source,$eventArgs)]"
+                                                            IsReadOnly="{Binding Path=FormState, ConverterParameter=NONE|READONLY, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                            Style="{StaticResource MainFrame.TextBox}"
+                                                            TabIndex="2"
+                                                            Text="{Binding CurrentPatient.YOB, Mode=OneWay}" />
+
+
+                                                        <TextBox
+                                                            x:Name="txtAge"
+                                                            Width="30"
+                                                            Height="22"
+                                                            Margin="0"
+                                                            VerticalAlignment="Center"
+                                                            cal:Message.Attach="[Event LostFocus] = [Action txtAge_LostFocus($source,$eventArgs)];[Event KeyUp] = [Action txtAge_KeyUp($source,$eventArgs)]"
+                                                            IsReadOnly="{Binding Path=FormState, ConverterParameter=NONE|READONLY, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                            Style="{StaticResource MainFrame.TextBox}"
+                                                            TabIndex="2"
+                                                            Text="{Binding CurrentPatient.Age, Mode=OneWay}" />
+
+                                                        <TextBlock
+                                                            Margin="5,0,5,0"
+                                                            VerticalAlignment="Center"
+                                                            Style="{StaticResource TextBlock.Heading.04}"
+                                                            Text="{Binding G0039_G1_Th, Source={StaticResource eHCMSResources}}" />
+                                                        <TextBox
+                                                            Width="30"
+                                                            IsReadOnly="True"
+                                                            Text="{Binding CurrentPatient.MonthsOld, Mode=OneWay}" />
+                                                        <TextBlock
+                                                            Margin="2,0,1,0"
+                                                            VerticalAlignment="Center"
+                                                            Style="{StaticResource TextBlock.Heading.04}"
+                                                            Text="{Binding N0107_G1_NgSinh, Source={StaticResource eHCMSResources}}"
+                                                            TextWrapping="Wrap" />
+
+                                                        <customcontrols:AxDateTextBox
+                                                            x:Name="txtDateOfBirth"
+                                                            Width="80"
+                                                            Height="24"
+                                                            VerticalAlignment="Center"
+                                                            cal:Message.Attach="[Event DateChanged] = [Action txtDateOfBirth_DateChanged($source,$eventArgs)]"
+                                                            Date="{Binding CurrentPatient.DOB, Mode=OneWay, ConverterCulture=vi-VN}"
+                                                            IsReadOnly="{Binding Path=FormState, ConverterParameter=NONE|READONLY, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                            Style="{StaticResource MainFrame.TextBox}"
+                                                            TabIndex="3" />
+                                                    </StackPanel>
+
+
+
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="0"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding T1223_G1_GTinh, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <customcontrols:KeyEnabledComboBox
+                                                        x:Name="cboGender"
+                                                        Grid.Row="3"
+                                                        Grid.Column="1"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        DisplayMemberPath="Name"
+                                                        IsEnabled="{Binding FormState, ConverterParameter=NEW|EDIT, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                        ItemsSource="{Binding Genders, Mode=OneWay}"
+                                                        SelectedItemEx="{Binding CurrentPatient.GenderObj, Mode=TwoWay, NotifyOnValidationError=True}"
+                                                        SelectedValuePath="ID"
+                                                        Style="{StaticResource MainFrame.ComboBox}"
+                                                        TabIndex="4" />
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="2"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="4"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding T1703_G1_HonNhan, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <customcontrols:KeyEnabledComboBox
+                                                        x:Name="cboMaritalStatus"
+                                                        Grid.Row="3"
+                                                        Grid.Column="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        DisplayMemberPath="ObjectValue"
+                                                        IsEnabled="{Binding Path=FormState, ConverterParameter=NEW|EDIT, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                        ItemsSource="{Binding MaritalStatusList}"
+                                                        SelectedValueEx="{Binding CurrentPatient.V_MaritalStatus, Mode=TwoWay}"
+                                                        SelectedValuePath="LookupID"
+                                                        Style="{StaticResource MainFrame.ComboBox}"
+                                                        TabIndex="5" />
+
+
+
+                                                    <TextBlock
+                                                        Grid.Row="5"
+                                                        Grid.Column="0"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding N0262_G1_NoiLamViec, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtEmployee"
+                                                        Grid.Row="5"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="7"
+                                                        Text="{Binding CurrentPatient.PatientEmployer, Mode=TwoWay}" />
+
+
+
+                                                    <TextBlock
+                                                        Grid.Row="4"
+                                                        Grid.Column="0"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding N0136_G1_NgheNghiep, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <TextBox
+                                                        x:Name="txtOccupation"
+                                                        Grid.Row="4"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="6"
+                                                        Text="{Binding CurrentPatient.PatientOccupation, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="6"
+                                                        Grid.Column="0"
+                                                        Margin="0,0,3,0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding K2840_G1_DanToc, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <customcontrols:KeyEnabledComboBox
+                                                        x:Name="cboEthnic"
+                                                        Grid.Row="6"
+                                                        Grid.Column="1"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        DisplayMemberPath="ObjectValue"
+                                                        IsEnabled="{Binding FormState, ConverterParameter=NEW|EDIT, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        ItemsSource="{Binding EthnicsList}"
+                                                        SelectedValueEx="{Binding CurrentPatient.V_Ethnic, Mode=TwoWay}"
+                                                        SelectedValuePath="LookupID"
+                                                        Style="{StaticResource MainFrame.ComboBox}"
+                                                        TabIndex="8" />
+                                                    <TextBlock
+                                                        Grid.Row="6"
+                                                        Grid.Column="4"
+                                                        Margin="0,0,9,0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding S0627_G1_SoCMND, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtIDCard"
+                                                        Grid.Row="6"
+                                                        Grid.Column="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="9"
+                                                        Text="{Binding CurrentPatient.IDNumber, Mode=TwoWay}" />
+
+                                                </Grid>
+                                            </StackPanel>
+
+                                        </Border>
+
+                                        <Border
+                                            x:Name="groupContact"
+                                            Margin="0,10,0,0"
+                                            Style="{StaticResource LightBlueBorderStyleNew}">
+                                            <StackPanel>
+                                                <TextBlock
+                                                    Margin="0"
+                                                    Foreground="#FF5E5E5E"
+                                                    Style="{StaticResource TBlock.Heading.02}"
+                                                    Text="{Binding T2593_G1_LHe, Source={StaticResource eHCMSResources}}"
+                                                    TextWrapping="Wrap" />
+                                                <Grid Width="430" Margin="0,0,0,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="10" />
+                                                        <ColumnDefinition Width="10" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="10" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Grid.Column="6"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="2"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+
+                                                    <TextBox
+                                                        x:Name="txtStreetAddress"
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding Path=FormState, ConverterParameter=NONE|READONLY, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="10"
+                                                        Text="{Binding CurrentPatient.PatientStreetAddress, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding Q0446_G1_Quan, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtSurburb"
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding Path=FormState, ConverterParameter=NONE|READONLY, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="11"
+                                                        Text="{Binding CurrentPatient.PatientSurburb, Mode=TwoWay}" />
+
+
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="0"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding G1637_G1_TpTinh, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <customcontrols:KeyEnabledComboBox
+                                                        x:Name="cboCity"
+                                                        Grid.Row="2"
+                                                        Grid.Column="1"
+                                                        Height="22"
+                                                        Margin="0,0,0,1"
+                                                        VerticalAlignment="Bottom"
+                                                        DisplayMemberPath="CityProvinceName"
+                                                        IsEnabled="{Binding Path=FormState, ConverterParameter=NEW|EDIT, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                        ItemsSource="{Binding Provinces, Mode=OneWay}"
+                                                        SelectedValueEx="{Binding CurrentPatient.CityProvinceID, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                        SelectedValuePath="CityProvinceID"
+                                                        Style="{StaticResource MainFrame.ComboBox}"
+                                                        TabIndex="12" />
+
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="4"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding Q0484_G1_QuocGia, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <customcontrols:AxComboBox
+                                                        x:Name="cboCountry"
+                                                        Grid.Row="2"
+                                                        Grid.Column="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        DisplayMemberPath="CountryName"
+                                                        IsEnabled="{Binding Path=FormState, ConverterParameter=NEW|EDIT, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                        ItemsSource="{Binding Countries}"
+                                                        SelectedValueEx="{Binding CurrentPatient.CountryID, Mode=TwoWay}"
+                                                        SelectedValuePath="CountryID"
+                                                        Style="{StaticResource MainFrame.ComboBox}"
+                                                        TabIndex="13" />
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="0"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding K3914_G1_DTDiDong, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtCellPhone"
+                                                        Grid.Row="3"
+                                                        Grid.Column="1"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="14"
+                                                        Text="{Binding CurrentPatient.PatientCellPhoneNumber, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="2"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.Column="4"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding K3909_G1_DT, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtPhoneNo"
+                                                        Grid.Row="3"
+                                                        Grid.Column="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="15"
+                                                        Text="{Binding CurrentPatient.PatientPhoneNumber, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="4"
+                                                        Grid.Column="0"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding Z0005_G1_Email2, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtEmailAddress"
+                                                        Grid.Row="4"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="16"
+                                                        Text="{Binding CurrentPatient.PatientEmailAddress, Mode=TwoWay}" />
+
+                                                </Grid>
+                                            </StackPanel>
+
+                                        </Border>
+
+
+
+
+                                    </StackPanel>
+                                    <StackPanel
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Width="440">
+                                        <Border
+                                            x:Name="groupAdditionalContact_Copy"
+                                            Height="230"
+                                            Margin="0,0,0,0"
+                                            Style="{StaticResource LightBlueBorderStyleNew}">
+                                            <StackPanel>
+                                                <TextBlock
+                                                    Margin="0"
+                                                    Foreground="#FF5E5E5E"
+                                                    Style="{StaticResource TBlock.Heading.02}"
+                                                    Text="{Binding T2595_G1_LHePhu, Source={StaticResource eHCMSResources}}"
+                                                    TextWrapping="Wrap" />
+
+                                                <Grid Margin="0,0,0,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                        <RowDefinition Height="24" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" MinWidth="100" />
+                                                        <ColumnDefinition Width="10" />
+                                                        <ColumnDefinition Width="10" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" MinWidth="100" />
+                                                        <ColumnDefinition Width="10" />
+                                                    </Grid.ColumnDefinitions>
+
+
+                                                    <TextBlock
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding T1012_G1_GDinh, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <customcontrols:KeyEnabledComboBox
+                                                        x:Name="cboContactRelationship"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        DisplayMemberPath="ObjectValue"
+                                                        IsEnabled="{Binding FormState, ConverterParameter=NEW|EDIT, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        ItemsSource="{Binding FamilyRelationshipList}"
+                                                        SelectedValueEx="{Binding CurrentPatient.V_FamilyRelationship, Mode=TwoWay}"
+                                                        SelectedValuePath="LookupID"
+                                                        Style="{StaticResource MainFrame.ComboBox}"
+                                                        TabIndex="31" />
+
+
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding T1567_G1_HoTen, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtContactFullName"
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="32"
+                                                        Text="{Binding CurrentPatient.FContactFullName, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtContactAddress"
+                                                        Grid.Row="2"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="33"
+                                                        Text="{Binding CurrentPatient.FContactAddress, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding K3916_G1_DTNha, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtContactHomePhone"
+                                                        Grid.Row="3"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="34"
+                                                        Text="{Binding CurrentPatient.FContactHomePhone, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="4"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding K3910_G1_DTCty, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtContactBizPhone"
+                                                        Grid.Row="4"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="35"
+                                                        Text="{Binding CurrentPatient.FContactBusinessPhone, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="5"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding K3915_G1_DTDiDong2, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtContactCellPhone"
+                                                        Grid.Row="5"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="36"
+                                                        Text="{Binding CurrentPatient.FContactCellPhone, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="6"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding T2594_G1_LHeKhac, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtContactAlternateContact"
+                                                        Grid.Row="6"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="37"
+                                                        Text="{Binding CurrentPatient.FAlternateContact, Mode=TwoWay}" />
+
+                                                    <TextBlock
+                                                        Grid.Row="7"
+                                                        Margin="0"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource TextBlock.Heading.04}"
+                                                        Text="{Binding S0641_G1_SoDTKhac, Source={StaticResource eHCMSResources}}"
+                                                        TextWrapping="Wrap" />
+                                                    <TextBox
+                                                        x:Name="txtContactAlternatePhone"
+                                                        Grid.Row="7"
+                                                        Grid.Column="1"
+                                                        Grid.ColumnSpan="5"
+                                                        Height="22"
+                                                        VerticalAlignment="Center"
+                                                        IsReadOnly="{Binding FormState, ConverterParameter=NONE|READONLY, Converter={StaticResource EnumConverterObj}, Mode=OneWay}"
+                                                        Style="{StaticResource MainFrame.TextBox}"
+                                                        TabIndex="38"
+                                                        Text="{Binding CurrentPatient.FAlternatePhone, Mode=TwoWay}" />
+
+                                                </Grid>
+                                            </StackPanel>
+
+                                        </Border>
+
+                                        <Border
+                                            x:Name="groupPatientNotes"
+                                            Height="100"
+                                            Margin="0,10,0,0"
+                                            Style="{StaticResource LightBlueBorderStyleNew}">
+                                            <StackPanel>
+                                                <TextBlock
+                                                    Margin="0"
+                                                    Foreground="#FF5E5E5E"
+                                                    Style="{StaticResource TBlock.Heading.02}"
+                                                    Text="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}"
+                                                    TextWrapping="Wrap" />
+                                                <customcontrols:AxMultilineTextBox
+                                                    x:Name="txtPatientNotes"
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Height="75"
+                                                    Margin="0"
+                                                    VerticalAlignment="Bottom"
+                                                    IsReadOnly="{Binding Path=FormState, ConverterParameter=NONE|READONLY, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                                    TabIndex="39"
+                                                    Text="{Binding CurrentPatient.PatientNotes, Mode=TwoWay}" />
+
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
+                            </ScrollViewer>
+
+
+                            <!--<StackPanel Grid.Row="1"
+                                            Grid.ColumnSpan="3"
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Right">
+                                    <Button Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                                            Width="80"
+                                            Name="SavePatientCmd"
+                                            IsEnabled="{Binding GeneralInfoChanged, Mode=OneWay}"
+                                            TabIndex="42" Style="{StaticResource MainFrame.Button}"
+                                     />
+                                <Button Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}"
+                                            Width="80"
+                                            Name="CancelChangesOnGeneralInfo"
+                                            IsEnabled="{Binding GeneralInfoChanged, Mode=OneWay}"
+                                            TabIndex="42" Style="{StaticResource MainFrame.Button}"
+                                     />
+                                </StackPanel>-->
+                        </Grid>
+
+                    </Grid>
+
+                </TabItem>
+                <TabItem
+                    x:Name="tabitemHealthInsurance"
+                    Header="{Binding G0151_G1_TheBH, Source={StaticResource eHCMSResources}}"
+                    IsEnabled="{Binding Path=FormState, ConverterParameter=READONLY|EDIT, Mode=OneWay, Converter={StaticResource EnumConverter}}"
+                    Visibility="{Binding Path=ActivationMode, ConverterParameter=CREATE_PATIENT|NEW_PATIENT_FOR_NEW_REGISTRATION|CONFIRM_PAPER_REFERAL|CONFIRM_HEALTH_INSURANCE|VIEW_AND_EDIT_PATIENT|EDIT_PATIENT_FOR_REGISTRATION, Mode=OneWay, Converter={StaticResource EnumVisibilityConverter}}">
+
+                    <ContentControl
+                        Name="HealthInsuranceContent"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+
+                </TabItem>
+
+                <TabItem
+                    x:Name="tabitemAdditionalInfo"
+                    Header="{Binding T1815_G1_ImgStore, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" MinHeight="24" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.ColumnSpan="3" VerticalAlignment="Stretch">
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="0"
+                                    Foreground="#FF5E5E5E"
+                                    Style="{StaticResource TBlock.Heading.02}"
+                                    Text="{Binding P0321_G1_PatientPhoto, Source={StaticResource eHCMSResources}}"
+                                    TextWrapping="Wrap" />
+                                <StackPanel
+                                    Height="Auto"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Image
+                                        x:Name="imgPatientPhoto"
+                                        Width="100"
+                                        Height="100"
+                                        HorizontalAlignment="Center"
+                                        Source="{Binding PatientPhotoData}"
+                                        Stretch="Fill" />
+                                    <Button
+                                        x:Name="lnkBrowsePhoto"
+                                        Height="20"
+                                        Margin="0"
+                                        HorizontalAlignment="Center"
+                                        Content="{Binding PatientRegistrationResources.BrowsePatientPhoto, Source={StaticResource ResourceWrapper}}"
+                                        IsEnabled="{Binding Path=DataContext.FormState, ElementName=LayoutRoot, ConverterParameter=NEW|EDIT, Mode=OneWay, Converter={StaticResource EnumConverterObj}}"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                        TabIndex="39" />
+                                </StackPanel>
+                            </StackPanel>
+
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.ColumnSpan="3"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <Button
+                                Width="80"
+                                Content="{Binding S0544_G1_Save, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}" />
+                        </StackPanel>
+                    </Grid>
+
+                </TabItem>
+
+
+            </TabControl>
+        </StackPanel>
+        <!--  Visibility="{Binding ThongTinBN_Edit,Converter={StaticResource BooleanToVisibility} }"  -->
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Left"
+            Orientation="Horizontal">
+            <!--  Visibility="{Binding ThongTinBN_Edit,Converter={StaticResource BooleanToVisibility} }"  -->
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <Button
+                    Name="SaveChangesCmd"
+                    Width="80"
+                    Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}"
+                    Visibility="{Binding ShowSaveChangesCmd, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
+
+                <Button
+                    Name="CancelChangesCmd"
+                    Width="80"
+                    Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}"
+                    Visibility="{Binding ShowCancelChangesCmd, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
+            </StackPanel>
+
+            <StackPanel
+                Grid.Row="1"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <Button
+                    Name="ConfirmCmd"
+                    Width="80"
+                    Content="{Binding G2363_G1_XNhan, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}"
+                    TabIndex="50"
+                    Visibility="{Binding ConfirmButtonVisibility, Mode=OneWay}" />
+            </StackPanel>
+            <Button
+                Name="CloseFormCmd"
+                Width="80"
+                Content="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}"
+                TabIndex="51"
+                Visibility="{Binding ShowCloseFormButton, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
+        </StackPanel>
+    </Grid>
+</customcontrols:AxUserControl>

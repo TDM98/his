@@ -1,0 +1,1059 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.OvertimeWorkingScheduleView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    VerticalAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
+    d:DesignWidth="1000"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <converters:CheckIfNullConverter x:Key="CheckIfNullConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <!--<TabControl>
+        <TabItem Header="LỊCH KHÁM BỆNH NGOÀI GiỜ">-->
+    <Grid
+        x:Name="LayoutRoot"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Column="0"
+            Grid.ColumnSpan="4"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="18"
+            Foreground="#3595CB"
+            Style="{StaticResource TextBlock.Heading.02}"
+            Text="Tạo lịch khám bệnh ngoài giờ" />
+        <Grid Grid.Row="1" Margin="0,0,0,30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.Normal.12}"
+                Text="{Binding N0033_G1_Nam, Source={StaticResource eHCMSResources}}" />
+            <ComboBox
+                Grid.Column="1"
+                MinWidth="100"
+                Margin="5,0"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event SelectionChanged]=[Action cboYear_SelectionChanged($source,$eventArgs)]"
+                ItemsSource="{Binding YearCollection, Mode=OneWay}"
+                SelectedItem="{Binding CurrentYear, Mode=TwoWay}"
+                Style="{StaticResource MainFrame.ComboBox}" />
+            <DatePicker
+                Grid.Column="2"
+                Width="110"
+                Height="22"
+                Margin="0"
+                VerticalAlignment="Center"
+                SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
+                Style="{StaticResource MainFrame.DatePicker}" />
+            <Button
+                x:Name="btnClearFilter"
+                Grid.Column="3"
+                Width="110"
+                MinHeight="25"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Chọn ngày"
+                Style="{StaticResource MainFrame.Button}" />
+            <!--<TextBlock
+                            Grid.Column="4"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MainFrame.TextBlock.Normal.12}"
+                            Text="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                        <AxControls:KeySearchableComboBox
+                            Grid.Column="5"
+                            MinWidth="100"
+                            MinHeight="25"
+                            Margin="5,0"
+                            VerticalAlignment="Center"
+                            DisplayMemberPath="Location.LocationName"
+                            ItemsSource="{Binding LocationCollection, Mode=OneWay}"
+                            SelectedItem="{Binding SelectedLocation, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.ComboBox}" />-->
+
+            <TextBlock
+                Grid.Row="1"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.Normal.12}"
+                Text="Tuần" />
+            <ComboBox
+                Grid.Row="1"
+                Grid.Column="1"
+                MinWidth="100"
+                Margin="5,0"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event SelectionChanged]=[Action cboWeek_SelectionChanged($source,$eventArgs)]"
+                ItemsSource="{Binding WeekCollection, Mode=OneWay}"
+                SelectedItem="{Binding CurrentWeek, Mode=TwoWay}"
+                Style="{StaticResource MainFrame.ComboBox}" />
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                Text="{Binding DayWeek}" />
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                BorderBrush="Black"
+                BorderThickness="1,1,0,1">
+                <StackPanel>
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{Binding G0702_G1_Thu2, Source={StaticResource eHCMSResources}}"
+                        TextAlignment="Center" />
+                    <TextBlock Text="{Binding MondayDay, StringFormat='{}{0:dd/MM/yyyy}'}" TextAlignment="Center" />
+                </StackPanel>
+
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.Column="2"
+                BorderBrush="Black"
+                BorderThickness="1,1,0,1">
+                <StackPanel>
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{Binding G0704_G1_Thu3, Source={StaticResource eHCMSResources}}"
+                        TextAlignment="Center" />
+                    <TextBlock Text="{Binding TuesdayDay, StringFormat='{}{0:dd/MM/yyyy}'}" TextAlignment="Center" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.Column="3"
+                BorderBrush="Black"
+                BorderThickness="1,1,0,1">
+                <StackPanel>
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{Binding G0706_G1_Thu4, Source={StaticResource eHCMSResources}}"
+                        TextAlignment="Center" />
+                    <TextBlock Text="{Binding WednesdayDay, StringFormat='{}{0:dd/MM/yyyy}'}" TextAlignment="Center" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.Column="4"
+                BorderBrush="Black"
+                BorderThickness="1,1,0,1">
+                <StackPanel>
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{Binding G0708_G1_Thu5, Source={StaticResource eHCMSResources}}"
+                        TextAlignment="Center" />
+                    <TextBlock Text="{Binding ThursdayDay, StringFormat='{}{0:dd/MM/yyyy}'}" TextAlignment="Center" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.Column="5"
+                BorderBrush="Black"
+                BorderThickness="1,1,0,1">
+                <StackPanel>
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{Binding G0710_G1_Thu6, Source={StaticResource eHCMSResources}}"
+                        TextAlignment="Center" />
+                    <TextBlock Text="{Binding FridayDay, StringFormat='{}{0:dd/MM/yyyy}'}" TextAlignment="Center" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.Column="6"
+                BorderBrush="Black"
+                BorderThickness="1,1,0,1">
+                <StackPanel>
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{Binding G0712_G1_Thu7, Source={StaticResource eHCMSResources}}"
+                        TextAlignment="Center" />
+                    <TextBlock Text="{Binding SaturdayDay, StringFormat='{}{0:dd/MM/yyyy}'}" TextAlignment="Center" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.Column="7"
+                BorderBrush="Black"
+                BorderThickness="1,1,1,1">
+                <StackPanel>
+                    <TextBlock
+                        FontWeight="Bold"
+                        Text="{Binding K2227_G1_ChuNhat, Source={StaticResource eHCMSResources}}"
+                        TextAlignment="Center" />
+                    <TextBlock Text="{Binding SundayDay, StringFormat='{}{0:dd/MM/yyyy}'}" TextAlignment="Center" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="1"
+                BorderBrush="Black"
+                BorderThickness="1,0,0,1">
+                <StackPanel>
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2,12,2,0"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Margin="0,-12,0,0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource LightBlueBorderStyleNo}">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="#FF6F8AA9"
+                                    Style="{StaticResource TextBlock.Heading.Group}"
+                                    Text="{Binding Z2803_G1_LichLamViec, Source={StaticResource eHCMSResources}}" />
+                            </Border>
+                            <AxControls:ReadOnlyDataGrid
+                                Grid.Row="1"
+                                Width="Auto"
+                                MaxHeight="550"
+                                VerticalContentAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                HorizontalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding MondaySchedule}"
+                                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                SelectedItem="{Binding SelectedQuotation, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}"
+                                VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action EditItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Lịch" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding StaffName}" />
+                                                    <TextBlock Text="{Binding WorkTime}" />
+                                                    <TextBlock Text="{Binding LocationName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+                            </AxControls:ReadOnlyDataGrid>
+                        </Grid>
+                    </Border>
+                    <Button
+                        x:Name="btnAddThu2"
+                        MinWidth="100"
+                        Margin="0,7,0,7"
+                        HorizontalAlignment="Center"
+                        Content="Thêm bác sĩ"
+                        IsEnabled="{Binding FilteredStaff, Converter={StaticResource CheckIfNullConverter}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="2"
+                BorderBrush="Black"
+                BorderThickness="1,0,0,1">
+                <StackPanel>
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2,12,2,0"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Margin="0,-12,0,0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource LightBlueBorderStyleNo}">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="#FF6F8AA9"
+                                    Style="{StaticResource TextBlock.Heading.Group}"
+                                    Text="{Binding Z2803_G1_LichLamViec, Source={StaticResource eHCMSResources}}" />
+                            </Border>
+                            <AxControls:ReadOnlyDataGrid
+                                Grid.Row="1"
+                                Width="Auto"
+                                MaxHeight="550"
+                                VerticalContentAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                HorizontalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding TuesdaySchedule}"
+                                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                SelectedItem="{Binding SelectedQuotation, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}"
+                                VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action EditItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Lịch" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding StaffName}" />
+                                                    <TextBlock Text="{Binding WorkTime}" />
+                                                    <TextBlock Text="{Binding LocationName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </AxControls:ReadOnlyDataGrid>
+                        </Grid>
+                    </Border>
+                    <Button
+                        x:Name="btnAddThu3"
+                        MinWidth="100"
+                        Margin="0,7,0,7"
+                        HorizontalAlignment="Center"
+                        Content="Thêm bác sĩ"
+                        IsEnabled="{Binding FilteredStaff, Converter={StaticResource CheckIfNullConverter}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="3"
+                BorderBrush="Black"
+                BorderThickness="1,0,0,1">
+                <StackPanel>
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2,12,2,0"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Margin="0,-12,0,0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource LightBlueBorderStyleNo}">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="#FF6F8AA9"
+                                    Style="{StaticResource TextBlock.Heading.Group}"
+                                    Text="{Binding Z2803_G1_LichLamViec, Source={StaticResource eHCMSResources}}" />
+                            </Border>
+                            <AxControls:ReadOnlyDataGrid
+                                Grid.Row="1"
+                                Width="Auto"
+                                MaxHeight="550"
+                                VerticalContentAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                HorizontalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding WednesdaySchedule}"
+                                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                SelectedItem="{Binding SelectedQuotation, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}"
+                                VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action EditItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Lịch" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding StaffName}" />
+                                                    <TextBlock Text="{Binding WorkTime}" />
+                                                    <TextBlock Text="{Binding LocationName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </AxControls:ReadOnlyDataGrid>
+                        </Grid>
+                    </Border>
+                    <Button
+                        x:Name="btnAddThu4"
+                        MinWidth="100"
+                        Margin="0,7,0,7"
+                        HorizontalAlignment="Center"
+                        Content="Thêm bác sĩ"
+                        IsEnabled="{Binding FilteredStaff, Converter={StaticResource CheckIfNullConverter}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="4"
+                BorderBrush="Black"
+                BorderThickness="1,0,0,1">
+                <StackPanel>
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2,12,2,0"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Margin="0,-12,0,0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource LightBlueBorderStyleNo}">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="#FF6F8AA9"
+                                    Style="{StaticResource TextBlock.Heading.Group}"
+                                    Text="{Binding Z2803_G1_LichLamViec, Source={StaticResource eHCMSResources}}" />
+                            </Border>
+                            <AxControls:ReadOnlyDataGrid
+                                Grid.Row="1"
+                                Width="Auto"
+                                MaxHeight="550"
+                                VerticalContentAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                HorizontalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding ThursdaySchedule}"
+                                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                SelectedItem="{Binding SelectedQuotation, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}"
+                                VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action EditItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Lịch" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding StaffName}" />
+                                                    <TextBlock Text="{Binding WorkTime}" />
+                                                    <TextBlock Text="{Binding LocationName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </AxControls:ReadOnlyDataGrid>
+                        </Grid>
+                    </Border>
+                    <Button
+                        x:Name="btnAddThu5"
+                        MinWidth="100"
+                        Margin="0,7,0,7"
+                        HorizontalAlignment="Center"
+                        Content="Thêm bác sĩ"
+                        IsEnabled="{Binding FilteredStaff, Converter={StaticResource CheckIfNullConverter}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="5"
+                BorderBrush="Black"
+                BorderThickness="1,0,0,1">
+                <StackPanel>
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2,12,2,0"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Margin="0,-12,0,0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource LightBlueBorderStyleNo}">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="#FF6F8AA9"
+                                    Style="{StaticResource TextBlock.Heading.Group}"
+                                    Text="{Binding Z2803_G1_LichLamViec, Source={StaticResource eHCMSResources}}" />
+                            </Border>
+                            <AxControls:ReadOnlyDataGrid
+                                Grid.Row="1"
+                                Width="Auto"
+                                MaxHeight="550"
+                                VerticalContentAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                HorizontalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding FridaySchedule}"
+                                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                SelectedItem="{Binding SelectedQuotation, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}"
+                                VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action EditItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Lịch" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding StaffName}" />
+                                                    <TextBlock Text="{Binding WorkTime}" />
+                                                    <TextBlock Text="{Binding LocationName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </AxControls:ReadOnlyDataGrid>
+                        </Grid>
+                    </Border>
+                    <Button
+                        x:Name="btnAddThu6"
+                        MinWidth="100"
+                        Margin="0,7,0,7"
+                        HorizontalAlignment="Center"
+                        Content="Thêm bác sĩ"
+                        IsEnabled="{Binding FilteredStaff, Converter={StaticResource CheckIfNullConverter}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="6"
+                BorderBrush="Black"
+                BorderThickness="1,0,0,1">
+                <StackPanel>
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2,12,2,0"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Margin="0,-12,0,0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource LightBlueBorderStyleNo}">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="#FF6F8AA9"
+                                    Style="{StaticResource TextBlock.Heading.Group}"
+                                    Text="{Binding Z2803_G1_LichLamViec, Source={StaticResource eHCMSResources}}" />
+                            </Border>
+                            <AxControls:ReadOnlyDataGrid
+                                Grid.Row="1"
+                                Width="Auto"
+                                MaxHeight="550"
+                                VerticalContentAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                HorizontalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding SaturdaySchedule}"
+                                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                SelectedItem="{Binding SelectedQuotation, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}"
+                                VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action EditItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Lịch" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding StaffName}" />
+                                                    <TextBlock Text="{Binding WorkTime}" />
+                                                    <TextBlock Text="{Binding LocationName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </AxControls:ReadOnlyDataGrid>
+                        </Grid>
+                    </Border>
+                    <Button
+                        x:Name="btnAddThu7"
+                        MinWidth="100"
+                        Margin="0,7,0,7"
+                        HorizontalAlignment="Center"
+                        Content="Thêm bác sĩ"
+                        IsEnabled="{Binding FilteredStaff, Converter={StaticResource CheckIfNullConverter}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Row="2"
+                Grid.Column="7"
+                BorderBrush="Black"
+                BorderThickness="1,0,1,1">
+                <StackPanel>
+                    <Border
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2,12,2,0"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Border
+                                Margin="0,-12,0,0"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource LightBlueBorderStyleNo}">
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Foreground="#FF6F8AA9"
+                                    Style="{StaticResource TextBlock.Heading.Group}"
+                                    Text="{Binding Z2803_G1_LichLamViec, Source={StaticResource eHCMSResources}}" />
+                            </Border>
+                            <AxControls:ReadOnlyDataGrid
+                                Grid.Row="1"
+                                Width="Auto"
+                                MaxHeight="550"
+                                VerticalContentAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                HorizontalScrollBarVisibility="Auto"
+                                ItemsSource="{Binding SundaySchedule}"
+                                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                SelectedItem="{Binding SelectedQuotation, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}"
+                                VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="24" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action EditItemCmd($datacontext, $eventArgs)]"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}">
+                                                    <Button.Content>
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="Lịch" IsReadOnly="True">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock FontWeight="Bold" Text="{Binding StaffName}" />
+                                                    <TextBlock Text="{Binding WorkTime}" />
+                                                    <TextBlock Text="{Binding LocationName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </AxControls:ReadOnlyDataGrid>
+                        </Grid>
+                    </Border>
+                    <Button
+                        x:Name="btnAddCN"
+                        MinWidth="100"
+                        Margin="0,7,0,7"
+                        HorizontalAlignment="Center"
+                        Content="Thêm bác sĩ"
+                        IsEnabled="{Binding FilteredStaff, Converter={StaticResource CheckIfNullConverter}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <DockPanel Grid.Row="3" Margin="0,10,0,10">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="Bold"
+                Text="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}" />
+            <TextBox
+                MinHeight="40"
+                MaxHeight="100"
+                Margin="10,0,0,0"
+                AcceptsReturn="True"
+                MaxLength="1024"
+                Style="{StaticResource MainFrame.TextBox}"
+                Text="{Binding CurrentOvertimeWorkingWeek.OvertimeWorkingNotes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+        </DockPanel>
+        <StackPanel
+            Grid.Row="4"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsEditViewCase, Converter={StaticResource BooleanToVisibility}}">
+            <Button
+                x:Name="btnSave"
+                MinWidth="100"
+                Margin="10,0,10,0"
+                HorizontalAlignment="Left"
+                Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                IsEnabled="{Binding btnSaveEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding bOvertimeClinicManager_KHTH, Converter={StaticResource BooleanToVisibility}}" />
+            <Button
+                x:Name="btnSendOrganizeRoom"
+                MinWidth="100"
+                Margin="10,0,10,0"
+                HorizontalAlignment="Left"
+                Content="Gửi P.Tổ Chức"
+                IsEnabled="{Binding btnSendOrganizeRoomEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding bOvertimeClinicManager_KHTH, Converter={StaticResource BooleanToVisibility}}" />
+            <Button
+                x:Name="btnSendGeneralPlanRoom"
+                MinWidth="100"
+                Margin="10,0,10,0"
+                HorizontalAlignment="Left"
+                Content="Trả P.KHTH"
+                IsEnabled="{Binding btnSendGeneralPlanRoomEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding bOvertimeClinicManager_TC, Converter={StaticResource BooleanToVisibility}}" />
+            <Button
+                x:Name="btnConfirm"
+                MinWidth="100"
+                Margin="10,0,10,0"
+                HorizontalAlignment="Left"
+                Content="Xác nhận"
+                IsEnabled="{Binding btnConfirmEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding bOvertimeClinicManager_TC, Converter={StaticResource BooleanToVisibility}}" />
+            <Button
+                x:Name="btnLock"
+                MinWidth="100"
+                Margin="10,0,10,0"
+                HorizontalAlignment="Left"
+                Content="Khóa lịch"
+                IsEnabled="{Binding btnLockEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding bOvertimeClinicManager_KHTH, Converter={StaticResource BooleanToVisibility}}" />
+            <Button
+                x:Name="btnPreview"
+                MinWidth="100"
+                Margin="10,0,10,0"
+                HorizontalAlignment="Left"
+                Content="Xem/In"
+                Style="{StaticResource MainFrame.Button}" />
+        </StackPanel>
+
+    </Grid>
+    <!--</TabItem>
+        <TabItem Header="BÁO CÁO LỊCH LÀM VIỆC" />
+    </TabControl>-->
+
+</UserControl>

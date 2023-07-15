@@ -1,0 +1,446 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.PrescriptionAndConfirmHIView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="400"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNotConverter" />
+        <!--<DataTemplate x:Key="XacNhanTemplate">
+            <Button
+                x:Name="lnkXacNhan"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action XacNhanCmd($source, $eventArgs)]"
+                Content="Xác nhận"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="Xác nhận">
+        -->
+        <!--<Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1" />
+                        <TextBlock Text="XN"/>
+                    </Button.Content>-->
+        <!--
+            </Button>
+        </DataTemplate>-->
+        <DataTemplate x:Key="PreviewTemplate">
+            <Button
+                x:Name="lnkPreview"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action PreviewCmd($source, $eventArgs)]"
+                Content="Xem/In"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="Xem/In">
+                <!--<Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1" />
+                    </Button.Content>-->
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="PreviewHDSDTemplate">
+            <Button
+                x:Name="lnkPreviewHDSD"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action PreviewHDSDCmd($source, $eventArgs)]"
+                Content="In HDSD"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="In hướng dẫn sử dụng thuốc">
+                <!--<Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1" />
+                    </Button.Content>-->
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="PreviewAllTemplate">
+            <Button
+                x:Name="lnkPreviewAll"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action PrintAllCmd($source, $eventArgs)]"
+                Content="In Phiếu + HDDT"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="In phiếu nhận thuốc và hướng dẫn sử dụng thuốc" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TabControl cal:Message.Attach="[Event Loaded] = [Action TCMain_Loaded($source, $eventArgs)]" Style="{StaticResource MainFrame.TabControl}">
+            <TabItem
+                x:Name="TIPrescription"
+                Header="{Binding Z2377_G1_DuyetToa, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.TabItem}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <ContentControl Name="UCPatientSummaryInfoContent" Grid.Row="1" />
+                    <Border
+                        Grid.Row="0"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <ContentControl
+                            x:Name="UCSearchPatientAndRegistrationView"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch" />
+                    </Border>
+                    <TextBlock Grid.Row="2" Text="{Binding K3090_G1_DSToa, Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Foreground="Red"
+                        Text="{Binding Z2419_G1_DangKyNTDVTTNhaThuoc, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding IsServicePatient, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <DataGrid
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            MinWidth="150"
+                            VerticalAlignment="Stretch"
+                            cal:Message.Attach="[Event MouseDoubleClick] = [Action gvPrescriptionList_MouseDoubleClick($source, $eventArgs)]"
+                            AutoGenerateColumns="False"
+                            CanUserSortColumns="False"
+                            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                            HeadersVisibility="All"
+                            HorizontalScrollBarVisibility="Auto"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding PrescriptionCollection}"
+                            Style="{StaticResource MainFrame.DataGridStyle}"
+                            VerticalScrollBarVisibility="Auto">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding PrescriptionIssueCode, Mode=OneWay}" Header="{Binding T3668_G1_MaToaThuoc, Source={StaticResource eHCMSResources}}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <ContentControl
+                            x:Name="UCePrescription"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" />
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem
+                x:Name="TIConfirmHI"
+                Header="{Binding G2370_G1_XNhanBHYT, Source={StaticResource eHCMSResources}}"
+                IsEnabled="{Binding IsServicePatient, Converter={StaticResource InverseBoolConverter}}"
+                Style="{StaticResource MainFrame.TabItem}">
+                <ContentControl x:Name="UCPrescriptionView" />
+            </TabItem>
+            <TabItem
+                x:Name="TISimplePay"
+                Header="{Binding G0675_G1_TTinTToan, Source={StaticResource eHCMSResources}}"
+                IsEnabled="{Binding IsServicePatient, Converter={StaticResource InverseBoolConverter}}"
+                Style="{StaticResource MainFrame.TabItem}">
+                <ContentControl x:Name="UCSimplePay" />
+            </TabItem>
+            <TabItem
+                x:Name="TIChoNhanThuoc"
+                cal:Message.Attach="[Event Load]=[Action TabChoNhanThuocLoad($source, $eventArgs)]"
+                Header="Chờ soạn thuốc"
+                Style="{StaticResource MainFrame.TabItem}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <!--<ContentControl Name="UCPatientSummaryInfoContent" Grid.Row="1"/>-->
+                    <!--<Border Style="{StaticResource LightBlueBorderStyle}" Grid.Row="0" HorizontalAlignment="Stretch">
+                        <ContentControl x:Name="UCSearchPatientAndRegistrationView" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+                    </Border>-->
+                    <TextBlock Grid.Row="0" Text="{Binding K3090_G1_DSToa, Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Foreground="Red"
+                        Text="{Binding Z2419_G1_DangKyNTDVTTNhaThuoc, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding IsServicePatient, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                        <DatePicker
+                            x:Name="dtpFromDate"
+                            Margin="2,1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            SelectedDate="{Binding FromDate, TargetNullValue=null, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.DatePicker}" />
+                        <DatePicker
+                            x:Name="dtpToDate"
+                            Margin="2,1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            SelectedDate="{Binding ToDate, TargetNullValue=null, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.DatePicker}" />
+                        <ComboBox
+                            Name="cbxCondition"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Height="24"
+                            MinWidth="100"
+                            Margin="2,2"
+                            cal:Message.Attach="[Event SelectionChanged] = [Action cbxCondition_SelectionChanged($source, $eventArgs)]"
+                            DisplayMemberPath="Text"
+                            ItemsSource="{Binding Conditions}"
+                            SelectedItem="{Binding CurrentCondition, Mode=TwoWay}"
+                            SelectedValuePath="Value"
+                            Style="{StaticResource MainFrame.ComboBox}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Margin="2,1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="Mã BN" />
+                        <AxControls:AxTextBox
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            Width="100"
+                            Margin="2,1"
+                            VerticalAlignment="Center"
+                            MaxLength="12"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            TabIndex="1"
+                            Text="{Binding sPatientCode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <interact:Interaction.Triggers>
+                                <interact:EventTrigger x:Name="sPatientCodeTrigger" EventName="KeyDown">
+                                    <AxControls:TextBoxEnterButtonInvoke x:Name="txtsPatientCode" TargetName="btRefresh" />
+                                </interact:EventTrigger>
+                            </interact:Interaction.Triggers>
+                        </AxControls:AxTextBox>
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Margin="2,1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="Tên BN" />
+                        <AxControls:AxTextBox
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            Width="100"
+                            Margin="2,1"
+                            VerticalAlignment="Center"
+                            MaxLength="100"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            TabIndex="1"
+                            Text="{Binding sPatientName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <interact:Interaction.Triggers>
+                                <interact:EventTrigger x:Name="sPatientNameTrigger" EventName="KeyDown">
+                                    <AxControls:TextBoxEnterButtonInvoke x:Name="txtsPatientName" TargetName="btRefresh" />
+                                </interact:EventTrigger>
+                            </interact:Interaction.Triggers>
+                        </AxControls:AxTextBox>
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Margin="2,1"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="STT BN" />
+                        <AxControls:AxTextBox
+                            x:Name="tbSoTT"
+                            Grid.Row="1"
+                            Grid.Column="4"
+                            Width="50"
+                            Margin="2,1"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event KeyUp] = [Action tbSoTT_KeyUp($source,$eventArgs)];[Event Loaded] = [Action tbSoTT_Loaded($source,$eventArgs)]"
+                            MaxLength="4"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            TabIndex="1"
+                            Text="{Binding sStoreServiceSeqNum, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                            <interact:Interaction.Triggers>
+                                <interact:EventTrigger x:Name="sStoreServiceSeqNumTrigger" EventName="KeyDown">
+                                    <AxControls:TextBoxEnterButtonInvoke x:Name="txtsStoreServiceSeqNum" TargetName="btRefresh" />
+                                </interact:EventTrigger>
+                            </interact:Interaction.Triggers>
+                        </AxControls:AxTextBox>
+                        <Button
+                            x:Name="btRefresh"
+                            Width="75"
+                            Height="22"
+                            Margin="0,2,5,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Content="Lấy DS"
+                            Style="{StaticResource MainFrame.Button}" />
+                        <Border
+                            Width="125"
+                            Height="20"
+                            Margin="200,0,0,0"
+                            Background="#FF9999"
+                            BorderBrush="Gainsboro"
+                            BorderThickness="1">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="Chưa đủ toa thuốc" />
+                        </Border>
+                        <Border
+                            Width="125"
+                            Height="20"
+                            Margin="10,0"
+                            Background="LightSkyBlue"
+                            BorderBrush="Gainsboro"
+                            BorderThickness="1">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="Đối tượng ưu tiên" />
+                        </Border>
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Row="4"
+                        Margin="2,5,0,2"
+                        VerticalAlignment="Top"
+                        Orientation="Vertical">
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <DataGrid
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                MinWidth="150"
+                                VerticalAlignment="Stretch"
+                                cal:Message.Attach="[Event MouseDoubleClick] = [Action gvChoNhanThuocList_MouseDoubleClick($source, $eventArgs)];[Event Loaded]=[Action gridSoanThuoc_Loaded($source, $eventArgs)]"
+                                AutoGenerateColumns="False"
+                                CanUserResizeColumns="True"
+                                CanUserSortColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                HeadersVisibility="All"
+                                HorizontalScrollBarVisibility="Auto"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ChoSoanThuocData}"
+                                VerticalScrollBarVisibility="Auto">
+                                <DataGrid.Style>
+                                    <Style BasedOn="{StaticResource MainFrame.DataGridStyle}" TargetType="DataGrid">
+                                        <Setter Property="RowStyle">
+                                            <Setter.Value>
+                                                <Style BasedOn="{StaticResource MainFrame.DataGridRowStyle.Normal}" TargetType="DataGridRow">
+                                                    <Setter Property="Background" Value="White" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=PreCheck}" Value="True">
+                                                            <Setter Property="Background" Value="#FF9999" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=IsPri}" Value="True">
+                                                            <Setter Property="Background" Value="LightSkyBlue" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DataGrid.Style>
+                                <DataGrid.Columns>
+                                    <!--<DataGridTemplateColumn
+                                        x:Name="colXacNhan"
+                                        Width="60"
+                                        CellTemplate="{StaticResource XacNhanTemplate}"
+                                        Header="" />-->
+                                    <DataGridTextColumn Binding="{Binding PrescriptionIssueCode, Mode=OneWay}" Header="{Binding T3668_G1_MaToaThuoc, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding ObjIssuerStaffID.FullName, Mode=OneWay}" Header="{Binding T0833_G1_TenBacSi, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding Location.LocationName, Mode=OneWay}" Header="{Binding P0391_G1_PgKham, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding PatientCode, Mode=OneWay}" Header="{Binding T3230_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding PatientFullName, Mode=OneWay}" Header="{Binding T0834_G1_TenBenhNhan, Source={StaticResource eHCMSResources}}" />
+                                    <!--<DataGridTextColumn Binding="{Binding OutwardDrugInvoices[0].OutInvID, Mode=OneWay}" Header="Mã phiếu xuất" />-->
+                                    <DataGridTextColumn Binding="{Binding StoreServiceSeqNumStr, Mode=OneWay}" Header="{Binding G0738_G1_ThuTu, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTemplateColumn
+                                        x:Name="colPreviewAll"
+                                        Width="100"
+                                        CellTemplate="{StaticResource PreviewAllTemplate}"
+                                        Header="" />
+                                    <DataGridTemplateColumn
+                                        x:Name="colPreview"
+                                        Width="55"
+                                        CellTemplate="{StaticResource PreviewTemplate}"
+                                        Header="" />
+                                    <DataGridTemplateColumn
+                                        x:Name="colPreviewHDSD"
+                                        Width="60"
+                                        CellTemplate="{StaticResource PreviewHDSDTemplate}"
+                                        Header="" />
+                                    <!--<DataGridTextColumn Binding="{Binding OutwardDrugInvoices[0].OutDrugInvStatus, Mode=OneWay}" Header="Tình trạng" />-->
+                                    <DataGridTemplateColumn Header="Đã nhận thuốc">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox
+                                                    HorizontalAlignment="Center"
+                                                    HorizontalContentAlignment="Center"
+                                                    IsChecked="{Binding IsWaiting, Mode=OneWay}"
+                                                    IsEnabled="False" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Binding="{Binding CountPrint, Mode=OneWay}" Header="Số lần in" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <AxControls:DataPager
+                                Grid.Row="1"
+                                x:Name="pagerGridSoanThuoc"
+                                Margin="0,-1,0,0"
+                                HorizontalContentAlignment="Left"
+                                PageSize="{Binding PageSize}"
+                                Source="{Binding ChoSoanThuocData, Mode=OneWay}" />
+                            <!--<ContentControl x:Name="UCePrescription" Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>-->
+                        </Grid>
+
+                    </StackPanel>
+
+
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

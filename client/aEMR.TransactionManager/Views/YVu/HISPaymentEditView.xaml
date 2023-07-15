@@ -1,0 +1,104 @@
+﻿<UserControl            x:Class="aEMR.TransactionManager.Views.HISPaymentEditView"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
+                        xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                        xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"  
+                        xmlns:cal="http://www.caliburnproject.org" 
+                        xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                        xmlns:AutoBoxTK="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+                        d:DesignWidth="900" d:DesignHeight="300"
+                        mc:Ignorable="d"     >
+    <UserControl.Resources>
+        <Converters:StringFormatConverter x:Key="StringFormatConverter"/>
+        <Converters:DecimalConverter x:Key="DecimalConverter"/>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" MinWidth="800" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsBusy="{Binding IsLoading, Mode=OneWay}" DisplayAfter="0:0:0.100" Margin="0,0,0,10">-->
+            <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="280" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Z2046_G1_QuanLyChiTieu, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" Grid.ColumnSpan="4" Grid.Column="0" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB" FontSize="18"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="99" />
+                        <ColumnDefinition Width="9" />
+                        <ColumnDefinition Width="211" />
+                        <ColumnDefinition Width="139*" />
+                        <ColumnDefinition Width="180*" />
+                        <ColumnDefinition Width="6*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="Auto" MaxHeight="24"/>
+                        <RowDefinition Height="Auto" MaxHeight="24"/>
+                        <RowDefinition Height="Auto" MaxHeight="24"/>
+                        <RowDefinition Height="Auto" MaxHeight="24"/>
+                        <RowDefinition Height="Auto" MaxHeight="24"/>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="24"/>
+                        <RowDefinition Height="24"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding Z2047_G1_NgayChi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                    <DatePicker TabIndex="1" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" Width="120" SelectedDate="{Binding gHOSPayment.PaymentDate,Mode=TwoWay}" VerticalAlignment="Center"  Style="{StaticResource MainFrame.DatePicker}" />
+                    <TextBlock Grid.Row="0" Grid.Column="3" HorizontalAlignment="Right"  Text="{Binding Z2047_G1_ChiCho, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                    <StackPanel Grid.Row="0" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
+                        <ComboBox TabIndex="2" HorizontalAlignment="Left" Width="150" Margin="5 0" ItemsSource="{Binding MonthCollection, Mode=OneTime}" SelectedValuePath="LookupID" DisplayMemberPath="ObjectValue" SelectedItem="{Binding gPayMonth, Mode=TwoWay}" Style="{StaticResource MainFrame.ComboBox}"></ComboBox>
+                        <ComboBox TabIndex="2" HorizontalAlignment="Left" Width="150" Margin="5 0" ItemsSource="{Binding YearCollection, Mode=OneTime}" SelectedValuePath="LookupID" DisplayMemberPath="ObjectValue" SelectedItem="{Binding gPayYear, Mode=TwoWay}" Style="{StaticResource MainFrame.ComboBox}"></ComboBox>
+                    </StackPanel>
+                    <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding Z2047_G1_MucChi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                <AxControls:AxAutoComplete TabIndex="3" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" IsDropDownOpen="True" MinimumPopulateDelay="300"
+                                         Margin="0 2 0 0"
+                            HorizontalAlignment="Stretch"
+                            Width="Auto" Height="22"
+                            ValueMemberBinding="{Binding ObjectValue, Mode=TwoWay}"
+                            ValueMemberPath="ObjectValue"
+                            Text="{Binding SelectedPayReson.ObjectValue}"
+                            cal:Message.Attach="[Event Populating] = [Action cboPayReson_Populating($source, $eventArgs)]; [Event DropDownClosed] = [Action cboPayReson_DropDownClosed($source, $eventArgs)]"
+                            Style="{StaticResource AxAutoCompleteMyStyle}" ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}" MinimumPrefixLength="0" FilterMode="None">
+                    <AutoBoxTK:AutoCompleteBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Stretch">
+                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding ObjectValue}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </AutoBoxTK:AutoCompleteBox.ItemTemplate>
+                    </AxControls:AxAutoComplete>
+                    <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding T3157_G1_LyDoChi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                    <TextBox Margin="0 2 0 0" TabIndex="4" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" MaxLength="2000" Text="{Binding gHOSPayment.PaymentReson, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}"></TextBox>
+                    <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding T3154_G1_LyDo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}" Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}"/>
+                    <ComboBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Height="22" TabIndex="2" Margin="0 2 0 0" ItemsSource="{Binding gCharityObjectTypeCollection, Mode=OneTime}" SelectedValuePath="LookupID" DisplayMemberPath="ObjectValue" SelectedValue="{Binding gHOSPayment.V_CharityObjectType, Mode=TwoWay}" Style="{StaticResource MainFrame.ComboBox}" Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}"></ComboBox>
+                    <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding K3587_G1_DoiTuong, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}" Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}"/>
+                    <ComboBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" Height="22" TabIndex="2" Margin="0 2 0 0" ItemsSource="{Binding gPatientSubjectCollection, Mode=OneTime}" SelectedValuePath="LookupID" DisplayMemberPath="ObjectValue" SelectedValue="{Binding gHOSPayment.V_PatientSubject, Mode=TwoWay}" Style="{StaticResource MainFrame.ComboBox}" Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}"></ComboBox>
+                    <TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding Z2192_G1_SoNguoi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}" Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}"/>
+                    <TextBox Margin="0 2 0 0" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="3" Text="{Binding gHOSPayment.NumbOfPerson,StringFormat='#,#',Mode=TwoWay,Converter={StaticResource DecimalConverter}}" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}"
+                             IsEnabled="{Binding gIsEnableNumbOfPatientComboBox}"
+                             cal:Message.Attach="[Event LostFocus]=[Action PatientName_LostFocus($source, $eventArgs)];"/>
+                    <TextBlock Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding T0834_G1_TenBenhNhan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}" Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}"/>
+                    <TextBox Margin="0 2 0 0" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="3" Text="{Binding gHOSPayment.PatientName,Mode=TwoWay}" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}"
+                             cal:Message.Attach="[Event LostFocus]=[Action PatientName_LostFocus($source, $eventArgs)];"/>
+                    <TextBlock Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding N0036_G1_NSinh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                    <DatePicker Visibility="{Binding IsCharitySupport,Converter={StaticResource BooleanToVisibility}}" TabIndex="1" HorizontalAlignment="Left" Grid.Row="7" Grid.Column="2" Width="120" SelectedDate="{Binding gHOSPayment.DOB,Mode=TwoWay}" VerticalAlignment="Center"  Style="{StaticResource MainFrame.DatePicker}" />
+                    <TextBlock Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding T0723_G1_GChu, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                    <TextBox Margin="0 2 0 0" TabIndex="5"  Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="3" MaxLength="2000" Text="{Binding gHOSPayment.PaymentNotice, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}"></TextBox>
+                    <TextBlock Grid.Row="9" Grid.Column="0" HorizontalAlignment="Right" Text="{Binding G1559_G1_TgTien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                    <TextBox Margin="0 2 0 0" Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="3" Text="{Binding gHOSPayment.PaymentAmount,StringFormat='#,###.#',Mode=TwoWay,Converter={StaticResource DecimalConverter}}" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}"></TextBox>
+                    <Button TabIndex="6"  x:Name="EditCmd" Grid.Row="10" Grid.Column="4" Content="{Binding ButtonText}" Width="75" Height="22" HorizontalAlignment="Left" Style="{StaticResource MainFrame.Button}" />
+                </Grid>
+            </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Border>
+</UserControl>

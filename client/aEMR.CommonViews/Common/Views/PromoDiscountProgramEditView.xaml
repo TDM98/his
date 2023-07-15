@@ -1,0 +1,150 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.PromoDiscountProgramEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    MinWidth="400"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <Converters:DecimalToPercentConverter x:Key="DecimalToPercentConverter" />
+        <Controls:KeySearchableComboBox x:Key="KeySearchableComboBox" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <Grid Margin="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="140" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Margin="5,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlock.Heading.02}"
+            Text="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" />
+        <TextBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="5,5,0,5"
+            Style="{StaticResource MainFrame.TextBox}"
+            Text="{Binding PromoDiscountProgramObj.PromoDiscName, Mode=TwoWay}" />
+        <TextBlock
+            Grid.Row="1"
+            Margin="5,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlock.Heading.02}"
+            Text="{Binding T3154_G1_LyDo, Source={StaticResource eHCMSResources}}" />
+        <Controls:KeySearchableComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="5,5,0,5"
+            ItemsSource="{Binding DiscountReasonCollection, Mode=OneWay}"
+            Style="{StaticResource MainFrame.ComboBox}"
+            Text="{Binding PromoDiscountProgramObj.ReasonOrNote, Mode=TwoWay}" />
+        <TextBlock
+            Grid.Row="2"
+            Margin="5,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlock.Heading.02}"
+            Text="{Binding P0352_G1_PhanTram, Source={StaticResource eHCMSResources}}" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Margin="5,5,0,5"
+            IsEnabled="{Binding PromoDiscountProgramObj.IsOnPriceDiscount, Converter={StaticResource InverseBoolConverter}}"
+            Style="{StaticResource MainFrame.TextBox}"
+            Text="{Binding PromoDiscountProgramObj.DiscountPercent, Mode=TwoWay, Converter={StaticResource DecimalToPercentConverter}}" />
+        <CheckBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="5,5,0,5"
+            Padding="0,3,0,0"
+            cal:Message.Attach="[Event Checked] = [Action cboIsPriceDiscount_Checked($source, $eventArgs)]                   ;[Event Unchecked] = [Action cboIsPriceDiscount_Checked($source, $eventArgs)]"
+            Content="{Binding Z2679_G1_GiamGiaTrucTiep, Source={StaticResource eHCMSResources}}"
+            IsChecked="{Binding PromoDiscountProgramObj.IsOnPriceDiscount, Mode=TwoWay}"
+            Style="{StaticResource MainFrame.Checkbox}" />
+
+        <TextBlock
+            Grid.Row="4"
+            Margin="5,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlock.Heading.02}"
+            Text="{Binding Z3075_G1_LoaiMienGiam, Source={StaticResource eHCMSResources}}" />
+
+        <Controls:KeySearchableComboBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="5,5,0,5"
+            VerticalAlignment="Center"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding DiscountTypeCountCollection}"
+            SelectedValue="{Binding PromoDiscountProgramObj.V_DiscountTypeCount.LookupID, Mode=TwoWay}"
+            SelectedValuePath="LookupID"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <Controls:AxComboBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="5,5,0,5"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding DiscountTypeCountCollection, Mode=OneWay}"
+            SelectedItemEx="{Binding PromoDiscountProgramObj.V_DiscountTypeCount, Mode=TwoWay}"
+            SelectedValuePath="LookupID"
+            Style="{StaticResource MainFrame.ComboBox}" />
+
+        <TextBlock
+            Grid.Row="5"
+            Margin="5,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource TextBlock.Heading.02}"
+            Text="{Binding Z2783_G1_NguoiDuyetMienGiam, Source={StaticResource eHCMSResources}}" />
+        <Controls:KeySearchableComboBox
+            Grid.Row="5"
+            Grid.Column="1"
+            Margin="5,5,0,5"
+            ItemsSource="{Binding StaffCollection, Mode=OneWay}"
+            SelectedValue="{Binding PromoDiscountProgramObj.ConfirmedStaff.StaffID, Mode=TwoWay}"
+            SelectedValuePath="StaffID"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <StackPanel
+            Grid.Row="6"
+            Grid.Column="1"
+            Margin="5,5,0,5"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnSave"
+                MinWidth="80"
+                Padding="5,0"
+                Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                IsEnabled="{Binding IsViewOld, Converter={StaticResource InverseBoolConverter}}"
+                Style="{StaticResource MainFrame.Button}" />
+            <Button
+                x:Name="BtnViewPrint"
+                MinWidth="80"
+                Margin="2,0,0,0"
+                Padding="5,0"
+                Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}"
+                Visibility="{Binding CanBtnViewPrint, Converter={StaticResource BooleanToVisibility}}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

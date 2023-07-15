@@ -1,0 +1,171 @@
+﻿<UserControl x:Class="aEMR.PCLDepartment.Views.SieuAmResultTemplateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit" mc:Ignorable="d"
+             xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:cal="http://www.caliburnproject.org" d:DesignHeight="600" d:DesignWidth="900"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" Width="Auto" Margin="1,1,1,1"
+          ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <customcontrols:AxGrid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="80" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="300" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+
+            <TextBlock FontSize="18" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                 Text="{Binding T0815_G1_TaoTemplateChoKQSA, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB"
+                 Grid.ColumnSpan="4" Grid.Column="2" Margin="97,12,60,12" />
+            <Border Grid.Row="2" BorderThickness="1" MinWidth="550" Margin="1,1,1,1" HorizontalAlignment="Stretch"
+              Style="{StaticResource LightBlueBorderStyle}">
+                <customcontrols:AxGrid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="17*" />
+                        <ColumnDefinition Width="134*" />
+                        <ColumnDefinition Width="203*" />
+                        <ColumnDefinition Width="14*" />
+                        <ColumnDefinition Width="88*" />
+                        <ColumnDefinition Width="252*" />
+                        <ColumnDefinition Width="128*" />
+                        <ColumnDefinition Width="60*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding K2030_G1_ChonLoaiSA2, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Grid.Column="1" VerticalAlignment="Center"
+                     HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+                    <TextBlock Text="{Binding G0319_G1_ThemNhom, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"
+                     HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" Visibility="Collapsed" />
+                    <TextBox Name="GroupName" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="3"
+                   VerticalAlignment="Center" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Grid.ColumnSpan="3"
+                   Margin="0,3" Visibility="Collapsed" />
+                    <Button Name="butSaveGroup" Grid.Column="6" Grid.Row="3" Content="{Binding G0319_G1_ThemNhom, Source={StaticResource eHCMSResources}}" Height="22"
+                  Width="100" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource MainFrame.Button01}" Visibility="Collapsed" />
+                    <customcontrols:AxComboBox x:Name="cboVType" Grid.Column="2"
+                                     Style="{StaticResource MainFrame.ComboBox}" HorizontalAlignment="Stretch" Height="22"
+                                     ItemsSource="{Binding AllPCLResultParamImpID,Mode=OneWay}" TabIndex="5"
+                                     DisplayMemberPath="Description" SelectedValuePath="EnumValue"
+                                     SelectedItemEx="{Binding SelectPCLResultParamImpID,Mode=TwoWay}"
+                                     cal:Message.Attach="[Event SelectionChanged]=[Action cboVType_SelectionChanged($source,$eventArgs)]"
+                                     IsEnabled="{Binding IsEnabled}" />
+                </customcontrols:AxGrid>
+            </Border>
+
+
+            <Border Grid.Row="3" BorderThickness="1" Margin="1,1,1,1" HorizontalAlignment="Stretch"
+              Style="{StaticResource LightBlueBorderStyle}">
+                <customcontrols:AxGrid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+                    <Grid.RowDefinitions>
+
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="17*" />
+                        <ColumnDefinition Width="134*" />
+                        <ColumnDefinition Width="203*" />
+                        <ColumnDefinition Width="14*" />
+                        <ColumnDefinition Width="88*" />
+                        <ColumnDefinition Width="252*" />
+                        <ColumnDefinition Width="128*" />
+                        <ColumnDefinition Width="60*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding K2074_G1_ChonNhom2, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Grid.Column="1" VerticalAlignment="Center"
+                     HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+                    <TextBlock Text="{Binding G0273_G1_ThemMau, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"
+                     HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+                    <TextBox Name="PCLExamTemplateName" HorizontalAlignment="Stretch" Grid.Column="3" Grid.Row="5"
+                   VerticalAlignment="Center" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Grid.ColumnSpan="3"
+                   Margin="0,3" />
+                    <TextBox Text="{Binding curPCLExamParamResult.GroupName,Mode=TwoWay}" HorizontalAlignment="Stretch"
+                   Grid.Column="4" VerticalAlignment="Center" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}"
+                   Grid.ColumnSpan="2" />
+                    <customcontrols:AxComboBox x:Name="cboVGroup" Grid.Column="2"
+                                     Style="{StaticResource MainFrame.ComboBox}" HorizontalAlignment="Stretch" Height="22"
+                                     ItemsSource="{Binding lstPCLExamParamResult,Mode=OneWay}" TabIndex="5"
+                                     SelectedItemEx="{Binding curPCLExamParamResult,Mode=TwoWay}" DisplayMemberPath="GroupName"
+                                     SelectedValuePath="PCLExamResultID"
+                                     cal:Message.Attach="[Event SelectionChanged]=[Action cboVGroup_SelectionChanged($source,$eventArgs)]"
+                                     IsEnabled="{Binding IsEnabled}" />
+                    <Button Name="butUpdateNameGroup" Grid.Column="6" Content="{Binding S0742_G1_SuaTen, Source={StaticResource eHCMSResources}}" Height="22" Width="100"
+                  HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource MainFrame.Button01}" />
+                    <Button Name="butSaveTemp" Grid.Column="6" Grid.Row="1" Content="{Binding G0273_G1_ThemMau, Source={StaticResource eHCMSResources}}" Height="22" Width="100"
+                  HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource MainFrame.Button01}" />
+
+                </customcontrols:AxGrid>
+            </Border>
+
+
+            <Border Grid.Row="4" BorderThickness="1" Margin="1,1,1,1" HorizontalAlignment="Stretch"
+              Style="{StaticResource LightBlueBorderStyle}">
+                <customcontrols:AxGrid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="17*" />
+                        <ColumnDefinition Width="134*" />
+                        <ColumnDefinition Width="203*" />
+                        <ColumnDefinition Width="14*" />
+                        <ColumnDefinition Width="88*" />
+                        <ColumnDefinition Width="252*" />
+                        <ColumnDefinition Width="128*" />
+                        <ColumnDefinition Width="60*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding K0616_G1_ChonMau, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"
+                     FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+                    <TextBox Text="{Binding curPCLExamResultTemplate.PCLExamTemplateName,Mode=TwoWay}"
+                   HorizontalAlignment="Stretch" Grid.Column="4" VerticalAlignment="Center" FontWeight="Bold"
+                   Style="{StaticResource MainFrame.TextBox}" Grid.ColumnSpan="2" />
+                    <Button Name="butUpdateTemplateName" Grid.Column="6" Content="{Binding S0742_G1_SuaTen, Source={StaticResource eHCMSResources}}" Height="22" Width="100"
+                  HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource MainFrame.Button01}" />
+
+                    <customcontrols:AxComboBox x:Name="cboVTemplate" Grid.Column="2"
+                                     Style="{StaticResource MainFrame.ComboBox}" HorizontalAlignment="Stretch" Height="22"
+                                     ItemsSource="{Binding lstPCLExamResultTemplate,Mode=OneWay}" TabIndex="5"
+                                     SelectedItemEx="{Binding curPCLExamParamResult,Mode=TwoWay}" DisplayMemberPath="PCLExamTemplateName"
+                                     SelectedValuePath="PCLExamResultTemplateID" IsEnabled="{Binding IsEnabled}"
+                                     cal:Message.Attach="[Event SelectionChanged]=[Action cboVTemplate_SelectionChanged($source,$eventArgs)]" />
+                </customcontrols:AxGrid>
+            </Border>
+
+
+            <Border Grid.Row="5" BorderThickness="1" Margin="1,1,1,1" HorizontalAlignment="Stretch"
+              Style="{StaticResource LightBlueBorderStyle}">
+                <customcontrols:AxGrid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+                    <TextBlock Text="{Binding N0260_G1_NoiDungMau, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Margin="15,5,5,5" VerticalAlignment="Top"
+                     HorizontalAlignment="Left" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+
+
+                    <TextBox Text="{Binding curPCLExamResultTemplate.ResultContent,Mode=TwoWay}"
+                   HorizontalScrollBarVisibility="Auto" Margin="20,30,20,30" VerticalScrollBarVisibility="Visible" AcceptsReturn="True"
+                   TabIndex="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"
+                   Style="{StaticResource MainFrame.TextBox}" />
+                </customcontrols:AxGrid>
+            </Border>
+
+
+            <StackPanel Visibility="{Binding bSave}" Orientation="Horizontal" Grid.Row="6" VerticalAlignment="Bottom"
+                  Width="250" Height="24" HorizontalAlignment="Center">
+                <!--<Button Name="butSave"  IsEnabled="{Binding IsHasPatient}" Visibility="{Binding isSave,Converter={StaticResource BooleanToVisibility}}" Content="{Binding S0544_G1_Save, Source={StaticResource eHCMSResources}}" Height="22" Width="100" HorizontalAlignment="Left"  Margin="15,0,0,0"  VerticalAlignment="Top" Style="{StaticResource MainFrame.Button01}" TabIndex="7" />-->
+                <Button Name="butUpdate" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Height="22" Width="100" HorizontalAlignment="Left"
+                Margin="15,0,0,0" VerticalAlignment="Top" Style="{StaticResource MainFrame.Button01}" TabIndex="8" />
+            </StackPanel>
+        </customcontrols:AxGrid>
+    </Border>
+
+</UserControl>

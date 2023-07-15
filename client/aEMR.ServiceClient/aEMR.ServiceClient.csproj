@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A6887F7D-9B92-4C9C-9893-1EC4826300A8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>aEMR.ServiceClient</RootNamespace>
+    <AssemblyName>aEMR.ServiceClient</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="aEMRLanguage">
+      <HintPath>P:\aEMRLanguage.dll</HintPath>
+    </Reference>
+    <Reference Include="DataEntities.Server">
+      <HintPath>P:\DataEntities.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppointmentServiceClient.cs" />
+    <Compile Include="BedAllocationsServiceClient.cs" />
+    <Compile Include="BillingPaymentWcfServiceLibClient.cs" />
+    <Compile Include="ClinicManagementServiceClient.cs" />
+    <Compile Include="CommonServiceClient.cs" />
+    <Compile Include="CommonService_V2Client.cs" />
+    <Compile Include="ConfigurationManagerServiceClient.cs" />
+    <Compile Include="Consultation_PCLs\CommonRecordsServiceClient.cs" />
+    <Compile Include="Consultation_PCLs\CommonRecords\ComRecordsServiceClient.cs" />
+    <Compile Include="Consultation_PCLs\CommonUtilsServiceClient.cs" />
+    <Compile Include="Consultation_PCLs\ePMRsServiceClient.cs" />
+    <Compile Include="Consultation_PCLs\ePrescriptionsServiceClient.cs" />
+    <Compile Include="Consultation_PCLs\PatientInstructionServiceClient.cs" />
+    <Compile Include="Consultation_PCLs\PCLsClient.cs" />
+    <Compile Include="Consultation_PCLs\PCLsImportClient.cs" />
+    <Compile Include="Consultation_PCLs\SummaryServiceClient.cs" />
+    <Compile Include="PatientRegistrationServiceClient.cs" />
+    <Compile Include="Pharmacy\PharmacyClinicDeptServiceClient.cs" />
+    <Compile Include="Pharmacy\PharmacyDrugServiceClient.cs" />
+    <Compile Include="Pharmacy\PharmacyEstimattionServiceClient.cs" />
+    <Compile Include="Pharmacy\PharmacyGenMedDeptDetailsServiceClient.cs" />
+    <Compile Include="Pharmacy\PharmacyInwardDrugServiceClient.cs" />
+    <Compile Include="Pharmacy\PharmacyMedDeptServiceClient.cs" />
+    <Compile Include="Pharmacy\PharmacySaleAndOutwardClient.cs" />
+    <Compile Include="Pharmacy\PharmacyStoragesServiceClient.cs" />
+    <Compile Include="Pharmacy\PharmacySuppliersServiceClient.cs" />
+    <Compile Include="Pharmacy\PharmacyUnitsServiceClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QMSServiceClient.cs" />
+    <Compile Include="ReportServiceClient.cs" />
+    <Compile Include="ResourcesManagementServiceClient.cs" />
+    <Compile Include="TransactionManagers\TransactionServiceClient.cs" />
+    <Compile Include="UserAccountsServiceClient.cs" />
+    <Compile Include="UserManagementServiceClient.cs" />
+    <Compile Include="VNPTAccountingBusinessServiceClient.cs" />
+    <Compile Include="VNPTAccountingPublishServiceClient.cs" />
+    <Compile Include="VNPTAccountingPortalServiceClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\aEMR.DataContracts\aEMR.DataContracts.csproj">
+      <Project>{4d1163e8-82c8-4517-92c0-1d9ae146cc14}</Project>
+      <Name>aEMR.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\aEMR.Infrastructure\aEMR.Infrastructure.csproj">
+      <Project>{90ca71d9-1529-44e9-934f-320bd663da0f}</Project>
+      <Name>aEMR.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

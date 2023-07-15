@@ -1,0 +1,132 @@
+﻿<UserControl
+    x:Class="aEMR.Registration.Views.SearchMedicalServiceGroupsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    MinWidth="800"
+    MinHeight="500"
+    d:DesignHeight="500"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <Grid x:Name="RootLayout">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border
+            Grid.ColumnSpan="4"
+            Margin="0,0,0,20"
+            Style="{StaticResource LightBlueBorderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="5"
+                    Style="{StaticResource TextBlock.Heading.02}"
+                    Text="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="5"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding SearchMedicalServiceGroupCode, Mode=TwoWay}" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="5"
+                    Style="{StaticResource TextBlock.Heading.02}"
+                    Text="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Margin="5"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding SearchMedicalServiceGroupName, Mode=TwoWay}" />
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="4"
+                    Margin="5,0"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.02}"
+                    Text="{Binding P0344_G1_PhanLoai, Source={StaticResource eHCMSResources}}" />
+                <commonctrl:AxComboBox
+                    Grid.Row="7"
+                    Grid.Column="5"
+                    Margin="5"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    DisplayMemberPath="ObjectValue"
+                    ItemsSource="{Binding ListV_MedicalServiceGroupType}"
+                    SelectedValue="{Binding V_MedicalServiceGroupType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="LookupID"
+                    Style="{StaticResource MainFrame.ComboBox}" />
+                <Button
+                    x:Name="btnSearchMedServiceGroups"
+                    Grid.Row="0"
+                    Grid.Column="6"
+                    MinWidth="60"
+                    Margin="15,5,5,5"
+                    Padding="5,0"
+                    Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}" />
+            </Grid>
+        </Border>
+        <DataGrid
+            Grid.Row="1"
+            cal:Message.Attach="[Event MouseDoubleClick]=[Action gvSearchContent_MouseDoubleClick($source, $eventArgs)]"
+            AutoGenerateColumns="False"
+            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+            HeadersVisibility="All"
+            HorizontalScrollBarVisibility="Disabled"
+            IsReadOnly="True"
+            ItemsSource="{Binding SearchMedicalServiceGroupCollection, Mode=OneWay}"
+            RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Style="{StaticResource MainFrame.DataGridStyle}"
+            VerticalScrollBarVisibility="Disabled">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding MedicalServiceGroupCode, Mode=OneWay}"
+                    Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding MedicalServiceGroupName, Mode=OneWay}"
+                    Header="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" />
+                <!--<DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding MedicalServiceGroupDescription, Mode=OneWay}"
+                    Header="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}" />-->
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding RegistrationTypeStr, Mode=OneWay}"
+                    Header="Loại hình" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding MedicalServiceGroupTypeStr, Mode=OneWay}"
+                    Header="{Binding P0344_G1_PhanLoai, Source={StaticResource eHCMSResources}}" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

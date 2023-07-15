@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="aEMR.Common.Views.ListTicketIssueQMSView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" 
+             d:DesignHeight="600" d:DesignWidth="900" 
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             mc:Ignorable="d"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <ControlsLibrary:AxGrid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="500"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <ControlsLibrary:AxDataGrid   x:Name="gridQMSList"
+                                         Grid.Row="0" IsReadOnly="True"
+                                         Style="{StaticResource MainFrame.DataGridStyle}"
+                                         ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                         CanUserSortColumns="False"
+                                         CanUserReorderColumns="False"
+                                         HorizontalScrollBarVisibility="Auto"
+                                         VerticalScrollBarVisibility="Auto"
+                                         AutoGenerateColumns="False"
+                                         HeadersVisibility="All"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                         ItemsSource="{Binding ObjTicketIssueList, Mode=TwoWay}"
+                                         Width="Auto" 
+                                         SelectionMode="Extended"
+                                         RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                                         cal:Message.Attach="[Event LoadingRow] = [Action gridQMSList_LoadingRow($source, $eventArgs)]">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="STT" Width="100" Binding="{Binding TicketNumberText,Mode=OneWay}"  IsReadOnly="True" />
+                <DataGridTextColumn Header="Thời gian lấy số" Width="375"  Binding="{Binding IssueDateTime,Mode=OneWay,StringFormat=dd/MM/yyyy}" IsReadOnly="True" />
+
+
+            </DataGrid.Columns>
+        </ControlsLibrary:AxDataGrid>
+        <Button Name="btnChangeCounterStatus" FontWeight="Bold" Grid.Row="1" Width="100" Content="{Binding LabelbtnChangeCounterStatus, Mode=OneWay}" 
+                cal:Message.Attach="[Event Click]=[Action btnChangeCounterStatus_Click($eventArgs)]" />
+    </ControlsLibrary:AxGrid>
+</UserControl>

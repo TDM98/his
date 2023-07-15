@@ -1,0 +1,420 @@
+﻿<UserControl
+    x:Class="aEMR.Configuration.ICDList.Views.ICD_AddEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="600"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="GridMain" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                Grid.Row="0"
+                Margin="5,5,0,5"
+                FontSize="14"
+                FontWeight="Bold"
+                Foreground="#FF0084FF"
+                Text="Title" />
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="140" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Tên chương"
+                    Visibility="{Binding ChapterVisible, Mode=TwoWay}" />
+                <TextBox
+                    x:Name="tbDiseaseChapterNameVN"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    Text="{Binding ObjDiseaseChapters_Current.DiseaseChapterNameVN, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding ChapterVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="1"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Nhóm ICD"
+                    Visibility="{Binding ChapterVisible, Mode=TwoWay}" />
+                <TextBox
+                    x:Name="tbICDXCode"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    Text="{Binding ObjDiseaseChapters_Current.ICDXCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding ChapterVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="2"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Nhóm ICD"
+                    Visibility="{Binding DiseasesVisible, Mode=TwoWay}" />
+                <controlslib:AxComboBox
+                    x:Name="cboChapter"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Width="264"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Left"
+                    DisplayMemberPath="DiseaseChapterNameVN"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    ItemsSource="{Binding DiseaseChapters, Mode=OneWay}"
+                    SelectedValueEx="{Binding ObjDiseases_Current.DiseaseChapterID, Mode=TwoWay}"
+                    SelectedValuePath="DiseaseChapterID"
+                    Visibility="{Binding DiseasesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="3"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Tên nhóm"
+                    Visibility="{Binding DiseasesVisible, Mode=TwoWay}" />
+                <TextBox
+                    x:Name="tbDiseaseNameVN"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    Text="{Binding ObjDiseases_Current.DiseaseNameVN, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding DiseasesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="4"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Nhóm ICD"
+                    Visibility="{Binding DiseasesVisible, Mode=TwoWay}" />
+                <TextBox
+                    x:Name="tbICDXCode_Diseases"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    Text="{Binding ObjDiseases_Current.ICDXCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding DiseasesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="5"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Mã ICD"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <TextBox
+                    x:Name="tbICD10Code"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    Text="{Binding ObjICD_Current.ICD10Code, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="6"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Chẩn đoán"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <TextBox
+                    x:Name="tbDiseaseNameVN_ICD"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    Text="{Binding ObjICD_Current.DiseaseNameVN, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="7"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="{Binding M0008_G1_MoTa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Height="75"
+                    Margin="0,2,5,2"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    HorizontalScrollBarVisibility="Auto"
+                    Text="{Binding ObjICD_Current.DiseaseDescription, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    VerticalScrollBarVisibility="Visible"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="8"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Đang dùng"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <CheckBox
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding ObjICD_Current.IsActive, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="9"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Giới tính"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <controlslib:KeyEnabledComboBox
+                    x:Name="cboGender"
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Height="22"
+                    VerticalAlignment="Center"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Genders, Mode=OneWay}"
+                    SelectedItemEx="{Binding ObjICD_Current.Gender, Mode=TwoWay, NotifyOnValidationError=True}"
+                    SelectedValuePath="ID"
+                    Style="{StaticResource MainFrame.ComboBox}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="10"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Từ tuổi"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <controlslib:AxTextBoxFilter
+                    x:Name="txtAgeFrom"
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Height="22"
+                    Margin="0"
+                    VerticalAlignment="Center"
+                    Filter="{Binding IntNumberFilter, Mode=OneWay}"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding ObjICD_Current.AgeFrom, Mode=TwoWay}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="11"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Đến tuổi"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <controlslib:AxTextBoxFilter
+                    x:Name="txtAgeTo"
+                    Grid.Row="11"
+                    Grid.Column="1"
+                    Height="22"
+                    Margin="0"
+                    VerticalAlignment="Center"
+                    Filter="{Binding IntNumberFilter, Mode=OneWay}"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding ObjICD_Current.AgeTo, Mode=TwoWay}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="12"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Không làm ICD chính"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <CheckBox
+                    Grid.Row="12"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding ObjICD_Current.NotBeMain, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="13"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Bệnh mới trong năm"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <CheckBox
+                    Grid.Row="13"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding ObjICD_Current.IsNewInYear, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="14"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Bệnh dài ngày"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <CheckBox
+                    Grid.Row="14"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding ObjICD_Current.IsLongTermIllness, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="15"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="ICD YHCT"
+                    Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                <StackPanel
+                    Grid.Row="15"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+                    <CheckBox
+                        Margin="0,2,5,2"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding ObjICD_Current.IsICD10CodeYHCT, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                        Visibility="{Binding ICDVisible, Mode=TwoWay}" />
+                    <!--<controlslib:AxAutoComplete
+                        MinWidth="400"
+                        cal:Message.Attach="[Event Loaded]=[Action AcbICD10Code_Loaded($source,$eventArgs)]                                        ;[Event Populating]=[Action aucICD10_Populating($source,$eventArgs)]                                        ;[Event DropDownClosed]=[Action AxAutoComplete_DropDownClosed($source,$eventArgs)]                                        ;[Event DropDownClosing]=[Action AxAutoComplete_DropDownClosing($source,$eventArgs)]"
+                        FilterMode="None"
+                        IsDropDownOpen="True"
+                        IsEnabled="{Binding ObjICD_Current.IsICD10CodeYHCT}"
+                        ItemContainerStyle="{DynamicResource ResourceKey=CusLBStyle}"
+                        MinimumPopulateDelay="300"
+                        MinimumPrefixLength="1"
+                        Style="{StaticResource AxAutoCompleteMyStyle}"
+                        ValueMemberBinding="{Binding ICD10CodeFromYHCT}"
+                        ValueMemberPath="ICD10Code">
+                        <controlslib:AxAutoComplete.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Name="txtDrugName"
+                                        Width="75"
+                                        Margin="0"
+                                        Padding="0"
+                                        Style="{StaticResource MainFrame.TextBlock.01}"
+                                        Text="{Binding ICD10Code}" />
+                                    <TextBlock
+                                        Width="300"
+                                        Margin="5,0,0,0"
+                                        Padding="0"
+                                        Style="{StaticResource MainFrame.TextBlock.01}"
+                                        Text="{Binding DiseaseNameVN}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </controlslib:AxAutoComplete.ItemTemplate>
+                    </controlslib:AxAutoComplete>-->
+                    <controlslib:AxAutoComplete
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Width="50"
+                        MinWidth="50"
+                        Margin="2"
+                        HorizontalAlignment="Left"
+                        cal:Message.Attach="[Event Loaded] = [Action AfterAcbICD10Code_Loaded($source, $eventArgs)];             [Event Populating] = [Action AfterAucICD10_Populating($source, $eventArgs)];             [Event DropDownClosed] = [Action AfterAxAutoComplete_DropDownClosed($source, $eventArgs)];             [Event DropDownClosing] = [Action AfterAxAutoComplete_DropDownClosing($source, $eventArgs)]"
+                        FilterMode="None"
+                        IsDropDownOpen="True"
+                        IsEnabled="{Binding ObjICD_Current.IsICD10CodeYHCT}"
+                        ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                        MinimumPopulateDelay="300"
+                        MinimumPrefixLength="1"
+                        SelectedItem="{Binding SelectedAfterICD10, Mode=TwoWay}"
+                        Style="{StaticResource AxAutoCompleteMyStyle}"
+                        ValueMemberBinding="{Binding ICD10Code}"
+                        ValueMemberPath="ICD10Code">
+                        <controlslib:AxAutoComplete.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Width="75"
+                                        Margin="0"
+                                        Padding="0"
+                                        Style="{StaticResource MainFrame.TextBlock.01}"
+                                        Text="{Binding ICD10Code}" />
+                                    <TextBlock
+                                        Width="300"
+                                        Margin="5,0,0,0"
+                                        Padding="0"
+                                        Style="{StaticResource MainFrame.TextBlock.01}"
+                                        Text="{Binding DiseaseNameVN}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </controlslib:AxAutoComplete.ItemTemplate>
+                    </controlslib:AxAutoComplete>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="16"
+                    Grid.Column="1"
+                    Margin="0,0,0,30"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btSave"
+                        Width="80"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="18"
+                                VerticalAlignment="Center"
+                                Source="/aEMR.CommonViews;component/Assets/Images/saveanddown24x24border.png" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        x:Name="btClose"
+                        Width="80"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="18"
+                                VerticalAlignment="Center"
+                                Source="/aEMR.CommonViews;component/Assets/Images/Button-exit-icon.png" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+
+                <!--<controlslib:ValidationSummary MaxHeight="1" Grid.Row="4" Grid.ColumnSpan="2"  x:Name="ValidationSummary1" Margin="0,10,0,0"></controlslib:ValidationSummary>-->
+
+            </Grid>
+
+        </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Grid>
+</UserControl>
+

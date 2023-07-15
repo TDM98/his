@@ -1,0 +1,240 @@
+﻿<UserControl x:Class="aEMR.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ehcmscontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"             
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:cal="http://www.caliburnproject.org" mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="1200"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White"  >
+        <toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height ="25"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid x:Name="MenuStackPanel" Margin="0,0,0,0" Style="{StaticResource MenuBackGroundStyle}" Background="{StaticResource ColorMenu}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+
+                    <!--<ContentControl Name="MainMenu"/>-->
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="" 
+                                     Foreground="AliceBlue" VerticalAlignment="Center"
+                                        
+                                     />
+                        <Button Content="{Binding K2851_G1_DKBN, Source={StaticResource eHCMSResources}}" Name="RegisterMenuItemCmd" 
+                                    cal:Message.Attach="[Event Loaded]=[Action RegisLoaded($source)]
+                                         ;[Event Click]=[Action RegisClick($source)]"
+                                     Foreground="AliceBlue" VerticalAlignment="Center"
+                                 Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"        
+                                     Visibility="{Binding bRegisterMenuItemCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding T2119_G1_KB, Source={StaticResource eHCMSResources}}" Name="Consultations" Foreground="Chartreuse"
+                                         cal:Message.Attach="[Event Loaded]=[Action ConsultLoaded($source)]
+                                         ;[Event Click]=[Action ConsultClick($source)]"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                         VerticalAlignment="Center"
+                                 Visibility="{Binding bConsultations,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding T1455_G1_HBenh, Source={StaticResource eHCMSResources}}" Name="AppointmentMenuItemCmd" Foreground="LightSkyBlue"
+                                         cal:Message.Attach="[Event Loaded]=[Action ApointmentLoaded($source)]
+                                         ;[Event Click]=[Action ApointmentClick($source)]"
+                                         VerticalAlignment="Center"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                 Visibility="{Binding bAppointmentMenuItemCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding G2600_G1_XN, Source={StaticResource eHCMSResources}}" Name="LaboratoryCmd" Foreground="#EFEF42"
+                                         cal:Message.Attach="[Event Loaded]=[Action CLSLabLoaded($source)]
+                                         ;[Event Click]=[Action CLSLabClick($source)]"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                        VerticalAlignment="Center"
+                                 Visibility="{Binding bCLSLaboratory,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding K1419_G1_CDHA, Source={StaticResource eHCMSResources}}" Name="PCLDepartmentCmd" Foreground="Cyan"
+                                         cal:Message.Attach="[Event Loaded]=[Action CLSImageLoaded($source)]
+                                         ;[Event Click]=[Action CLSImageClick($source)]"
+                                         VerticalAlignment="Center"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                 Visibility="{Binding bCLSImaging,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding N0181_G1_NhaThuoc, Source={StaticResource eHCMSResources}}" Name="Pharmacies" Foreground="DarkOrange"
+                                         cal:Message.Attach="[Event Loaded]=[Action PharmacyLoaded($source)]
+                                         ;[Event Click]=[Action PharmacyClick($source)]"
+                                         VerticalAlignment="Center"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                 Visibility="{Binding bPharmacies,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding T2257_G1_KhoaDuoc, Source={StaticResource eHCMSResources}}" Name="DrugDept" Foreground="LightSkyBlue" 
+                                         cal:Message.Attach="[Event Loaded]=[Action DrugLoaded($source)]
+                                         ;[Event Click]=[Action DrugClick($source)]"
+                                         VerticalAlignment="Center"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                 Visibility="{Binding bDrugDept,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding T2260_G1_KhoaNoiTru, Source={StaticResource eHCMSResources}}" Name="StoreDeptCmd" VerticalAlignment="Center"
+                                         cal:Message.Attach="[Event Loaded]=[Action StoreLoaded($source)]
+                                         ;[Event Click]=[Action StoreClick($source)]"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                 Visibility="{Binding bStoreDeptCmd,Converter={StaticResource BooleanToVisibility} }"/>
+
+                        <Button Content="{Binding K1160_G1_BCTgHop, Source={StaticResource eHCMSResources}}" Name="TransactionCmd" Foreground="Fuchsia"
+                                         VerticalAlignment="Center"
+                                         cal:Message.Attach="[Event Loaded]=[Action TransactionLoaded($source)]
+                                         ;[Event Click]=[Action TransactionClick($source)]"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                 Visibility="{Binding bTransactionCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding K1691_G1_CHinh, Source={StaticResource eHCMSResources}}" Name="ConfigurationMgnt" Foreground="DeepPink"
+                                         cal:Message.Attach="[Event Loaded]=[Action ConfigLoaded($source)]
+                                         ;[Event Click]=[Action ConfigClick($source)]"
+                                         VerticalAlignment="Center"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                    Visibility="{Binding bConfigurationMgnt,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding G2177_G1_VT, Source={StaticResource eHCMSResources}}" Name="GotoVatTu" Foreground="MediumVioletRed"
+                                         VerticalAlignment="Center"
+                                         cal:Message.Attach="[Event Loaded]=[Action ResourceLoaded($source)]
+                                         ;[Event Click]=[Action ResourceClick($source)]"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                 Visibility="{Binding bVatu,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding Q0418_G1_QLyPKham, Source={StaticResource eHCMSResources}}" Name="ClinicManagementCmd"
+                                         VerticalAlignment="Center"
+                                         cal:Message.Attach="[Event Loaded]=[Action ClinicLoaded($source)]
+                                         ;[Event Click]=[Action ClinicClick($source)]"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}" 
+                                 Visibility="{Binding bClinicManagementCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding Q0417_G1_QLyNguoiDung, Source={StaticResource eHCMSResources}}" Name="UserAccountCmd"
+                                         VerticalAlignment="Center"
+                                         cal:Message.Attach="[Event Loaded]=[Action AccountLoaded($source)]
+                                         ;[Event Click]=[Action AccountClick($source)]"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}" 
+                                 Visibility="{Binding bUserAccountCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding K1420_G1_CHinhHThong, Source={StaticResource eHCMSResources}}" Name="SystemConfigurationCmd" VerticalAlignment="Center"
+                                         cal:Message.Attach="[Event Loaded]=[Action SystemConfigLoaded($source)]
+                                         ;[Event Click]=[Action SystemConfigClick($source)]"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                 Visibility="{Binding bSystemConfigCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding T0719_G1_GeneralEnquire, Source={StaticResource eHCMSResources}}" Name="GeneralEnquireCmd" VerticalAlignment="Center"
+                                         cal:Message.Attach="[Event Loaded]=[Action GeneralEnquireLoaded($source)]
+                                         ;[Event Click]=[Action GeneralEnquireClick($source)]"
+                                         Style="{StaticResource MainFrame.HyperlinkButton.MainMenu}"
+                                 Visibility="{Binding bGeneralEnquireCmd,Converter={StaticResource BooleanToVisibility} }"/>
+
+                    </StackPanel>
+                </Grid>
+
+                <Grid x:Name="MiddleGrid" Margin="0,1,0,0" Grid.Row="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <DockPanel x:Name="LeftStackPanel" Grid.Column="0" LastChildFill="True" Margin="0" HorizontalAlignment="Left" MinWidth="10" Style="{StaticResource LeftPanelBackGroundStyle}" Canvas.ZIndex="3000">
+                        <Expander x:Name="LeftExpander" Margin="0,0,0,0" Width="Auto" ExpandDirection="Left" MinWidth="10"  IsExpanded="True" Header="{Binding T0692_G1_Functions, Source={StaticResource eHCMSResources}}" Background="#FFDBE5F1" RenderTransformOrigin="0,0" DockPanel.Dock="Left" >
+                            <DockPanel x:Name="LStackPanelOut" LastChildFill="True" Margin="0" HorizontalAlignment="Left">
+                                <!--<DockPanel x:Name="DP0" Height="100" LastChildFill="True" Margin="0" DockPanel.Dock="Top">
+                                    <Border x:Name="BorderLeftPanel0"  Width="auto" Style="{StaticResource LightBlueBorderStyle}" >
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Height="auto" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Left" Text="{Binding S0723_G1_StartATask, Source={StaticResource eHCMSResources}}" Canvas.Left="5" Style="{StaticResource TextBlock.Heading.02}"/>
+                                            
+                                            <Button Content="{Binding T0670_G1_FindPatient, Source={StaticResource eHCMSResources}}" x:Name="FindPatientCmd" Height="16" Canvas.Left="18" Canvas.Top="118" Width="160" Style="{StaticResource ItemHyperlinkS1}"/>
+                                            <Button Content="{Binding K2738_G1_CreatePatient, Source={StaticResource eHCMSResources}}" x:Name="lnkCreatePatient"  Height="16" Canvas.Left="18" Canvas.Top="134" Width="160" Style="{StaticResource ItemHyperlinkS1}"/>
+                                            <Button Content="{Binding K2735_G1_CreateConsultation, Source={StaticResource eHCMSResources}}" Height="16" Canvas.Left="18" Canvas.Top="150" Width="160" Style="{StaticResource ItemHyperlinkS1}"/>
+                                            <Button Content="{Binding S0550_G1_ScheduleConsultation, Source={StaticResource eHCMSResources}}" Height="16" Canvas.Left="18" Canvas.Top="166" Width="160" Style="{StaticResource ItemHyperlinkS1}"/>
+
+                                        </StackPanel>                                        
+                                                                                
+                                    </Border>
+                                </DockPanel>-->
+
+                                <DockPanel x:Name="DP1" LastChildFill="True" Margin="0" DockPanel.Dock="Bottom">
+                                    <Border x:Name="BorderLeftPanel1"  Width="Auto" Style="{StaticResource LightBlueBorderStyle}">
+
+                                        <ehcmscontrols:VerticalScrollPanel x:Name="ctrlMenuPanel" VerticalContentAlignment="Stretch" Width="Auto" VerticalAlignment="Stretch">
+
+                                            <ehcmscontrols:VerticalScrollPanel.Content>
+                                                <ContentControl Name="LeftMenu" MinWidth="192" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                            </ehcmscontrols:VerticalScrollPanel.Content>
+                                        </ehcmscontrols:VerticalScrollPanel>
+
+                                    </Border>
+                                </DockPanel>
+
+                            </DockPanel>
+                        </Expander>
+                    </DockPanel>
+                    <DockPanel 
+                    x:Name="RightStackPanel" 
+                    Grid.Column="2" 
+                    LastChildFill="True" Margin="0" MinWidth="10"  
+                    Style="{StaticResource LeftPanelBackGroundStyle}" 
+                    HorizontalAlignment="Right" 
+                    Canvas.ZIndex="3000">
+
+                        <Expander x:Name="RightExpander" 
+                                      Margin="0,0,0,0" Width="Auto" 
+                                      ExpandDirection="Right" MinWidth="10" 
+                                      IsExpanded="True" Header="Out-Standing Tasks"  
+                                      Background="#FFDBE5F1" 
+                                      RenderTransformOrigin="0,0"
+                                      DockPanel.Dock="Right">
+
+                            <DockPanel x:Name="RStackPanelOut" LastChildFill="True" Margin="0" HorizontalAlignment="Left">
+
+                                <DockPanel x:Name="RDP0" Height="80" LastChildFill="True" Margin="0" DockPanel.Dock="Top">
+                                    <Border x:Name="BorderRightPanel0"  Width="200" Style="{StaticResource LightBlueBorderStyle}" >
+                                        <Canvas>
+                                            <Button Visibility="{Binding DangKy,Converter={StaticResource BooleanToVisibility},Mode=OneWay}"
+                                            x:Name="FindRegistrationCmd"
+                                            Content="{Binding G1162_G1_TimDK, Source={StaticResource eHCMSResources}}" 
+                                            Canvas.Left="5" Canvas.Top="5" Width="160" 
+                                            Style="{StaticResource Mainframe.SiteMapHyperlinkButton}"/>
+                                            <Button Visibility="{Binding KhamBenh,Converter={StaticResource BooleanToVisibility},Mode=OneWay}"
+                                                x:Name="FindRegistrationDetailCmd"
+                                                Content="{Binding G1164_G1_TimDKKham, Source={StaticResource eHCMSResources}}" 
+                                                Canvas.Left="5" Canvas.Top="20" Width="160" 
+                                                Style="{StaticResource Mainframe.SiteMapHyperlinkButton}"/>
+
+                                            <TextBlock Height="auto" Style="{StaticResource TextBlock.Heading.04}"
+                                                   Width="auto" 
+                                                   VerticalAlignment="Top" 
+                                                   HorizontalAlignment="Left" 
+                                                   Text="{Binding O0309_G1_OutstandingTasks, Source={StaticResource eHCMSResources}}" Canvas.Left="5" Canvas.Top="32" />
+
+
+                                            <TextBlock Height="auto" Style="{StaticResource TextBlock.Heading.04}"
+                                               Width="auto" 
+                                               VerticalAlignment="Top" 
+                                               HorizontalAlignment="Left" Text="{Binding K0624_G1_ClkToChosePatient, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" 
+                                               Canvas.Left="13" Canvas.Top="45" />
+                                        </Canvas>
+                                    </Border>
+                                </DockPanel>
+
+                                <DockPanel x:Name="RDP1" LastChildFill="True" Margin="0" DockPanel.Dock="Top">
+                                    <Border x:Name="OutstandingTaskBorder"  Width="auto" Style="{StaticResource LightBlueBorderStyle}" Background="#FFFCFCFC" >
+                                        <ContentControl Name="OutstandingTaskContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                                        <!--<eHCMSApp_Views_UserControls_Common:UCOutStandingTasks DataContext="{StaticResource ConsultationWatingListVM}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>-->
+                                    </Border>
+                                </DockPanel>
+
+                            </DockPanel>
+                        </Expander>
+                    </DockPanel>
+                    <DockPanel x:Name="CenterStackPanel" Grid.Column="1" LastChildFill="True" Margin="1"  Canvas.ZIndex="2000">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" BorderBrush="Transparent" Padding="0">
+                            <Border x:Name="BorderFrame" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="0,0,0,0" Canvas.ZIndex="1900">
+                                <ContentControl Name="ActiveContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                            </Border>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Grid>
+            </Grid>
+        </toolkit:BusyIndicator>
+    </Grid>
+</UserControl>

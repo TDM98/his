@@ -1,0 +1,42 @@
+﻿<UserControl    x:Class="aEMR.Appointment.Views.AppointmentLeftMenuView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                d:DesignHeight="300" d:DesignWidth="400"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                xmlns:layoutToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit"
+                mc:Ignorable="d"> 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" SizeChanged="LayoutRoot_SizeChanged" MinHeight="250">
+        <layoutToolkit:Accordion x:Name="mnuLeft"
+                           HorizontalAlignment="Stretch"
+                           Margin="2,2,2,2"
+                           MinWidth ="185" BorderThickness="0"
+                           ItemsSource="{Binding LeftMenuItems,Mode=OneWay}" 
+                           HorizontalContentAlignment="Stretch">
+            <!--ItemContainerStyle ="{StaticResource AccordionHeaderStyle}"--> <!--bo ra tu layoutToolkit:Accordion-->
+            <layoutToolkit:Accordion.Items>
+                <layoutToolkit:AccordionItem Header="{Binding Q0469_G1_QuanLyHenBenh, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Background="White">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding Q0469_G1_QuanLyHenBenh, Source={StaticResource eHCMSResources}}" Name="AppointmentManagementCmd" />
+                            <Button Content="{Binding K2930_G1_DSBNHBenh, Source={StaticResource eHCMSResources}}" Name="AppointmentListingCmd" />
+                            <Button Content="{Binding G0455_G1_TKeHBenhDDuong, Source={StaticResource eHCMSResources}}" Name="AppointmentTotalCmd" />
+                            <Button Content="{Binding K1845_G1_CTietDVHen, Source={StaticResource eHCMSResources}}" Name="AppointmentDetailCmd" />
+                            <Button Content="{Binding T1463_G1_HBenhTuDSKham, Source={StaticResource eHCMSResources}}" Name="AppointmentFromDiagCmd" />
+                            <Button Content="{Binding K1552_G1_CLSSo, Source={StaticResource eHCMSResources}}" Name="PCLExamTargetCmd" />
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+
+                </layoutToolkit:AccordionItem>
+
+            </layoutToolkit:Accordion.Items>
+        </layoutToolkit:Accordion>
+    </Grid>
+</UserControl>

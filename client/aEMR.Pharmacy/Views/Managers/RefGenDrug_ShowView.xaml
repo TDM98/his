@@ -1,0 +1,172 @@
+﻿<UserControl        x:Class="aEMR.Pharmacy.Views.RefGenDrug_ShowView"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    
+                    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+                    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                    d:DesignHeight="400" d:DesignWidth="559" 
+                    mc:Ignorable="d"> 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="150*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="DrugItem" Background="#FF2DB72D" Height="32" Grid.Row="0" Grid.Column="0">
+            <TextBlock Height="30" Name="textBlock1nl" Text="{Binding SelectedDrug.BrandName,Mode=OneWay}" Foreground="#FFF2F8FC" FontWeight="Bold" FontSize="20" FontFamily="Arial" Width="Auto" TextAlignment="Left" />
+        </Grid>
+        <Grid Background="#FF1D11AA" Height="6" Grid.Row="1" Grid.Column="0"></Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="7">
+            <Grid x:Name="keyGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition  />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="169*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding T0907_G1_TenThuongMai, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="1" Style="{StaticResource Title}" />
+                <TextBox  Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="1" Text="{Binding SelectedDrug.BrandName,Mode=OneWay}" AcceptsReturn="True" BorderBrush="Transparent" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="2" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding T0839_G1_TenChung, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="3" Style="{StaticResource Title}" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="3" Text="{Binding SelectedDrug.GenericName,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"
+                         TextWrapping="Wrap"/>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Grid.Row="3" Margin="10,2,0,2" Grid.ColumnSpan="2">
+                    <CheckBox Name="chk_Insurance" Content="{Binding G0840_G1_ThuocBH, Source={StaticResource eHCMSResources}}"    VerticalAlignment="Top" Margin="0"  IsChecked="{Binding SelectedDrug.InsuranceCover,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" IsEnabled="False"/>
+                    <CheckBox Name="chk_Consult" Content="{Binding Z0049_G1_CanHoiChan, Source={StaticResource eHCMSResources}}"  Margin="5,0,0,0"  VerticalAlignment="Top" IsChecked="{Binding SelectedDrug.IsConsult,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}"  IsEnabled="False"/>
+                </StackPanel>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="4" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding Q0420_G1_QCDongGoi, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="6" Style="{StaticResource Title}" Grid.Column="2" />
+                <TextBox Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="6" Text="{Binding SelectedDrug.Packaging,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="7" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,0" Text="{Binding K2569_G1_Code, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="5" Style="{StaticResource Title}" Grid.Column="0" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="5" Text="{Binding SelectedDrug.DrugCode,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"  />
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="22,2,0,0" Text="{Binding K2661_G1_CodeBHYT, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="5" Style="{StaticResource Title}"  />
+                <TextBox Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="5" Text="{Binding SelectedDrug.HIDrugCode,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"  />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,0" Text="{Binding T1316_G1_HLg, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Column="0" Grid.Row="6" Style="{StaticResource Title}" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="6" Text="{Binding SelectedDrug.Content,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}" />
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="6" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,0" Text="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="7" Style="{StaticResource Title}" Grid.Column="0" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="7" Text="{Binding SelectedDrug.SeletedUnit.UnitName,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"  />
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="22,2,0,0" Text="{Binding K3950_G1_DViDung, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="7" Style="{StaticResource Title}"  />
+                <TextBox Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="7" Text="{Binding SelectedDrug.SeletedUnitUse.UnitName,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"  />
+
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="9" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,0" Text="{Binding S0668_G1_SLggQC, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="8" Style="{StaticResource Title}" Grid.Column="0" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="8" Text="{Binding SelectedDrug.UnitPackaging,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"  />
+                <TextBlock Grid.Column="2" HorizontalAlignment="Left" Margin="22,2,0,0" Text="{Binding T1437_G1_HeSoNhan, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="8" Style="{StaticResource Title}"  />
+                <TextBox Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="8" Text="{Binding SelectedDrug.NumberOfEstimatedMonths_F,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"  />
+
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="11" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding K3573_G1_Doc, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="10" Style="{StaticResource Title}" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="10" Text="{Binding SelectedDrug.SeletedPoissonType.PsName,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding N0138_G1_Nghien, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Column="2" Grid.Row="10" Style="{StaticResource Title}" />
+                <TextBox Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="10" Text="{Binding SelectedDrug.SeletedAddictiveType.AtName,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="8" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding T2922_G1_LopThuoc, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="9" Style="{StaticResource Title}" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="9" Text="{Binding SelectedDrug.SeletedDrugClass.FaName,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding T1766_G1_HuyTruocKhiHetHan, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Column="2" Grid.Row="9" Style="{StaticResource Title}" />
+                <TextBox Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="9" Text="{Binding SelectedDrug.AdvTimeBeforeExpire,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="10" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding G2262_G1_Visa, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="11" Style="{StaticResource Title}" />
+                <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="11" Text="{Binding SelectedDrug.Visa,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}" />
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding Q0484_G1_QuocGia, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Column="2" Grid.Row="11" Style="{StaticResource Title}" />
+                <TextBox Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="11" Text="{Binding SelectedDrug.SeletedCountry.CountryName,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="12" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding T2602_G1_LieuDung, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="13" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="13" Text="{Binding SelectedDrug.Dosage,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="14" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding K1503_G1_CachDung, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="15" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="15" Text="{Binding SelectedDrug.Administration,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,0" Text="{Binding T1410_G1_HgSX2, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Column="2" Grid.Row="13" Style="{StaticResource Title}" />
+
+                <TextBox Grid.Column="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="13" Text="{Binding SelectedDrug.PharmaceuticalCompany.PCOName,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}"  IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="16" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding M0008_G1_MoTa, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="17" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="17" Text="{Binding SelectedDrug.SdlDescription,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="18" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding G0067_G1_ThPhan, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="19" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="19" Text="{Binding SelectedDrug.Composition,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="20" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding T1682_G1_HoatChatChinh, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="21" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="21" Text="{Binding SelectedDrug.ActiveIngredient,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="22" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding K1810_G1_CDinh, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="23" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="23" Text="{Binding SelectedDrug.Indication,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="24" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding K2218_G1_CCD, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="25" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="25" Text="{Binding SelectedDrug.Contraindication,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="26" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding K1576_G1_CBao, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="27" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="27" Text="{Binding SelectedDrug.Precaution_Warn,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="28" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding T0764_G1_TacDungPhu, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="29" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="29" Text="{Binding SelectedDrug.SideEffects,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <Line Grid.ColumnSpan="8" Grid.Column="0" Grid.Row="30" Fill="#FFF4F4F5" Height="1" Stroke="#FFCCCCCC" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
+
+                <TextBlock HorizontalAlignment="Left" Margin="22,2,0,2" Text="{Binding G2074_G1_TuongTacThuoc, Source={StaticResource eHCMSResources}}" VerticalAlignment="Top" Grid.Row="31" Style="{StaticResource Title}" />
+                <TextBox   Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="10,0,0,0"  VerticalAlignment="Top" Grid.Row="31" Text="{Binding SelectedDrug.Interaction,Mode=OneWay}" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"></TextBox>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

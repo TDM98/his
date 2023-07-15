@@ -1,0 +1,193 @@
+﻿<UserControl xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+             x:Class="aEMR.Common.Views.NhapXuatTonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="800"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.ColumnSpan="2">
+            <TextBlock Text="{Binding strHienThi, Mode=OneWay}"
+                       Style="{StaticResource TBlock.TilteFrom}"
+                       HorizontalAlignment="Center" />
+        </Grid>
+        <Expander Grid.Row="1" x:Name="RightExpander"
+                  Width="Auto" ExpandDirection="Left"
+                  MinWidth="10" IsExpanded="True" Background="#FFDBE5F1"
+                  RenderTransformOrigin="0,0" DockPanel.Dock="Right">
+            <!--Header="{Binding G0458_G1_ThSoBC, Source={StaticResource eHCMSResources}}"-->
+            <Border x:Name="BorderFrame"
+                    Style="{StaticResource LightBlueBorderStyle}"
+                    Height="Auto" Background="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding G0458_G1_ThSoBC, Source={StaticResource eHCMSResources}}"
+                               FontWeight="Bold" Foreground="#FF6F8AA9"
+                               Style="{StaticResource MainFrame.TextBlock.00}"
+                               Grid.ColumnSpan="2" />
+                    <!--Column 1-->
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding G1933_G1_TuNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                    <DatePicker SelectedDate="{Binding FromDate, Mode=TwoWay}"
+                                Name="Dpk_FromDate" Grid.Column="1" Grid.Row="1"
+                                Margin="2" HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center" Style="{StaticResource MainFrame.DatePicker}" />
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding K3192_G1_DenNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                    <DatePicker SelectedDate="{Binding ToDate, Mode=TwoWay}"
+                                Name="Dpk_ToDate" Grid.Column="1" Grid.Row="2" Margin="2"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                Style="{StaticResource MainFrame.DatePicker}" />
+                    <!--column 2-->
+                    <TextBlock Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding K1973_G1_ChonKho, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                               Visibility="{Binding CanSelectedWareHouse, Converter={StaticResource VisibilityConverter}}"/>
+                    <ComboBox Name="cbx_Storage" Grid.Column="1" Grid.Row="3"
+                              Margin="2" Grid.ColumnSpan="3"
+                              Style="{StaticResource MainFrame.ComboBox}"
+                              SelectedItem="{Binding Store, Mode=TwoWay}"
+                              SelectedValuePath="StoreID" DisplayMemberPath="swhlName"
+                              ItemsSource="{Binding StoreCbx}"
+                              Visibility="{Binding CanSelectedWareHouse, Converter={StaticResource VisibilityConverter}}"/>
+                    <!--column 3-->
+                    <TextBlock Grid.Row="5" Height="25" Padding="0,4,0,0"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding P0344_G1_PhanLoai, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                               Visibility="{Binding CanSelectedRefGenDrugCatID_1, Converter={StaticResource VisibilityConverter}}" />
+                    <AxControls:KeyEnabledComboBox
+                        TabIndex="25" Grid.Column="1" Margin="1" Grid.Row="5"
+                        SelectedValueEx="{Binding RefGenDrugCatID_1, Mode=TwoWay, NotifyOnValidationError=True}"
+                        SelectedValuePath="RefGenDrugCatID_1" DisplayMemberPath="CategoryName"
+                        ItemsSource="{Binding RefGenericDrugCategory_1s}"
+                        Style="{StaticResource MainFrame.ComboBox}"
+                        Visibility="{Binding CanSelectedRefGenDrugCatID_1, Converter={StaticResource VisibilityConverter}}" />
+                    <TextBlock Grid.Row="4" Height="25" Padding="0,4,0,0"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding N0239_G1_Nhom, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                               Visibility="{Binding IsShowClinic, Converter={StaticResource VisibilityConverter}}" />
+                    <AxControls:KeyEnabledComboBox
+                        TabIndex="25" Grid.Column="1" Margin="1" Grid.Row="4"
+                        SelectedItem="{Binding SelectedMedProductType, Mode=TwoWay}"
+                        DisplayMemberPath="ObjectValue" ItemsSource="{Binding RefMedProductType}"
+                        Style="{StaticResource MainFrame.ComboBox}"
+                        cal:Message.Attach="[Event DropDownClosed]=[Action RefMedProductType_DropDownClosed($source, $event)]"
+                        Visibility="{Binding IsShowClinic, Converter={StaticResource VisibilityConverter}}" />
+                    <!--column 4-->
+                    <TextBlock Grid.Row="6" Height="25" Padding="0,4,0,0"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding Z2160_G1_NhomBaoCao, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                               Visibility="{Binding IsShowGroupReportType, Converter={StaticResource VisibilityConverter}}">
+                    </TextBlock>
+                    <AxControls:KeyEnabledComboBox TabIndex="25" Grid.Column="1" Margin="1" Grid.Row="6"
+                                                   SelectedValueEx="{Binding SelectedDrugDeptProductGroupReportType, Mode=TwoWay, NotifyOnValidationError=True}"
+                                                   SelectedValuePath="DrugDeptProductGroupReportTypeID"
+                                                   DisplayMemberPath="DrugDeptProductGroupReportTypeCode"
+                                                   ItemsSource="{Binding DrugDeptProductGroupReportTypeCollection}"
+                                                   Style="{StaticResource MainFrame.ComboBox}"
+                                                   Visibility="{Binding IsShowGroupReportType, Converter={StaticResource VisibilityConverter}}" />
+
+                    <TextBlock Grid.Row="7" Height="25" Padding="0,4,0,0"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding Z2109_G1_DotThau, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" 
+                               Visibility="{Binding ShowBid, Converter={StaticResource BooleanToVisibility}}" />
+                    <AxControls:KeyEnabledComboBox TabIndex="25" Grid.Column="1" Margin="1" Grid.Row="7"
+                                                   Style="{StaticResource MainFrame.ComboBox}"
+                                                   DisplayMemberPath="BidName"
+                                                   ItemsSource="{Binding gBidCollection}"
+                                                   SelectedItem="{Binding SelectedBid}"
+                                                   Visibility="{Binding ShowBid, Converter={StaticResource BooleanToVisibility}}" />
+                    
+                    <!--<TextBlock Grid.Row="8" Height="25" Padding="0,4,0,0"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding Z2162_G1_PhamVi, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" 
+                               Visibility="{Binding ShowRangeOfHospital, Converter={StaticResource BooleanToVisibility}}" />
+                    <AxControls:KeyEnabledComboBox TabIndex="25" Grid.Column="1" Margin="1" Grid.Row="8"
+                                                   Style="{StaticResource MainFrame.ComboBox}"
+                                                   DisplayMemberPath="ObjectValue"
+                                                   ItemsSource="{Binding V_RangeOfWareHouses}"
+                                                   SelectedItem="{Binding SelectedRangeOfWareHouses}"
+                                                   Visibility="{Binding ShowRangeOfHospital, Converter={StaticResource BooleanToVisibility}}" />-->                                      
+                    <TextBlock Grid.Row="7" Height="25" Padding="0,4,0,0"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding T2669_G1_Loai, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                               Visibility="{Binding IsShowBHYT, Converter={StaticResource VisibilityConverter}}" />
+                    <AxControls:KeyEnabledComboBox
+                        TabIndex="25" Grid.Column="1" Margin="1" Grid.Row="7"
+                        SelectedItem="{Binding SelectedMedProductType, Mode=TwoWay}"
+                        DisplayMemberPath="ObjectValue" ItemsSource="{Binding RefMedProductType}"
+                        Style="{StaticResource MainFrame.ComboBox}"
+                        cal:Message.Attach="[Event DropDownClosed]=[Action RefMedProductType_DropDownClosed($source, $event)]"
+                        Visibility="{Binding IsShowBHYT, Converter={StaticResource VisibilityConverter}}" />
+                    <CheckBox Grid.Row="8" Style="{StaticResource MainFrame.Checkbox.Title1}"
+                                  Content="Chỉ thuốc BHYT"
+                                  Margin="0,10,0,5" IsChecked="{Binding IsBHYT, Mode=TwoWay}"
+                                  Visibility="{Binding IsShowBHYT, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay }"
+                                  VerticalContentAlignment="Center"
+                                  VerticalAlignment="Center" />
+                    <StackPanel Grid.Row="9" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Name="btn_View" Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                                MinWidth="75" HorizontalAlignment="Right" Margin="2"
+                                VerticalAlignment="Center" Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding mXemIn, Converter={StaticResource BooleanToVisibility}}" />
+                        <Button Name="btn_Print" Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}"
+                                Width="75"  Margin="2" HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding CanPrint, Converter={StaticResource BooleanToVisibility}}" />
+                        <Button Name="btnGetBidInfo" Content="{Binding Z2803_G1_DSDotThau, Source={StaticResource eHCMSResources}}"
+                                MinWidth="75" HorizontalAlignment="Right" Margin="2"
+                                VerticalAlignment="Center" Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding ShowBid, Converter={StaticResource BooleanToVisibility}}" />
+                    </StackPanel>
+                    <!--KMx: Khi kiểm kê sẽ tự động kết chuyển luôn. Không làm riêng nữa (10/4/2015 09:17)-->
+                    <!--<TextBlock Grid.Column="0" Grid.Row="6"  HorizontalAlignment="Left" VerticalAlignment="Bottom"  Text="{Binding T0899_G1_TenTDK, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Margin="2,1"
+                               Visibility="{Binding mKetChuyen, Converter={StaticResource BooleanToVisibility} }"/>
+                    <TextBox Text="{Binding CheckPointName, Mode=TwoWay}" Grid.Column="1" Grid.Row="6" VerticalAlignment="Bottom" Style="{StaticResource MainFrame.TextBox}" Margin="2,1"
+                             Visibility="{Binding mKetChuyen, Converter={StaticResource BooleanToVisibility} }"/>
+
+                        <Button Name="btnKetChuyenTonDauKy" Content="{Binding T2030_G1_KCTDK, Source={StaticResource eHCMSResources}}" Grid.Row="7" Height="22" VerticalAlignment="Bottom" Margin="2,1" Grid.ColumnSpan="3"
+                                Visibility="{Binding mKetChuyen, Converter={StaticResource BooleanToVisibility} }"/>-->
+                </Grid>
+            </Border>
+        </Expander>
+        <dxp:DocumentPreviewControl
+            Height="875" Width="Auto"
+            Name="DocPreviewer" Grid.Row="1" Grid.Column="1"
+            DocumentSource="{Binding ReportModel}"
+            cal:Message.Attach="[Event Loaded] = [Action Report_Loaded($source, $eventArgs)]"
+            AutoShowParametersPanel="False" />
+    </Grid>
+</UserControl>

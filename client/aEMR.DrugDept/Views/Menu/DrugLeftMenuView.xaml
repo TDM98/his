@@ -1,0 +1,558 @@
+﻿<UserControl    x:Class="aEMR.DrugDept.Views.DrugLeftMenuView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:layoutToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit"
+                xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignHeight="600" d:DesignWidth="400">
+<UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" SizeChanged="LayoutRoot_SizeChanged" MinHeight="250" >
+        <ScrollViewer>
+        <layoutToolkit:Accordion x:Name="mnuLeft"
+                           HorizontalAlignment="Stretch"
+                           Margin="2,2,2,2"
+                           MinWidth ="185" BorderThickness="0"
+                           
+                           HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+            <!--ItemContainerStyle ="{StaticResource AccordionHeaderStyle}"-->
+            <layoutToolkit:Accordion.Items>
+
+                <layoutToolkit:AccordionItem Header="{Binding K3947_G1_DuyetPhLinhHg, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfDuyetPhieuLinhHang,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="RequestNewThuocCmd"  VerticalAlignment="Center" cal:Message.Attach="[Event Click]=[Action RequestNewThuocCmd($source)]"
+                                         Visibility="{Binding mDuyetPhieuLinhHang_Thuoc,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="RequestNewYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action RequestNewYCuCmd($source)]"
+                                         Visibility="{Binding mDuyetPhieuLinhHang_YCu,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="RequestNewHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action RequestNewHoaChatCmd($source)]"
+                                         Visibility="{Binding mDuyetPhieuLinhHang_HoaChat,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>      
+                        
+                        <!--<Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="RequestThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action RequestThuocCmd($source)]"
+                                         Visibility="{Binding mDuyetPhieuLinhHang_Thuoc,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="RequestYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action RequestYCuCmd($source)]"
+                                         Visibility="{Binding mDuyetPhieuLinhHang_YCu,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="RequestHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action RequestHoaChatCmd($source)]"
+                                         Visibility="{Binding mDuyetPhieuLinhHang_HoaChat,Converter={StaticResource BooleanToVisibility} }"/>-->
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="{Binding G2835_G1_Xuat, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfXuatNoiBo,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="XNBThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XNBThuocCmd($source)]"
+                                         Visibility="{Binding mXNBThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}" />
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="XNBYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XNBYCuCmd($source)]"
+                                         Visibility="{Binding mXNBYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="XNBHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XNBHoaChatCmd($source)]"
+                                         Visibility="{Binding mXNBHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+                </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="{Binding G2898_G1_XuatTheoToa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfXuatTheoToa,Converter={StaticResource BooleanToVisibility} }" >
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="XuatThuocTheoToaCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XuatThuocTheoToaCmd($source)]"
+                                Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding Z2038_G1_BanThuocTheoToaBH, Source={StaticResource eHCMSResources}}" Name="XuatThuocTheoToaBHCmd"  VerticalAlignment="Center" cal:Message.Attach="[Event Click]=[Action SellPrescriptionDrugCmdHI($source)]"
+                                Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+                </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="{Binding G2886_G1_XuatHgKG, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfXuatHangKyGoi,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="XNBThuocHangKyGoiCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XNBThuocHangKyGoiCmd($source)]"
+                               Visibility="{Binding mXuatHangKyGui_Thuoc,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="XNBYCuHangKyGoiCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XNBYCuHangKyGoiCmd($source)]"
+                                Visibility="{Binding mXuatHangKyGui_YCu,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="XNBHoaChatHangKyGoiCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XNBHoaChatHangKyGoiCmd($source)]"
+                                Visibility="{Binding mXuatHangKyGui_HoaChat,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding S0541_G1_SapNhapPXHgKyGoi, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfSapNhapHangKyGoi,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="JoinThuocHangKyGoiCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action JoinThuocHangKyGoiCmd($source)]"
+                                Visibility="{Binding mSapNhapHangKyGui_Thuoc,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="JoinYCuHangKyGoiCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action JoinYCuHangKyGoiCmd($source)]"
+                                Visibility="{Binding mSapNhapHangKyGui_YCu,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="JoinHoaChatHangKyGoiCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action JoinHoaChatHangKyGoiCmd($source)]"
+                                Visibility="{Binding mSapNhapHangKyGui_HoaChat,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding G1657_G1_TraHg, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfTraHang,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="ReturnThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action ReturnThuocCmd($source)]"
+                                         Visibility="{Binding mReturnThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="ReturnYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action ReturnYCuCmd($source)]"
+                                         Visibility="{Binding mReturnYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="ReturnHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action ReturnHoaChatCmd($source)]"
+                                         Visibility="{Binding mReturnHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>
+                
+                <layoutToolkit:AccordionItem Header="{Binding G2885_G1_XuatHgHetHanDung, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Visibility="Collapsed"
+                                       >
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="DemageThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action DemageThuocCmd($source)]"
+                                         Visibility="{Binding mDemageThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="DemageYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action DemageYCuCmd($source)]"
+                                         Visibility="{Binding mDemageYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="DemageHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action DemageHoaChatCmd($source)]"
+                                         Visibility="{Binding mDemageHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>
+               
+                <layoutToolkit:AccordionItem Header="{Binding K0880_G1_8DuTru, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfDuTru,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="EstimationDrugDeptCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action EstimationDrugDeptCmd($source)]"
+                                         Visibility="{Binding mEstimationDrugDeptCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="EstimationYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action EstimationYCuCmd($source)]"
+                                         Visibility="{Binding mEstimationYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="EstimationChemicalCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action EstimationChemicalCmd($source)]"
+                                         Visibility="{Binding mEstimationChemicalCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+
+
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>
+               
+                <layoutToolkit:AccordionItem Header="{Binding K3119_G1_DaTh, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfDatHang,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="OrderThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action OrderThuocCmd($source)]"
+                                         Visibility="{Binding mOrderThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="OrderYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action OrderYCuCmd($source)]"
+                                         Visibility="{Binding mOrderYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="OrderHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action OrderHoaChatCmd($source)]"
+                                         Visibility="{Binding mOrderHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>
+               
+                <layoutToolkit:AccordionItem Header="{Binding N0205_G1_NhapHg, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
+                                       Visibility="{Binding gfNhapHang,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:Accordion x:Name="mnuLeft2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"><!--ItemContainerStyle ="{StaticResource AccordionHeaderStyle1}"-->
+                        <layoutToolkit:AccordionItem Header="{Binding G1932_G1_TuNCCVaoKhoDuoc, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                                Visibility="{Binding gf1NhapHangTuNCC,Converter={StaticResource BooleanToVisibility} }">
+                            <StackPanel>
+                                <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="InwardDrugFromSupplierDrugCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action InwardDrugFromSupplierDrugCmd($source)]"
+                                         Visibility="{Binding mInwardDrugFromSupplierDrugCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="InwardDrugFromSupplierMedicalDeviceCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action InwardDrugFromSupplierMedicalDeviceCmd($source)]"
+                                         Visibility="{Binding mInwardDrugFromSupplierMedicalDeviceCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="InwardDrugFromSupplierChemicalCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action InwardDrugFromSupplierChemicalCmd($source)]"
+                                         Visibility="{Binding mInwardDrugFromSupplierChemicalCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            </StackPanel>
+                        </layoutToolkit:AccordionItem>
+                        <layoutToolkit:AccordionItem Header="{Binding N0217_G1_NhapTraTuKhoPg, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                                Visibility="{Binding gf1NhapTraTuKhoPhong,Converter={StaticResource BooleanToVisibility} }">
+                            <StackPanel>
+                                <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="InwardDrugFromSupplierDrugClinicCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action InwardDrugFromSupplierDrugClinicCmd($source)]"
+                                         Visibility="{Binding mNhapTraTuKhoPhong_Thuoc,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="InwardDrugFromSupplierMedicalDeviceClinicCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action InwardDrugFromSupplierMedicalDeviceClinicCmd($source)]"
+                                         Visibility="{Binding mNhapTraTuKhoPhong_YCu,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="InwardDrugFromSupplierChemicalClinicCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action InwardDrugFromSupplierChemicalClinicCmd($source)]"
+                                         Visibility="{Binding mNhapTraTuKhoPhong_HoaChat,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            </StackPanel>
+                        </layoutToolkit:AccordionItem>
+                        <!--
+                        <layoutToolkit:AccordionItem Header="{Binding G1929_G1_TuKhoDuocVaoKhoPh, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                        Visibility="Collapsed">
+                            <StackPanel>
+                                <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="FromMedToClinicThuocCmd"  VerticalAlignment="Center"  
+                                         Visibility="{Binding bInwardDrugFromSupplierCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                                <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="FromMedToClinicYCuCmd"  VerticalAlignment="Center"  
+                                         Visibility="{Binding bInwardDrugFromSupplierCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                                <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="FromMedToClinicHoaChatCmd"  VerticalAlignment="Center"  
+                                         Visibility="{Binding bInwardDrugFromSupplierCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                            </StackPanel>
+                        </layoutToolkit:AccordionItem>-->
+                    </layoutToolkit:Accordion>
+                </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="{Binding N0219_G1_NhapVaPhanBoPhi, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfPhanBoPhi,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="CostThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action CostThuocCmd($source)]"
+                                         Visibility="{Binding mCostThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="CostYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action CostYCuCmd($source)]"
+                                         Visibility="{Binding mCostYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="CostHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action CostHoaChatCmd($source)]"
+                                         Visibility="{Binding mCostHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="Phiếu Đề Nghị Thanh Toán" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfDeNghiThanhToan,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="SuggestThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action SuggestThuocCmd($source)]"
+                                         Visibility="{Binding mSuggestThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="SuggestYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action SuggestYCuCmd($source)]"
+                                         Visibility="{Binding mSuggestYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="SuggestHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action SuggestHoaChatCmd($source)]"
+                                         Visibility="{Binding mSuggestHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+                </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="{Binding T2511_G1_KKVaKC, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfKiemKe,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="KKThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action KKThuocCmd($source)]"
+                                       Visibility="{Binding mKKThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="KKYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action KKYCuCmd($source)]"
+                                         Visibility="{Binding mKKYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="KKHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action KKHoaChatCmd($source)]"
+                                         Visibility="{Binding mKKHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>
+                <!--<layoutToolkit:AccordionItem Header="{Binding G0450_G1_TKe, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       >
+                    <StackPanel>
+                        <Button Content="{Binding Z0315_G1_ThuocKhoPhgBN, Source={StaticResource eHCMSResources}}" Name="TKThuocCmd"  VerticalAlignment="Center"  
+                                         Visibility="{Binding bOrderCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding Z0316_G1_YCuKhoPhgBN, Source={StaticResource eHCMSResources}}" Name="TKYCuCmd"  VerticalAlignment="Center"  
+                                         Visibility="{Binding bOrderCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Content="{Binding Z0317_G1_HChatKhoPhgBN, Source={StaticResource eHCMSResources}}" Name="TKHoaChatCmd"  VerticalAlignment="Center"  
+                                         Visibility="{Binding bOrderCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                    </StackPanel>
+
+                </layoutToolkit:AccordionItem>-->
+                <!--<layoutToolkit:AccordionItem Header="{Binding K1048_G1_BC, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfBaoCao,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:Accordion ItemContainerStyle ="{StaticResource AccordionHeaderStyle1}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">-->
+                <layoutToolkit:AccordionItem Header="{Binding K0844_G1_3BCNhap, Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                        Visibility="{Binding gf1BaoCaoNhap,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="NhapThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action NhapThuocCmd($source)]"
+                                                     Visibility="{Binding mNhapThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="NhapYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action NhapYCuCmd($source)]"
+                                                     Visibility="{Binding mNhapYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="NhapHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action NhapHoaChatCmd($source)]"
+                                                     Visibility="{Binding mNhapHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+
+                    </StackPanel>
+                </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="{Binding K0860_G1_4BCXuat, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                                Visibility="{Binding gf1BaoCaoXuat,Converter={StaticResource BooleanToVisibility} }">
+
+                    <StackPanel>
+                                    <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="XuatThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XuatThuocCmd($source)]"
+                                                     Visibility="{Binding mXuatThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                    <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="XuatYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XuatYCuCmd($source)]"
+                                                     Visibility="{Binding mXuatYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                    <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="XuatHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action XuatHoaChatCmd($source)]"
+                                                     Visibility="{Binding mXuatHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                </StackPanel>                            
+                        </layoutToolkit:AccordionItem>
+                
+                <layoutToolkit:AccordionItem Header="{Binding K1155_G1_BCHgGHanSLggXuat, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                                Visibility="{Binding gf1WatchOutQty,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="WatchMedCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action WatchMedCmd($source)]"
+                                                     Visibility="{Binding mWatchMedCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="WatchMatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action WatchMatCmd($source)]"
+                                                     Visibility="{Binding mWatchMatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="WatchLabCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action WatchLabCmd($source)]"
+                                                     Visibility="{Binding mWatchLabCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+                </layoutToolkit:AccordionItem>
+
+
+                <layoutToolkit:AccordionItem Header="{Binding K1066_G1_BCNXT, Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                                Visibility="{Binding gf1NhapXuatTon,Converter={StaticResource BooleanToVisibility} }">
+                            <StackPanel>
+                                <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="NhapXuatTonThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action NhapXuatTonThuocCmd($source)]"
+                                         Visibility="{Binding mNhapXuatTonThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="NhapXuatTonYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action NhapXuatTonYCuCmd($source)]"
+                                         Visibility="{Binding mNhapXuatTonYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="NhapXuatTonHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action NhapXuatTonHoaChatCmd($source)]"
+                                         Visibility="{Binding mNhapXuatTonHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            </StackPanel>
+                        </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="{Binding Z2104_G1_BCDoanhThuNXT, Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                                Visibility="{Binding gf1NhapXuatTon,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="DTNhapXuatTonThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action DTNhapXuatTonThuocCmd($source)]"
+                                         Visibility="{Binding mNhapXuatTonThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="DTNhapXuatTonYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action DTNhapXuatTonYCuCmd($source)]"
+                                         Visibility="{Binding mNhapXuatTonYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="DTNhapXuatTonHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action DTNhapXuatTonHoaChatCmd($source)]"
+                                         Visibility="{Binding mNhapXuatTonHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+                </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="{Binding G0152_G1_TheKho, Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                        Visibility="{Binding gf1TheKho,Converter={StaticResource BooleanToVisibility} }">
+                            <StackPanel>
+                                <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="TheKhoThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action TheKhoThuocCmd($source)]"
+                                         Visibility="{Binding mTheKhoThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="TheKhoYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action TheKhoYCuCmd($source)]"
+                                         Visibility="{Binding mTheKhoYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="TheKhoHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action TheKhoHoaChatCmd($source)]"
+                                         Visibility="{Binding mTheKhoHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            </StackPanel>
+                        </layoutToolkit:AccordionItem>
+                        <layoutToolkit:AccordionItem Header="{Binding K3899_G1_DSPhNKho, Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                        Visibility="{Binding gf1PhieuNhapKho,Converter={StaticResource BooleanToVisibility} }">
+                            <StackPanel>
+                                <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="BangKeNhapHangThangTheoSoPhieuNhapKhoThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action BangKeNhapHangThangTheoSoPhieuNhapKhoThuocCmd($source)]"
+                                         Visibility="{Binding mBangKeNhapHangThangTheoSoPhieuNhapKhoThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="BangKeNhapHangThangTheoSoPhieuNhapKhoYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action BangKeNhapHangThangTheoSoPhieuNhapKhoYCuCmd($source)]"
+                                         Visibility="{Binding mBangKeNhapHangThangTheoSoPhieuNhapKhoYCuCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="BangKeNhapHangThangTheoSoPhieuNhapKhoHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action BangKeNhapHangThangTheoSoPhieuNhapKhoHoaChatCmd($source)]"
+                                         Visibility="{Binding mBangKeNhapHangThangTheoSoPhieuNhapKhoHoaChatCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            </StackPanel>
+                        </layoutToolkit:AccordionItem>
+                        <layoutToolkit:AccordionItem Header="{Binding K1061_G1_BCNam, Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                        Visibility="{Binding gf1BaoCaoNam,Converter={StaticResource BooleanToVisibility} }">
+                            <StackPanel>
+                                <Button Content="{Binding S0737_G1_SuDungThuoc, Source={StaticResource eHCMSResources}}" Name="SuDungThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action SuDungThuocCmd($source)]"
+                                        Visibility="{Binding mSuDungThuocCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                               
+                            </StackPanel>
+                        </layoutToolkit:AccordionItem>
+
+                        <layoutToolkit:AccordionItem Header="{Binding N0222_G1_NhapXuatDenKP, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                        Visibility="{Binding gf1XuatKhoaPhong,Converter={StaticResource BooleanToVisibility} }">
+                            <StackPanel>
+                                <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="ThuocXuatDenKhoaCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action ThuocXuatDenKhoaCmd($source)]"
+                                        Visibility="{Binding mThuocXuatDenKhoaCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="YCuXuatDenKhoaCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action YCuXuatDenKhoaCmd($source)]"
+                                        Visibility="{Binding mYCuXuatDenKhoaCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="HoaChatXuatDenKhoaCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action HoaChatXuatDenKhoaCmd($source)]"
+                                        Visibility="{Binding mHoaChatXuatDenKhoaCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            </StackPanel>
+                        </layoutToolkit:AccordionItem>
+                        <layoutToolkit:AccordionItem Header="{Binding G0350_G1_TheoDoiCNo, Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                        Visibility="{Binding gf1TheoDoiCongNo,Converter={StaticResource BooleanToVisibility} }">
+                            <StackPanel>
+                                <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="TheoDoiCongNoThuocCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action TheoDoiCongNoThuocCmd($source)]"
+                                       Visibility="{Binding mBaoCaoTheoDoiCongNo_Thuoc,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="TheoDoiCongNoYCuCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action TheoDoiCongNoYCuCmd($source)]"
+                                        Visibility="{Binding mBaoCaoTheoDoiCongNo_YCu,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                                <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="TheoDoiCongNoHoaChatCmd"  VerticalAlignment="Center"   cal:Message.Attach="[Event Click]=[Action TheoDoiCongNoHoaChatCmd($source)]"
+                                        Visibility="{Binding mBaoCaoTheoDoiCongNo_HoaChat,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            </StackPanel>
+                        </layoutToolkit:AccordionItem>
+
+                    <!--</layoutToolkit:Accordion>
+                </layoutToolkit:AccordionItem>-->
+
+                <layoutToolkit:AccordionItem Header="{Binding Q0448_G1_QuanLy, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                        Visibility="{Binding gfQuanLy,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding Q0434_G1_QLNCC, Source={StaticResource eHCMSResources}}" Name="SupplierProductCmd"  VerticalAlignment="Center"   
+                                             cal:Message.Attach="[Event Click]=[Action SupplierProductCmd($source)]"
+                                             Visibility="{Binding mSupplierProductCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding Q0436_G1_QLNCCVaSP, Source={StaticResource eHCMSResources}}" Name="SupplierAndProductCmd"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action SupplierAndProductCmd($source)]"
+                                            Visibility="Collapsed" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}" />
+                            <!--Visibility="{Binding bSupplierAndProductCmd,Converter={StaticResource BooleanToVisibility} }"-->
+                            <Button Content="{Binding Q0441_G1_QLNSX, Source={StaticResource eHCMSResources}}" Name="DrugDeptPharmaceulCompanyCmd"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptPharmaceulCompanyCmd($source)]"
+                                             Visibility="{Binding mDrugDeptPharmaceulCompanyCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding Q0442_G1_QLNSXVaNCC, Source={StaticResource eHCMSResources}}" Name="DrugDeptPharmaceulCompanySupplierCmd"  VerticalAlignment="Center"   
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptPharmaceulCompanySupplierCmd($source)]"
+                                             Visibility="{Binding mDrugDeptPharmaceulCompanySupplierCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding K3543_G1_DMDvt, Source={StaticResource eHCMSResources}}" Name="UnitCmd"  VerticalAlignment="Center"   
+                                             cal:Message.Attach="[Event Click]=[Action UnitCmd($source)]"
+                                             Visibility="{Binding mDrugDeptUnitCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding Q0426_G1_QLDanhMucBH, Source={StaticResource eHCMSResources}}"  VerticalAlignment="Center"  cal:Message.Attach="[Event Click]=[Action RefGenDrugBHYTCmd($source)]"
+                                             Visibility="{Binding mRefGenDrugBHYTCmd,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+
+
+
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding Q0440_G1_QLNhomHg, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfQuanLyNhomHang,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding N0248_G1_NhomThuoc, Source={StaticResource eHCMSResources}}" Name="DrugClass_DeptCmd"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugClass_DeptCmd($source)]"
+                                             Visibility="{Binding mQLNhomHang_Thuoc,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding N0255_G1_NhomYCu, Source={StaticResource eHCMSResources}}" Name="DrugClass_MedicalCmd"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugClass_MedicalCmd($source)]"
+                                             Visibility="{Binding mQLNhomHang_YCu,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding N0244_G1_NhomHoaChat, Source={StaticResource eHCMSResources}}" Name="DrugClass_ChemicalCmd"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugClass_ChemicalCmd($source)]"
+                                             Visibility="{Binding mQLNhomHang_HoaChat,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding Z2253_G1_NhomHoatChat, Source={StaticResource eHCMSResources}}" Name="DrugClass_RefGeneric"  VerticalAlignment="Center"  Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"
+                                            cal:Message.Attach="[Event Click]=[Action DrugClass_RefGeneric($source)]"
+                                            Visibility="{Binding mQLNhomHang_HoatChat,Converter={StaticResource BooleanToVisibility} }"/>
+                            </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+                
+                <layoutToolkit:AccordionItem Header="{Binding Q0454_G1_QuanLyDanhMuc, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfQuanLyDanhMuc,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding K2906_G1_DMucThuoc, Source={StaticResource eHCMSResources}}" Name="RefGenMedProductDetails_DrugMgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action RefGenMedProductDetails_DrugMgnt($source)]"
+                                             Visibility="{Binding mRefGenMedProductDetails_DrugMgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding K2917_G1_DMucYCu, Source={StaticResource eHCMSResources}}" Name="RefGenMedProductDetails_MedicalDevicesMgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action RefGenMedProductDetails_MedicalDevicesMgnt($source)]"
+                                             Visibility="{Binding mRefGenMedProductDetails_MedicalDevicesMgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding K2895_G1_DMucHChat, Source={StaticResource eHCMSResources}}" Name="RefGenMedProductDetails_ChemicalMgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action RefGenMedProductDetails_ChemicalMgnt($source)]"
+                                             Visibility="{Binding mRefGenMedProductDetails_ChemicalMgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding T1158_G1_GiaTuNCC, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfGiaNCC,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="SupplierGenMedProductsPrice_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action SupplierGenMedProductsPrice_Mgnt($source)]"
+                                             Visibility="{Binding mSupplierGenMedProductsPrice_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="SupplierGenMedProductsPrice_Medical_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action SupplierGenMedProductsPrice_Medical_Mgnt($source)]"
+                                             Visibility="{Binding mSupplierGenMedProductsPrice_Medical_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="SupplierGenMedProductsPrice_Chemical_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action SupplierGenMedProductsPrice_Chemical_Mgnt($source)]"
+                                             Visibility="{Binding mSupplierGenMedProductsPrice_Chemical_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding G0055_G1_ThGiaBan, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfThangGiaBan,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="DrugDeptSellPriceProfitScale_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptSellPriceProfitScale_Mgnt($source)]"
+                                             Visibility="{Binding mDrugDeptSellPriceProfitScale_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="DrugDeptSellPriceProfitScale_Medical_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptSellPriceProfitScale_Medical_Mgnt($source)]"
+                                             Visibility="{Binding mDrugDeptSellPriceProfitScale_Medical_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="DrugDeptSellPriceProfitScale_Chemical_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptSellPriceProfitScale_Chemical_Mgnt($source)]"
+                                             Visibility="{Binding mDrugDeptSellPriceProfitScale_Chemical_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+                
+                <layoutToolkit:AccordionItem Header="{Binding T0860_G1_GiaBan, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                     Visibility="Collapsed"  >
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="DrugDeptSellingItemPrices_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptSellingItemPrices_Mgnt($source)]"
+                                             Visibility="{Binding mDrugDeptSellingItemPrices_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="DrugDeptSellingItemPrices_Medical_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptSellingItemPrices_Medical_Mgnt($source)]"
+                                             Visibility="{Binding mDrugDeptSellingItemPrices_Medical_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="DrugDeptSellingItemPrices_Chemical_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptSellingItemPrices_Chemical_Mgnt($source)]"
+                                             Visibility="{Binding mDrugDeptSellingItemPrices_Chemical_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding K1023_G1_BGiaBan, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfBangGiaBan,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="DrugDeptSellingPriceList_Mgnt"  VerticalAlignment="Center"   
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptSellingPriceList_Mgnt($source)]"
+                                             Visibility="{Binding mDrugDeptSellingPriceList_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="DrugDeptSellingPriceList_Medical_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptSellingPriceList_Medical_Mgnt($source)]"
+                                             Visibility="{Binding mDrugDeptSellingPriceList_Medical_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="DrugDeptSellingPriceList_Chemical_Mgnt"  VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action DrugDeptSellingPriceList_Chemical_Mgnt($source)]"
+                                             Visibility="{Binding mDrugDeptSellingPriceList_Chemical_Mgnt,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+
+
+                <layoutToolkit:AccordionItem Header="{Binding G1461_G1_TKho, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="InStock_MedCmd" VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action InStock_MedCmd($source)]" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="InStock_MatCmd" VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action InStock_MatCmd($source)]" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="InStock_LabCmd" VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action InStock_LabCmd($source)]" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding K3580_G1_DoiGiaBanTheoLo, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfAdjustOutPrice,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="AdjustOutPrice_MedCmd" VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action AdjustOutPrice_MedCmd($source)]"
+                                             Visibility="{Binding mAdjustOutPrice_Med,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="AdjustOutPrice_MatCmd" VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action AdjustOutPrice_MatCmd($source)]"
+                                             Visibility="{Binding mAdjustOutPrice_Mat,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="AdjustOutPrice_LabCmd" VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action AdjustOutPrice_LabCmd($source)]"
+                                             Visibility="{Binding mAdjustOutPrice_Lab,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding Z2111_G1_ThongTinThau, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding mBid,Converter={StaticResource BooleanToVisibility} }">
+                    <StackPanel>
+                        <Button Name="MedBidDetailCmd" Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  cal:Message.Attach="[Event Click]=[Action BidDetailCmd($source)]"
+                                         Visibility="{Binding mBidDetail,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}" />
+                        <Button Name="MatBidDetailCmd" Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  cal:Message.Attach="[Event Click]=[Action BidDetailCmd($source)]"
+                                         Visibility="{Binding mBidDetail,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}" />
+                        <Button Name="LabBidDetailCmd" Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  cal:Message.Attach="[Event Click]=[Action BidDetailCmd($source)]"
+                                         Visibility="{Binding mBidDetail,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}" />
+                    </StackPanel>
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding G2115_G1_DoiGiaBanTheoLoKP, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding gfAdjustOutPrice,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" Name="Clinic_AdjustOutPrice_MedCmd" VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action Clinic_AdjustOutPrice_MedCmd($source)]"
+                                             Visibility="{Binding mAdjustOutPrice_Med,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" Name="Clinic_AdjustOutPrice_MatCmd" VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action Clinic_AdjustOutPrice_MatCmd($source)]"
+                                             Visibility="{Binding mAdjustOutPrice_Mat,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                            <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" Name="Clinic_AdjustOutPrice_LabCmd" VerticalAlignment="Center"  
+                                             cal:Message.Attach="[Event Click]=[Action Clinic_AdjustOutPrice_LabCmd($source)]"
+                                             Visibility="{Binding mAdjustOutPrice_Lab,Converter={StaticResource BooleanToVisibility} }" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding Z2160_G1_TheoDoiHangKyGoi, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Visibility="{Binding gTempInwardReport,Converter={StaticResource BooleanToVisibility}}">
+                    <StackPanel>
+                        <Button Content="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Name="TempInwardMedReportCmd" cal:Message.Attach="[Event Click]=[Action TempInwardMedReportCmd($source)]" Visibility="{Binding gTempInwardMedReport,Converter={StaticResource BooleanToVisibility}}" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding G2907_G1_YCu, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Name="TempInwardMatReportCmd" cal:Message.Attach="[Event Click]=[Action TempInwardMatReportCmd($source)]" Visibility="{Binding gTempInwardMatReport,Converter={StaticResource BooleanToVisibility}}" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                        <Button Content="{Binding T1616_G1_HC, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Name="TempInwardLabReportCmd" cal:Message.Attach="[Event Click]=[Action TempInwardLabReportCmd($source)]" Visibility="{Binding gTempInwardLabReport,Converter={StaticResource BooleanToVisibility}}" Style="{StaticResource MainFrame.HyperlinkButton.LeftMenu}"/>
+                    </StackPanel>
+                </layoutToolkit:AccordionItem>
+            </layoutToolkit:Accordion.Items>
+        </layoutToolkit:Accordion>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

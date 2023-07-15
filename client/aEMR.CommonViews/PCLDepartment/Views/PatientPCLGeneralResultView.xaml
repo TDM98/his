@@ -1,0 +1,144 @@
+﻿<UserControl
+    x:Class="aEMR.Views.PatientPCLGeneralResultView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+    MinHeight="600"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    d:DesignHeight="450"
+    d:DesignWidth="1050"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="425" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="400" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ComboBox
+            Grid.Row="2"
+            Grid.ColumnSpan="4"
+            Margin="0,0,0,10"
+            cal:Message.Attach="[Event SelectionChanged]=[Action cboReportTemplates_SelectionChanged($source,$eventArgs)]"
+            DisplayMemberPath="FileName"
+            ItemsSource="{Binding TemplateFileNameCollection, Mode=OneWay}"
+            Visibility="{Binding IsMultiFileName, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <Label
+            Grid.Row="0"
+            Margin="0,0,0,5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{Binding Z2241_G1_MaMay, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            Style="{StaticResource MainFrame.Label.01}" />
+        <ControlsLibrary:AxComboBox
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="425"
+            MaxWidth="475"
+            Margin="0,0,0,5"
+            HorizontalAlignment="Left"
+            HorizontalContentAlignment="Left"
+            cal:Message.Attach="[Event Loaded]=[Action cboHiRepResourceCode_Loaded($source,$eventArgs)]                                                                ;[Event SelectionChanged]=[Action cboHiRepResourceCode_SelectionChanged($source,$eventArgs)]"
+            DisplayMemberPath="ItemName"
+            IsEnabled="{Binding IsNotApplyTemplatePCLResultNew}"
+            ItemsSource="{Binding HIRepResourceCode, Mode=OneWay}"
+            SelectedValue="{Binding ObjPatientPCLImagingResult_General.HIRepResourceCode, Mode=TwoWay}"
+            SelectedValuePath="HIRepResourceCode"
+            Style="{StaticResource MainFrame.ComboBox}" />
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="0,0,0,5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{Binding K0990_G1_BSiTHien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            Style="{StaticResource MainFrame.Label.01}" />
+        <ContentControl
+            x:Name="aucHoldConsultDoctor"
+            Grid.Row="0"
+            Grid.Column="3"
+            Margin="0,0,0,5"
+            HorizontalContentAlignment="Stretch"
+            IsEnabled="{Binding IsNotApplyTemplatePCLResultNew}" />
+
+        <Label
+            Grid.Row="1"
+            Margin="0,0,0,5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{Binding K3159_G1_DNghi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            Style="{StaticResource MainFrame.Label.01}" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Height="22"
+            VerticalAlignment="Center"
+            IsEnabled="{Binding IsNotApplyTemplatePCLResultNew, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource MainFrame.TextBox}"
+            Text="{Binding ObjPatientPCLImagingResult_General.Suggest, Mode=TwoWay}" />
+
+        <Label
+            Grid.Row="1"
+            Grid.Column="2"
+            Margin="0,0,0,5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{Binding Z2436_G2_BSDocKetQua, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            Style="{StaticResource MainFrame.Label.01}" />
+        <ContentControl
+            x:Name="aucDoctorResult"
+            Grid.Row="1"
+            Grid.Column="3"
+            Margin="0,0,0,5"
+            HorizontalContentAlignment="Stretch"
+            IsEnabled="{Binding IsNotApplyTemplatePCLResultNew}" />
+
+        <CheckBox
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Center"
+            cal:Message.Attach="[Event Click]=[Action ckbIsWaitResult_Click($source,$datacontext)]"
+            Content="{Binding Z2177_G1_ChoHoanTatXetNghiem, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+            IsChecked="{Binding PatientPCLRequestObj.IsWaitResult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            IsEnabled="{Binding IsWaitResultEnabled}"
+            Visibility="{Binding IsWaitResultVisibility, Converter={StaticResource VisibilityConverter}}" />
+        <CheckBox
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Center"
+            Content="{Binding Z2788_G1_DaHoanTat, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+            IsChecked="{Binding PatientPCLRequestObj.IsDone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding IsDoneVisibility, Converter={StaticResource VisibilityConverter}}" />
+        <WindowsFormsHost
+            Grid.Row="4"
+            Grid.ColumnSpan="4"
+            IsEnabled="{Binding IsNotApplyTemplatePCLResultNew}">
+            <wf:WebBrowser x:Name="WBGeneral" PreviewKeyDown="WBGeneral_PreviewKeyDown" />
+        </WindowsFormsHost>
+        <!--<WebBrowser x:Name="WBGeneral" cal:Message.Attach="[Event Loaded] = [Action WBGeneral_Loaded($source, $eventArgs)]"/>-->
+    </Grid>
+</UserControl>

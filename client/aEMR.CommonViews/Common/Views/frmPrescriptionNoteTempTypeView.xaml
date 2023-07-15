@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="aEMR.Common.Views.frmPrescriptionNoteTempTypeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    d:DesignHeight="800" d:DesignWidth="500"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <DataTemplate x:Key="DTlnkDelete" >
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"  IsEnabled="{Binding isDeleted}"  
+                    cal:Message.Attach="[Event Click]=[Action lnkDeleteClick()]
+                    ;[Event Loaded]=[Action lnkDelete_Loaded($source)]"
+                    ToolTipService.ToolTip="{Binding I0927_G1_I, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0066">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Width="15" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converter:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNot"/>
+
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="LayoutRoot" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="30*" />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="100" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="400" />
+                <RowDefinition Height="50" />
+
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Height="auto" Grid.ColumnSpan="4" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding G0271_G1_ThemLoiDanGChu, Source={StaticResource eHCMSResources}}" Foreground="#FF0084FF" FontSize="14" FontWeight="Bold" />
+
+            <Label Grid.Column="0" Grid.Row="1" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Content="{Binding T2669_G1_Loai, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.Label.00}" />
+            <Label Grid.Column="0" Grid.Row="2" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Content="{Binding K1837_G1_CTiet, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.Label.00}" 
+                       Visibility="{Binding mLoiDan,Converter={StaticResource BooleanToVisibilityNot}}" />
+            <!--<Label Grid.Column="0" Grid.Row="2" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Content="{Binding T0867_G1_TenLoiDan, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.Label.00}" 
+                       Visibility="{Binding mLoiDan,Converter={StaticResource BooleanToVisibility}}" />            
+            <Label Grid.Column="0" Grid.Row="3" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Content="{Binding K1850_G1_CTietLoiDan, Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.Label.00}" 
+                       Visibility="{Binding mLoiDan,Converter={StaticResource BooleanToVisibility}}" />-->
+            <Label Grid.Column="0" Grid.Row="2" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Content="{Binding T0870_G1_TenMau, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.Label.00}" 
+                       Visibility="{Binding mLoiDan,Converter={StaticResource BooleanToVisibility}}" />
+            <Label Grid.Column="0" Grid.Row="3" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Content="{Binding K1851_G1_CTietMau, Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.Label.00}" 
+                       Visibility="{Binding mLoiDan,Converter={StaticResource BooleanToVisibility}}" />
+
+
+            <Label Grid.Column="0" Grid.Row="5" Height="auto" Width="auto" VerticalAlignment="Top" HorizontalAlignment="Right" Content="{Binding K2919_G1_DS, Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.Label.00}" />
+
+            <ContentControl Name="UCPreNoteTemp" Grid.Column="2" Grid.Row="1" HorizontalContentAlignment="Stretch" 
+                            VerticalContentAlignment="Stretch">
+            </ContentControl>
+            <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding curPrescriptionNoteTemplates.NoteDetails,Mode=TwoWay}" x:Name="txtResourceName" MinHeight="25" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBox}"   />
+            <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding curPrescriptionNoteTemplates.DetailsTemplate,Mode=TwoWay}"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" Style="{StaticResource MainFrame.TextBox}"  
+                         Visibility="{Binding mLoiDan,Converter={StaticResource BooleanToVisibility}}" />
+
+            <customcontrols:ReadOnlyDataGrid AutoGenerateColumns="False" Grid.Row="5" Grid.Column="2"
+                                      ItemsSource="{Binding allPrescriptionNoteTemplates,Mode=TwoWay}" 
+                                      RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}" 
+                                      RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                      Style="{StaticResource MainFrame.DataGridStyle}"         
+                                             SelectedItem="{Binding selectedPrescriptionNoteTemplates, Mode=TwoWay}"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto" Height="auto"
+                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                <DataGrid.Columns>
+                    <!---->
+                    <DataGridTemplateColumn x:Name="Delete"  CellTemplate="{StaticResource DTlnkDelete}" Header=""/>
+                    <DataGridTextColumn Header="{Binding N0259_G1_NoiDung, Source={StaticResource eHCMSResources}}" MinWidth="220"
+                                        Binding="{Binding NoteDetails, Mode=OneWay}"/>
+                    <DataGridTextColumn Header="{Binding N0165_G1_NguoiTao, Source={StaticResource eHCMSResources}}" MinWidth="150"
+                                        Binding="{Binding Staff.FullName, Mode=OneWay}"/>                          
+                    <DataGridTextColumn Header="{Binding T3707_G1_Mau, Source={StaticResource eHCMSResources}}" MinWidth="150"
+                                        Binding="{Binding DetailsTemplate, Mode=OneWay}"/>
+                </DataGrid.Columns>
+                </customcontrols:ReadOnlyDataGrid>             
+            
+            <StackPanel Name="spBut" Orientation="Horizontal" Grid.Row="4" Grid.Column="2" MinHeight="20"  HorizontalAlignment="Center"  VerticalAlignment="Top" Margin="0 3 0 0">
+                <Button x:Name="butSave" Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" Height="20" Style="{StaticResource MainFrame.Button}"  Width="80"/>                
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2" MinHeight="20"  HorizontalAlignment="Right"  VerticalAlignment="Center"  Width="auto">
+                <Button x:Name="butExit" Content="{Binding G0391_G1_Thoat, Source={StaticResource eHCMSResources}}" Height="20" Style="{StaticResource MainFrame.Button}"  Width="80"
+                        Visibility="{Binding isPopup,Converter={StaticResource BooleanToVisibility}}"/>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</UserControl>

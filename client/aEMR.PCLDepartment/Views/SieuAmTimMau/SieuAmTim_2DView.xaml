@@ -1,0 +1,610 @@
+﻿<UserControl x:Class="aEMR.PCLDepartment.Views.SieuAmTim_2DView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org" 
+             xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             mc:Ignorable="d"
+             d:DesignHeight="450" 
+             d:DesignWidth="950">
+  <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converter:NullableValueConverter x:Key="NullableValueConverter"/>
+    </UserControl.Resources>
+  <Grid x:Name="LayoutRoot" Background="White">        
+            <ControlsLibrary:AxGrid x:Name="TwoD" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8"></ColumnDefinition>
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="160"></ColumnDefinition>
+                    <ColumnDefinition Width="25"></ColumnDefinition>
+
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                    <ColumnDefinition Width="25"></ColumnDefinition>
+
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                    <ColumnDefinition Width="25"></ColumnDefinition>
+
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                    <ColumnDefinition Width="25"></ColumnDefinition>
+
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="10*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="22*" />
+                </Grid.RowDefinitions>
+            <!--<ControlsLibrary:ValidationSummary Name="ValidationSummary" Height="5"
+                             cal:Message.Attach="[Event Loaded]=[Action ValidationSummary_Loaded($source,$eventArgs)]" />-->
+                <!--r0-->
+                <TextBlock Text="{Binding S0579_G1_Situs, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" HorizontalAlignment="Right"
+                 Style="{StaticResource TextBlock.Heading.05}" FontWeight="Bold" />
+
+                <ControlsLibrary:AxComboBox Grid.Column="2" Height="22" VerticalAlignment="Center"
+                                  ItemsSource="{Binding allSitus, Mode=OneWay}" Style="{StaticResource MainFrame.ComboBox}"
+                                  SelectedItemEx="{Binding curUltraResParams_EchoCardiography.L2D_Situs,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                  DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID" TabIndex="0" />
+                <!--r1-->
+                <!-- TxD 24/06/2015 Heading title NOT a Field -->
+                <!--<Grid Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding G1295_G1_TMach, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding K0717_G1_Veins, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="25"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Veins,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TabIndex="1" />
+                    </Grid>
+                </Grid>-->
+
+                <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding G1295_G1_TMach, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                           Style="{StaticResource TextBlock.Heading.04}" FontWeight="Bold" TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding K0717_G1_Veins, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                           Style="{StaticResource TextBlock.Heading.04}" FontWeight="Bold"  />
+                </StackPanel>
+
+                <Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Margin="10,0,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding G1414_G1_TMCD, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0650_G1_IVC, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Ivc,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TabIndex="2" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="3">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding G1416_G1_TMCt, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0693_G1_SVC, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Svc,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TabIndex="3" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding G2085_G1_TVI, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="0,5,0,0" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="4"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Tvi,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="1" Grid.Column="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding G1420_G1_TMCtrenTraiLSVC, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" TextWrapping="Wrap" />
+                            <!--<TextBlock Text="{Binding K0655_G1_Lsvc, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"/>-->
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Left" Orientation="Horizontal"
+                      VerticalAlignment="Center" Width="100" Margin="0,2" Grid.ColumnSpan="3">
+                            <RadioButton Content="(+)" GroupName="gV_2D_Lsvc" Height="16" HorizontalAlignment="Left"
+                         IsChecked="{Binding curUltraResParams_EchoCardiography.V_2D_Lsvc, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                         Margin="0,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" TabIndex="5" />
+                            <RadioButton Content="(-)" GroupName="gV_2D_Lsvc" Height="16" HorizontalAlignment="Left"
+                         IsChecked="True" Margin="5,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center"
+                         TabIndex="6" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <!--r2-->
+                <Grid Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="55"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding G1412_G1_TMP, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0682_G1_PV, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Pv,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TabIndex="7" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="2" Grid.Column="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding K0949_G1_Azygos2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="0,5,0,0" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Height="22" HorizontalAlignment="Left" Orientation="Horizontal"
+                      VerticalAlignment="Center" Width="100" Margin="0,2" Grid.ColumnSpan="3">
+                            <RadioButton Content="(+)" GroupName="gTwoD_Azygos" Height="16" HorizontalAlignment="Left"
+                         IsChecked="{Binding curUltraResParams_EchoCardiography.V_2D_Azygos, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                         Margin="0,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" TabIndex="8" />
+                            <RadioButton Content="(-)" GroupName="gTwoD_Azygos" Height="16" HorizontalAlignment="Left"
+                         IsChecked="True" Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center"
+                         TabIndex="9" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <!--r3-->
+                <StackPanel Orientation="Vertical" Grid.Row="3" Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding N0231_G1_Nhi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.05}"
+                   FontWeight="Bold" />
+                    <TextBlock Text="{Binding K0614_G1_Atria, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                   FontWeight="Bold" />
+                </StackPanel>
+                <ControlsLibrary:AxTextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" TabIndex="10"
+                                 Text="{Binding curUltraResParams_EchoCardiography.TwoD_Atria,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" Height="23" />
+
+                <!--r4-->
+                <StackPanel Orientation="Vertical" Grid.Row="4" Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding G2149_G1_VanTim, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.05}"
+                   FontWeight="Bold" />
+                    <TextBlock Text="{Binding K0715_G1_Valves, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                   FontWeight="Bold" />
+                </StackPanel>
+                <ControlsLibrary:AxTextBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3" TabIndex="11"
+                                 Text="{Binding curUltraResParams_EchoCardiography.TwoD_Valves,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" Height="23" />
+
+                <!--r5-->
+                <Grid Grid.Row="5" Grid.Column="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding K1735_G1_CDLaTruoc2La, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="12"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Cd,Mode=TwoWay, Converter={StaticResource NullableValueConverter} }"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="5" Grid.Column="3">
+                    <TextBlock Text="{Binding M0004_G1_mm, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" />
+                </Grid>
+
+                <Grid Grid.Row="5" Grid.Column="4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding G2316_G1_VongVan2La, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0659_G1_Ma, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="13"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Ma,Mode=TwoWay, Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="5" Grid.Column="5">
+                    <TextBlock Text="{Binding M0004_G1_mm, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" />
+                </Grid>
+
+                <Grid Grid.Row="5" Grid.Column="6">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding K3912_G1_DTMoVan2La, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0661_G1_MitralArea, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="14"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_MitralArea,Mode=TwoWay,Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="5" Grid.Column="7">
+                    <TextBlock Text="{Binding K2396_G1_Cm2, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" />
+                </Grid>
+
+                <Grid Grid.Row="5" Grid.Column="8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding A1180_G1_VongVan3La, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0696_G1_TA, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="15"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Ta,Mode=TwoWay,Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="5" Grid.Column="9">
+                    <TextBlock Text="{Binding M0004_G1_mm, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" />
+                </Grid>
+
+                <!--<Grid Grid.Row="5" Grid.Column="9">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" Grid.Column="0">
+                        <TextBlock Text="{Binding G1418_G1_TMCtrenTrai, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"/>
+                        <TextBlock Text="{Binding K0655_G1_Lsvc, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"/>
+                    </StackPanel>
+                    
+                    <ControlsLibrary:AxComboBox Grid.Column="1" Height="22" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding allValveOpen, Mode=OneWay}"
+                                          Style="{StaticResource MainFrame.ComboBox}"
+                                          SelectedItemEx="{Binding curUltraResParams_EchoCardiography.TwoD_LSVC,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"                                          
+                                          DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID"                                           
+                                              />
+                </Grid>
+            </Grid>-->
+
+                <!--r6-->
+                <StackPanel Orientation="Vertical" Grid.Row="6" Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding G0138_G1_That, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.05}"
+                   FontWeight="Bold" />
+                    <TextBlock Text="{Binding K0720_G1_Ventricles, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                   Style="{StaticResource TextBlock.Heading.04}" FontWeight="Bold" />
+                </StackPanel>
+
+                <!-- TxD 24/06/2015 Heading title NOT a Field -->
+                <!--<ControlsLibrary:AxTextBox Grid.Row="6" Grid.Column="2" TabIndex="16"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Ventricles,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MainFrame.TextBox}" Height="23" />-->
+
+                <!--r7-->
+                <StackPanel Orientation="Vertical" Grid.Row="6" Grid.Column="2">
+                    <TextBlock Text="{Binding K2836_G1_DaiDMach, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                   Style="{StaticResource TextBlock.Heading.05}" FontWeight="Bold" />
+                    <TextBlock Text="{Binding K0645_G1_GreatArteries, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                   Style="{StaticResource TextBlock.Heading.04}" FontWeight="Bold" />
+                </StackPanel>
+                
+                <!-- TxD 24/06/2015 Heading title NOT a Field -->
+                <!--<ControlsLibrary:AxTextBox Grid.Row="7" Grid.Column="2" TabIndex="17"
+                    Text="{Binding curUltraResParams_EchoCardiography.TwoD_Aorte,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"  Style="{StaticResource MainFrame.TextBox}" Height="23"/>-->
+
+            <Grid Grid.Row="7" Grid.Column="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        
+                            <TextBlock Text="{Binding K3541_G1_DMCAorte, Source={StaticResource eHCMSResources}}" Grid.Column="0" TextWrapping="Wrap" HorizontalAlignment="Right"
+                                Style="{StaticResource TextBlock.Heading.04}" FontWeight="Bold" VerticalAlignment="Center" />                                                           
+                        
+                        <!-- TxD 24/06/2015 Heading title NOT a Field -->
+                        <!--<ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="17"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Aorte,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />-->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Text="{Binding K2776_G1_D2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Margin="8,0,0,0" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" />
+                            <ControlsLibrary:AxTextBox  Height="23" Width="70" TabIndex="22"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_D2,Mode=TwoWay,Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                        </StackPanel>
+                </Grid>
+                </Grid>
+                <Grid Grid.Row="7" Grid.Column="4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding T2586_G1_Len, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0612_G1_Asc, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="18"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Asc,Mode=TwoWay,Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right"  />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="7" Grid.Column="6">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding N0044_G1_Ngang, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0627_G1_Cr, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="19"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Cr,Mode=TwoWay,Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="7" Grid.Column="8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding A1128_G1_Eo, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0648_G1_Is, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="20"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Is,Mode=TwoWay,Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+
+                <Grid Grid.Row="7" Grid.Column="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding K1392_G1_Bung2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0606_G1_Abd, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="21"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Abd,Mode=TwoWay,Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+
+                <!--r8-->
+                <Grid Grid.Row="8" Grid.Column="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" Grid.Column="0">
+                        <TextBlock Text="{Binding K3544_G1_DMPhoihoi2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.05}"
+                   FontWeight="Bold" />
+                        <TextBlock Text="{Binding K0674_G1_PA, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                   FontWeight="Bold" />
+                    </StackPanel>
+
+                </Grid>
+                </Grid>
+
+                <Grid Grid.Row="8" Grid.Column="3">
+                    <TextBlock Text="" />
+                </Grid>
+
+                <Grid Grid.Row="8" Grid.Column="4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding G2314_G1_VongVan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0608_G1_Ann, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="23"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Ann,Mode=TwoWay, Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="8" Grid.Column="5">
+                    <TextBlock Text="" />
+                </Grid>
+
+                <Grid Grid.Row="8" Grid.Column="6">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding G0037_G1_ThanDMP, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0700_G1_TAP, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="24"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Tap,Mode=TwoWay, Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="8" Grid.Column="7">
+                    <TextBlock Text="" />
+                </Grid>
+
+                <Grid Grid.Row="8" Grid.Column="8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding K3547_G1_DMPhoiP2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0685_G1_RPA, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="25"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Rpa,Mode=TwoWay,Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="8" Grid.Column="9">
+                    <TextBlock Text="" />
+                </Grid>
+
+                <Grid Grid.Row="8" Grid.Column="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Column="0">
+                            <TextBlock Text="{Binding K3549_G1_DMPhoiT2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                            <TextBlock Text="{Binding K0653_G1_Lpa, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                       Style="{StaticResource TextBlock.Heading.04}" />
+                        </StackPanel>
+                        <ControlsLibrary:AxTextBox Grid.Column="1" Height="23" TabIndex="26"
+                                     Text="{Binding curUltraResParams_EchoCardiography.TwoD_Lpa,Mode=TwoWay, Converter={StaticResource NullableValueConverter}}"
+                                     Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+                    </Grid>
+                </Grid>
+
+
+                <!--r9-->
+                <StackPanel Orientation="Vertical" Grid.Row="9" Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding T3694_G1_MangNgoaiTim, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                   Style="{StaticResource TextBlock.Heading.05}" FontWeight="Bold" />
+                    <TextBlock Text="{Binding K0677_G1_Pericarde, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                   FontWeight="Bold" />
+                </StackPanel>
+                <ControlsLibrary:AxTextBox Grid.Row="9" Grid.Column="2" TabIndex="27"
+                                 Text="{Binding curUltraResParams_EchoCardiography.TwoD_Pericarde,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" Height="23" />
+
+
+                <!--r10-->
+                <!--<StackPanel Orientation="Vertical" Grid.Row="10" Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding K3544_G1_DMPhoihoi2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.05}"
+                   FontWeight="Bold" />
+                    <TextBlock Text="{Binding K0674_G1_PA, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                   FontWeight="Bold" />
+                </StackPanel>
+                <ControlsLibrary:AxTextBox Grid.Row="10" Grid.Column="2" TabIndex="28"
+                                 Text="{Binding curUltraResParams_EchoCardiography.TwoD_Pa,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" Height="23" />-->
+
+                <!--r11-->
+                <StackPanel Orientation="Vertical" Grid.Row="11" Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding T0846_G1_GNhanKhac, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                   Style="{StaticResource TextBlock.Heading.05}" FontWeight="Bold" />
+                    <TextBlock Text="(Orthers)" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                   FontWeight="Bold" />
+                </StackPanel>
+                <TextBox Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="3" MaxLength="512"
+                                 Text="{Binding curUltraResParams_EchoCardiography.TwoD_Others,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 HorizontalScrollBarVisibility="Auto" TabIndex="29" VerticalScrollBarVisibility="Visible"
+                                 Style="{StaticResource MainFrame.TextBox}" AcceptsReturn="True" Height="55" VerticalAlignment="Top" />
+                <StackPanel Visibility="{Binding bSave}" Orientation="Horizontal" Grid.Column="7" Grid.ColumnSpan="4"
+                  Grid.Row="11" VerticalAlignment="Bottom" Width="250" Height="24" HorizontalAlignment="Left">
+
+                    <Button Name="butSave" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Height="22" Width="100"
+                HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Top" Visibility="Collapsed" Style="{StaticResource MainFrame.Button01}"
+                TabIndex="30" />
+                </StackPanel>
+
+            </ControlsLibrary:AxGrid>        
+    </Grid>
+</UserControl>

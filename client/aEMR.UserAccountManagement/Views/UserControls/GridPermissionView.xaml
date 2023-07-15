@@ -1,0 +1,145 @@
+﻿<UserControl                x:Class="aEMR.UserAccountManagement.Views.GridPermissionView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" 
+                            xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                            xmlns:cal="http://www.caliburnproject.org" 
+                            xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                            d:DesignHeight="300" d:DesignWidth="550"
+                            mc:Ignorable="d">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+       
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"     ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DTchkFullControl">
+            <CheckBox IsEnabled="False" Name="chkFullControl" HorizontalAlignment="Center" IsChecked="{Binding pFullControl, Mode=TwoWay}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DTchkView">
+            <CheckBox IsEnabled="False" Name="chkView" HorizontalAlignment="Center" IsChecked="{Binding pView, Mode=TwoWay}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DTchkAdd">
+            <CheckBox IsEnabled="False" Name="chkAdd" HorizontalAlignment="Center" IsChecked="{Binding pAdd, Mode=TwoWay}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DTchkUpdate">
+            <CheckBox IsEnabled="False" Name="chkUpdate" HorizontalAlignment="Center" IsChecked="{Binding pUpdate, Mode=TwoWay}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DTchkDelete">
+            <CheckBox IsEnabled="False" Name="chkDelete" HorizontalAlignment="Center" IsChecked="{Binding pDelete, Mode=TwoWay}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DTchkPrint">
+            <CheckBox IsEnabled="False" Name="chkPrint" HorizontalAlignment="Center" IsChecked="{Binding pPrint, Mode=TwoWay}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DTchkReport">
+            <CheckBox IsEnabled="False" Name="chkReport" HorizontalAlignment="Center" IsChecked="{Binding pReport, Mode=TwoWay}" />
+        </DataTemplate>
+        
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        
+            <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+               
+              >            
+            <Grid.RowDefinitions>                
+                <RowDefinition MinHeight="25" Height="30"/>
+                <RowDefinition MinHeight="120" Height="240" />
+                <RowDefinition MinHeight="24" Height="30"  />                
+                
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Height="22" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Top" Content="{Binding K2958_G1_DSCNang, Source={StaticResource eHCMSResources}}" Style="{StaticResource Label.Heading.00}" Foreground="#FFE65D0F" Margin="14,0,0,0" />
+            
+                <customcontrols:ReadOnlyDataGrid  Name="grdBedAllocations"  Grid.Row="1"
+                      AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+					ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                           Style="{StaticResource MainFrame.DataGridStyle}"
+					ItemsSource="{Binding allPermission,Mode=TwoWay}"
+                    SelectedItem="{Binding SelectedPermission,Mode=TwoWay}"
+                    cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"
+                    >
+                    <customcontrols:ReadOnlyDataGrid.Columns>
+                        <!--<sdk:DataGridTemplateColumn x:Name="colDeleted"  Header="" CellTemplate="{StaticResource TemplateDeleteRecord}">
+                        </sdk:DataGridTemplateColumn>-->
+
+                        <DataGridTextColumn Header="OperationName" IsReadOnly="True" Binding="{Binding  Operation.OperationName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  />
+                    <DataGridTextColumn Header="{Binding K3318_G1_Desc, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding Operation.Description, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                        
+                        </DataGridTextColumn>
+
+                    <DataGridTemplateColumn  Header="{Binding T0676_G1_FullControl, Source={StaticResource eHCMSResources}}" CellTemplate="{StaticResource DTchkFullControl}" IsReadOnly="True"
+                                                         CanUserReorder="True" CanUserResize="True" CanUserSort="True" MinWidth="10" Width="SizeToHeader" Visibility="Visible" />
+
+
+
+                    <DataGridTemplateColumn Header="{Binding G2259_G1_View, Source={StaticResource eHCMSResources}}" CellTemplate="{StaticResource DTchkView}" IsReadOnly="True"
+                                                         CanUserReorder="True" CanUserResize="True" CanUserSort="True" MinWidth="10" Width="SizeToHeader" Visibility="Visible" />
+
+
+
+                    <DataGridTemplateColumn Header="{Binding K0896_G1_Add, Source={StaticResource eHCMSResources}}" CellTemplate="{StaticResource DTchkAdd}" IsReadOnly="True"
+                                                         CanUserReorder="True" CanUserResize="True" CanUserSort="True" MinWidth="10" Width="SizeToHeader" Visibility="Visible" />
+
+
+
+                    <DataGridTemplateColumn Header="{Binding G2105_G1_CNhat, Source={StaticResource eHCMSResources}}" CellTemplate="{StaticResource DTchkUpdate}" IsReadOnly="True"
+                                                         CanUserReorder="True" CanUserResize="True" CanUserSort="True" MinWidth="10" Width="SizeToHeader" Visibility="Visible" />
+
+
+
+                    <DataGridTemplateColumn Header="{Binding K3177_G1_Delete, Source={StaticResource eHCMSResources}}" CellTemplate="{StaticResource DTchkDelete}" IsReadOnly="True"
+                                                         CanUserReorder="True" CanUserResize="True" CanUserSort="True" MinWidth="10" Width="SizeToHeader" Visibility="Visible" />
+
+
+
+                    <DataGridTemplateColumn Header="{Binding R0515_G1_Report, Source={StaticResource eHCMSResources}}" CellTemplate="{StaticResource DTchkReport}" IsReadOnly="True"
+                                                         CanUserReorder="True" CanUserResize="True" CanUserSort="True" MinWidth="10" Width="SizeToHeader" Visibility="Visible" />
+
+
+
+                    <DataGridTemplateColumn Header="{Binding P0407_G1_Print, Source={StaticResource eHCMSResources}}" CellTemplate="{StaticResource DTchkPrint}" IsReadOnly="True"
+                                                         CanUserReorder="True" CanUserResize="True" CanUserSort="True" MinWidth="10" Width="SizeToHeader" Visibility="Visible" />
+
+
+
+
+                    <DataGridTextColumn Header="{Binding T0690_G1_FunctionName, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding Operation.Function.FunctionName, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                        
+                        </DataGridTextColumn>
+                    <DataGridTextColumn Header="{Binding T0687_G1_FunctionDesc, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding Operation.Function.FunctionDescription, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                        
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="ModuleName" IsReadOnly="True" Binding="{Binding Operation.Function.Module.ModuleName, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  />
+                    <DataGridTextColumn Header="{Binding K3318_G1_Desc, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding Operation.Function.Module.Description, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                        
+                        </DataGridTextColumn>
+                    </customcontrols:ReadOnlyDataGrid.Columns>
+               
+            </customcontrols:ReadOnlyDataGrid>
+            
+            <StackPanel Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="2" Orientation="Horizontal">
+
+                    <customcontrols:DataPager  Height="22" HorizontalAlignment="Stretch" Name="dpgResource"  Margin="0,-1,0,0"
+                                     Source="{Binding allPermission,Mode=OneWay}"
+                                    PageSize="10" VerticalAlignment="Center" Style="{StaticResource MainFrame.DataPager}" Visibility="Visible" Width="289" />                    
+            </StackPanel>
+        </Grid>
+
+        
+    </Border>
+</UserControl>

@@ -1,0 +1,304 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.ManagementUserOfficialView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Width="1000"
+    Height="600">
+    <UserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <Button
+                x:Name="lnkDelete"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($source,$eventArgs)]"
+                IsEnabled="{Binding CanDelete}"
+                ToolTipService.ToolTip="Nhấn vào để xóa">
+                <Button.Content>
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                </Button.Content>
+            </Button>
+        </DataTemplate>
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusy}">
+        <Border
+            x:Name="BorderCanvas"
+            Width="Auto"
+            Margin="1,1,1,1"
+            VerticalAlignment="Stretch"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Style="{StaticResource LightBlueBorderStyle}">
+            <customcontrols:AxGrid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="22" />
+                    <ColumnDefinition Width="178" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="440" />
+                    <ColumnDefinition Width="46*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="32" />
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Column="1"
+                    Grid.ColumnSpan="5"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Quản lý danh sách bác sĩ khám chính thức"
+                    FontSize="16"
+                    Style="{StaticResource MainFrame.Label.00}" />
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Content="Bác sĩ chính thức"
+                    Style="{StaticResource MainFrame.Label.00}" />
+                <ContentControl
+                    x:Name="AucHoldLoginDoctor"
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="2"
+                    Height="32" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="0,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Content="Bác sĩ sử dụng"
+                    Style="{StaticResource MainFrame.Label.00}" />
+                <ContentControl
+                    x:Name="AucHoldOfficialDoctor"
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="2"
+                    Height="32" />
+
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="5,0,1,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.00}"
+                    Text="{Binding G1933_G1_TuNg, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"
+                    TextWrapping="Wrap" />
+                <!--<DatePicker Grid.Column="1"  Margin="1, 2, 1, 2"  Grid.Row="1" Style="{StaticResource MainFrame.DatePicker}" SelectedDate="{Binding MedicalInstructionDate,TargetNullValue=null,Mode=TwoWay}" />-->
+                <ContentControl
+                    x:Name="FromDateContent"
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Height="20"
+                    Margin="1,2,1,2"
+                    HorizontalAlignment="Left" />
+
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="5,0,1,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.00}"
+                    Text="{Binding K3192_G1_DenNg, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"
+                    TextWrapping="Wrap" />
+                <!--<DatePicker Grid.Column="1"  Margin="1, 2, 1, 2"  Grid.Row="1" Style="{StaticResource MainFrame.DatePicker}" SelectedDate="{Binding MedicalInstructionDate,TargetNullValue=null,Mode=TwoWay}" />-->
+                <ContentControl
+                    x:Name="ToDateContent"
+                    Grid.Row="4"
+                    Grid.Column="3"
+                    Height="20"
+                    Margin="1,2,1,2"
+                    HorizontalAlignment="Left" />
+
+                <StackPanel
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <RadioButton
+                        x:Name="rdoAll"
+                        Margin="5,0,0,0"
+                        VerticalContentAlignment="Center"
+                        cal:Message.Attach="[Event Click]=[Action rdoAll_Click($source,$eventArgs)]"
+                        Content="Tất cả"
+                        GroupName="FindBy"
+                        IsChecked="{Binding bIsAllChecked, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.RadioButton01}" />
+                    <RadioButton
+                        x:Name="rdoNgoaiTru"
+                        Margin="5,0,0,0"
+                        VerticalContentAlignment="Center"
+                        cal:Message.Attach="[Event Click]=[Action rdoNgoaiTru_Click($source,$eventArgs)]"
+                        Content="{Binding T3719_G1_Mau20NgTru, Source={StaticResource eHCMSResources}}"
+                        GroupName="FindBy"
+                        IsChecked="{Binding bIsNgoaiTruChecked, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.RadioButton01}" />
+                    <RadioButton
+                        x:Name="rdoNoiTru"
+                        Margin="5,0,0,0"
+                        VerticalContentAlignment="Center"
+                        cal:Message.Attach="[Event Click]=[Action rdoNoiTru_Click($source,$eventArgs)]"
+                        Content="{Binding T3713_G1_NoiTru, Source={StaticResource eHCMSResources}}"
+                        GroupName="FindBy"
+                        IsChecked="{Binding bIsNoiTruChecked, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.RadioButton01}" />
+                    <Button
+                        x:Name="butAddNew"
+                        Width="80"
+                        Height="22"
+                        Content="{Binding G0276_G1_ThemMoi, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+
+                <Label
+                    Name="lblResult"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Height="22"
+                    Margin="14,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Content="Lịch sử"
+                    FontWeight="Bold"
+                    Foreground="#FFE65D0F"
+                    Style="{StaticResource MainFrame.Label.02}" />
+
+                <Button
+                    Grid.Row="6"
+                    Grid.Column="3"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action lnkRefreshClick($source,$eventArgs)]"
+                    Content="{Binding K1660_G1_CNhatLaiDS, Source={StaticResource eHCMSResources}}"
+                    ToolTipService.ToolTip="Click here for delete" />
+
+                <DataGrid
+                    Name="grdDoctorAutho"
+                    Grid.Row="7"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    MinHeight="230"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    cal:Message.Attach="[Event LoadingRow] = [Action grdManagementUserOfficial_LoadingRow($source, $eventArgs)]"
+                    AutoGenerateColumns="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    ItemsSource="{Binding allManagementUserOfficial, Mode=TwoWay}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    SelectedItem="{Binding SelectedManagementUserOfficial, Mode=TwoWay}"
+                    Style="{StaticResource MainFrame.DataGridStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn
+                            x:Name="colDeleted"
+                            CellTemplate="{StaticResource TemplateDeleteRecord}"
+                            Header="" />
+                        <DataGridTextColumn
+                            Width="auto"
+                            Binding="{Binding OfficialAccount.FullName, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="Bác sĩ sử dụng"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="auto"
+                            Binding="{Binding LoginUserStaff.FullName, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="Bác sĩ chính thức"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="SizeToCells"
+                            MinWidth="100"
+                            Binding="{Binding FromDate, Mode=TwoWay, StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="SizeToCells"
+                            MinWidth="100"
+                            Binding="{Binding ToDate, Mode=TwoWay, StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="auto"
+                            Binding="{Binding PatientFindByStr, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding P0344_G1_PhanLoai, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="auto"
+                            Binding="{Binding CreatedStaff.FullName, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding N0165_G1_NguoiTao, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridCheckBoxColumn
+                            Binding="{Binding IsDeleted, Mode=OneWay}"
+                            Header="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="5"
+                    Orientation="Horizontal">
+                    <customcontrols:DataPager
+                        Name="dpgResource"
+                        Width="289"
+                        Height="25"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        PageSize="10"
+                        Source="{Binding allUserOfficialHistory, Mode=OneWay}"
+                        Style="{StaticResource MainFrame.DataPager}"
+                        Visibility="Visible" />
+                </StackPanel>
+            </customcontrols:AxGrid>
+            <!--</toolkit:BusyIndicator>-->
+        </Border>
+    </xctk:BusyIndicator>
+</UserControl>

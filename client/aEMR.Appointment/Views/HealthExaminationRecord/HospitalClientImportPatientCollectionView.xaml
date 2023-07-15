@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="aEMR.Appointment.Views.HospitalClientImportPatientCollectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:aEMR.Appointment.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             Margin="5"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNotConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"></ColumnDefinition>
+            <ColumnDefinition MinWidth="600" Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.ColumnSpan="3" Orientation="Horizontal">
+                <RadioButton GroupName="GroupStatus" Content="{Binding Z0013_G1_Moi,Source={StaticResource eHCMSResources}}" IsChecked="{Binding IsNewGroup,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></RadioButton>
+                <RadioButton GroupName="GroupStatus" Content="{Binding Z2937_G1_DaCo,Source={StaticResource eHCMSResources}}" Margin="5,0"></RadioButton>
+            </StackPanel>
+            <TextBlock Grid.Row="1" Text="{Binding N0239_G1_Nhom,Source={StaticResource eHCMSResources},StringFormat='{}{0}: '}"
+                   Style="{StaticResource MainFrame.TextBlock.01}"
+                   VerticalAlignment="Center"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.ComboBox}" Margin="5"
+                      ItemsSource="{Binding PatientGroupCollection}"
+                      DisplayMemberPath="HosClientContractPatientGroupName" SelectedValuePath="HosClientContractPatientGroupID"
+                      SelectedValue="{Binding CurrentPatientGroupID,Mode=TwoWay}"
+                      cal:Message.Attach="[Event SelectionChanged]=[Action GroupComboBox_SelectionChanged($source,$eventArgs)]"
+                      Visibility="{Binding IsNewGroup,Converter={StaticResource BooleanToVisibilityNotConverter}}">
+            </ComboBox>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBox}" Margin="5"
+                     Text="{Binding PatientGroupName,Mode=TwoWay}"
+                     Visibility="{Binding IsNewGroup,Converter={StaticResource BooleanToVisibilityConverter}}">
+            </TextBox>
+            <TextBlock Grid.Row="2" Text="{Binding T0850_G1_TenFile,Source={StaticResource eHCMSResources},StringFormat='{}{0}: '}"
+                   Style="{StaticResource MainFrame.TextBlock.01}"
+                   VerticalAlignment="Center"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource MainFrame.TextBox}" Margin="5" IsReadOnly="True" IsHitTestVisible="False"
+                 Text="{Binding CurrentFileName,Mode=OneWay}">
+            </TextBox>
+            <Button Grid.Row="2" Grid.Column="2" x:Name="BrowseButton" Style="{StaticResource MainFrame.Button}" Margin="5" Content="{Binding K1942_G1_ChonFile2,Source={StaticResource eHCMSResources}}"></Button>
+            <StackPanel Grid.Row="3" Grid.ColumnSpan="3" Orientation="Horizontal">
+                <Button x:Name="ConfirmButton" Style="{StaticResource MainFrame.Button}" Margin="5" Content="{Binding G2363_G1_XNhan,Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="2"></Button>
+            </StackPanel>
+        </Grid>
+        <ContentControl x:Name="RecordServiceEditContent" Grid.Column="1"></ContentControl>
+    </Grid>
+</UserControl>

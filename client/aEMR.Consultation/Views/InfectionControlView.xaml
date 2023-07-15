@@ -1,0 +1,203 @@
+﻿<AxControls:AxUserControl   x:Class="aEMR.ConsultantEPrescription.Views.InfectionControlView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            mc:Ignorable="d"
+                            d:DesignHeight="600" d:DesignWidth="600"
+                            xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                            xmlns:cal="http://www.caliburnproject.org"
+                            xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                            xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converters:BooleanNotConverter x:Key="BooleanNotConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="TitleForm" Text="{Binding Z3305_G1_AddTTNhKhuan, Source={StaticResource eHCMSResources}}" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Style="{StaticResource MainFrame.TextBlock.Header.01}"/>
+
+            <TabControl
+                cal:Message.Attach="[Event Loaded] = [Action TCInfectionControlEdit_Loaded($source, $eventArgs)]"
+                SelectedIndex="{Binding TabItemSelectedIndex}"
+                Grid.Row="1" Margin="5"
+                Style="{StaticResource MainFrame.TabControl}">
+                <TabItem
+                    Header="{Binding Z3298_G1_VKDaKhang, Source={StaticResource eHCMSResources}}"
+                    IsSelected="{Binding TabAddMRBacteriaSelected}"
+                    IsEnabled="{Binding isEditHosInfection, Converter={StaticResource BooleanNotConverter}}"
+                    Style="{StaticResource MainFrame.TabItem}">
+                    <Border Style="{StaticResource LightBlueBorderStyle}" Grid.Row="2" Margin="5">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                    Grid.Row="0"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z3300_G1_NgXacDinh, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <DatePicker
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Width="200"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    SelectedDate="{Binding curIC_MRBacteria.DefiniteDate, Mode=TwoWay}"
+                                    Style="{StaticResource MainFrame.DatePicker}"
+                                    SelectedDateFormat="Short" />
+
+                            <TextBlock
+                                    Grid.Row="1"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z3302_G1_TenViKhuan, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <TextBox 
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding curIC_MRBacteria.BacteriaName, Mode=TwoWay}"
+                                    Height="25"
+                                    MaxLength="80"
+                                    HorizontalScrollBarVisibility="Auto" 
+                                    Style="{StaticResource MainFrame.TextBox}"/>
+
+                            <TextBlock
+                                    Grid.Row="2"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z3301_G1_MDDaKhang, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <ComboBox
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    DisplayMemberPath="ObjectValue"
+                                    ItemsSource="{Binding MRBacteria_Level}"
+                                    SelectedValue="{Binding curIC_MRBacteria.V_Bacteria_LOT, Mode=TwoWay}"
+                                    SelectedValuePath="LookupID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                            <TextBlock
+                                    Grid.Row="3"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z3304_G1_BPPhgNgua, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <TextBox
+                                    Grid.Row="3"
+                                    Grid.Column="1" 
+                                    Text="{Binding curIC_MRBacteria.BacteriaMeasure, Mode=TwoWay}"
+                                    Height="25"
+                                    MaxLength="80"
+                                    HorizontalScrollBarVisibility="Auto" 
+                                    Style="{StaticResource MainFrame.TextBox}"/>
+
+                            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Vertical" Width="160">
+                                <Button x:Name="OKSaveMRBacteria" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Margin="0,10,0,0" Width="75" Height="23" HorizontalAlignment="Right" Style="{StaticResource MainFrame.Button}"
+                                    TabIndex="11"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </TabItem>
+                <TabItem
+                    Header="{Binding Z3299_G1_NKBV, Source={StaticResource eHCMSResources}}"
+                    IsSelected="{Binding TabAddHosInfectionSelected}"
+                    IsEnabled="{Binding isEditMRBacteria, Converter={StaticResource BooleanNotConverter}}"
+                    Style="{StaticResource MainFrame.TabItem}">
+                    <Border Style="{StaticResource LightBlueBorderStyle}" Grid.Row="2" Margin="5">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                    Grid.Row="0"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z3300_G1_NgXacDinh, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <DatePicker
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Width="200"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    SelectedDate="{Binding curIC_HosInfection.DefiniteDate, Mode=TwoWay}"
+                                    Style="{StaticResource MainFrame.DatePicker}"
+                                    SelectedDateFormat="Short" />
+
+                            <TextBlock
+                                    Grid.Row="1"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z3302_G1_TenViKhuan, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <TextBox 
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Text="{Binding curIC_HosInfection.BacteriaName, Mode=TwoWay}"
+                                    Height="25"
+                                    MaxLength="80"
+                                    HorizontalScrollBarVisibility="Auto" 
+                                    Style="{StaticResource MainFrame.TextBox}"/>
+
+                            <TextBlock
+                                    Grid.Row="2"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z3303_G1_LoaiNKBV, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <ComboBox
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    DisplayMemberPath="ObjectValue"
+                                    ItemsSource="{Binding HosInfection_Type}"
+                                    SelectedValue="{Binding curIC_HosInfection.V_Bacteria_LOT, Mode=TwoWay}"
+                                    SelectedValuePath="LookupID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                            <TextBlock
+                                    Grid.Row="3"
+                                    Margin="0,0,10,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z3304_G1_BPPhgNgua, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <TextBox
+                                    Grid.Row="3"
+                                    Grid.Column="1" 
+                                    Text="{Binding curIC_HosInfection.BacteriaMeasure, Mode=TwoWay}"
+                                    Height="25"
+                                    MaxLength="80"
+                                    HorizontalScrollBarVisibility="Auto" 
+                                    Style="{StaticResource MainFrame.TextBox}"/>
+
+                            <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Vertical" Width="160">
+                                <Button x:Name="OKSaveHosInfection" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Margin="0,10,0,0" Width="75" Height="23" HorizontalAlignment="Right" Style="{StaticResource MainFrame.Button}"
+                                    TabIndex="11"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </TabItem>
+            </TabControl>
+           
+        </Grid>
+    </Grid>
+</AxControls:AxUserControl>

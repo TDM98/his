@@ -1,0 +1,118 @@
+﻿<UserControl x:Class="aEMR.Registration.Views.ProcessPaymentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:cal="http://www.caliburnproject.org" mc:Ignorable="d"
+             d:DesignHeight="550" d:DesignWidth="900"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common" >
+    <UserControl.Resources>
+	    <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsProcessing, Mode=OneWay}"
+                                         DisplayAfter="0:0:0.300">
+            <toolkit:BusyIndicator.BusyContent>
+                <TextBlock Text="{Binding Path=StatusText, Mode=OneWay}"
+                           FontSize="14"
+                           FontWeight="Bold" />
+            </toolkit:BusyIndicator.BusyContent>
+    <Grid d:LayoutOverrides="Height">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="30" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+    
+            <TextBlock Text="{Binding G1308_G1_TinhTien, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}"
+                HorizontalAlignment="Center" VerticalAlignment="Center" 
+                Style="{StaticResource MainFrame.TextBlock.Header.01}" 
+                Height="22" Margin="5,0,0,0" />
+           
+        <StackPanel HorizontalAlignment="Stretch" Grid.Row="1" Margin="0">
+        <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" d:LayoutOverrides="Height">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Border Padding="5,0,5,0" BorderThickness="1" Height="30" MinWidth="550"
+                  HorizontalAlignment="Stretch" Style="{StaticResource LightBlueBorderStyle}">
+            <StackPanel Orientation="Horizontal">
+              <ContentControl Name="SearchRegistrationContent" HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch" />
+                                <Button x:Name="OldRegistrationsCmd" Content="{Binding K1461_G1_LanDKTruoc, Source={StaticResource eHCMSResources}}"
+                               VerticalAlignment="Center" Margin="5,0,0,0" 
+                                             Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                               Visibility="{Binding CurrentPatient,Mode=OneWay,Converter={StaticResource IfNotNullVisibilityConverter}}" Grid.Column="4">
+                                
+                            </Button>
+
+            </StackPanel>
+          </Border>
+
+
+          <Border Grid.Column="1" Padding="5,0,5,0" BorderThickness="1" Height="30" Width="310"
+                  Style="{StaticResource LightBlueBorderStyle}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Border Padding="1,0,1,0" BorderThickness="1" Height="26"
+                        Background="AntiqueWhite"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"                                            >
+                                        <TextBlock TextWrapping="Wrap"
+                                    Text="{Binding T3332_G1_MaDK, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource TextBlock.Heading.04}"
+                                    FontWeight="Bold" FontSize="11" Foreground="Blue"
+                                    VerticalAlignment="Center"
+                                    Margin="10,0,0,0" />
+                                        <TextBox Text="{Binding CurRegistration.PtRegistrationCode,Mode=OneWay}"
+                                     FontWeight="Bold" FontFamily="Portable User Interface" FontSize="13" Foreground="#CC0033"
+                                    MinWidth="80" Background="Transparent" BorderThickness="0" IsReadOnly="True"
+                                    VerticalAlignment="Center"
+                                    Margin="5,0,10,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <TextBlock TextWrapping="Wrap" Text="{Binding N0045_G1_Ng, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"
+                         Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" Margin="0,0,0,0" />
+              <TextBox x:Name="txtToday" IsEnabled="False"
+                       Text="{Binding CurRegistration.ExamDate, Mode=TwoWay, StringFormat=dd/MM/yyyy}"
+                       Width="100" Height="22" Margin="0,0,0,0" />
+            </StackPanel>
+          </Border>
+
+        </Grid>
+      </StackPanel>
+      <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="2">
+        <ContentControl Name="PatientSummaryInfoContent" HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+      </StackPanel>
+      <DockPanel HorizontalAlignment="Stretch" Grid.Row="3" LastChildFill="True">
+                    <GroupBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource MainFrame.GroupBox}"
+                           Header="{Binding G0581_G1_TTinDK, Source={StaticResource eHCMSResources}}" Margin="0,5,0,0" DockPanel.Dock="Top">
+                    <Border BorderBrush="#FF5E5E5E" BorderThickness="1"
+                      Style="{StaticResource LightBlueBorderStyleNew}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <StackPanel Visibility="{Binding mDanhSachHenBenh,Converter={StaticResource BooleanToVisibility} }">
+                                    <ContentControl Name="RegistrationDetailsContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+                </GroupBox>
+
+      </DockPanel>
+    </Grid>
+        </toolkit:BusyIndicator>
+    </Grid>
+</UserControl>

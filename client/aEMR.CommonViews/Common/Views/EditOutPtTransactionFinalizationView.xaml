@@ -1,0 +1,200 @@
+﻿<UserControl x:Class="aEMR.Common.Views.EditOutPtTransactionFinalizationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800"
+             MinWidth="500"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNotConverter" />
+        <Converters:DecimalConverter x:Key="DecimalConverter" />
+        <Converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </UserControl.Resources>
+    <toolkit:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Border Style="{StaticResource LightBlueBorderStyle}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding Z2367_G1_TenNguoiMuaHang, Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource TextBlock.Heading.02}"
+                           Margin="0 5"
+                           Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBox Grid.Row="0" Grid.Column="1"
+                         VerticalContentAlignment="Center"
+                         Style="{StaticResource MainFrame.TextBox}"
+                         Margin="5 5 0 5"
+                         Text="{Binding TransactionFinalizationObj.TaxMemberName, Mode=TwoWay}"
+                         Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}"
+                         IsEnabled="{Binding IsEditableTaxMemberName}" />
+
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource TextBlock.Heading.02}"
+                           Margin="0 5"
+                           Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBox Grid.Row="1" Grid.Column="1"
+                         VerticalContentAlignment="Center"
+                         Style="{StaticResource MainFrame.TextBox}"
+                         Margin="5 5 0 5"
+                         Text="{Binding TransactionFinalizationObj.TaxMemberAddress, Mode=TwoWay}"
+                         Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding Z2368_G1_MST, Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource TextBlock.Heading.02}"
+                           Margin="0 5"
+                           Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBox Grid.Row="2" Grid.Column="1"
+                         VerticalContentAlignment="Center"
+                         Style="{StaticResource MainFrame.TextBox}"
+                         Margin="5 5 0 5"
+                         Text="{Binding TransactionFinalizationObj.TaxCode, Mode=TwoWay}"
+                         Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding Z2369_G1_HinhThucThanhToan, Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource TextBlock.Heading.02}"
+                           Margin="0 5" />
+
+                <ComboBox Grid.Row="3" Grid.Column="1" Margin="5 5 0 5"
+                          VerticalContentAlignment="Center"
+                          Style="{StaticResource MainFrame.ComboBox}"
+                          ItemsSource="{Binding PaymentModeCollection, Mode=OneWay}"
+                          DisplayMemberPath="ObjectValue"
+                          SelectedValuePath="LookupID"
+                          SelectedValue="{Binding TransactionFinalizationObj.V_PaymentMode, Mode=TwoWay}" />
+
+                <TextBlock Grid.Row="4" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding S0691_G1_SoTaiKhoan, Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource TextBlock.Heading.02}"
+                           Margin="0 5"
+                           Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBox Grid.Row="4" Grid.Column="1"
+                         VerticalContentAlignment="Center"
+                         Style="{StaticResource MainFrame.TextBox}"
+                         Margin="5 5 0 5"
+                         Text="{Binding TransactionFinalizationObj.BankAccountNumber, Mode=TwoWay}"
+                         Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBlock Grid.Row="5" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding T3746_G1_MauSo, Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource TextBlock.Heading.02}" Margin="0 5" />
+
+                <TextBox Grid.Row="5" Grid.Column="1"
+                         VerticalContentAlignment="Center"
+                         Style="{StaticResource MainFrame.TextBox}" Margin="5 5 0 5"
+                         Text="{Binding TransactionFinalizationObj.Denominator, Mode=TwoWay}"
+                         IsEnabled="{Binding IsEnableInvoicePatern}" />
+
+                <TextBlock Grid.Row="6" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding R0329_G1_KyHieu, Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource TextBlock.Heading.02}" Margin="0 5" />
+
+                <TextBox Grid.Row="6" Grid.Column="1"
+                         VerticalContentAlignment="Center"
+                         Style="{StaticResource MainFrame.TextBox}" Margin="5 5 0 5"
+                         Text="{Binding TransactionFinalizationObj.Symbol, Mode=TwoWay}"
+                         IsEnabled="{Binding IsEnableInvoicePatern}" />
+
+                <TextBlock Grid.Row="7" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding S0649_G1_SoHDon, Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource TextBlock.Heading.02}" Margin="0 5"
+                           Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <TextBox Grid.Row="7" Grid.Column="1"
+                         VerticalContentAlignment="Center"
+                         Style="{StaticResource MainFrame.TextBox}" Margin="5 5 0 5"
+                         Text="{Binding TransactionFinalizationObj.InvoiceNumb, Mode=TwoWay}"
+                         Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}"
+                         IsEnabled="{Binding IsEnableInvoicePatern}" />
+
+                <TextBlock Grid.Row="8" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{Binding N0077_G1_NgHDon, Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource TextBlock.Heading.02}" Margin="0 5" />
+
+                <DatePicker Grid.Row="8" Grid.Column="1" Margin="5 5 0 5"
+                            SelectedDate="{Binding DateInvoice,TargetNullValue=null, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.DatePicker}"
+                            HorizontalAlignment="Left"
+                            IsEnabled="{Binding CanRegister, Mode=OneWay}" />
+                <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
+                           VerticalAlignment="Center"
+                           Text="{Binding Z2371_G1_Msg, Source={StaticResource eHCMSResources}, StringFormat='Chú ý: {0}'}"
+                           Style="{StaticResource TextBlock.Heading.02}"
+                           Margin="0 5" Foreground="Red"
+                           Visibility="{Binding IsUpdating, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <StackPanel Grid.Row="10" Grid.Column="0"
+                            Grid.ColumnSpan="2" Orientation="Horizontal">
+                    <Button x:Name="btnFinalization"
+                            Content="{Binding Q0498_G1_QuyetToan, Source={StaticResource eHCMSResources}}"
+                            MinHeight="25" Padding="5 0"
+                            Style="{StaticResource MainFrame.Button}"
+                            Visibility="{Binding IsCollectDataOnly, Converter={StaticResource BooleanToVisibilityNotConverter}}" />
+                    <Button x:Name="btnPrintFinalization"
+                            Content="{Binding T1920_G1_InHD, Source={StaticResource eHCMSResources}}"
+                            MinHeight="25" Padding="5 0" Margin="5 0 0 0"
+                            Style="{StaticResource MainFrame.Button}"
+                            Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    <Button x:Name="btnExportEInvoice"
+                            Content="{Binding Z2438_G1_PhatHanhHDDT, Source={StaticResource eHCMSResources}}"
+                            MinHeight="25" Padding="5 0" Margin="5 0 0 0"
+                            Style="{StaticResource MainFrame.Button}"
+                            Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <!--Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}"-->
+                    <Button x:Name="btnUpdateEInvoice"
+                            Content="{Binding Z2645_G1_DieuChinhHDDT, Source={StaticResource eHCMSResources}}"
+                            MinHeight="25" MinWidth="80" Padding="5 0" Margin="5 0 0 0"
+                            Style="{StaticResource MainFrame.Button}"
+                            Visibility="Collapsed" />
+                    <Button x:Name="btnCancelEInvoice"
+                            Content="{Binding Z2648_G1_HuyHoaDon, Source={StaticResource eHCMSResources}}"
+                            MinHeight="25" MinWidth="80" Padding="5 0" Margin="5 0 0 0"
+                            Style="{StaticResource MainFrame.Button}"
+                            Visibility="{Binding IsNormalCreateFinalizationView, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Button x:Name="btnSave"
+                            Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                            MinWidth="80" Padding="5 0 5 0" Margin="5 0 0 0"
+                            Style="{StaticResource MainFrame.Button}"
+                            Visibility="{Binding IsCollectDataOnly, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </toolkit:BusyIndicator>
+</UserControl>

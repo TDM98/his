@@ -1,0 +1,280 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.PatientPaymentCardManagementView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:aEMRCommConv="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:my="clr-namespace:aEMR.Common.Views"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <DataTemplate x:Key="gridHI_HiInfoTemplate">
+            <my:UCHealthInsuranceInfo HorizontalAlignment="Left" VerticalAlignment="Top" />
+        </DataTemplate>
+        <aEMRCommConv:EnumConverter x:Key="EnumConverterObj" />
+        <aEMRCommConv:DecimalConverter x:Key="DecimalConverter" />
+        <aEMRCommConv:ShortDateConverter x:Key="ShortDateConverter" />
+        <aEMRCommConv:VisibilityConverter x:Key="VisibilityConverter" />
+        <aEMRCommConv:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <aEMRCommConv:ValueNotNullToVisibilityConverter x:Key="ValueNotNullToVisibilityConverter" />
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border
+                Margin="5,10,5,5"
+                Background="AliceBlue"
+                BorderBrush="#C1D2E6"
+                BorderThickness="1"
+                CornerRadius="3">
+                <StackPanel>
+                    <Border
+                        Margin="10,-10,0,0"
+                        HorizontalAlignment="Left"
+                        Background="AliceBlue"
+                        BorderBrush="#6F8AA9"
+                        BorderThickness="1">
+                        <TextBlock
+                            Margin="10,0,10,0"
+                            FontWeight="Bold"
+                            Text="Thông tin thẻ" />
+                    </Border>
+                    <Grid Margin="5,0,5,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="250" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TBlock.Heading.02.RightAlignment}"
+                            Text="Số thẻ" />
+                        <customcontrols:AxTextBoxHICard
+                            x:Name="txtCardNumber"
+                            Grid.Column="1"
+                            MinWidth="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding CardNumber, Mode=TwoWay}"
+                            TextLength="{Binding TextLength, Mode=OneWay}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TBlock.Heading.02.RightAlignment}"
+                            Text="Ngày phát hành" />
+                        <TextBox
+                            x:Name="txtDateValidFrom"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            MinWidth="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding DateValidFrom, Mode=TwoWay}" />
+                        <TextBlock
+                            Grid.Row="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TBlock.Heading.02.RightAlignment}"
+                            Text="Số tiền nạp" />
+                        <TextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            MinWidth="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding RechargeAmount, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}"
+                            TextAlignment="Right" />
+                        <StackPanel
+                            Grid.Row="3"
+                            Grid.ColumnSpan="2"
+                            Margin="5,5,0,5"
+                            Orientation="Horizontal">
+                            <Button
+                                x:Name="CancelMappingCard"
+                                Width="100"
+                                Margin="5,0,5,0"
+                                Content="Hủy gán thẻ"
+                                Style="{StaticResource MainFrame.Button}" />
+                            <Button
+                                x:Name="MappingCard"
+                                Width="80"
+                                Margin="5,0,5,0"
+                                Content="Gán thẻ"
+                                Style="{StaticResource MainFrame.Button}" />
+                            <Button
+                                x:Name="Recharge"
+                                Width="80"
+                                Margin="5,0,5,0"
+                                Content="Nạp tiền"
+                                Style="{StaticResource MainFrame.Button}" />
+                            <Button
+                                x:Name="PrintPatientCard"
+                                Width="80"
+                                Margin="5,0,5,0"
+                                Content="In thẻ"
+                                Style="{StaticResource MainFrame.Button}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <Border
+                Grid.Column="1"
+                Margin="5,10,5,5"
+                Background="AliceBlue"
+                BorderBrush="#C1D2E6"
+                BorderThickness="1"
+                CornerRadius="3">
+                <StackPanel>
+                    <Border
+                        Margin="10,-10,0,0"
+                        HorizontalAlignment="Left"
+                        Background="AliceBlue"
+                        BorderBrush="#6F8AA9"
+                        BorderThickness="1">
+                        <TextBlock
+                            Margin="10,0,10,0"
+                            FontWeight="Bold"
+                            Text="Thông tin tài khoản" />
+                    </Border>
+                    <Grid Grid.Row="1" Margin="5,0,5,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="250" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TBlock.Heading.02.RightAlignment}"
+                            Text="Số tài khoản" />
+                        <customcontrols:AxTextBoxHICard
+                            Grid.Column="1"
+                            MinWidth="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            IsReadOnly="{Binding IsHaveCardDetail, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding CurrentPatientCardDetail.AccountNumber, Mode=TwoWay}"
+                            TextLength="12" />
+                        <TextBlock
+                            Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TBlock.Heading.02.RightAlignment}"
+                            Text="Đối tượng khách hàng" />
+                        <TextBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            MinWidth="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding DateValidFrom, Mode=TwoWay}" />
+                        <customcontrols:AxComboBox
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            MinWidth="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            DisplayMemberPath="ObjectValue"
+                            IsEnabled="{Binding IsEnabledPatientClass, Mode=TwoWay}"
+                            ItemsSource="{Binding ObjV_PatientClass}"
+                            SelectedValue="{Binding CurrentPatientCardDetail.V_PatientClass, Mode=TwoWay}"
+                            SelectedValuePath="LookupID"
+                            Style="{StaticResource MainFrame.ComboBox}" />
+                        <TextBlock
+                            Grid.Row="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TBlock.Heading.02.RightAlignment}"
+                            Text="Ngày mở thẻ" />
+                        <customcontrols:AxDateTextBox
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            MinWidth="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsReadOnly="{Binding IsHaveCardDetail, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding CurrentPatientCardDetail.OpenCardDate, Converter={StaticResource ShortDateConverter}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                            UseBothCenturies="True" />
+                        <TextBlock
+                            Grid.Row="3"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TBlock.Heading.02.RightAlignment}"
+                            Text="Ngày hết hạn" />
+                        <customcontrols:AxDateTextBox
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            MinWidth="240"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsReadOnly="{Binding IsReadonlyExpireDate, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            Text="{Binding CurrentPatientCardDetail.ExpireCardDate, Converter={StaticResource ShortDateConverter}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                            UseBothCenturies="True" />
+                        <StackPanel
+                            Grid.Row="4"
+                            Grid.ColumnSpan="2"
+                            Margin="5,5,0,5"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <Button
+                                x:Name="btnSaveCardDetail"
+                                Width="140"
+                                Margin="5,0,5,0"
+                                Content="Lưu thông tin tài khoản"
+                                Style="{StaticResource MainFrame.Button}" />
+                            <Button
+                                x:Name="btnPrintSuggestPaper"
+                                Width="100"
+                                Margin="5,0,5,0"
+                                Content="In giấy đề nghị"
+                                IsEnabled="{Binding IsHaveCardDetail, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.Button}" />
+                            <Button
+                                x:Name="btnCardExtend"
+                                Width="80"
+                                Margin="5,0,5,0"
+                                Content="Gia hạn thẻ"
+                                IsEnabled="{Binding IsHaveCardDetail, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding mGiaHanThe, Converter={StaticResource BooleanToVisibility}}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

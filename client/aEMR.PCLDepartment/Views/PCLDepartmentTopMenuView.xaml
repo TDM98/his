@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="aEMR.PCLDepartment.Views.PCLDepartmentTopMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:local="clr-namespace:aEMR.PCLDepartment.ViewModels"
+             xmlns:cal ="http://www.caliburnproject.org">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Style x:Key="MenuItemStyle" TargetType="{x:Type MenuItem}">
+            <Setter Property="Command" Value="{Binding OnSelected}" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="Foreground" Value="DarkBlue" />
+            <Setter Property="FontWeight" Value="ExtraBold" />
+            <Setter Property="Background" Value="Aquamarine" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Column="0" Height="35" Margin="1,1,1,1" VerticalAlignment="Top" BorderBrush="DarkGreen" BorderThickness="2"
+              ItemsSource="{Binding Path=MainMenuItems}" Width="Auto"
+              cal:Message.Attach="[Event Loaded] = [Action MainMenu_Loaded($source, $eventArgs)]">
+            <Menu.ItemContainerStyle>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Setter Property="Command" Value="{Binding Command}" />
+                    <Setter Property="CommandParameter" Value="{Binding CommandParams}" />
+                    <Setter Property="Height" Value="32" />
+                    <Setter Property="Width" Value="Auto" />
+                    <Setter Property="Foreground" Value="DarkBlue" />
+                    <Setter Property="FontWeight" Value="ExtraBold" />
+                    <Setter Property="Background" Value="Aquamarine" />
+                </Style>
+            </Menu.ItemContainerStyle>
+            <Menu.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type local:BindableMenuItem}" ItemsSource="{Binding Path=Childrens}">
+                    <TextBlock Text="{Binding Text}"/>
+                </HierarchicalDataTemplate>
+            </Menu.ItemTemplate>
+        </Menu>
+        <Menu Grid.Column="1" Height="35" x:Name="PCLDepartmentTopMenu" Margin="1,1,1,1" VerticalAlignment="Top" BorderBrush="DarkGreen" BorderThickness="2" Visibility="Collapsed">
+            <MenuItem Height="32" Width="Auto" Header="{Binding T2055_G1_KQua, Source={StaticResource eHCMSResources}}" Foreground="DarkBlue" FontWeight="ExtraBold" Background="Aquamarine">
+                <MenuItem x:Name="InputResultClick" Header="{Binding Z0328_G1_KQuaCLS, Source={StaticResource eHCMSResources}}" Foreground="DarkBlue" Background="Aquamarine"/>
+                <MenuItem x:Name="PatientPCLRequest_ByPatientIDV_ParamClick" Header="{Binding K1474_G1_LanLamCLS, Source={StaticResource eHCMSResources}}" Foreground="DarkBlue" Background="Aquamarine"/>
+                <MenuItem x:Name="PCLImageCapture_Cmd" Header="{Binding T1814_G1_ImgCapture, Source={StaticResource eHCMSResources}}" Foreground="DarkBlue" Background="Aquamarine"/>
+            </MenuItem>
+            <MenuItem Height="32" Width="Auto" Header="{Binding Q0444_G1_QLKetQuaTemplate, Source={StaticResource eHCMSResources}}" Foreground="DarkBlue" FontWeight="ExtraBold" Background="Aquamarine">
+                <MenuItem x:Name="SieuAmResultTemplate_Cmd" Header="{Binding T2078_G1_KQuaTemplate, Source={StaticResource eHCMSResources}}" Foreground="DarkBlue" Background="Aquamarine"/>
+            </MenuItem>
+            <MenuItem Height="32" Width="Auto" Header="{Binding K1048_G1_BC, Source={StaticResource eHCMSResources}}" Foreground="DarkBlue" FontWeight="ExtraBold" Background="Aquamarine">
+                <MenuItem x:Name="UltrasoundStatistics_Cmd" Header="{Binding Z1879_G1_DSBNSieuAm, Source={StaticResource eHCMSResources}}" Foreground="DarkBlue" Background="Aquamarine"/>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</UserControl>

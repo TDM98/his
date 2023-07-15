@@ -1,0 +1,450 @@
+﻿<UserControl
+    x:Class="aEMR.Configuration.LookupList.Views.Lookup_ListFindView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="550"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <HierarchicalDataTemplate x:Key="PersonTemplate" ItemsSource="{Binding Children}">
+            <TextBlock Text="{Binding NodeText}" FontSize="13"/>
+        </HierarchicalDataTemplate>
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200*"></ColumnDefinition>
+                <ColumnDefinition Width="500*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <TreeView MinHeight="600" 
+                VerticalContentAlignment="Stretch" 
+                HorizontalContentAlignment="Stretch" 
+                Name="treeViewLookupGroup" 
+                Margin="2" SelectedValuePath="NodeID"
+                ItemsSource="{Binding TreeViewLookups}" 
+                cal:Message.Attach="[Event SelectedItemChanged] = [Action treeViewLookup_SelectedItemChanged($source, $eventArgs)]
+                    ;[Event MouseDoubleClick] = [Action treeViewLookup_MouseDoubleClick($source, $eventArgs)]"
+                Style="{StaticResource TreeViewStyle}" IsEnabled="{Binding IsEnabled}" ItemTemplate="{StaticResource PersonTemplate}">
+            </TreeView>
+            <Grid
+                Grid.Column="1"
+                Margin="2"
+                Background="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250*"></ColumnDefinition>
+                        <ColumnDefinition Width="500*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                        <TextBlock
+                            Margin="0,10,0,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Foreground="#FF0084FF"
+                            Text="{Binding Title}" />
+                    </Grid>
+                    <!--<StackPanel
+                        Grid.Row="1"
+                        Margin="0,5"
+                        Orientation="Horizontal"
+                        Visibility="{Binding hplAddNewVisible, Mode=TwoWay}">
+                        <Button
+                            Name="hplAddNew"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event Click]=[Action hplAddNew_Click()]"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Foreground="#FF0084FF"
+                            Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                            ToolTipService.ToolTip="Tạo Mới Danh Mục"
+                            Visibility="{Binding bhplAddNew, Converter={StaticResource BooleanToVisibility}}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="13"
+                                        Height="13"
+                                        Opacity="1"
+                                        Source="/aEMR.CommonViews;component/Assets/Images/page-add-icon2.png" />
+                                    <TextBlock Text="Tạo mới danh mục" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>-->
+                    <Border
+                        Grid.Row="2"
+                        Margin="5,10,5,5"
+                        Background="AliceBlue"
+                        BorderBrush="#C1D2E6"
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Grid.ColumnSpan="2">
+                        <StackPanel>
+                            <!--<Border
+                                Margin="10,-10,0,0"
+                                HorizontalAlignment="Left"
+                                Background="AliceBlue"
+                                BorderBrush="#6F8AA9"
+                                BorderThickness="1">
+                                <TextBlock
+                                    Margin="10,0,10,0"
+                                    FontWeight="Bold"
+                                    Text="Danh sách" />
+                            </Border>-->
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="200"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="5,2,5,2"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                                    Text="Mã mới" />
+                                <TextBox
+                                    x:Name="tbCode"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="0,2,5,2"
+                                    Height="22"
+                                    MaxLength="64"
+                                    Text="{Binding Lookup_Current.Code130, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Margin="5,0,5,2"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                                    Text="{Binding T1155_G1_GTri, Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    x:Name="tbLookupName"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="0,0,5,2"
+                                    Height="22"
+                                    MaxLength="64"
+                                    Text="{Binding Lookup_Current.ObjectValue, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                <TextBlock
+                                    Grid.Column="3"
+                                    Margin="0,2,5,2"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                                    Text="{Binding N0076_G1_NgHieuLuc, Source={StaticResource eHCMSResources}}" />
+                                <DatePicker
+                                    Grid.Column="4"
+                                    Width="200"
+                                    Margin="0,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    SelectedDate="{Binding Lookup_Current.DateActive, Mode=TwoWay, NotifyOnValidationError=True}"
+                                    Style="{StaticResource MainFrame.DatePicker}"  />
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    Margin="0,0,5,2"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                                    Text="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    x:Name="tbLookupNotes"
+                                    Grid.Row="1"
+                                    Grid.Column="4"
+                                    Margin="0,0,5,2"
+                                    Height="22"
+                                    MaxLength="255"
+                                    Text="{Binding Lookup_Current.ObjectNotes, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                <CheckBox
+                                    Grid.Row="1"
+                                    Grid.Column="6"
+                                    Margin="0,0,5,2"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding K2716_G1_ConDung, Source={StaticResource eHCMSResources}}"
+                                    IsChecked="{Binding Lookup_Current.IsActiveLookup, Mode=TwoWay}"
+                                    Style="{StaticResource MainFrame.Checkbox.MiddleTitle}" />
+                                <StackPanel
+                                    Grid.Row="3"
+                                    Grid.ColumnSpan="5"
+                                    Margin="2"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                                    <Button
+                                        x:Name="btnSave"
+                                        Width="80"
+                                        Margin="0,0,5,2"
+                                        HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image
+                                                Width="13"
+                                                Height="13"
+                                                Opacity="1"
+                                                VerticalAlignment="Center"
+                                                Source="/aEMR.CommonViews;component/Assets/Images/saveanddown24x24border.png" />
+                                            <TextBlock
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button
+                                        x:Name="btnNew"
+                                        Width="80"
+                                        Margin="0,0,5,2"
+                                        HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image
+                                                Width="13"
+                                                Height="13"
+                                                Opacity="1"
+                                                VerticalAlignment="Center"
+                                                Source="/aEMR.CommonViews;component/Assets/Images/page-add-icon2.png" />
+                                            <TextBlock
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding T0795_G1_TaoMoi, Source={StaticResource eHCMSResources}}" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Margin="5,10,5,5"
+                        Background="AliceBlue"
+                        BorderBrush="#C1D2E6"
+                        BorderThickness="1"
+                        CornerRadius="3">
+                        <StackPanel>
+                            <Border
+                                Margin="10,-10,0,0"
+                                HorizontalAlignment="Left"
+                                Background="AliceBlue"
+                                BorderBrush="#6F8AA9"
+                                BorderThickness="1">
+                                <TextBlock
+                                    Margin="10,0,10,0"
+                                    FontWeight="Bold"
+                                    Text="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" />
+                            </Border>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="200"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="5,2,5,2"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource MainFrame.TextBlock.Title1}"
+                                    Text="{Binding T1155_G1_GTri, Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    x:Name="tbSearchCriteria"
+                                    Grid.Column="1"
+                                    Margin="0,2,5,2"
+                                    Height="22"
+                                    MaxLength="1024"
+                                    Text="{Binding SearchCriteria, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                <!--<commonctrl:AxComboBox
+                                    Grid.Column="1"
+                                    Height="22"
+                                    Margin="2,2,2,5"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    ItemsSource="{Binding LookupList, Mode=OneWay}"
+                                    SelectedItemEx="{Binding selectedLookup, Mode=TwoWay}" 
+                                    DisplayMemberPath="ObjectValue" 
+                                    SelectedValuePath="LookupID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />-->
+
+                                <Button
+                                    x:Name="btSearch"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Width="60"
+                                    Margin="0,2,5,5"
+                                    HorizontalAlignment="Left"
+                                    Visibility="{Binding bbtSearch, Converter={StaticResource BooleanToVisibility}}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image
+                                            Width="13"
+                                            Height="13"
+                                            VerticalAlignment="Center"
+                                            Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png" />
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        Grid.Row="4"
+                        Margin="5,10,5,5"
+                        Background="AliceBlue"
+                        BorderBrush="#C1D2E6"
+                        BorderThickness="1"
+                        CornerRadius="3"
+                        Grid.ColumnSpan="2">
+                        <StackPanel>
+                            <Border
+                                Margin="10,-10,0,0"
+                                HorizontalAlignment="Left"
+                                Background="AliceBlue"
+                                BorderBrush="#6F8AA9"
+                                BorderThickness="1">
+                                <TextBlock
+                                    Margin="10,0,10,0"
+                                    FontWeight="Bold"
+                                    Text="Danh sách" />
+                            </Border>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="25" />
+                                </Grid.RowDefinitions>
+                                <commonctrl:AxDataGrid
+                                    Name="dtgList"
+                                    Grid.Row="0"
+                                    Margin="2,2"
+                                    cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]; [Event LoadingRow]=[Action gvRegistrations_LoadingRow($source,$eventArgs)]"
+                                    AutoGenerateColumns="False"
+                                    CanUserAddRows="False"
+                                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                    HeadersVisibility="All"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding ObjLookup_Paging, Mode=TwoWay}"
+                                    SelectedItem="{Binding Lookup_Current, Mode=TwoWay}"
+                                    Style="{StaticResource MainFrame.DataGridStyle}"
+                                    RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                    RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                                    VerticalScrollBarVisibility="Visible">
+                                    <DataGrid.Columns>
+                                        <!--<DataGridTemplateColumn x:Name="colTemplateEdit" Header="">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button
+                                                        x:Name="hplEdit"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        cal:Message.Attach="[Event Click]=[Action hplEdit_Click($datacontext)] ;[Event Loaded]=[Action hplEdit_Loaded($source)]"
+                                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                        ToolTipService.ToolTip="{Binding T1484_G1_HChinh, Source={StaticResource eHCMSResources}}">
+                                                        <Button.Content>
+                                                            <Image
+                                                                Width="15"
+                                                                Height="15"
+                                                                Opacity="1"
+                                                                Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                                                        </Button.Content>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn x:Name="colTemplateDelete" Header="">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button
+                                                        x:Name="hplDelete"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)] ;[Event Loaded]=[Action hplDelete_Loaded($source)]"
+                                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                        ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                        <Button.Content>
+                                                            <Image
+                                                                Width="13"
+                                                                Height="13"
+                                                                Opacity="1"
+                                                                Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                        </Button.Content>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>-->
+                                        <DataGridTextColumn
+                                            Binding="{Binding LookupID, Mode=TwoWay}"
+                                            Header="{Binding T1794_G1_ID, Source={StaticResource eHCMSResources}}"
+                                            MinWidth="50"/>
+                                        <DataGridTextColumn
+                                            Binding="{Binding ObjectTypeID, Mode=TwoWay}"
+                                            Header="TypeID"
+                                            MinWidth="80"/>
+                                        <DataGridTextColumn
+                                            Binding="{Binding ObjectName, Mode=TwoWay}"
+                                            Header="Tên"
+                                            MinWidth="120"/>
+                                        <DataGridTextColumn
+                                            Binding="{Binding ObjectValue, Mode=TwoWay}"
+                                            Header="{Binding T1155_G1_GTri, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn
+                                            Binding="{Binding Code130, Mode=TwoWay}"
+                                            Header="Mã mới"
+                                            Width="80"/>
+                                        <DataGridTextColumn
+                                            Binding="{Binding Code, Mode=TwoWay}"
+                                            Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}"
+                                            Width="80"/>
+                                        <DataGridTextColumn
+                                            Binding="{Binding ObjectNotes, Mode=TwoWay}"
+                                            Header="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}"
+                                            MinWidth="150"/>
+                                        <DataGridTextColumn
+                                            Binding="{Binding DateActive, Mode=OneWay, StringFormat=dd/MM/yyyy}"
+                                            Header="{Binding N0076_G1_NgHieuLuc, Source={StaticResource eHCMSResources}}" 
+                                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+                                        <DataGridCheckBoxColumn
+                                            Header="{Binding Z0730_G1_DangApDung, Source={StaticResource eHCMSResources}}"
+                                            Binding="{Binding IsActiveLookup, TargetNullValue=false}"/>
+                                        <DataGridTextColumn
+                                            Header="User lưu"
+                                            Binding="{Binding StaffFullName, Mode=OneWay}"/>
+                                    </DataGrid.Columns>
+                                </commonctrl:AxDataGrid>
+                                <commonctrl:DataPager
+                                    Grid.Row="1"
+                                    VerticalAlignment="Bottom"
+                                    PageSize="9"
+                                    Source="{Binding ObjLookup_Paging, Mode=TwoWay}" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

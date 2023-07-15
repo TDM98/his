@@ -1,0 +1,213 @@
+﻿<UserControl    x:Class="aEMR.UserAccountManagement.Views.UserAccountInfoView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"   
+                xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignHeight="600" d:DesignWidth="900">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <converters:BoolToSexConverter x:Key="BoolToSexConverter"/>
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"  cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($source,$eventArgs)]" 
+                                 ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="TempEdit">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkEdit"  cal:Message.Attach="[Event Click]=[Action lnkEditClick($source,$eventArgs)]" 
+                                 ToolTipService.ToolTip="Click here for Edit" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="TemplateDeleteRecordUG">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"  cal:Message.Attach="[Event Click]=[Action lnkDeleteUGClick($source,$eventArgs)]" 
+                                 ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+            <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                
+              >            
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="25" Height="40"/>
+                <RowDefinition MinHeight="25" Height="300"/>                
+                <RowDefinition MinHeight="80" Height="200*" />
+                
+            </Grid.RowDefinitions>
+            
+            <TextBlock FontSize="18" HorizontalAlignment="Center" Name="lblResult" VerticalAlignment="Center" Text="{Binding G0671_G1_TTinTKhoan, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" Foreground="#3595CB" Grid.Column="1" Margin="66,1,66,11" />
+            <Border Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <Grid Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                
+              >
+                        <Border VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <Grid Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130" />
+                                    <ColumnDefinition Width="13" />
+                                    <ColumnDefinition Width="277" />
+                                    <ColumnDefinition Width="114" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="308" />
+                                    <ColumnDefinition Width="19" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"  Height="18" HorizontalAlignment="Left" Name="lblAdmission" VerticalAlignment="Center" Text="{Binding A1117_G1_TTinNguoiDung, StringFormat='{}  * {0}', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" Foreground="#FFE2206F" />
+                                <TextBlock Grid.Row="1" Text="{Binding Z0080_G1_TenNguoiDung, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="2" Text="{Binding T2261_G1_KhoaPh, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="3" Text="{Binding K3584_G1_DoiNgu, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="4" Text="{Binding Q0484_G1_QuocGia, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="5" Text="{Binding G0077_G1_TPho, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="6" Text="{Binding K3403_G1_DChiCuTru, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.FullName,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.RefDepartment.DeptName,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="3" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.RefStaffCategory.StaffCatgDescription,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="4" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.RefCountry.CountryName,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="5" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.CitiesProvince.CityProvinceName,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="6" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.SStreetAddress,Mode=TwoWay}" />
+
+                                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding K2840_G1_DanToc, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}" />
+                                <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding N0107_G1_NgSinh, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}" />
+                                <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding T1223_G1_GTinh, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding S0632_G1_SoDienThoai, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding N0264_G1_NoiSinh, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="5" Grid.Column="3" Text="{Binding S0691_G1_SoTaiKhoan, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="6" Grid.Column="3" Text="{Binding G1457_G1_TGiao, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="7" Grid.Column="3" Text="{Binding T0020_G1_Email, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+
+                                <Image Name="PersonImage" Grid.Column="5" Grid.RowSpan="4"  Width="120" HorizontalAlignment="Right"
+                                    cal:Message.Attach="[Event Loaded]=[Action PersonImageLoaded($source,$eventArgs)]"   />
+                                
+                                <TextBlock Grid.Row="0" Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.Ethnic.ObjectValue,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="1" Grid.Column="5"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.SDOB,Mode=TwoWay,StringFormat='dd/MM/yyyy'}" />
+                                <TextBlock Grid.Row="2" Grid.Column="5"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.Sex,Mode=OneWay,Converter={StaticResource BoolToSexConverter}}" />                                
+                                
+                                <TextBlock Grid.Row="3" Grid.Column="5"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.PhoneNumberString,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="4" Grid.Column="5"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.SBirthPlace,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="5" Grid.Column="5"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.SAccountNumber,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="6" Grid.Column="5"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.Religion.ObjectValue,Mode=TwoWay}" />
+                                <TextBlock Grid.Row="7" Grid.Column="5"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.Staff.SEmailAddress,Mode=TwoWay}" />
+
+
+
+                                <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Center"  Grid.ColumnSpan="6" Grid.Column="0">
+                                    <Button x:Name="butUpdate" Grid.Row="4" HorizontalAlignment="Left" Content="{Binding K1888_G1_ChSuaTTin, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="130"/>
+                                </StackPanel>
+
+
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                </Border>
+            <Border Grid.Column="0" Grid.Row="2" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Grid Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                
+              >
+                        <Border VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <Grid Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="261" />
+                                <ColumnDefinition Width="17" />
+                                <ColumnDefinition Width="355" />
+                                <ColumnDefinition Width="216" />
+                                <ColumnDefinition Width="24*" />
+                            </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3"  Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding A1116_G1_DoiPass, StringFormat='{}* {0}', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" Foreground="#FFE2206F" />
+                                <TextBlock Grid.Row="1" Text="{Binding Z0080_G1_TenNguoiDung, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="2" Text="{Binding P0317_G1_PasswordCu, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+
+                                <TextBlock Grid.Row="3" Text="{Binding P0318_G1_PasswordMoi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="4" Text="{Binding K2726_G1_ConfirmPassword, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Z0045_G1_DauSao, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding Z0045_G1_DauSao, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding Z0045_G1_DauSao, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"/>
+                            
+                            <TextBlock Grid.Row="1" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.04}"
+                                           Text="{Binding curUserAccount.AccountName,Mode=TwoWay}" />
+                            <PasswordBox  x:Name="txtOldPassword"
+                                              Grid.Row="2" Grid.Column="2" HorizontalAlignment="Stretch" Height="22"
+                                              cal:Message.Attach="[Event Loaded] = [Action TxtOldPassword_Loaded($source, $eventArgs)]" />
+                            <PasswordBox  x:Name="txtPassword" 
+                                          Grid.Row="3" Grid.Column="2" HorizontalAlignment="Stretch" Height="22"
+                                          cal:Message.Attach="[Event Loaded] = [Action TxtPassword_Loaded($source, $eventArgs)]" />
+                            <PasswordBox  x:Name="txtConfirm" 
+                                          Grid.Row="4" Grid.Column="2" HorizontalAlignment="Stretch" Height="22"
+                                          cal:Message.Attach="[Event Loaded] = [Action TxtConfirm_Loaded($source, $eventArgs)]" />
+                                    <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="2">
+                                        <!--<Button x:Name="butClear" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" Content="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="100" />-->
+                                        <Button x:Name="butSave" Grid.Row="4" HorizontalAlignment="Left" Content="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="100"/>
+                                    </StackPanel>
+                                    
+                               
+                        </Grid>
+                    </Border>
+                    </Grid>
+                    
+            </Border>
+            
+        </Grid>
+
+        <!--</toolkit:BusyIndicator>-->
+    </Border>
+</UserControl>

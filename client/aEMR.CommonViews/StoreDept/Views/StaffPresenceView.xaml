@@ -1,0 +1,161 @@
+﻿<UserControl x:Class="aEMR.Views.StaffPresenceView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="700" d:DesignWidth="800"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+    xmlns:Coverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common" >
+
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Coverters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility"/>
+        <Coverters:DecimalConverter x:Key="DecimalConverter3"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding IsUpdateRequiredNumber, Mode=OneWay, Converter={StaticResource BooleanToNotVisibility}}">
+            <TextBlock Text="{Binding Z1931_G1_NgCNhat, Source={StaticResource eHCMSResources}}" FontWeight="Bold" VerticalAlignment="Center"/>
+            <DatePicker Name="dpkFromdate" Margin="10,2,0,2" Style="{StaticResource MainFrame.DatePicker}" SelectedDate="{Binding CurrentStaffDeptPresence.StaffCountDate,Mode=TwoWay}" Width="150"
+                            cal:Message.Attach="[Event SelectedDateChanged]=[Action dpkFromdate_SelectedDateChanged($source,$eventArgs)]"/>
+            <TextBlock Text="{Binding T2222_G1_Khoa, Source={StaticResource eHCMSResources}}" FontWeight="Bold" VerticalAlignment="Center" Margin="50,2,0,2" />
+            <ComboBox x:Name="Departments" Style="{StaticResource MainFrame.ComboBox}"
+                      Width="200" Margin="5,2,0,2"
+                      ItemsSource="{Binding AllDepartments, Mode=OneWay}"
+                      SelectedValuePath="DeptID"
+                      SelectedItem="{Binding SelectedDepartments,Mode=TwoWay}"
+                      DisplayMemberPath="DeptName" />
+        </StackPanel>
+        <GroupBox HorizontalAlignment="Center" 
+                                       VerticalAlignment="Stretch" Grid.Row="1"
+                                       Header="{Binding Z1930_G1_CNhatSLgYC, Source={StaticResource eHCMSResources}}"
+                                       IsEnabled="{Binding isChangeDept,Mode=OneWay}"
+                                       Margin="10" Padding="10" Visibility="{Binding IsUpdateRequiredNumber, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                <TextBlock Text="{Binding K3587_G1_DoiTuong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                <TextBlock Grid.Column="2" Text="{Binding Z1929_G1_SLgYC, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+
+                <TextBlock Grid.Row="1" Text="{Binding K0961_G1_BSi, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="2" Text="{Binding Z1928_G1_DieuDuong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="3" Text="{Binding Z1921_G1_KTV, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="4" Text="{Binding Z1922_G1_YCong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="5" Text="{Binding Z1923_G1_HoLy, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+
+
+                <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding CurrentStaffDeptPresence.NumberOfDoctorRequired, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding CurrentStaffDeptPresence.NumberOfNurseRequired, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding CurrentStaffDeptPresence.NumberOfTechnicianRequired, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding CurrentStaffDeptPresence.NumberOfClinicalAsstRequired, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                <TextBox Grid.Column="2" Grid.Row="5" Text="{Binding CurrentStaffDeptPresence.NumberOfAsstNurseRequired, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+
+                </Grid>
+            </GroupBox>
+
+            <GroupBox HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                            Header="{Binding Z1912_G1_TinhHinhNhanSuTrongKhoa, Source={StaticResource eHCMSResources}}" IsEnabled="{Binding isChangeDept,Mode=OneWay}"
+                            Margin="10" Padding="10" Grid.Row="2" Visibility="{Binding IsUpdateRequiredNumber, Mode=OneWay, Converter={StaticResource BooleanToNotVisibility}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                <TextBlock Text="{Binding K3587_G1_DoiTuong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                <TextBlock Grid.Column="1" Text="{Binding Z1914_G1_SoLuong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                <TextBlock Grid.Column="2" Text="{Binding Z1916_G1_HienDien, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+
+                <TextBlock Grid.Row="1" Text="{Binding K0961_G1_BSi, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="2" Text="{Binding Z1928_G1_DieuDuong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="3" Text="{Binding Z1921_G1_KTV, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="4" Text="{Binding Z1922_G1_YCong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="5" Text="{Binding Z1923_G1_HoLy, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                    
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding CurrentStaffDeptPresence.NumberOfDoctorRequired}" HorizontalAlignment="Right" Margin="0,0,50,0" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding CurrentStaffDeptPresence.NumberOfNurseRequired}" HorizontalAlignment="Right" Margin="0,0,50,0" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding CurrentStaffDeptPresence.NumberOfTechnicianRequired}" HorizontalAlignment="Right" Margin="0,0,50,0" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding CurrentStaffDeptPresence.NumberOfClinicalAsstRequired}" HorizontalAlignment="Right" Margin="0,0,50,0" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding CurrentStaffDeptPresence.NumberOfAsstNurseRequired}" HorizontalAlignment="Right" Margin="0,0,50,0" VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding CurrentStaffDeptPresence.NumberOfDoctorPresent, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                    <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding CurrentStaffDeptPresence.NumberOfNursePresent, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                    <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding CurrentStaffDeptPresence.NumberOfTechnicianPresent, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                    <TextBox Grid.Column="2" Grid.Row="4" Text="{Binding CurrentStaffDeptPresence.NumberOfClinicalAsstPresent, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                    <TextBox Grid.Column="2" Grid.Row="5" Text="{Binding CurrentStaffDeptPresence.NumberOfAsstNursePresent, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                </Grid>
+            </GroupBox>
+        <GroupBox HorizontalAlignment="Center"
+                                       VerticalAlignment="Stretch"
+                                       Header="{Binding Z1913_G1_TinhHinhBNTrongKhoa, Source={StaticResource eHCMSResources}}"
+                                       IsEnabled="{Binding isChangeDept,Mode=OneWay}"
+                                       Margin="10" Padding="10" Grid.Row="3" Visibility="{Binding IsClinicDept, Mode=OneWay, Converter={StaticResource BooleanToNotVisibility}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                <TextBlock Text="{Binding K3587_G1_DoiTuong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                <TextBlock Grid.Column="1" Text="{Binding Z1914_G1_SoLuong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+
+                <TextBlock Grid.Row="1" Text="{Binding Z1917_G1_BenhCu, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="2" Text="{Binding Z1918_G1_ChuyenKhoaKhac, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="3" Text="{Binding Z1919_G1_ChuyenBVKhac, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="4" Text="{Binding G2900_G1_XV, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="5" Text="{Binding K0870_G1_5TuVong, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+                <TextBlock Grid.Row="6" Text="{Binding Z1920_G1_HienCon, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0"/>
+
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding CurrentStaffDeptPresence.NumberOfCurrentPatient, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding CurrentStaffDeptPresence.NumberOfPatientTxfrDept, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding CurrentStaffDeptPresence.NumberOfPatientTxfrHospital, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding CurrentStaffDeptPresence.NumberOfPatientDischarged, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding CurrentStaffDeptPresence.NumberOfPatientDeceased, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+                <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding CurrentStaffDeptPresence.NumberOfPatientPresent, Converter={StaticResource DecimalConverter3}, Mode=TwoWay}" HorizontalContentAlignment="Right" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80"/>
+            </Grid>
+        </GroupBox>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="{Binding Z1927_G1_LuuTTin, Source={StaticResource eHCMSResources}}" Name="SaveAllDeptManagementInfo" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,0,10,0" Width="100"/>
+            <Button Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}" Name="PrintReport" HorizontalAlignment="Center" FontWeight="Bold" Width="100" Visibility="{Binding IsUpdateRequiredNumber, Mode=OneWay, Converter={StaticResource BooleanToNotVisibility}}"/>
+            <CheckBox Content="{Binding Z0044_G1_TatCaKhoa, Source={StaticResource eHCMSResources}}" IsChecked="{Binding IsAllDeparment,Mode=TwoWay}" FontWeight="Bold" Margin="10,3,0,0"
+                      Visibility="{Binding IsUpdateRequiredNumber, Mode=OneWay, Converter={StaticResource BooleanToNotVisibility}}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

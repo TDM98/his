@@ -1,0 +1,728 @@
+﻿<UserControl
+    x:Class="aEMR.UserAccountManagement.Views.StaffDeptResponsibilityView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignWidth="1000"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding isEdit, Converter={StaticResource BooleanToVisibility}}">
+                <Button
+                    x:Name="lnkDelete"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($source)]"
+                    ToolTipService.ToolTip="Click here for delete">
+                    <Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1"
+                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="KhoDeleteRecord">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding isEdit, Converter={StaticResource BooleanToVisibility}}">
+                <Button
+                    x:Name="lnkDelete"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action lnkKhoDeleteClick($source)]"
+                    ToolTipService.ToolTip="Click here for delete">
+                    <Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1"
+                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border
+        x:Name="BorderCanvas"
+        Width="Auto"
+        Margin="1,1,1,1"
+        VerticalAlignment="Stretch"
+        ScrollViewer.VerticalScrollBarVisibility="Auto"
+        Style="{StaticResource LightBlueBorderStyle}">
+        <Grid
+            Width="Auto"
+            Height="Auto"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="350" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="355" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Grid.ColumnSpan="4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="18"
+                Foreground="#3595CB"
+                Style="{StaticResource TextBlock.Heading.02}"
+                Text="{Binding K1711_G1_CHinhTrNhiemChoNhVien, Source={StaticResource eHCMSResources}}" />
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Width="Auto"
+                Margin="1"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Style="{StaticResource LightBlueBorderStyle}">
+                <!--  DataContext="{Binding selectedConsultTimeSeg,Mode=TwoWay}"  -->
+                <Grid Height="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35*" />
+                        <ColumnDefinition Width="65*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="40*" />
+                    </Grid.RowDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{Binding K2010_G1_ChonKhoaHoacKho2, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Label.00}" />
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        Orientation="Horizontal" />
+                    <!--  cal:Message.Attach="[Event SelectionChanged]=[Action cboTimeSegment_SelectionChanged($source, $eventArgs)]"  -->
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <RadioButton
+                            Name="radKhoaPhong"
+                            Height="16"
+                            cal:Message.Attach="[Event Click]=[Action radKhoaPhong_Click($source)]"
+                            Content="{Binding T2261_G1_KhoaPh, Source={StaticResource eHCMSResources}}"
+                            GroupName="gKhoa"
+                            IsChecked="True"
+                            Style="{StaticResource MainFrame.RadioButton}" />
+                        <RadioButton
+                            Name="radKho"
+                            Height="16"
+                            Margin="40,0,0,0"
+                            cal:Message.Attach="[Event Click]=[Action radKho_Click($source)]"
+                            Content="{Binding T2188_G1_KhoKhoaPh, Source={StaticResource eHCMSResources}}"
+                            GroupName="gKhoa"
+                            IsChecked="False"
+                            Style="{StaticResource MainFrame.RadioButton}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Border
+                Grid.Row="1"
+                Grid.RowSpan="3"
+                Grid.Column="0"
+                Width="Auto"
+                Margin="1"
+                VerticalAlignment="Stretch"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Style="{StaticResource LightBlueBorderStyle}">
+                <Grid
+                    Width="Auto"
+                    Height="Auto"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ShowGridLines="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <!--<Label Content="{Binding T2791_G1_LoaiNhVien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />-->
+                    <!--  cal:Message.Attach="[Event Loaded]=[Action cboStaffCategory_Loaded($source, $eventArgs)]"  -->
+                    <TextBlock
+                        Grid.Row="0"
+                        Height="30"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="#CC0033"
+                        Text="{Binding K0727_G1_XemTTinVaCNhat, Source={StaticResource eHCMSResources}}"
+                        TextWrapping="Wrap" />
+                    <StackPanel
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <RadioButton
+                            Name="radBacSi"
+                            Height="16"
+                            cal:Message.Attach="[Event Click]=[Action radBacSi_Click($source,$eventArgs)]"
+                            Content="{Binding K0961_G1_BSi, Source={StaticResource eHCMSResources}}"
+                            GroupName="gOption"
+                            IsChecked="True"
+                            Style="{StaticResource MainFrame.RadioButton}" />
+                        <RadioButton
+                            Name="radDangKy"
+                            Height="16"
+                            cal:Message.Attach="[Event Click]=[Action radDangKy_Click($source,$eventArgs)]"
+                            Content="{Binding K2848_G1_DK, Source={StaticResource eHCMSResources}}"
+                            GroupName="gOption"
+                            IsChecked="False"
+                            Style="{StaticResource MainFrame.RadioButton}" />
+                        <RadioButton
+                            Name="radTroLy"
+                            Height="16"
+                            cal:Message.Attach="[Event Click]=[Action radTroLy_Click($source,$eventArgs)]"
+                            Content="{Binding P0394_G1_PhuTa, Source={StaticResource eHCMSResources}}"
+                            GroupName="gOption"
+                            IsChecked="False"
+                            Style="{StaticResource MainFrame.RadioButton}" />
+                        <RadioButton
+                            Name="radKyThuat"
+                            Height="16"
+                            cal:Message.Attach="[Event Click]=[Action radKyThuat_Click($source,$eventArgs)]"
+                            Content="{Binding T2527_G1_Kythuat, Source={StaticResource eHCMSResources}}"
+                            GroupName="gOption"
+                            IsChecked="False"
+                            Style="{StaticResource MainFrame.RadioButton}" />
+                        <RadioButton
+                            Name="radDuocSi"
+                            Height="16"
+                            cal:Message.Attach="[Event Click]=[Action radDuocSi_Click($source,$eventArgs)]"
+                            Content="Dược sĩ"
+                            GroupName="gOption"
+                            IsChecked="False"
+                            Style="{StaticResource MainFrame.RadioButton}" />
+                    </StackPanel>
+                    <customcontrols:AxComboBox
+                        Name="cboStaffCategory"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Width="150"
+                        Height="22"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="StaffCatgDescription"
+                        ItemsSource="{Binding allRefStaffCategory, Mode=OneWay}"
+                        SelectedItemEx="{Binding SelectedRefStaffCategory, Mode=TwoWay}"
+                        SelectedValuePath="StaffCatgID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <StackPanel Grid.Row="3" Orientation="Horizontal">
+                        <customcontrols:AxTextBox
+                            x:Name="txtUserAccountName"
+                            Grid.Column="1"
+                            Width="150"
+                            Height="22"
+                            Margin="20,0,0,0"
+                            HorizontalAlignment="Stretch"
+                            cal:Message.Attach="[Event Loaded]=[Action TxtUserAccountName_Loaded($source)];[Event LostFocus]=[Action txtUserAccountNameLostFocus($source)]"
+                            Style="{StaticResource MainFrame.TextBox}"
+                            TextWrapping="NoWrap" />
+                        <Button
+                            x:Name="butSearch"
+                            Width="80"
+                            Height="22"
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Left"
+                            Content="{Binding G1267_G1_TimUsr, Source={StaticResource eHCMSResources}}"
+                            Style="{StaticResource MainFrame.Button}" />
+                    </StackPanel>
+                    <ScrollViewer
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalScrollBarVisibility="Auto"
+                        VerticalScrollBarVisibility="Auto">
+                        <customcontrols:ReadOnlyDataGrid
+                            Name="grdListStaff"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            cal:Message.Attach="[Event DblClick]=[Action grdListStaffDoubleClick($source)]"
+                            AutoGenerateColumns="False"
+                            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                            ItemsSource="{Binding allStaff, Mode=OneWay}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            SelectedItem="{Binding SelectedStaff, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.DataGridStyle}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn
+                                    Width="auto"
+                                    Binding="{Binding FullName, Mode=TwoWay}"
+                                    CanUserReorder="True"
+                                    CanUserResize="True"
+                                    CanUserSort="True"
+                                    ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                    IsReadOnly="True" />
+                                <DataGridTextColumn
+                                    Width="auto"
+                                    Binding="{Binding UserAccountsName, Mode=TwoWay}"
+                                    CanUserReorder="True"
+                                    CanUserResize="True"
+                                    CanUserSort="True"
+                                    ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                    IsReadOnly="True" />
+                            </DataGrid.Columns>
+                        </customcontrols:ReadOnlyDataGrid>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+            <TabControl
+                Name="tabCommon"
+                Grid.Row="2"
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Margin="0,0,0,0"
+                Style="{StaticResource MainFrame.TabControl}">
+                <TabItem
+                    cal:Message.Attach="[Event Loaded]=[Action TabKhoaPhong_Loaded($source)]"
+                    Header="{Binding T2261_G1_KhoaPh, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.TabItem}"
+                    Visibility="{Binding isKhoa, Converter={StaticResource BooleanToVisibility}}">
+                    <Border
+                        Grid.Row="2"
+                        Grid.RowSpan="2"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Width="Auto"
+                        Margin="1"
+                        VerticalAlignment="Stretch"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid
+                            Grid.Row="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            ShowGridLines="False">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="200" />
+                                <RowDefinition Height="35" />
+                                <RowDefinition Height="41*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="296" />
+                                <ColumnDefinition Width="278" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                Grid.ColumnSpan="4"
+                                Height="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{Binding K2009_G1_ChonKhoaChiuTrNhiemChoNhVien, Source={StaticResource eHCMSResources}}"
+                                FontWeight="Bold"
+                                Foreground="#3595CB"
+                                Style="{StaticResource MainFrame.Label.02}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{Binding K2028_G1_ChonLoaiKhoa2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Label.00}" />
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{Binding K2094_G1_ChonPg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Label.00}" />
+                            <customcontrols:AxComboBox
+                                x:Name="cboV_DeptTypeOperation"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Width="280"
+                                VerticalAlignment="Center"
+                                DisplayMemberPath="ObjectValue"
+                                ItemsSource="{Binding ListV_DeptTypeOperation}"
+                                SelectedItem="{Binding ObjV_DeptTypeOperation, Mode=TwoWay}"
+                                SelectedValuePath="LookupID"
+                                Style="{StaticResource MainFrame.ComboBox}" />
+                            <customcontrols:AxComboBox
+                                Name="cboRefDepartment"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="280"
+                                VerticalAlignment="Center"
+                                DisplayMemberPath="DeptName"
+                                ItemsSource="{Binding allRefDepartments}"
+                                SelectedItemEx="{Binding curRefDepartments, Mode=TwoWay}"
+                                SelectedValuePath="DeptID" />
+                            <StackPanel
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Orientation="Horizontal">
+                                <Button
+                                    x:Name="butAddNew"
+                                    Width="80"
+                                    Height="22"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}" />
+                                <Button
+                                    x:Name="btnAddNewAll"
+                                    Width="85"
+                                    Height="22"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding G0331_G1_ThemTCa, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}" />
+                            </StackPanel>
+                            <DataGrid
+                                Grid.Row="3"
+                                Grid.ColumnSpan="3"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding allStaffDeptResponsibilities, Mode=TwoWay}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding selectedStaffDeptResponsibilities, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn
+                                        Width="Auto"
+                                        CellTemplate="{StaticResource TemplateDeleteRecord}"
+                                        Header="" />
+
+                                    <DataGridTextColumn
+                                        MinWidth="180"
+                                        Binding="{Binding Staff.FullName, Mode=TwoWay}"
+                                        CanUserReorder="True"
+                                        CanUserResize="True"
+                                        CanUserSort="True"
+                                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                        Header="{Binding T0882_G1_TenNhVien, Source={StaticResource eHCMSResources}}"
+                                        IsReadOnly="True" />
+
+                                    <DataGridTextColumn
+                                        Width="180"
+                                        Binding="{Binding RefDepartment.DeptName, Mode=TwoWay, StringFormat='dd/MM/yyyy'}"
+                                        CanUserReorder="True"
+                                        Header="{Binding T2252_G1_KhoaChiuTrachNhiem, Source={StaticResource eHCMSResources}}" />
+
+                                    <!--  KMx: Không sử dụng những chức năng bên dưới nữa (15/09/2014 17:03)  -->
+                                    <!--<DataGridTemplateColumn Header="{Binding N0221_G1_NhapVien, Source={StaticResource eHCMSResources}}" Width="80" CanUserReorder="True">
+                                    <DataGridTemplateColumn.CellEditingTemplate >
+                                        <DataTemplate >
+                                            <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                    IsChecked="{Binding ResNhapVien,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn  Width="90" CanUserReorder="True">
+                                <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                <DataTemplate>
+                                <TextBlock Text="{Binding K3103_G1_DatGiuong, Source={StaticResource eHCMSResources}}" />
+                                </DataTemplate>
+                                </Setter.Value>
+                                </Setter>
+                                </Style>
+                                </DataGridTemplateColumn.HeaderStyle>
+                                    <DataGridTemplateColumn.CellEditingTemplate >
+                                        <DataTemplate >
+                                            <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                    IsChecked="{Binding ResDatGiuong,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn  Width="80" CanUserReorder="True">
+                                <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                <DataTemplate>
+                                <TextBlock Text="{Binding G2900_G1_XV, Source={StaticResource eHCMSResources}}" />
+                                </DataTemplate>
+                                </Setter.Value>
+                                </Setter>
+                                </Style>
+                                </DataGridTemplateColumn.HeaderStyle>
+                                    <DataGridTemplateColumn.CellEditingTemplate >
+                                        <DataTemplate >
+                                            <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                    IsChecked="{Binding ResXuatVien,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn  Width="90" CanUserReorder="True">
+                                <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                <DataTemplate>
+                                <TextBlock Text="{Binding Z0051_G1_TraGiuong, Source={StaticResource eHCMSResources}}" />
+                                </DataTemplate>
+                                </Setter.Value>
+                                </Setter>
+                                </Style>
+                                </DataGridTemplateColumn.HeaderStyle>
+                                    <DataGridTemplateColumn.CellEditingTemplate >
+                                        <DataTemplate >
+                                            <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                    IsChecked="{Binding ResTraGiuong,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn  Width="100" CanUserReorder="True">
+                                <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                <DataTemplate>
+                                <TextBlock Text="{Binding T2200_G1_KhoNoiTru, Source={StaticResource eHCMSResources}}" />
+                                </DataTemplate>
+                                </Setter.Value>
+                                </Setter>
+                                </Style>
+                                </DataGridTemplateColumn.HeaderStyle>
+                                    <DataGridTemplateColumn.CellEditingTemplate >
+                                        <DataTemplate >
+                                            <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                    IsChecked="{Binding ResKhoNoiTru,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>-->
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <!--  Visibility="{Binding isCauHinh,Converter={StaticResource BooleanToVisibility}}"  -->
+                            <StackPanel
+                                Grid.Row="4"
+                                Grid.ColumnSpan="5"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal">
+                                <Button
+                                    x:Name="butUpdate"
+                                    Width="80"
+                                    Height="22"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding K1599_G1_CNhat, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}" />
+                                <Button
+                                    x:Name="butReset"
+                                    Width="80"
+                                    Height="22"
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding R0516_G1_Reset, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </TabItem>
+                <TabItem
+                    cal:Message.Attach="[Event Loaded]=[Action TabKhoPhong_Loaded($source)]"
+                    Header="{Binding T2201_G1_KhoPh, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.TabItem}"
+                    Visibility="{Binding isKho, Converter={StaticResource BooleanToVisibility}}">
+                    <Border
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Width="Auto"
+                        Margin="1"
+                        VerticalAlignment="Stretch"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid
+                            Grid.Row="0"
+                            Width="Auto"
+                            Height="Auto"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            ShowGridLines="False">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="245" />
+                                <RowDefinition Height="35" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                Height="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{Binding K1993_G1_ChonKhoChiuTrNhiemChoNhVien, Source={StaticResource eHCMSResources}}"
+                                FontWeight="Bold"
+                                Foreground="#3595CB"
+                                Style="{StaticResource MainFrame.Label.02}" />
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal">
+                                <RadioButton
+                                    Name="DrugDept"
+                                    Width="80"
+                                    Height="16"
+                                    cal:Message.Attach="[Event Click]=[Action radStoreTypeIDDrugDept_Click($source,$eventArgs)]"
+                                    Content="Dược"
+                                    GroupName="gOption1"
+                                    IsChecked="True"
+                                    Style="{StaticResource MainFrame.RadioButton}" />
+                                <RadioButton
+                                    Name="Pharmacy"
+                                    Width="80"
+                                    Height="16"
+                                    cal:Message.Attach="[Event Click]=[Action radStoreTypeIDPharmacy_Click($source,$eventArgs)]"
+                                    Content="Nhà thuốc"
+                                    GroupName="gOption1"
+                                    IsChecked="False"
+                                    Style="{StaticResource MainFrame.RadioButton}" />
+                                <RadioButton
+                                    Name="StoreDept"
+                                    Width="80"
+                                    Height="16"
+                                    cal:Message.Attach="[Event Click]=[Action radStoreTypeIDClinicDept_Click($source,$eventArgs)]"
+                                    Content="Khoa phòng"
+                                    GroupName="gOption1"
+                                    IsChecked="False"
+                                    Style="{StaticResource MainFrame.RadioButton}" />
+                            </StackPanel>
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{Binding K1973_G1_ChonKho, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Label.00}" />
+                            <customcontrols:AxComboBox
+                                Name="cboRef"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="280"
+                                VerticalAlignment="Center"
+                                DisplayMemberPath="swhlName"
+                                ItemsSource="{Binding allRefStorageWarehouseLocation}"
+                                SelectedItemEx="{Binding CurRefStorageWarehouseLocation, Mode=TwoWay}"
+                                SelectedValuePath="StoreID" />
+                            <Button
+                                x:Name="butAddNewKho"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Width="80"
+                                Height="22"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}" />
+                            <Button
+                                x:Name="butAddAllNewKho"
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                Width="80"
+                                Height="22"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{Binding G0331_G1_ThemTCa, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}" />
+                            <DataGrid
+                                Grid.Row="3"
+                                Grid.ColumnSpan="3"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding allStaffStoreDeptResponsibilities, Mode=TwoWay}"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                SelectedItem="{Binding selectedStaffStoreDeptResponsibilities, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn
+                                        Width="Auto"
+                                        CellTemplate="{StaticResource KhoDeleteRecord}"
+                                        Header="" />
+                                    <DataGridTextColumn
+                                        MinWidth="180"
+                                        Binding="{Binding Staff.FullName, Mode=TwoWay}"
+                                        CanUserReorder="True"
+                                        CanUserResize="True"
+                                        CanUserSort="True"
+                                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                        Header="{Binding T0882_G1_TenNhVien, Source={StaticResource eHCMSResources}}"
+                                        IsReadOnly="True" />
+                                    <DataGridTextColumn
+                                        Width="180"
+                                        Binding="{Binding RefStorageWarehouseLocation.swhlName, Mode=TwoWay, StringFormat='dd/MM/yyyy'}"
+                                        CanUserReorder="True"
+                                        Header="{Binding T2182_G1_KhoChiuTrachNhiem, Source={StaticResource eHCMSResources}}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel
+                                Grid.Row="4"
+                                Grid.ColumnSpan="5"
+                                HorizontalAlignment="Center"
+                                Orientation="Horizontal">
+                                <Button
+                                    x:Name="butUpdateKho"
+                                    Width="80"
+                                    Height="22"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding K1599_G1_CNhat, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}" />
+                                <Button
+                                    x:Name="butResetKho"
+                                    Width="80"
+                                    Height="22"
+                                    Margin="10,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding R0516_G1_Reset, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Border>
+</UserControl>

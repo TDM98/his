@@ -1,0 +1,256 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="DefaultButtonBorderBrush"
+                     Color="#091746" />
+    <LinearGradientBrush x:Key="DefaultButtonBackground"
+                         StartPoint="0,0"
+                         EndPoint="0,1">
+        <GradientStop Offset="0"
+                      Color="#16509A" />
+        <GradientStop Offset="0.4"
+                      Color="#143B7C" />
+        <GradientStop Offset="1"
+                      Color="#1A539A" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="MouseOverButtonBorderBrush"
+                     Color="#8D590D" />
+    <LinearGradientBrush x:Key="MouseOverButtonBackground"
+                         StartPoint="0,0"
+                         EndPoint="0,1">
+        <GradientStop Offset="0"
+                      Color="#DBA02A" />
+        <GradientStop Offset="0.4"
+                      Color="#D38725" />
+        <GradientStop Offset="1"
+                      Color="#E2A731" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="PressedButtonBorderBrush"
+                     Color="#3D4B72" />
+    <LinearGradientBrush x:Key="PressedButtonBackground"
+                         StartPoint="0,0"
+                         EndPoint="0,1">
+        <GradientStop Offset="0"
+                      Color="#6584BB" />
+        <GradientStop Offset="0.4"
+                      Color="#506A9B" />
+        <GradientStop Offset="1"
+                      Color="#5E7DAB" />
+    </LinearGradientBrush>
+
+    <DropShadowBitmapEffect x:Key="DisableButtonBitmapEffect"
+                            ShadowDepth="2"
+                            Softness="0"
+                            Color="White" />
+    <SolidColorBrush x:Key="DisableButtonBorderBrush"
+                     Color="#80828E" />
+    <LinearGradientBrush x:Key="DisableButtonBackground"
+                         StartPoint="0, 0"
+                         EndPoint="0, 1">
+        <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0"
+                          Color="#C6CFE0" />
+            <GradientStop Offset=".4"
+                          Color="#AAB2BF" />
+            <GradientStop Offset="1"
+                          Color="#A4B0C0" />
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <Style TargetType="Label">
+        <Setter Property="HorizontalContentAlignment"
+                Value="Right" />
+    </Style>
+
+    <Style TargetType="Button">
+        <Style.Triggers>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Foreground"
+                        Value="Gray" />
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="MinHeight" 
+                Value="23" />
+        <Setter Property="BorderBrush"
+                Value="Transparent" />
+        <Setter Property="Foreground"
+                Value="White" />
+        <Setter Property="Padding"
+                Value="5,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border"
+                            Background="{StaticResource DefaultButtonBackground}"
+                            BorderBrush="{StaticResource DefaultButtonBorderBrush}"
+                            BorderThickness="1"
+                            Padding="3,0"
+                            CornerRadius="3">
+
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Property=ContentControl.Content}" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!--
+              <Trigger Property="IsKeyboardFocused"
+              Value="true">
+              <Setter TargetName="Border"
+              Property="Background"
+              Value="{StaticResource DefaultButtonBackground}" />
+              </Trigger>
+            -->
+                        <!--
+              <Trigger Property="IsDefaulted"
+              Value="true">
+              <Setter TargetName="Border"
+              Property="Background"
+              Value="{StaticResource DefaultButtonBackground}" />
+              </Trigger>
+            -->
+                        <Trigger Property="IsMouseOver"
+                                 Value="true">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{StaticResource MouseOverButtonBackground}" />
+                            <Setter TargetName="Border"
+                                    Property="BorderBrush"
+                                    Value="{StaticResource MouseOverButtonBorderBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                 Value="true">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{StaticResource PressedButtonBackground}" />
+                            <Setter TargetName="Border"
+                                    Property="BorderBrush"
+                                    Value="{StaticResource PressedButtonBorderBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled"
+                                 Value="False">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{StaticResource DisableButtonBackground}" />
+
+                            <Setter TargetName="Border"
+                                    Property="BorderBrush"
+                                    Value="{StaticResource DisableButtonBorderBrush}" />
+                            <Setter TargetName="ContentPresenter"
+                                    Property="BitmapEffect"
+                                    Value="{StaticResource DisableButtonBitmapEffect}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+    </Style>
+
+    <Style x:Key="ImageButtonStyle"
+           TargetType="Button">
+        <Setter Property="BorderBrush"
+                Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border"
+                            Background="{StaticResource DefaultButtonBackground}"
+                            BorderBrush="{StaticResource DefaultButtonBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="3"
+                            Padding="5">
+
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Property=ContentControl.Content}" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="true">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{StaticResource MouseOverButtonBackground}" />
+                            <Setter TargetName="Border"
+                                    Property="BorderBrush"
+                                    Value="{StaticResource MouseOverButtonBorderBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                 Value="true">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{StaticResource PressedButtonBackground}" />
+                            <Setter TargetName="Border"
+                                    Property="BorderBrush"
+                                    Value="{StaticResource PressedButtonBorderBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled"
+                                 Value="False">
+                            <Setter TargetName="Border"
+                                    Property="Background"
+                                    Value="{StaticResource DisableButtonBackground}" />
+                            <Setter TargetName="Border"
+                                    Property="BorderBrush"
+                                    Value="{StaticResource DisableButtonBorderBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+    </Style>
+
+    <Style x:Key="DefaultAlignmentDataGridCell"
+           TargetType="{x:Type DataGridCell}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Grid MinWidth="50"
+                          VerticalAlignment="Top"
+                          Background="{TemplateBinding Background}">
+
+                        <ContentPresenter />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="LightBlue" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="CenterAlignmentDataGridCell"
+           TargetType="DataGridCell">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Grid Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="LightBlue" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

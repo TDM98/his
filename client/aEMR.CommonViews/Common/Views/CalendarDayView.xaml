@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="aEMR.CommonViews.Views.CalendarDayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800"
+             MinWidth="800" MaxHeight="620"
+             xmlns:WPFControls="clr-namespace:aEMR.WPFControls;assembly=aEMR.WPFControls"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    <toolkit:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical" Visibility="{Binding IsRegistrationView,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,0,5">
+                <TextBlock Text="{Binding Z2931_G1_ChonBacSi,Source={StaticResource eHCMSResources}}" Style="{StaticResource TBlock.Content.00}" VerticalAlignment="Center"></TextBlock>
+                <ComboBox ItemsSource="{Binding DoctorStaffCollecion}" DisplayMemberPath="FullName" HorizontalAlignment="Stretch"
+                          Style="{StaticResource MainFrame.ComboBox}"
+                          cal:Message.Attach="[Event SelectionChanged]=[Action cboStaff_SelectionChanged($source,$eventArgs)]"
+                          Margin="5,0,0,0"
+                          MinWidth="200">
+                </ComboBox>
+                <TextBlock Text="{Binding A0303_G1_Msg_InfoChonCaKham,Source={StaticResource eHCMSResources}}" Style="{StaticResource TBlock.Content.00}"></TextBlock>
+                <ItemsControl ItemsSource="{Binding TimeSegmentCollection}" Margin="0,10,0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton GroupName="Segment" VerticalAlignment="Center" IsChecked="{Binding IsChecked,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             cal:Message.Attach="[Event Checked]=[Action RadioButtonTimeSegment_CheckedChanged($source,$eventArgs)];
+                                             [Event Unchecked]=[Action RadioButtonTimeSegment_CheckedChanged($source,$eventArgs)]">
+                                </RadioButton>
+                                <TextBlock Text="{Binding SegmentName}" Margin="5,0,0,0" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="{Binding StartTime,StringFormat='{}({0:HH:mm} - '}" Margin="5,0,0,0" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="{Binding EndTime,StringFormat='{}{0:HH:mm})'}" Margin="5,0,0,0" VerticalAlignment="Center"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+            <WPFControls:Calendar x:Name="calendar" Grid.Row="1" ValidDateTime="{Binding CurrentValidDateTime}" CurrentDate="{Binding CurrentDate}"
+                                  cal:Message.Attach="[Event AddAppointment]=[Action Calendar_AddAppointment($source,$eventArgs)];
+                                  [Event Loaded]=[Action Calendar_Loaded($source,$eventArgs)]">
+            </WPFControls:Calendar>
+            <TextBlock Grid.Row="2" Margin="2,20,2,2" Text="{Binding Z2930_G1_CtrlSLuuThongTinHienTai,Source={StaticResource eHCMSResources}}" Style="{StaticResource TBlock.Heading.02}"></TextBlock>
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>

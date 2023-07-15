@@ -1,0 +1,247 @@
+﻿<UserControl x:Class="aEMR.Common.Views.PatientMedicalFilesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             mc:Ignorable="d" Width="800" Height="500"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <converters:PatientAddressConverter x:Key="AddressConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <converters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNot"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Margin="2" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="7*" />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+            <StackPanel>
+                <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding G0525_G1_TTinBN, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                </Border>
+                <Grid Margin="0,5,0,0">
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding T1580_G1_HoTenBN, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="0,2,5,0" Foreground="Black" Height="16" VerticalAlignment="Top" FontWeight="Bold" />
+                        <TextBlock Text="{Binding ObjPatient.FullName}" Grid.Row="0" Grid.Column="1" FontWeight="Bold" Foreground="CadetBlue" Margin="0,2,5,2"></TextBlock>
+                        <TextBlock HorizontalAlignment="Right" Text="{Binding K3354_G1_DChi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="0" Margin="0,2,5,2" Foreground="Black" FontWeight="Bold"/>
+                        <!--<TextBlock Text="{Binding ObjPatient.PatientStreetAddress}" Grid.Row="1" Grid.Column="1" FontWeight="Bold" Foreground="CadetBlue" Margin="0,2,5,2"/>-->
+                        <TextBlock Text="{Binding ObjPatient, Mode=OneWay, Converter={StaticResource AddressConverter}}"
+                                        Grid.Row="1" Grid.Column="1" FontWeight="Bold" Foreground="CadetBlue" Margin="0,2,5,2"/>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="1" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="35*"></ColumnDefinition>
+                <ColumnDefinition Width="65*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="1" x:Name="TitleForm" Text="{Binding T1563_G1_HSoBAnHTai, Source={StaticResource eHCMSResources}}" 
+                       Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                       HorizontalAlignment="Left"   Margin="0,10,0,10"></TextBlock>
+        </Grid>
+        <Grid Grid.Row="2" Visibility="{Binding IsDisableCreateMedicalFile, Mode=OneWay,Converter={StaticResource BooleanToVisibilityNot}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition Width="155"></ColumnDefinition>
+                <ColumnDefinition Width="210"></ColumnDefinition>
+                <ColumnDefinition Width="331*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding T3391_G1_MaHSoGoc, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding curPatientMedicalRecord.PatientRecID}" Grid.Column="1"  VerticalAlignment="Center" Margin="0,0,75,0" />
+            <TextBlock Text="{Binding K2254_G1_ChuaTao, Source={StaticResource eHCMSResources}}" Grid.Column="1"  VerticalAlignment="Center"
+                           Visibility="{Binding isCreated, Mode=OneWay,Converter={StaticResource BooleanToVisibility}}" Grid.ColumnSpan="2" Margin="80,0,0,0" />
+        </Grid>
+        <Grid Grid.Row="3" Visibility="{Binding IsDisableCreateMedicalFile, Mode=OneWay,Converter={StaticResource BooleanToVisibilityNot}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="15"></ColumnDefinition>
+                    <ColumnDefinition Width="65"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding S0648_G1_SoHoSo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"></TextBlock>
+                <!--<TextBox Text="{Binding PatientMedicalFileCurrent.FileCodeNumber,Mode=TwoWay}"  Grid.Row="0" Grid.Column="1" MaxLength="12" VerticalAlignment="Center"></TextBox>-->
+                <TextBox x:Name="txtFileCodeNumber" Text="{Binding PatientMedicalFileCurrent.FileCodeNumber, Mode=TwoWay}"
+                                                                 Style="{StaticResource MainFrame.TextBox}" Height="22"
+                                                                 Grid.Row="0" Grid.Column="1"                                                                 
+                                                                 VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding N0111_G1_NgTao, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding PatientMedicalFileCurrent.RecCreatedDate,Mode=TwoWay}" VerticalAlignment="Center"></TextBlock>
+                <Button x:Name="cmdSave" Grid.Row="0" Grid.Column="5" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Width="70" HorizontalAlignment="Left" Height="22"></Button>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="4" Visibility="{Binding IsDisableCreateMedicalFile, Mode=OneWay, Converter={StaticResource BooleanToVisibilityNot}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="15"></ColumnDefinition>
+                    <ColumnDefinition Width="65"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding T0855_G1_TenHoSo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"></TextBlock>
+                <TextBox Text="{Binding PatientMedicalFileCurrent.StorageFileName,Mode=TwoWay}"  Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center"></TextBox>
+                <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding K3934_G1_DuongDan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"></TextBlock>
+                <TextBox Text="{Binding PatientMedicalFileCurrent.StorageFilePath,Mode=TwoWay}" Grid.Column="4" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,0,64,0" Width="367"></TextBox>
+            </Grid>
+        </Grid>
+        <TextBlock Grid.Row="5" Text="{Binding K2991_G1_DSHSoCuClkChonSoHSoDeCNhat, Source={StaticResource eHCMSResources}}" Foreground="CornflowerBlue" FontWeight="Bold" Margin="5,0,0,5"></TextBlock>
+        <Button Content="{Binding R0510_G1_Refresh, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                             Width="150" Grid.Row="5"
+                             Height="23"
+                             HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                             x:Name="Refresh"/>
+        <commonctrl:ReadOnlyDataGrid Grid.Row="6" 
+                            CanUserAddRows="False"
+                            Height="200"
+                            ItemsSource="{Binding allPatientMedicalFile,Mode=OneWay}"                                             
+                            SelectedItem="{Binding selectedPatientMedicalFile, Mode=TwoWay}"
+                            VerticalAlignment="Stretch"   
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Style="{StaticResource MainFrame.DataGridStyle}"
+                            RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                            RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                            AutoGenerateColumns="False" Grid.RowSpan="2">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Height="22" VerticalAlignment="Center">
+                                <Button cal:Message.Attach="[Event Click] = [Action lnkDelete_Click()]"  ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                                    <Button.Content>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Height="22" VerticalAlignment="Center">
+                                <Button cal:Message.Attach="[Event Click] = [Action lnkUpdate_Click()]"  ToolTipService.ToolTip="{Binding S0739_G1_Sua, Source={StaticResource eHCMSResources}}" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                                    <Button.Content>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/saveanddown24x24border.png" Height="13" Width="13" Opacity="1" />
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn Header="{Binding Z0054_G1_DangDung, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding IsActive, TargetNullValue=False}"/>
+                <DataGridTemplateColumn Header="{Binding S0648_G1_SoHoSo, Source={StaticResource eHCMSResources}}" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!--<commonctrl:AxTextBoxFilter Text="{Binding FileCodeNumber, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                                                 Style="{StaticResource MainFrame.TextBox}" Height="22"
+                                                                 Filter="{Binding IntNumberFilter,Mode=OneWay}" Grid.Row="0" Grid.Column="1"                                                                 
+                                                                 VerticalAlignment="Center"/>-->
+                            <TextBox Text="{Binding FileCodeNumber, Mode=TwoWay}"
+                                                                 Style="{StaticResource MainFrame.TextBox}" Height="22"
+                                                                 Grid.Row="0" Grid.Column="1"                                                                 
+                                                                 VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<sdk:DataGridTextColumn Binding="{Binding FileCodeNumber,Mode=TwoWay}"                                                                                                          
+                         Header="{Binding S0648_G1_SoHoSo, Source={StaticResource eHCMSResources}}"></sdk:DataGridTextColumn>-->
+                <DataGridTextColumn Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}" Binding="{Binding RecCreatedDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="{Binding N0060_G1_NgDong, Source={StaticResource eHCMSResources}}" Binding="{Binding FinishedDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"
+                                    IsReadOnly="True"/>
+                <!--<sdk:DataGridTextColumn Binding="{Binding StorageFileName,Mode=OneWay}"
+                         IsReadOnly="True" Header="{Binding T0855_G1_TenHoSo, Source={StaticResource eHCMSResources}}"></sdk:DataGridTextColumn>
+                    <sdk:DataGridTextColumn Binding="{Binding StorageFilePath,Mode=OneWay}"
+                         IsReadOnly="True" >
+                    <sdk:DataGridTextColumn.HeaderStyle>
+                    <Style TargetType="sdk:DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                    <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                    <DataTemplate>
+                    <TextBlock Text="{Binding K3934_G1_DuongDan, Source={StaticResource eHCMSResources}}" />
+                    </DataTemplate>
+                    </Setter.Value>
+                    </Setter>
+                    </Style>
+                    </sdk:DataGridTextColumn.HeaderStyle></sdk:DataGridTextColumn>-->
+                <DataGridTemplateColumn Header="{Binding T0855_G1_TenHoSo, Source={StaticResource eHCMSResources}}" Width="210">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding StorageFileName, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                                                 Style="{StaticResource MainFrame.TextBox}" Height="22"
+                                                                 Grid.Row="0" Grid.Column="1"                                                                 
+                                                                 VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="{Binding K3934_G1_DuongDan, Source={StaticResource eHCMSResources}}" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding StorageFilePath, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                                                 Style="{StaticResource MainFrame.TextBox}" Height="22"
+                                                                 Grid.Row="0" Grid.Column="1"                                                    
+                                                                 VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{Binding T2013_G1_Ke, Source={StaticResource eHCMSResources}}" Width="*" Binding="{Binding LocName,Mode=OneWay}"/>
+            </DataGrid.Columns>
+        </commonctrl:ReadOnlyDataGrid>
+        <StackPanel Grid.Row="8" Margin="0,5,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <Button x:Name="ActiveCmd"
+                    Content="{Binding K1153_G1_BatTatSD, Source={StaticResource eHCMSResources}}"
+                    Width="120"
+                    Height="23"
+                    Margin="0,0,5,0"
+                    Style="{StaticResource MainFrame.Button}"
+                    HorizontalAlignment="Right"/>
+            <Button x:Name="CancelCmd"
+                    Content="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}"
+                    Width="75"
+                    Height="23"
+                    Style="{StaticResource MainFrame.Button}"
+                    HorizontalAlignment="Right"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

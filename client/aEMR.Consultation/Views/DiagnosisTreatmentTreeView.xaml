@@ -1,0 +1,157 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.DiagnosisTreatmentTreeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:aEMR.Registration.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:LongToVisibilityConverter x:Key="LongToVisibilityConverter" />
+        <Converters:LongToBooleanConverter x:Key="LongToBooleanConverter" />
+        <Converters:IntToBooleanConverter x:Key="IntToBooleanConverter" />
+        <Converters:DatetimeConverter x:Key="DatetimeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid
+            MaxWidth="420"
+            HorizontalContentAlignment="Stretch"
+            cal:Message.Attach="[Event MouseDoubleClick]=[Action gvDiagnosis_MouseDoubleClick($source,$eventArgs)]"
+            AutoGenerateColumns="False"
+            HeadersVisibility="Column"
+            IsReadOnly="True"
+            ItemsSource="{Binding DiagnosisTreatmentView}">
+            <DataGrid.Style>
+                <Style BasedOn="{StaticResource MainFrame.DataGridStyle}" TargetType="DataGrid">
+                    <Setter Property="RowStyle">
+                        <Setter.Value>
+                            <Style BasedOn="{StaticResource MainFrame.DataGridRowStyle.Normal}" TargetType="DataGridRow">
+                                <Setter Property="Background" Value="White" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ConfirmedForInPatientDeptDetailID, Converter={StaticResource LongToBooleanConverter}}" Value="True">
+                                        <Setter Property="Background" Value="#1ABC9C" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=ConfimedForPreAndDischarge, Converter={StaticResource IntToBooleanConverter}}" Value="True">
+                                        <Setter Property="Background" Value="#E67E22" />
+                                    </DataTrigger>
+                                    <!--<DataTrigger Binding="{Binding Path=V_DiagnosisType}" Value="55002">
+                                        <Setter Property="Background" Value="#E67E22" />
+                                    </DataTrigger>-->
+                                </Style.Triggers>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Style>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="20">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                Height="20"
+                                HorizontalAlignment="Stretch"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Visibility="{Binding IntPtDiagDrInstructionID, Converter={StaticResource LongToVisibilityConverter}}">
+                                <Image
+                                    Width="15"
+                                    Height="15"
+                                    Opacity="1"
+                                    Source="/aEMR.CommonViews;component/Assets/Images/PatientConsult.png" />
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding DiagnosisDate, StringFormat='HH:mm dd/MM/yyyy', Converter={StaticResource DatetimeConverter}}"
+                    Header="{Binding N0045_G1_Ng, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="280"
+                    Binding="{Binding DiagnosisFinal}"
+                    Header="{Binding K1746_G1_CDoan, Source={StaticResource eHCMSResources}}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.TextAlignment" Value="Left" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="1,1,1,1" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander
+                                            Background="WhiteSmoke"
+                                            BorderBrush="#FF002255"
+                                            BorderThickness="1"
+                                            Foreground="DarkBlue"
+                                            IsExpanded="True">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <TextBlock
+                                                        Width="300"
+                                                        Margin="5,0,0,0"
+                                                        FontWeight="Bold"
+                                                        Foreground="DarkBlue"
+                                                        Text="{Binding Path=Name}" />
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <Expander.Content>
+                                                <ItemsPresenter />
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+        </DataGrid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock VerticalAlignment="Center" Text="{Binding Z2896_G1_ChanDoanXuatKhoa, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+            <Border
+                Grid.Column="1"
+                Width="100"
+                Height="20"
+                Background="#1ABC9C" />
+            <!--<TextBlock Grid.Row="1" Text="{Binding Z2898_G1_ChanDoanToaThuoc,Source={StaticResource eHCMSResources},StringFormat='{}{0}: '}" VerticalAlignment="Center"></TextBlock>
+            <Border Grid.Row="1" Grid.Column="1" Width="100" Height="20" Background="#F1948A"></Border>-->
+            <TextBlock
+                Grid.Row="2"
+                VerticalAlignment="Center"
+                Text="{Binding Z2896_G1_ChanDoanXuatVien, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+            <Border
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="100"
+                Height="20"
+                Background="#E67E22" />
+        </Grid>
+    </Grid>
+</UserControl>

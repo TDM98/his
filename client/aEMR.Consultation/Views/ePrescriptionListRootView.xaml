@@ -1,0 +1,145 @@
+﻿<UserControl x:Class="aEMR.ConsultantEPrescription.Views.ePrescriptionListRootView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:controls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="800">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid Name="LayoutRoot" Background="White" Margin="5">
+        <Grid Name="GridMain" Visibility="{Binding mRaToa_TabDanhSachToaThuocGoc_Tim,Converter={StaticResource BooleanToVisibility} }" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" CornerRadius="3" Background="#F2F3F4" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                <StackPanel>
+                    <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="#F2F3F4" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding G1231_G1_TimKiemToa, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                    </Border>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="145"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Content="{Binding K1746_G1_CDoan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" HorizontalAlignment="Right" Margin="0,2,5,2" Style="{StaticResource MainFrame.Label.00}"/>
+                            <TextBox Text="{Binding SearchCriteria.Diagnosis,Mode=TwoWay}" Grid.Column="1" Margin="0,2,5,2"></TextBox>
+
+                            <Button Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Left" Grid.Column="2" Width="60" Name="btFind" Margin="0,0,5,2">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="20" VerticalAlignment="Center" Height="18" Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png"/>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45*"></ColumnDefinition>
+                                <ColumnDefinition Width="45*"></ColumnDefinition>
+                                <ColumnDefinition Width="10*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="1" Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"></ColumnDefinition>
+                                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label HorizontalAlignment="Right" Grid.Column="0" Content="{Binding K1373_G1_BSiCDoan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" Margin="30,2,5,2" Style="{StaticResource MainFrame.Label.00}"/>
+                                <TextBox Grid.Column="1" Text="{Binding SearchCriteria.DoctorStaffIDName,Mode=TwoWay}" Margin="0,2,5,2"></TextBox>
+                            </Grid>
+                            <Grid Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"></ColumnDefinition>
+                                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label HorizontalAlignment="Right" Grid.Column="0" Content="{Binding K1389_G1_BSiRaToa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" Margin="30,2,5,2" Style="{StaticResource MainFrame.Label.00}"/>
+                                <TextBox Grid.Column="1" Text="{Binding SearchCriteria.CreatorStaffIDName,Mode=TwoWay}" Margin="0,2,5,2"></TextBox>
+                            </Grid>
+                        </Grid>
+
+
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+
+            <Border Grid.Row="1" CornerRadius="3" Background="#F2F3F4" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                <StackPanel>
+                    <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="#F2F3F4" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding K3090_G1_DSToa, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                    </Border>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="25"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <DataGrid Grid.Row="0" Name="dtgList"
+                      IsReadOnly="True"
+                      AutoGenerateColumns="False"                                       
+                      HorizontalScrollBarVisibility="Auto"  
+                      VerticalScrollBarVisibility="Visible"   
+                                      MinHeight="150"
+                                          Style="{StaticResource MainFrame.DataGridStyle}"
+                              RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                      HeadersVisibility="All"                      
+                      Margin="0,2" ItemsSource="{Binding ObjPrescriptions_ListRootByPatientID_Paging,Mode=TwoWay}">
+                            <DataGrid.Columns>
+
+                                <DataGridTextColumn Header="{Binding T1803_G1_IDToaGoc, Source={StaticResource eHCMSResources}}" Width="*" Binding="{Binding PrescriptID}"/>
+                                <DataGridTextColumn Header="{Binding K1746_G1_CDoan, Source={StaticResource eHCMSResources}}" Width="*" Binding="{Binding Diagnosis}"/>
+                                <!--<DataGridTextColumn Header="{Binding K1373_G1_BSiCDoan, Source={StaticResource eHCMSResources}}" Binding="{Binding ObjDoctorStaffID.FullName}"></DataGridTextColumn>
+                                <DataGridTextColumn  Binding="{Binding ObjDoctorStaffID.SPhoneNumber}">
+                                <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                <DataTemplate>
+                                <TextBlock Text="{Binding S0552_G1_SĐTBSChẩnĐoán, Source={StaticResource eHCMSResources}}" />
+                                </DataTemplate>
+                                </Setter.Value>
+                                </Setter>
+                                </Style>
+                                </DataGridTextColumn.HeaderStyle></DataGridTextColumn>                                
+                                <DataGridTextColumn  Binding="{Binding ExamDate,StringFormat='dd/MM/yyyy'}">
+                                <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                <DataTemplate>
+                                <TextBlock Text="{Binding N0052_G1_NgChanDoan, Source={StaticResource eHCMSResources}}" />
+                                </DataTemplate>
+                                </Setter.Value>
+                                </Setter>
+                                </Style>
+                                </DataGridTextColumn.HeaderStyle></DataGridTextColumn>-->
+                                <DataGridTextColumn Header="{Binding K1389_G1_BSiRaToa, Source={StaticResource eHCMSResources}}" Binding="{Binding ObjCreatorStaffID.FullName}"/>
+                                <DataGridTextColumn Header="{Binding S0632_G1_SoDienThoai, Source={StaticResource eHCMSResources}}" Binding="{Binding ObjCreatorStaffID.SPhoneNumber}"/>
+                                <DataGridTextColumn Header="{Binding N0103_G1_NgRaToa, Source={StaticResource eHCMSResources}}" Binding="{Binding RecDateCreated,StringFormat='dd/MM/yyyy'}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <controls:DataPager PageSize="{Binding PageSize}" Grid.Row="1" VerticalAlignment="Bottom" 
+                               Source="{Binding ObjPrescriptions_ListRootByPatientID_Paging,Mode=TwoWay}">
+                        </controls:DataPager>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+        </Grid>
+    </Grid>
+</UserControl>

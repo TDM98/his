@@ -1,0 +1,97 @@
+﻿<UserControl        x:Class="aEMR.Pharmacy.Views.DrugClassView"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:cal="http://www.caliburnproject.org"
+                    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                    d:DesignHeight="300" d:DesignWidth="400"
+                    mc:Ignorable="d">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        
+        <HierarchicalDataTemplate x:Key="PersonTemplate"  ItemsSource="{Binding Children}">
+            <TextBlock Text="{Binding NodeText}" />
+        </HierarchicalDataTemplate>
+        <DataTemplate x:Key="DataFormTemplate">
+            <StackPanel Orientation="Vertical">
+                
+                <!--Comment Toan bo DataField, View can viet lai-->
+                
+                <!--<tookit:DataField Label="{Binding Z0298_G1_TenLop, Source={StaticResource eHCMSResources}}">
+                    <TextBox Text="{Binding NodeText, Mode=TwoWay}"  Margin="10,0,10,0" Style="{StaticResource MainFrame.TextBox}"/>
+                </tookit:DataField>
+                <tookit:DataField Label="{Binding Z0299_G1_ThuocLop, Source={StaticResource eHCMSResources}}">
+                    <AxControls:KeyEnabledComboBox  Margin="10,0,10,0" Name="cbxFamilyTherapy" Grid.Row="4" DisplayMemberPath="FaName" SelectedValuePath="DrugClassID"  SelectedItem="{Binding Parent,TargetNullValue=0,Mode=TwoWay}"
+                                 cal:Message.Attach="[Event Loaded] = [Action cbxFamilyTherapy_Loaded($source, $eventArgs)]"  Style="{StaticResource MainFrame.ComboBox}"></AxControls:KeyEnabledComboBox>
+                </tookit:DataField>
+                <tookit:DataField Label="{Binding M0008_G1_MoTa, Source={StaticResource eHCMSResources}}">
+                    <TextBox Text="{Binding Description, Mode=TwoWay}"  Margin="10,0,10,0" Style="{StaticResource MainFrame.TextBox}"/>
+                </tookit:DataField>-->
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <!--<tookit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300*"></ColumnDefinition>
+            <ColumnDefinition Width="500*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--Comment ItemTemplate, khong the set ca displaymemberpath va itemtemplate-->
+        <!--DisplayMemberPath="NodeText"-->
+        <TreeView MaxHeight="600" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"  Name="treeView1"  Margin="2" ItemTemplate="{StaticResource PersonTemplate}" SelectedValuePath="NodeID" ItemsSource="{Binding TreeViewTherapies}"  
+                      cal:Message.Attach="[Event SelectedItemChanged] = [Action treeView1_SelectedItemChanged($source, $eventArgs)]"  Style="{StaticResource TreeViewStyle}"  IsEnabled="{Binding IsEnabled}"/>
+        <Grid Grid.Column="2">
+            <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border x:Name="BorderFrame" Width="Auto" Style="{StaticResource LightBlueBorderStyleNew}" Margin="2,2,2,2" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,2" Grid.ColumnSpan="2" Name="textBlock2" Text="{Binding TitleForm}" Style="{StaticResource MainTilte}" VerticalAlignment="Center"/>
+                        <TextBlock Margin="10,2" Name="textBlock1" Text="{Binding T0868_G1_TenLopThuoc, Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.TextBlock.02}" Grid.Row="1" VerticalAlignment="Center"
+                                   Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility} }"/>
+                        <TextBox Height="22"  Margin="2,1" Grid.Row="1" Grid.Column="1" Name="FaName" VerticalAlignment="Center"   Style="{StaticResource MainFrame.TextBox}"  cal:Message.Attach="[Event KeyUp] = [Action txt_search_KeyUp($source, $eventArgs)]" IsEnabled="{Binding IsEnabled}"
+                                 Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility} }"/>
+                    <Button Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" Name="Search" Margin="2,1" VerticalAlignment="Center" Style="{StaticResource MainFrame.Button}" Width="75"  Grid.Column="2" Grid.Row="1" IsEnabled="{Binding IsEnabled}"
+                            Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility} }"/>
+                    </Grid>
+            </Border>
+            <Border x:Name="BorderFrame2" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="2,2,2,2" Grid.Row="1">
+                
+                <!--Comment DataForm, Can viet lai-->
+                <!--<tookit:DataForm Margin="2" x:Name="dataForm1" AutoEdit="False" AutoCommit="False"  AutoGenerateFields="False" 
+                 ItemsSource="{Binding TherapiesAll,Mode=OneWay}" CurrentItem="{Binding CurrentTherapyTree,Mode=TwoWay}" 
+                                     cal:Message.Attach="[Event AddingNewItem] = [Action dataForm1_AddingNewItem($source, $eventArgs)]
+                                                        ;[Event BeginningEdit] = [Action dataForm1_BeginningEdit($source, $eventArgs)]
+                                                        ;[Event DeletingItem] = [Action dataForm1_DeletingItem($source, $eventArgs)]
+                                                        ;[Event ValidatingItem] = [Action dataForm1_ValidatingItem($source, $eventArgs)]
+                                                        ;[Event EditEnded] = [Action dataForm1_EditEnded($source, $eventArgs)]" 
+                 EditTemplate="{StaticResource DataFormTemplate}" ValidationSummaryStyle="{StaticResource MainFrame.ValidationSummary}">
+                </tookit:DataForm>-->
+                
+            </Border>
+        </Grid>
+
+    </Grid>
+        <!--</tookit:BusyIndicator>-->
+</UserControl>

@@ -1,0 +1,3 @@
+﻿namespace aEMR.Infrastructure.Events
+{
+}

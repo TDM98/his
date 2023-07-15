@@ -1,0 +1,554 @@
+﻿<UserControl x:Class="aEMR.Common.Views.AddEditAppointmentTMVView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:multibinding="clr-namespace:aEMR.Common.Bindings;assembly=aEMR.Common"
+             xmlns:Coverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"           
+             xmlns:CommonUserCtrl="clr-namespace:aEMR.CommonUserControls;assembly=aEMR.CommonUserControls"  
+             xmlns:bindingContext="clr-namespace:aEMR.Common.Bindings;assembly=aEMR.Common"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             mc:Ignorable="d"
+             Width="900"
+             d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <commonconverters:DateTimeFromToConverter x:Key="DateTimeFromToConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Coverters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNot"/>
+        <bindingContext:DataContextProxy x:Key="dataContextProxy"/>
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}" >
+        <Grid x:Name="LayoutRoot" Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding T1462_G1_HBenhBNThongThuong,Source={StaticResource eHCMSResources}}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Style="{StaticResource MainFrame.TextBlock.Header.01}" 
+                           Visibility="{Binding IsNotHIAppt,Converter={StaticResource BooleanToVisibility}}"/>
+                <TextBlock Text="{Binding Z2231_G1_HBBNCoBH,Source={StaticResource eHCMSResources}}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Style="{StaticResource MainFrame.TextBlock.Header.01}" Foreground="Crimson"
+                           Visibility="{Binding IsHIAppt,Converter={StaticResource BooleanToVisibility}}"/>
+                <TextBlock Text="{Binding Z2959_G1_HBHenBNDTNgoaiTru,Source={StaticResource eHCMSResources}}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                           Visibility="{Binding IsInTreatmentProgram,Converter={StaticResource BooleanToVisibility}}"/>
+                <Button x:Name="EditGeneralInfoCmd" HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="1" 
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                        Content="{Binding T2519_G1_KTraTTinBHcuaBN,Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding CurrentAppointment.isHIAppt,Converter={StaticResource BooleanToVisibility}}"/>
+            </StackPanel>
+            <CommonUserCtrl:UCPatientInfoV3 DataContext="{Binding CurrentPatient,Mode=OneWay}" Grid.Row="1" />
+            <ContentControl Grid.Row="2" IsEnabled="{Binding HasDone}" >
+                <Grid>
+                    <Border x:Name="groupAppointment"
+                    Style="{StaticResource LightBlueBorderStyleNew}"
+                    Margin="0,0,0,0">
+
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap"
+                               Text="{Binding TextBacSiDeXuat}"
+                               Foreground="#FF5E5E5E"
+                               Margin="0"
+                               Style="{StaticResource TBlock.Heading.02}" />
+                            <Grid Margin="0,0,0,0" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition  Width="160"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="87"/>
+                                    <ColumnDefinition Width="538"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Text="{Binding N0045_G1_Ng, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center"/>
+                                <DatePicker x:Name="dtpApptDate" Grid.Column="1"
+                                            Width="150" Height="22" HorizontalAlignment="Left" SelectedDateFormat="Short"
+                                            SelectedDate="{Binding CurrentAppointment.ApptDate,Mode=TwoWay, NotifyOnValidationError=True}" VerticalAlignment="Center"
+                                            cal:Message.Attach="[Event CalendarClosed]=[Action dtpApptDate_CalendarClosed($source,$eventArgs)];
+                                            [Event SelectedDateChanged]=[Action dtpApptDate_SelectedDateChanged($source,$eventArgs)]"/>
+                                <TextBlock Grid.Column="2" Text="{Binding G1691_G1_TThai, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="3" Text="{Binding CurrentAppointment.ApptStatus.ObjectValue}" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="4" Text="{Binding ApptDateDetailString}" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="0" Grid.ColumnSpan="5"  Grid.Row="1" Orientation="Horizontal" Width="auto" 
+                                            Visibility="{Binding CurrentAppointment.isHIAppt,Converter={StaticResource BooleanToVisibility}}">
+                                    <TextBlock Grid.Column="3" Text="{Binding K1901_G1_ChoPhepSDGiayChVienLanKhamToi, StringFormat='{}{0}: ',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Crimson"/>
+                                    <CheckBox Grid.Column="5" Style="{StaticResource MainFrame.Checkbox.Title1}" Name="chkAllowPaperReferralUseNextConsult"
+                                            IsChecked="{Binding CurrentAppointment.AllowPaperReferralUseNextConsult,Mode=TwoWay}" IsThreeState="False" VerticalAlignment="Center"
+                                            cal:Message.Attach="[Event Loaded] = [Action chkAllowPaperReferralUseNextConsult_Loaded($source, $eventArgs)];
+                                                                [Event Unchecked] = [Action chkAllowPaperReferralUseNextConsult_UnCheck($source, $eventArgs)]" />
+                                    <Border x:Name="GroupShow"  Margin="2"  Background="White"  Style="{StaticResource LightBlueBorderStyle}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Z2816_G1_HenTKBHYT, StringFormat='{}{0}: ',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Crimson"/>
+                                            <CheckBox Style="{StaticResource MainFrame.Checkbox.Title1}" IsEnabled="{Binding CurrentAppointment.AllowPaperReferralUseNextConsult,Mode=OneWay}"
+                                            IsChecked="{Binding CurrentAppointment.HasChronicDisease,TargetNullValue=False,Mode=TwoWay}" IsThreeState="False" VerticalAlignment="Center"/>
+
+                                            <TextBlock Text="{Binding K0832_G1_3Khac, StringFormat='{}{0}: ',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Crimson"/>
+                                            <TextBox Width="390"  VerticalAlignment="Center" Margin="5,0,0,0" Text="{Binding CurrentAppointment.ReasonToAllowPaperReferral,Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" IsEnabled="{Binding CurrentAppointment.AllowPaperReferralUseNextConsult,Mode=OneWay}" />
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+
+                            </Grid>
+                        </StackPanel>
+
+                    </Border>
+
+                </Grid>
+
+            </ContentControl>
+            <StackPanel Grid.Row="3" >
+
+                <ContentControl x:Name="DetailCuocHenIsEnabled" IsEnabled="{Binding DetailCuocHenIsEnabled,Mode=OneWay}">
+                    <Border x:Name="groupAppointmentDetails" Style="{StaticResource LightBlueBorderStyleNew}">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding K1844_G1_CTietCHen,Source={StaticResource eHCMSResources}}"
+                                       Foreground="#FF5E5E5E" Margin="0"
+                                       Style="{StaticResource TBlock.Heading.02}" />
+                            <TabControl cal:Message.Attach="[Event Loaded]=[Action TCMain_Loaded($source,$eventArgs)]">
+                                <TabItem Header="{Binding T2119_G1_KB,Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}"
+                                         Visibility="{Binding IsPCLBookingView,Converter={StaticResource BooleanToVisibilityNot}}">
+                                    <StackPanel>
+                                        <DataGrid AutoGenerateColumns="False"
+                                                  CanUserAddRows="False"
+                                                  x:Name="gridAppointmentDetails"
+                                                  Height="150"
+                                                  ItemsSource="{Binding CurrentAppointment.PatientApptServiceDetailList,Mode=OneWay}"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  HorizontalScrollBarVisibility="Auto"
+                                                  RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                                                  RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                                  Style="{StaticResource MainFrame.DataGridStyle}"
+                                                  ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn >
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal"
+                                                                        Visibility="{Binding Source={StaticResource dataContextProxy},Path=DataSource.HasDone,Converter={StaticResource BooleanToVisibility}}">
+                                                                <Button x:Name="hplDeleteApptService" ToolTipService.ToolTip="{Binding G2617_G1_Xoa,Source={StaticResource eHCMSResources}}" 
+                                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                                        cal:Message.Attach="[Event Click]=[Action hplDeleteApptService_Click($datacontext)]">
+                                                                    <Button.Content>
+                                                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                                                    </Button.Content>
+                                                                </Button>
+
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+
+
+                                                <DataGridTextColumn Header="{Binding K3421_G1_DV,Source={StaticResource eHCMSResources}}"
+                                                    IsReadOnly="True"
+                                                    Binding="{Binding MedService.MedServiceName,Mode=OneWay}"
+                                                    Width="*"/>
+
+                                                <DataGridTextColumn Header="{Binding T2704_G1_LoaiCHen,Source={StaticResource eHCMSResources}}"
+                                                    IsReadOnly="True"
+                                                    Binding="{Binding AppointmentType.ObjectValue,Mode=OneWay}"
+                                                    MinWidth="130"/>
+
+                                                <DataGridTextColumn Header="{Binding P0385_G1_Pg,Source={StaticResource eHCMSResources}}"
+                                                    IsReadOnly="True"
+                                                    Binding="{Binding DeptLocation.Location.LocationName,Mode=OneWay}"
+                                                    MinWidth="130"/>
+
+                                                <DataGridTextColumn 
+                                                    IsReadOnly="True"
+                                                    Binding="{Binding ApptTimeSegment.SegmentName,Mode=OneWay}"
+                                                    Header="{Binding G0420_G1_TGian,Source={StaticResource eHCMSResources}}">
+
+                                                </DataGridTextColumn>
+
+                                                <DataGridTemplateColumn  IsReadOnly="True" Header="{Binding K1148_G1_BDKThuc,Source={StaticResource eHCMSResources}}">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="{Binding ApptTimeSegment.StartTime,StringFormat='HH:mm'}"></TextBlock>
+                                                                <TextBlock Text="{Binding ApptTimeSegment.EndTime,StringFormat='{} - {0:HH:mm}'}"></TextBlock>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn
+                                                    Visibility="Collapsed"
+                                                    IsReadOnly="True"
+                                                    Binding="{Binding ServiceSeqNum,Mode=OneWay}"
+                                                    Header="{Binding K0758_G1_STT,Source={StaticResource eHCMSResources}}"
+                                                    MinWidth="80" >
+
+                                                </DataGridTextColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <!--<Grid Visibility="{Binding HasDone,Converter={StaticResource BooleanToVisibility}}">-->
+                                        <Grid >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="20" />
+                                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label Grid.Row="0" Grid.Column="0" Content="{Binding T2704_G1_LoaiCHen, StringFormat='{}{0}: ',Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                                                   Style="{StaticResource MainFrame.Label.00}"/>
+                                            <customcontrols:AxComboBox 
+                                                Grid.Column="1" Style="{StaticResource MainFrame.ComboBox}"
+                                                ItemsSource="{Binding AppointmentTypeList,Mode=OneWay}"                                                
+                                                   HorizontalAlignment="Stretch"
+                                                   DisplayMemberPath="ObjectValue"
+                                                   SelectedValuePath="LookupID"
+                                                   SelectedItemEx="{Binding AppointmentTypeSelected,Mode=TwoWay}"/>
+
+
+                                            <Label Grid.Column="0" Grid.Row="1" Content="{Binding K3421_G1_DV, StringFormat='{}{0}: ',Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                                                   Style="{StaticResource MainFrame.Label.00}"/>
+                                            <!--<customcontrols:AxComboBox x:Name="cboSelectedService" Grid.Row="1" Grid.Column="1"           
+                                                            HorizontalAlignment="Stretch" 
+                                                            ItemsSource="{Binding MedicalServicesList,Mode=OneWay}"
+                                                            SelectedItemEx="{Binding MedicalServicesSelected,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"                                                            
+                                                            Style="{StaticResource MainFrame.ComboBox}"/>-->
+                                            <customcontrols:KeySearchableComboBox x:Name="cboSelectedService" Grid.Row="1" Grid.Column="1"
+                                                                                  HorizontalAlignment="Stretch" 
+                                                            ItemSourceEx="{Binding MedicalServicesList,Mode=OneWay}"
+                                                            SelectedItem="{Binding MedicalServicesSelected,Mode=TwoWay}"                                                            
+                                                            Style="{StaticResource MainFrame.ComboBox}"/>
+                                            <TextBlock Grid.Row="2" Text="{Binding K1598_G1_CapCuuTk, StringFormat='{}{0}: ',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,0,0,0" Foreground="Crimson"
+                                                        Visibility="{Binding CanConfirmEmerInPtReExamApp,Converter={StaticResource BooleanToVisibility}}"/>
+                                            <CheckBox Grid.Column="1" Grid.Row="2" Style="{StaticResource MainFrame.Checkbox.Title1}" 
+                                                            Visibility="{Binding CanConfirmEmerInPtReExamApp,Converter={StaticResource BooleanToVisibility}}"
+                                                            IsChecked="{Binding CurrentAppointment.IsEmergInPtReExamApp,Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                            <Label Grid.Row="0" Grid.Column="3" Content="{Binding A0957_G1_Msg_Pg,Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                                                   Style="{StaticResource MainFrame.Label.00}"/>
+                                            <customcontrols:AxComboBox Grid.Row="0" Grid.Column="4" x:Name="cboLocations"
+                                                                       HorizontalAlignment="Stretch"
+                                                                       Style="{StaticResource MainFrame.ComboBox}"
+                                                                       ItemsSource="{Binding DeptLocationsList,Mode=OneWay}"
+                                                                       DisplayMemberPath="Location.LocationName"
+                                                                       SelectedItemEx="{Binding DeptLocationsSelected,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}">
+                                            </customcontrols:AxComboBox>
+                                            <Label Grid.Row="1" Grid.Column="3" Content="{Binding G0420_G1_TGian, StringFormat='{}{0}: ',Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                                                   Style="{StaticResource MainFrame.Label.00}"/>
+                                            <customcontrols:AxComboBox Grid.Column="4"
+                                                                       Grid.Row="1"
+                                                                       x:Name="cboSegments"
+                                                                       Style="{StaticResource MainFrame.ComboBox}"
+                                                                       ItemsSource="{Binding AppointmentSegmentsList,Mode=OneWay}"
+                                                                       SelectedValuePath="ConsultationTimeSegmentID"
+                                                                       SelectedItemEx="{Binding AppointmentSegmentsSelected,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}">
+                                                <customcontrols:AxComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding SegmentNameExt,Mode=OneWay}"/>
+                                                            <TextBlock Text="{Binding K0756_G1_CTieu, StringFormat='{}|{0}',Source={StaticResource eHCMSResources}}" Margin="5,0,5,0"/>
+                                                            <TextBlock Width="30" Text="{Binding ApptdayMaxNumConsultationAllowed,Mode=OneWay}" Foreground="Purple"/>
+                                                            <TextBlock Text="{Binding K0757_G1_DaHen, StringFormat='{}|{0}',Source={StaticResource eHCMSResources}}" Margin="5,0,5,0"/>
+                                                            <TextBlock Width="30" Text="{Binding NumberOfSeq,Mode=OneWay}" Foreground="Red"/>
+                                                            <TextBlock Text="{Binding K0758_G1_STT, StringFormat='{}|{0}',Source={StaticResource eHCMSResources}}" Margin="5,0,5,0" Visibility="Collapsed"/>
+                                                            <TextBlock Width="30" Text="{Binding CurrentSeqNumber,Mode=OneWay}" Foreground="Blue" Visibility="Collapsed"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </customcontrols:AxComboBox.ItemTemplate>
+                                            </customcontrols:AxComboBox>
+
+
+                                            <StackPanel Grid.Row="2" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Button Content="Chọn dịch vụ trong gói" MinWidth="50" Margin="0,3,10,0"
+                                                        Style="{StaticResource MainFrame.Button}"
+                                                        Height="22"
+                                                        x:Name="AddPackageService" Padding="5,0">
+                                                </Button>
+                                                <Button Content="{Binding Z2931_G1_ChonBacSi,Source={StaticResource eHCMSResources}}" MinWidth="50" Margin="0,3,10,0"
+                                                        Style="{StaticResource MainFrame.Button}"
+                                                        Height="22"
+                                                        x:Name="SelectDoctorCmd" Padding="5,0">
+                                                </Button>
+                                                <StackPanel Grid.Row="2" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                                                    <StackPanel Visibility="{Binding mPrintHIAppointment_New,Converter={StaticResource BooleanToVisibility}}">
+                                                        <!--KMx: Phải để nút "In BHYT Mới" vào 1 StackPanel riêng vì nút này có đến 2 điều kiện Visibility (08/01/2016 17:03).-->
+                                                        <Button Content="{Binding T1898_G1_InBHYTMoi,Source={StaticResource eHCMSResources}}" MinWidth="60"
+                                                                Margin="0,3,10,0"
+                                                                Style="{StaticResource MainFrame.Button}"
+                                                                Height="22"
+                                                                x:Name="HIAppt_NewCmd"
+                                                                Visibility="{Binding CurrentAppointment.AllowPaperReferralUseNextConsult,Converter={StaticResource BooleanToVisibility}}"/>
+                                                    </StackPanel>
+
+                                                    <!--<Button Content="{Binding T1896_G1_InBHYT,Source={StaticResource eHCMSResources}}" Width="90"                        
+                                                            Margin="0,0,10,0"
+                                                                Style="{StaticResource MainFrame.Button}"
+                                                                Height="22"
+                                                                x:Name="HIApptCmd" ClickMode="Hover"
+                                                            cal:Message.Attach="[Event MouseLeftButtonDown]=[Action HIApptCmd_MouseLeftButtonDown($source,$eventArgs)]"
+                                                            Visibility="{Binding CurrentAppointment.AllowPaperReferralUseNextConsult,Converter={StaticResource BooleanToVisibility}}"
+                                                                IsEnabled="{Binding hasSaved,Mode=OneWay}" />-->
+
+                                                    <!--KMx: Bỏ sự kiện click, nếu không thì "Lý do Khác" không binding được (30/08/2014 11:34).-->
+                                                    <!--KMx: Chuyển sang dùng nút In BHYT - Mới (25/03/2016 11:37)-->
+                                                    <!--<Button Content="{Binding T1896_G1_InBHYT,Source={StaticResource eHCMSResources}}" Width="90"                        
+                                                        Margin="0,0,10,0"
+                                                            Style="{StaticResource MainFrame.Button}"
+                                                            Height="22"
+                                                            x:Name="HIApptCmd"
+                                                        Visibility="{Binding CurrentAppointment.AllowPaperReferralUseNextConsult,Converter={StaticResource BooleanToVisibility}}"/>-->
+
+                                                    <Button x:Name="btPrintKB" Content="{Binding T1820_G1_In,Source={StaticResource eHCMSResources}}" MinWidth="40"  Margin="0,3,10,0" ClickMode="Hover"
+                                                            cal:Message.Attach="[Event MouseLeftButtonDown]=[Action btPrintKB_MouseLeftButtonDown($source,$eventArgs)]"
+                                                            Style="{StaticResource MainFrame.Button}"
+                                                            Visibility="{Binding CurrentAppointment.AllowPaperReferralUseNextConsult,Converter={StaticResource BooleanToVisibilityNot}}"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="2" Grid.Column="4" Orientation="Horizontal" HorizontalAlignment="Right"
+                                                        Visibility="{Binding HasDone,Converter={StaticResource BooleanToVisibility}}">
+                                                    <Button x:Name="btAddApptMedService_Cmd" Content="{Binding G0252_G1_ThemDV,Source={StaticResource eHCMSResources}}" Margin="0,3,0,0"
+                                                            MinWidth="60"
+                                                            Style="{StaticResource MainFrame.Button}"
+                                                            IsEnabled="{Binding IsCanEdit,Mode=OneWay}"/>
+                                                    <Button x:Name="btnScheduleCalendar" Content="{Binding Z2803_G1_LichLamViec,Source={StaticResource eHCMSResources}}" Margin="5,3,0,0"
+                                                            MinWidth="80"
+                                                            Style="{StaticResource MainFrame.Button}"
+                                                            IsEnabled="{Binding IsCanEdit,Mode=OneWay}"
+                                                            Visibility="Collapsed">
+                                                    </Button>
+                                                </StackPanel>
+                                                <Button x:Name="ViewServicesTargetsCmd" Content="{Binding K0756_G1_CTieu,Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                                                        Width="Auto" Style="{StaticResource MainFrame.Button}" Margin="5,3,0,0"
+                                                        Visibility="Collapsed">
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </TabItem>
+                                <TabItem x:Name="PCLApmts" Header="{Binding K1549_G1_CLS,Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}">
+                                    <StackPanel>
+                                        <DataGrid AutoGenerateColumns="False"
+                                                  CanUserAddRows="False"
+                                                  x:Name="dtgPatientApptPCLRequestsList"
+                                                  Height="120"
+                                                  ItemsSource="{Binding CurrentAppointment.PatientApptPCLRequestsList,Mode=OneWay}"
+                                                  SelectedItem="{Binding SelectedApptPclRequest,Mode=TwoWay}"
+                                                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                                  IsReadOnly="True"
+                                                  RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                                                  RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                                  Style="{StaticResource MainFrame.DataGridStyle}"
+                                                  ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" SelectionChanged="dtgPatientApptPCLRequestsList_SelectionChanged">
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn>
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Button x:Name="hplPCLReqDelete" ToolTipService.ToolTip="{Binding G2617_G1_Xoa,Source={StaticResource eHCMSResources}}" 
+                                                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                        cal:Message.Attach="[Event Click]=[Action hplPCLReqDelete_Click($datacontext)]"
+                                                                        Visibility="{Binding Source={StaticResource dataContextProxy},Path=DataSource.HasDone,Converter={StaticResource BooleanToVisibility}}">
+                                                                    <Button.Content>
+                                                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                                                    </Button.Content>
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn Header="{Binding S0680_G1_SoPh,Source={StaticResource eHCMSResources}}" Width="*"  Binding="{Binding PCLRequestNumID}" IsReadOnly="true"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--Col0-->
+                                            <!--Col1-->
+                                            <Grid Grid.Column="1">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <DataGrid x:Name="dtgList" IsReadOnly="True"
+                                                          CanUserAddRows="False"
+                                                          Grid.Row="0"
+                                                          Style="{StaticResource MainFrame.DataGridStyle}"
+                                                          ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                          ItemsSource="{Binding FilteredCollection,Mode=OneWay}"
+                                                          HorizontalScrollBarVisibility="Auto"
+                                                          VerticalScrollBarVisibility="Auto"
+                                                          HeadersVisibility="All" Height="170"
+                                                          AutoGenerateColumns="False" MinWidth="700" Width="Auto"
+                                                          RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTemplateColumn>
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <Button ToolTipService.ToolTip="{Binding K1552_G1_CLSSo,Source={StaticResource eHCMSResources}}"
+                                                                            Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                                            HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                            cal:Message.Attach="[Event Click]=[Action PCLBookingScheduleCmd_Click($datacontext)]">
+                                                                        <Button.Content>
+                                                                            <Image Source="/aEMR.CommonViews;component/Assets/Images/Document-icon.png" Height="13" Width="13" Opacity="1" />
+                                                                        </Button.Content>
+                                                                    </Button>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+                                                        <!--<DataGridTemplateColumn>
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+
+                                                                    <HyperlinkButton x:Name="hplDeleteDetailPCL" ToolTipService.ToolTip="{Binding G2617_G1_Xoa,Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                 cal:Message.Attach="[Event Click]=[Action hplDeleteDetailPCL_Click($datacontext)]">
+                                                                        <HyperlinkButton.Content>
+                                                                            <Image Source="/eHCMSCal;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                                                        </HyperlinkButton.Content>
+                                                                    </HyperlinkButton>
+
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>-->
+                                                        <DataGridTextColumn Header="{Binding Z1878_G1_MaCLS,Source={StaticResource eHCMSResources}}" MinWidth="80"  Binding="{Binding ObjPCLExamTypes.PCLExamTypeCode}" IsReadOnly="true"/>
+                                                        <DataGridTextColumn Header="{Binding T0842_G1_TenCLS,Source={StaticResource eHCMSResources}}" MinWidth="200" Width="*"  Binding="{Binding ObjPCLExamTypes.PCLExamTypeName}"  IsReadOnly="true"/>
+                                                        <DataGridTemplateColumn Header="{Binding P0385_G1_Pg,Source={StaticResource eHCMSResources}}" MinWidth="200">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding ObjDeptLocID.Location.LocationName}" VerticalAlignment="Center"></TextBlock>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+                                                        <DataGridTextColumn Header="{Binding G0420_G1_TGian,Source={StaticResource eHCMSResources}}"
+                                                        Binding="{Binding ApptTimeSegment.SegmentName,Mode=OneWay}"
+                                                        MinWidth="80" Width="Auto"/>
+                                                        <DataGridTemplateColumn Header="{Binding K1148_G1_BDKThuc,Source={StaticResource eHCMSResources}}" Width="Auto">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock VerticalAlignment="Center">
+                                                                        <multibinding:BindingUtil.MultiBindings>
+                                                                            <multibinding:MultiBindings>
+                                                                                <multibinding:MultiBinding TargetProperty="Text"
+                                                                                                           Converter="{StaticResource DateTimeFromToConverter}">
+                                                                                    <multibinding:BindingCollection>
+                                                                                        <Binding Path="ApptTimeSegment.StartTime"></Binding>
+                                                                                        <Binding Path="ApptTimeSegment.EndTime"></Binding>
+                                                                                    </multibinding:BindingCollection>
+                                                                                </multibinding:MultiBinding>
+                                                                            </multibinding:MultiBindings>
+                                                                        </multibinding:BindingUtil.MultiBindings>
+                                                                    </TextBlock>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+                                                        <!--<DataGridTextColumn Header="{Binding K0758_G1_STT,Source={StaticResource eHCMSResources}}"
+                                                    Binding="{Binding ServiceSeqNum,Mode=OneWay}"
+                                                    Width="50" />-->
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right"
+                                                            Visibility="{Binding HasDone,Converter={StaticResource BooleanToVisibility}}">
+
+                                                    <Button x:Name="btPrintTongHopXN" Content="{Binding T1950_G1_InTHopXN,Source={StaticResource eHCMSResources}}" Width="105" Margin="0,3,5,0" 
+                                                            ClickMode="Hover" cal:Message.Attach="[Event MouseLeftButtonDown]=[Action btPrintTongHopXN_MouseLeftButtonDown($source,$eventArgs)]"
+                                                            Style="{StaticResource MainFrame.Button}"/>
+
+                                                    <Button x:Name="btPrintTongHopHA" Content="{Binding T1949_G1_InTHopHA,Source={StaticResource eHCMSResources}}" Width="105" Margin="0,3,5,0" 
+                                                            ClickMode="Hover" cal:Message.Attach="[Event MouseLeftButtonDown]=[Action btPrintTongHopHA_MouseLeftButtonDown($source,$eventArgs)]"
+                                                            Style="{StaticResource MainFrame.Button}"/>
+
+                                                    <Button x:Name="btPrintCLS" Content="{Binding T1951_G1_InTungPh,Source={StaticResource eHCMSResources}}" Width="90" Margin="0,3,5,0" 
+                                                            ClickMode="Hover" cal:Message.Attach="[Event MouseLeftButtonDown]=[Action btPrintCLS_MouseLeftButtonDown($source,$eventArgs)]"
+                                                            Style="{StaticResource MainFrame.Button}"/>
+
+                                                    <Button x:Name="EditApptPclRequestCmd" Content="{Binding S0740_G1_SuaPh,Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Margin="0,3,5,0" Width="90"
+                                                            Style="{StaticResource MainFrame.Button}"
+                                                            IsEnabled="{Binding butCLS,Mode=OneWay}"/>
+
+                                                    <Button x:Name="AddApptPclCmd" Content="{Binding T0813_G1_TaoPhYCXNMoi,Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Margin="0,3,5,0"
+                                                            Width="Auto" MouseLeftButtonUp="AddApptPclCmd_MouseLeftButtonUp" 
+                                                            Style="{StaticResource MainFrame.Button}" MouseLeftButtonDown="AddApptPclCmd_MouseLeftButtonDown"
+                                                            IsEnabled="{Binding butCLS,Mode=OneWay}"/>
+                                                    <Button x:Name="AddApptPclImageCmd" Content="{Binding T0812_G1_TaoPhYCHAMoi,Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                                                            Width="Auto"
+                                                            Style="{StaticResource MainFrame.Button}"
+                                                            IsEnabled="{Binding butCLS,Mode=OneWay}" Margin="0,3,5,0"/>
+                                                    <Button x:Name="ViewPCLTargetsCmd" Content="{Binding K0756_G1_CTieu,Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                                                            Width="Auto"
+                                                            Style="{StaticResource MainFrame.Button}"
+                                                            IsEnabled="{Binding butCLS,Mode=OneWay}" Margin="0,3,5,0"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </StackPanel>
+                                </TabItem>
+                            </TabControl>
+                        </StackPanel>
+                    </Border>
+                </ContentControl>
+            </StackPanel>
+            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="btnSendSMS" Content="Gửi SMS" Width="100" Height="22"  Margin="0,0,300,0" ClickMode="Hover"
+                                                        cal:Message.Attach="[Event MouseLeftButtonDown]=[Action btnSendSMS($source,$eventArgs)]"
+                                                Style="{StaticResource MainFrame.Button}"
+                                                Visibility="{Binding mPrintHIAppointment_New,Converter={StaticResource BooleanToVisibility}}"/>
+                    <Button x:Name="btnPrintAll_New" Content="{Binding T1938_G1_InTatCaMoi,Source={StaticResource eHCMSResources}}" Width="100" Height="22"  Margin="0,0,10,0" ClickMode="Hover"
+                                                        cal:Message.Attach="[Event MouseLeftButtonDown]=[Action btnPrintAll_New_MouseLeftButtonDown($source,$eventArgs)]"
+                                                Style="{StaticResource MainFrame.Button}"
+                                                Visibility="{Binding mPrintHIAppointment_New,Converter={StaticResource BooleanToVisibility}}"/>
+                    <!--KMx: Chuyển sang dùng nút In Tất Cả - Mới (25/03/2016 11:38)-->
+                    <!--<Button x:Name="btnPrintAll" Content="{Binding T1937_G1_InTatCa,Source={StaticResource eHCMSResources}}" Width="90" Height="22"  Margin="0,0,10,0" ClickMode="Hover"
+                                                        cal:Message.Attach="[Event MouseLeftButtonDown]=[Action btnPrintAll_MouseLeftButtonDown($source,$eventArgs)]"
+                                                Style="{StaticResource MainFrame.Button}"/>-->
+                    <Button x:Name="btnPrintPCL" Content="{Binding T1904_G1_InCLS,Source={StaticResource eHCMSResources}}" Width="110" Height="22"  Margin="0,0,10,0" ClickMode="Hover"
+                                                        cal:Message.Attach="[Event MouseLeftButtonDown]=[Action btnPrintPCL_MouseLeftButtonDown($source,$eventArgs)]"
+                                                Style="{StaticResource MainFrame.Button}"/>
+
+                </StackPanel>
+
+
+                <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right"
+                        Visibility="{Binding HasDone,Converter={StaticResource BooleanToVisibility}}">
+                    <Button Content="{Binding T3144_G1_LuuHen,Source={StaticResource eHCMSResources}}" Width="90"
+                            Margin="0,0,10,0"
+                            Style="{StaticResource MainFrame.Button}"
+                            Height="22"
+                            x:Name="SaveAppointmentCmd" 
+                            IsEnabled="{Binding IsCanEdit,Mode=OneWay}"/>
+                    <Button Content="{Binding K3735_G1_Dong,Source={StaticResource eHCMSResources}}" Width="110"
+                            Margin="0,0,10,0"
+                            Style="{StaticResource MainFrame.Button}"
+                            Height="22"
+                            x:Name="CancelAppointmentCmd"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

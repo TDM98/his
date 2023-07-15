@@ -1,0 +1,599 @@
+﻿<UserControl
+    x:Class="aEMR.Consultation.Views.SelfDeclarationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:aEMR.Consultation.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="1050"
+    d:DesignWidth="800"
+    Background="White"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Converters:BoolToIndexConverter x:Key="BoolToIndexConverter" />
+    </UserControl.Resources>
+    <toolkit:BusyIndicator
+        Margin="0,0,0,10"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        DisplayAfter="0:0:0.100"
+        IsBusy="{Binding IsProcessing, Mode=OneWay}">
+        <toolkit:BusyIndicator.BusyContent>
+            <TextBlock
+                FontSize="14"
+                FontWeight="Bold"
+                Text="{Binding Path=StatusText, Mode=OneWay}" />
+        </toolkit:BusyIndicator.BusyContent>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Row="1"
+                Grid.ColumnSpan="6"
+                Margin="0,0,0,10"
+                Orientation="Horizontal">
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="20,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="Họ và tên người nuôi"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBox
+                    Grid.Row="1"
+                    Width="200"
+                    Margin="5,2"
+                    VerticalContentAlignment="Center"
+                    MaxLength="100"
+                    Text="{Binding CurSelfDeclaration.RelativeFullName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="50,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="Tuổi"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBox
+                    Grid.Row="1"
+                    Width="50"
+                    Margin="5,2"
+                    VerticalContentAlignment="Center"
+                    AxControls:AxTextBoxFilter.Filter="Integer"
+                    MaxLength="2"
+                    Text="{Binding CurSelfDeclaration.RelativeAge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="50,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="Mối quan hệ"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBox
+                    Grid.Row="1"
+                    Width="200"
+                    Margin="5,2"
+                    VerticalContentAlignment="Center"
+                    MaxLength="100"
+                    Text="{Binding CurSelfDeclaration.Relationship, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="2"
+                Grid.ColumnSpan="6"
+                Margin="0,0,0,10"
+                Orientation="Horizontal">
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="20,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="Số điện thoại"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBox
+                    Grid.Row="1"
+                    Width="200"
+                    Margin="5,2"
+                    AxControls:AxTextBoxFilter.Filter="Integer"
+                    MaxLength="15"
+                    Text="{Binding CurSelfDeclaration.RelativePhone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="50,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="Tổng chi phí"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBox
+                    Grid.Row="1"
+                    Width="200"
+                    Margin="5,2"
+                    VerticalContentAlignment="Center"
+                    AxControls:AxTextBoxFilter.Filter="Decimal"
+                    MaxLength="100"
+                    Text="{Binding CurSelfDeclaration.TotalCost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}"
+                    Visibility="{Binding IsInPt, Converter={StaticResource BooleanToVisibility}}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="6"
+                Grid.ColumnSpan="6"
+                Orientation="Horizontal">
+                <TextBlock
+                    Width="550"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="1. Loại thuốc hoặc dị nguyên nào đã gây ra dị ứng?" />
+                <ComboBox
+                    Width="60"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event SelectionChanged]=[Action cbxAnswer1_SelectedChanged($source,$eventArgs)]"
+                    SelectedIndex="{Binding CurSelfDeclaration.Answer1, Mode=TwoWay, Converter={StaticResource BoolToIndexConverter}}">
+                    <ComboBoxItem IsSelected="True">Không</ComboBoxItem>
+                    <ComboBoxItem>Có</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <TextBlock
+                Grid.Row="7"
+                Grid.Column="0"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Số lần" />
+            <TextBox
+                Grid.Row="7"
+                Grid.Column="1"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AxControls:AxTextBoxFilter.Filter="Integer"
+                IsEnabled="{Binding Answer1_Enable, UpdateSourceTrigger=PropertyChanged}"
+                MaxLength="2"
+                Text="{Binding CurSelfDeclaration.Answer1_Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="7"
+                Grid.Column="2"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Tên thuốc dị nguyên gây dị ứng" />
+            <TextBox
+                Grid.Row="7"
+                Grid.Column="3"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                IsEnabled="{Binding Answer1_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer1_Drug, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="7"
+                Grid.Column="4"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Biểu hiện lâm sàng/ xử trí" />
+            <TextBox
+                Grid.Row="7"
+                Grid.Column="5"
+                MaxWidth="300"
+                MaxHeight="50"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                IsEnabled="{Binding Answer1_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer1_Solve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                VerticalScrollBarVisibility="Auto" />
+            <StackPanel
+                Grid.Row="8"
+                Grid.ColumnSpan="6"
+                Orientation="Horizontal">
+                <TextBlock
+                    Width="550"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="2. Dị ứng với loại côn trùng nào?" />
+                <ComboBox
+                    Width="60"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event SelectionChanged]=[Action cbxAnswer2_SelectedChanged($source,$eventArgs)]"
+                    SelectedIndex="{Binding CurSelfDeclaration.Answer2, Mode=TwoWay, Converter={StaticResource BoolToIndexConverter}}">
+                    <ComboBoxItem IsSelected="True">Không</ComboBoxItem>
+                    <ComboBoxItem>Có</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <TextBlock
+                Grid.Row="9"
+                Grid.Column="0"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Số lần" />
+            <TextBox
+                Grid.Row="9"
+                Grid.Column="1"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AxControls:AxTextBoxFilter.Filter="Integer"
+                IsEnabled="{Binding Answer2_Enable, UpdateSourceTrigger=PropertyChanged}"
+                MaxLength="2"
+                Text="{Binding CurSelfDeclaration.Answer2_Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="9"
+                Grid.Column="2"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Tên thuốc dị nguyên gây dị ứng" />
+            <TextBox
+                Grid.Row="9"
+                Grid.Column="3"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                IsEnabled="{Binding Answer2_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer2_Drug, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="9"
+                Grid.Column="4"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Biểu hiện lâm sàng/ xử trí" />
+            <TextBox
+                Grid.Row="9"
+                Grid.Column="5"
+                MaxWidth="300"
+                MaxHeight="50"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                IsEnabled="{Binding Answer2_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer2_Solve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                VerticalScrollBarVisibility="Auto" />
+            <StackPanel
+                Grid.Row="10"
+                Grid.ColumnSpan="6"
+                Orientation="Horizontal">
+                <TextBlock
+                    Width="550"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="3. Dị ứng với loại thực phẩm nào?" />
+                <ComboBox
+                    Width="60"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event SelectionChanged]=[Action cbxAnswer3_SelectedChanged($source,$eventArgs)]"
+                    SelectedIndex="{Binding CurSelfDeclaration.Answer3, Mode=TwoWay, Converter={StaticResource BoolToIndexConverter}}">
+                    <ComboBoxItem IsSelected="True">Không</ComboBoxItem>
+                    <ComboBoxItem>Có</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <TextBlock
+                Grid.Row="11"
+                Grid.Column="0"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Số lần" />
+            <TextBox
+                Grid.Row="11"
+                Grid.Column="1"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AxControls:AxTextBoxFilter.Filter="Integer"
+                IsEnabled="{Binding Answer3_Enable, UpdateSourceTrigger=PropertyChanged}"
+                MaxLength="2"
+                Text="{Binding CurSelfDeclaration.Answer3_Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="11"
+                Grid.Column="2"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Tên thuốc dị nguyên gây dị ứng" />
+            <TextBox
+                Grid.Row="11"
+                Grid.Column="3"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                IsEnabled="{Binding Answer3_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer3_Drug, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="11"
+                Grid.Column="4"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Biểu hiện lâm sàng/ xử trí" />
+            <TextBox
+                Grid.Row="11"
+                Grid.Column="5"
+                MaxWidth="300"
+                MaxHeight="50"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                IsEnabled="{Binding Answer3_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer3_Solve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                VerticalScrollBarVisibility="Auto" />
+            <StackPanel
+                Grid.Row="12"
+                Grid.ColumnSpan="6"
+                Orientation="Horizontal">
+                <TextBlock
+                    Width="550"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="4. Dị ứng với tác nhân khác: phấn hoa, bụi nhà, hóa chất, mỹ phẩm,..." />
+                <ComboBox
+                    Width="60"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event SelectionChanged]=[Action cbxAnswer4_SelectedChanged($source,$eventArgs)]"
+                    SelectedIndex="{Binding CurSelfDeclaration.Answer4, Mode=TwoWay, Converter={StaticResource BoolToIndexConverter}}">
+                    <ComboBoxItem IsSelected="True">Không</ComboBoxItem>
+                    <ComboBoxItem>Có</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <TextBlock
+                Grid.Row="13"
+                Grid.Column="0"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Số lần" />
+            <TextBox
+                Grid.Row="13"
+                Grid.Column="1"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AxControls:AxTextBoxFilter.Filter="Integer"
+                IsEnabled="{Binding Answer4_Enable, UpdateSourceTrigger=PropertyChanged}"
+                MaxLength="2"
+                Text="{Binding CurSelfDeclaration.Answer4_Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="13"
+                Grid.Column="2"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Tên thuốc dị nguyên gây dị ứng" />
+            <TextBox
+                Grid.Row="13"
+                Grid.Column="3"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                IsEnabled="{Binding Answer4_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer4_Drug, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="13"
+                Grid.Column="4"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Biểu hiện lâm sàng/ xử trí" />
+            <TextBox
+                Grid.Row="13"
+                Grid.Column="5"
+                MaxWidth="300"
+                MaxHeight="50"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                IsEnabled="{Binding Answer4_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer4_Solve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                VerticalScrollBarVisibility="Auto" />
+            <StackPanel
+                Grid.Row="14"
+                Grid.ColumnSpan="6"
+                Orientation="Horizontal">
+                <TextBlock
+                    Width="550"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="5. Tiền sử cá nhân có bệnh dị ứng nào (Viêm mũi dị ứng, hen phế quản,...)?" />
+                <ComboBox
+                    Width="60"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event SelectionChanged]=[Action cbxAnswer5_SelectedChanged($source,$eventArgs)]"
+                    SelectedIndex="{Binding CurSelfDeclaration.Answer5, Mode=TwoWay, Converter={StaticResource BoolToIndexConverter}}">
+                    <ComboBoxItem IsSelected="True">Không</ComboBoxItem>
+                    <ComboBoxItem>Có</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <TextBlock
+                Grid.Row="15"
+                Grid.Column="0"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Số lần" />
+            <TextBox
+                Grid.Row="15"
+                Grid.Column="1"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AxControls:AxTextBoxFilter.Filter="Integer"
+                IsEnabled="{Binding Answer5_Enable, UpdateSourceTrigger=PropertyChanged}"
+                MaxLength="2"
+                Text="{Binding CurSelfDeclaration.Answer5_Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="15"
+                Grid.Column="2"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Tên thuốc dị nguyên gây dị ứng" />
+            <TextBox
+                Grid.Row="15"
+                Grid.Column="3"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                IsEnabled="{Binding Answer5_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer5_Drug, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="15"
+                Grid.Column="4"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Biểu hiện lâm sàng/ xử trí" />
+            <TextBox
+                Grid.Row="15"
+                Grid.Column="5"
+                MaxWidth="300"
+                MaxHeight="50"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                IsEnabled="{Binding Answer5_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer5_Solve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                VerticalScrollBarVisibility="Auto" />
+            <StackPanel
+                Grid.Row="16"
+                Grid.ColumnSpan="6"
+                Orientation="Horizontal">
+                <TextBlock
+                    Width="550"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="6. Tiền sử gia đình có bệnh dị ứng nào? (Bố, Mẹ, Con, Anh/Chị/Em ruột có ai bị các bệnh dị ứng trên không)?" />
+                <ComboBox
+                    Width="60"
+                    Margin="5,2"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event SelectionChanged]=[Action cbxAnswer6_SelectedChanged($source,$eventArgs)]"
+                    SelectedIndex="{Binding CurSelfDeclaration.Answer6, Mode=TwoWay, Converter={StaticResource BoolToIndexConverter}}">
+                    <ComboBoxItem IsSelected="True">Không</ComboBoxItem>
+                    <ComboBoxItem>Có</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <TextBlock
+                Grid.Row="17"
+                Grid.Column="0"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Số lần" />
+            <TextBox
+                Grid.Row="17"
+                Grid.Column="1"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AxControls:AxTextBoxFilter.Filter="Integer"
+                IsEnabled="{Binding Answer6_Enable, UpdateSourceTrigger=PropertyChanged}"
+                MaxLength="2"
+                Text="{Binding CurSelfDeclaration.Answer6_Count, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="17"
+                Grid.Column="2"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Tên thuốc dị nguyên gây dị ứng" />
+            <TextBox
+                Grid.Row="17"
+                Grid.Column="3"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                IsEnabled="{Binding Answer6_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer6_Drug, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="17"
+                Grid.Column="4"
+                Margin="5,2"
+                VerticalAlignment="Center"
+                Text="Biểu hiện lâm sàng/ xử trí" />
+            <TextBox
+                Grid.Row="17"
+                Grid.Column="5"
+                MaxWidth="300"
+                MaxHeight="50"
+                Margin="5,2"
+                Padding="2"
+                VerticalContentAlignment="Center"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                IsEnabled="{Binding Answer6_Enable, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding CurSelfDeclaration.Answer6_Solve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                VerticalScrollBarVisibility="Auto" />
+            <StackPanel
+                Grid.Row="18"
+                Grid.Column="0"
+                Grid.ColumnSpan="6"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="btnCreateByOld"
+                    Width="145"
+                    Height="22"
+                    Margin="2,1"
+                    Content="{Binding Z2136_G1_TaoMoiDuaTrenCu, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}" />
+                <Button
+                    x:Name="btnSave"
+                    Width="85"
+                    Height="22"
+                    Margin="2,1"
+                    Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}" />
+                <Button
+                    x:Name="btnPreview"
+                    Width="85"
+                    Height="22"
+                    Margin="2,1"
+                    Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}" />
+            </StackPanel>
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>

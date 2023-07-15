@@ -1,0 +1,276 @@
+﻿<UserControl
+    x:Class="aEMR.Configuration.CitiesProvinces.Views.CitiesProvinces_AddEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="400"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="GridMain" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                Grid.Row="0"
+                Margin="5,5,0,5"
+                FontSize="14"
+                FontWeight="Bold"
+                Foreground="#FF0084FF"
+                Text="Title" />
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Tên tỉnh"
+                    Visibility="{Binding CititesProvincesVisible, Mode=TwoWay}" />
+
+
+
+                <TextBox
+                    x:Name="tbICD10Code"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    MaxLength="64"
+                    Text="{Binding ObjCitiesProvinces_Current.CityProvinceName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding CititesProvincesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="1"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Mã tỉnh"
+                    Visibility="{Binding CititesProvincesVisible, Mode=TwoWay}" />
+                <TextBox
+                    x:Name="tbDiseaseNameVN"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    MaxLength="3"
+                    Text="{Binding ObjCitiesProvinces_Current.CityProviceCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding CititesProvincesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="2"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="Mã BH tỉnh"
+                    Visibility="{Binding CititesProvincesVisible, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    MaxLength="3"
+                    Text="{Binding ObjCitiesProvinces_Current.CityProviceHICode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding CititesProvincesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="3"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="Tỉnh"
+                    Visibility="{Binding SuburbNamesVisible, Mode=TwoWay}" />
+                <controlslib:AxComboBox
+                    x:Name="cboCityProvince"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Width="264"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Left"
+                    DisplayMemberPath="CityProvinceName"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    ItemsSource="{Binding Provinces, Mode=OneWay}"
+                    SelectedValueEx="{Binding ObjSuburbNames_Current.CityProvinceID, Mode=TwoWay}"
+                    SelectedValuePath="CityProvinceID"
+                    Visibility="{Binding SuburbNamesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="4"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="Mã Quận/Huyện"
+                    Visibility="{Binding SuburbNamesVisible, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    MaxLength="5"
+                    Text="{Binding ObjSuburbNames_Current.SuburbCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding SuburbNamesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="5"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="Tên Quận/Huyện"
+                    Visibility="{Binding SuburbNamesVisible, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    MaxLength="64"
+                    Text="{Binding ObjSuburbNames_Current.SuburbName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding SuburbNamesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="6"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="Tỉnh"
+                    Visibility="{Binding WardNamesVisible, Mode=TwoWay}" />
+                <controlslib:AxComboBox
+                    x:Name="cboCityProvince2"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Width="264"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Left"
+                    cal:Message.Attach="[Event SelectionChanged]=[Action cboCitiesProvince2SelectedItemChanged($this.SelectedItem)]"
+                    DisplayMemberPath="CityProvinceName"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    ItemsSource="{Binding Provinces, Mode=OneWay}"
+                    SelectedValueEx="{Binding ObjSuburbNames_Current.CityProvinceID, Mode=TwoWay}"
+                    SelectedValuePath="CityProvinceID"
+                    Visibility="{Binding WardNamesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="7"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="Quận/Huyện"
+                    Visibility="{Binding WardNamesVisible, Mode=TwoWay}" />
+                <controlslib:AxComboBox
+                    x:Name="cboSuburb"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Width="264"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Left"
+                    DisplayMemberPath="SuburbName"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    ItemsSource="{Binding SuburbNames, Mode=OneWay}"
+                    SelectedValueEx="{Binding ObjWardNames_Current.SuburbNameID, Mode=TwoWay}"
+                    SelectedValuePath="SuburbNameID"
+                    Visibility="{Binding WardNamesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="8"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="Mã Xã, Phường"
+                    Visibility="{Binding WardNamesVisible, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    MaxLength="7"
+                    Text="{Binding ObjWardNames_Current.WardCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding WardNamesVisible, Mode=TwoWay}" />
+                <Label
+                    Grid.Row="9"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="Tên Xã, Phường"
+                    Visibility="{Binding WardNamesVisible, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    MaxLength="64"
+                    Text="{Binding ObjWardNames_Current.WardName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    Visibility="{Binding WardNamesVisible, Mode=TwoWay}" />
+                <!--<CheckBox
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding ObjICD_Current.IsActive, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />-->
+                <StackPanel
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Margin="0,0,0,30"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btSave"
+                        Width="80"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="18"
+                                VerticalAlignment="Center"
+                                Source="/aEMR.CommonViews;component/Assets/Images/saveanddown24x24border.png" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        x:Name="btClose"
+                        Width="80"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="18"
+                                VerticalAlignment="Center"
+                                Source="/aEMR.CommonViews;component/Assets/Images/Button-exit-icon.png" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+
+                <!--<controlslib:ValidationSummary MaxHeight="1" Grid.Row="4" Grid.ColumnSpan="2"  x:Name="ValidationSummary1" Margin="0,10,0,0"></controlslib:ValidationSummary>-->
+
+            </Grid>
+
+        </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Grid>
+</UserControl>
+

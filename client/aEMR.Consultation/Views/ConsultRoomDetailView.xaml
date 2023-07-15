@@ -1,0 +1,190 @@
+﻿<UserControl x:Class="aEMR.ConsultantEPrescription.Views.ConsultRoomDetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit" 
+    mc:Ignorable="d"             
+          xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"                
+        xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:cal="http://www.caliburnproject.org"  d:DesignWidth="900"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <converters:BoolToXConverter x:Key="BoolToXConverter"/>
+
+
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">
+            <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="110" />
+                    <RowDefinition Height="500" />
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="TitleForm" Text="{Binding K1035_G1_BKeCTietKB, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" Grid.ColumnSpan="4" Grid.Column="0" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Style="{StaticResource MainFrame.TextBlock.Header.01}"/>
+                <Border Grid.Row="1"  Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" >
+                    <!--DataContext="{Binding selectedConsultTimeSeg,Mode=TwoWay}"-->
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="99" />
+                            <ColumnDefinition Width="9" />
+                            <ColumnDefinition Width="211" />
+                            <ColumnDefinition Width="139*" />
+                            <ColumnDefinition Width="180*" />
+                            <ColumnDefinition Width="6*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition  Height="24"/>
+                            <RowDefinition  Height="24"/>
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                        </Grid.RowDefinitions>
+                        <TextBlock  Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding T2222_G1_Khoa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding P0391_G1_PgKham, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+
+                        <TextBlock  Grid.Column="3" HorizontalAlignment="Right" Text="{Binding K2059_G1_ChonNgBD2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                        <TextBlock Grid.Column="3" Grid.Row="1"  HorizontalAlignment="Right"  Text="{Binding K2062_G1_ChonNgCuoi2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" 
+                                       VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}" Text="{Binding K1383_G1_BSiKham, Source={StaticResource eHCMSResources}}" />
+                        <!--<customcontrols:KeyEnabledComboBox x:Name="cboStaff" HorizontalAlignment="Stretch" 
+                                                               SelectedValueEx="{Binding SearchCriteria.StaffID, Mode=TwoWay}"
+                                                               ItemsSource="{Binding Staffs,Mode=OneWay}"
+                                                               DisplayMemberPath="FullName"
+                                                               SelectedValuePath="StaffID"
+                                                               Style="{StaticResource MainFrame.ComboBox}"
+                                                               Grid.Row="2" Grid.Column="4"  Height="22"
+                                                                VerticalAlignment="Center" TabIndex="4" 
+                                                           cal:Message.Attach="[Event SelectionChanged]=[Action cboStaff_SelectionChanged($source, $eventArgs)]"/>-->
+                        <ContentControl  x:Name="aucHoldConsultDoctor" Grid.Row="2" Grid.Column="4" Height="22"/>
+                        <TextBlock  Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Right" Text="{Binding N0074_G1_NgHTai, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                        <TextBlock Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding K1167_G1_BN, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+                        <TextBlock  Grid.Column="2" Grid.Row="2"  HorizontalAlignment="Left" Text="{Binding curDate,Mode=OneWay}" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}"/>
+
+                        <!--<TextBlock Grid.Column="2" Name="Khoa" Text="{Binding CurRefDepartmentsTree.Parent.NodeText}"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}" />-->
+                        <!--<TextBlock Grid.Column="2"  Grid.Row="1" Name="Phong" Text="{Binding CurRefDepartmentsTree.NodeText}"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}" />-->
+
+                        <ComboBox x:Name="DeptCbx" Style="{StaticResource MainFrame.ComboBox}"
+                                  Width="auto" Height="22" Grid.Column="2" Grid.Row="0"
+                                  ItemsSource="{Binding NewDepartments, Mode=OneWay}"
+                                  SelectedValuePath="DeptID" 
+                                  SelectedItem="{Binding curNewDepartments,Mode=TwoWay}"
+                                  DisplayMemberPath="DeptName" 
+                                  />
+                        <ComboBox x:Name="LocCbx" Style="{StaticResource MainFrame.ComboBox}"
+                                  Width="auto" Height="22"
+                                  Grid.Column="2"
+                                  Grid.Row="1"
+                                  ItemsSource="{Binding Locations, Mode=OneWay}"
+                                  SelectedValuePath="DeptLocationID"
+                                  SelectedItem="{Binding SelectedLocation,Mode=TwoWay}"
+                                  DisplayMemberPath="Location.LocationName" 
+                                  />
+
+                        <TextBlock Grid.Column="2"  Grid.Row="3" Text="{Binding CurRefDepartmentsTree.NodeText}"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Style="{StaticResource TextBlock.Heading.04}" />
+
+                        <DatePicker HorizontalAlignment="Left" Grid.Column="4" Width="120" SelectedDate="{Binding SearchCriteria.FromDate,Mode=TwoWay}" VerticalAlignment="Center"  Style="{StaticResource MainFrame.DatePicker}" TabIndex="0"  />
+                        <DatePicker HorizontalAlignment="Left" Grid.Column="4" Grid.Row="1" Width="120" SelectedDate="{Binding SearchCriteria.ToDate,Mode=TwoWay}" VerticalAlignment="Center"  Style="{StaticResource MainFrame.DatePicker}" TabIndex="1" />
+                        <Button x:Name="SearchCmd" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Width="75" Height="22" HorizontalAlignment="Center" Grid.Row="3" Style="{StaticResource MainFrame.Button}" 
+                                            Visibility="{Binding mThongKe_BangKeChiTietKhamBenh_Xem,Converter={StaticResource BooleanToVisibility} }" Grid.Column="3" Grid.ColumnSpan="2" />
+
+                        <!--<customcontrols:AxComboBox Name="cboTimeSegment"  
+                                               cal:Message.Attach="[Event SelectionChanged]=[Action cboTimeSegment_SelectionChanged($source, $eventArgs)]"
+                                               ItemsSource="{Binding lstConsultationTimeSegments}" Width="120" Grid.Row="2" Grid.Column="1"
+                                               VerticalAlignment="Bottom"
+                                                   DisplayMemberPath="SegmentName"
+                                                   SelectedValuePath="ConsultationTimeSegmentID"
+                                                   SelectedItemEx="{Binding selectedConsultationRoomTarget.ConsultationTimeSegments,Mode=TwoWay}"
+                                               Margin="10,0,10,1" />-->
+                    </Grid>
+                </Border>
+
+                <!--<ContentControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Name="RoomTree" />-->
+
+                <Border Grid.Row="2" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" 
+                    ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" >
+                    <Grid  x:Name="LayoutRoot"   ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"                         
+                           ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" 
+                                ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition />
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock  HorizontalAlignment="Left"  VerticalAlignment="Center" Text="{Binding K2931_G1_DSBNKham, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#FF3300" Grid.ColumnSpan="4" Grid.Column="0"  />
+                                <TextBlock  HorizontalAlignment="Left"  VerticalAlignment="Center" Text="{Binding allPatientRegistrationDetail.TotalItemCount, Mode=OneWay}" Style="{StaticResource TextBlock.Heading.02}" Grid.ColumnSpan="4" Grid.Column="0" Margin="180,0,0,0" />
+                                <Button x:Name="InCmd" Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}" Width="75" Height="23" HorizontalAlignment="Right" Style="{StaticResource MainFrame.Button}" 
+                                        Visibility="{Binding mThongKe_BangKeChiTietKhamBenh_XemIn,Converter={StaticResource BooleanToVisibility} }" Margin="0,0,30,0" />
+                                <customcontrols:ReadOnlyDataGrid AutoGenerateColumns="False" Grid.Row="1"
+                                        HeadersVisibility="All"
+                                      ItemsSource="{Binding allPatientRegistrationDetail,Mode=OneWay}" 
+                                      RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}" 
+                                      RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                      Style="{StaticResource MainFrame.DataGridStyle}"                                                      
+                                      MinHeight="150"
+                                    cal:Message.Attach="[Event LoadingRow] = [Action GridPatient_LoadingRow($source, $eventArgs)]"
+                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <DataGrid.Columns>
+                                        <!---->
+                                        <DataGridTextColumn Header="{Binding N0082_G1_NgKham, Source={StaticResource eHCMSResources}}" MinWidth="80"
+                                                    Binding="{Binding CreatedDate,StringFormat='dd/MM/yyyy', Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding K1167_G1_BN, Source={StaticResource eHCMSResources}}" MinWidth="150"
+                                                    Binding="{Binding PatientRegistration.Patient.FullName, Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding T1468_G1_HenTK, Source={StaticResource eHCMSResources}}" MinWidth="80"
+                                                  Binding="{Binding curPatientAppointments.ApptDate, StringFormat='dd/MM/yyyy',Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding S0689_G1_SoTT, Source={StaticResource eHCMSResources}}" MinWidth="40"
+                                                        Binding="{Binding PatientApptServiceDetails.ServiceSeqNum, Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding T3220_G1_MaBN, Source={StaticResource eHCMSResources}}" MinWidth="80"
+                                                        Binding="{Binding PatientRegistration.Patient.PatientCode, Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding S0648_G1_SoHoSo, Source={StaticResource eHCMSResources}}" MinWidth="80"
+                                                        Binding="{Binding PatientRegistration.Patient.NationalMedicalCode, Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding T0702_G1_GT, Source={StaticResource eHCMSResources}}" MinWidth="50"
+                                                        Binding="{Binding PatientRegistration.Patient.GenderObj.Name, Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding N0036_G1_NSinh, Source={StaticResource eHCMSResources}}" MinWidth="80"
+                                                        Binding="{Binding PatientRegistration.Patient.DOBText, StringFormat='yyyy',Mode=OneWay}"/>                                
+                                        <DataGridTextColumn Header="{Binding K2550_G1_CoBH, Source={StaticResource eHCMSResources}}" MinWidth="40"
+                                                        Binding="{Binding IsHasHI,Converter={StaticResource BoolToXConverter} , Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding K0957_G1_BMoi, Source={StaticResource eHCMSResources}}" MinWidth="40"
+                                                        Binding="{Binding isBenhMoi,Converter={StaticResource BoolToXConverter} , Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding P0310_G1_PO, Source={StaticResource eHCMSResources}}" MinWidth="50" Binding="{Binding isPO,Converter={StaticResource BoolToXConverter} , Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding K1756_G1_CDoanCuaBSi, Source={StaticResource eHCMSResources}}" MinWidth="200"
+                                                        Binding="{Binding DiagnosisTreatment.DiagnosisFinal, Mode=OneWay}"/>
+                                        <DataGridTextColumn Header="{Binding K0984_G1_BSiKham, Source={StaticResource eHCMSResources}}" MinWidth="150"
+                                                        Binding="{Binding DiagnosisTreatment.ObjDoctorStaffID.FullName, Mode=OneWay}"/>
+                                    </DataGrid.Columns>
+                                </customcontrols:ReadOnlyDataGrid>   
+                                <customcontrols:DataPager Grid.Row="2" PageSize="{Binding PageSize}" Margin="0"
+                                      Source="{Binding allPatientRegistrationDetail}">
+                        </customcontrols:DataPager>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </toolkit:BusyIndicator>
+    </Border>
+</UserControl>

@@ -1,0 +1,221 @@
+﻿<UserControl    x:Class="aEMR.ConsultantEPrescription.Views.ConsultingDiagnosysGeneralView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                d:DesignHeight="600" d:DesignWidth="1200"
+                xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:AutoBoxTK="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+                mc:Ignorable="d">
+    <UserControl.Resources>
+        <commonconverters:EnumConverter x:Key="EnumConverterObj"/>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <commonconverters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <commonconverters:DecimalConverter x:Key="DecimalConverter"/>
+        <commonconverters:CheckIfNullConverter x:Key="CheckIfNullConverter"/>
+        <commonconverters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNotConverter"/>
+    </UserControl.Resources>
+    <AxControls:AxGrid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="Thông tin bệnh nhân" Style="{StaticResource MainFrame.BlueGroupBox}" Height="110" Visibility="Collapsed">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Số hồ sơ:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Column="1" Text="{Binding CurrentPatient.FileCodeNumber, Mode=TwoWay}" Margin="0,2" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock Grid.Column="2" Text="Mã BN:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Column="3" Text="{Binding CurrentPatient.PatientCode, Mode=TwoWay}" Margin="0,2" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock Grid.Column="4" Text="Họ tên:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Column="5" Text="{Binding CurrentPatient.FullName, Mode=TwoWay}" Margin="0,2" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+
+                <TextBlock Grid.Row="1" Text="Ngày sinh:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtYOB"
+                    Text="{Binding CurrentPatient.DOBForBaby, Mode=TwoWay}"
+                    IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"
+                    Margin="0" Height="22" VerticalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="Năm sinh:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="1" Text="{Binding CurrentPatient.YOB, Mode=TwoWay}" Grid.Column="3" Margin="0,2" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock Grid.Row="1" Grid.Column="4" Text="Địa chỉ:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="1" Grid.Column="5" Text="{Binding CurrentPatient.PatientStreetAddress, Mode=TwoWay}" Grid.ColumnSpan="3" Margin="0,2" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+
+                <TextBlock Grid.Row="2" Text="Giới tính:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="2" Text="{Binding CurrentPatient.GenderObj.Name, Mode=TwoWay}" Grid.Column="1" Margin="0,2" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock Grid.Row="2" Grid.Column="2" Text="Điện thoại:" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="2" Text="{Binding CurrentPatient.PatientPhoneNumber, Mode=TwoWay}" Grid.Column="3" Margin="0,2" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock Grid.Row="2" Grid.Column="4" Text="Quan hệ GĐ:" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="2" Text="{Binding CurrentPatient.FContactFullName, Mode=TwoWay}" Grid.Column="5" Margin="0,2" IsReadOnly="True" Style="{StaticResource MainFrame.TextBox}"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="{Binding Z2048_G1_TTinHChan, Source={StaticResource eHCMSResources}}" Height="270">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="6">
+                    <TextBlock Grid.Column="0" Text="{Binding Z2067_G1_KBLanDau, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <DatePicker Margin="0,2" Width="120"                                       
+                        HorizontalAlignment="Left" SelectedDateFormat="Short"
+                        IsEnabled="{Binding gConsultingDiagnosys.FirstExamDate, Converter={StaticResource CheckIfNullConverter}}"
+                        SelectedDate="{Binding gConsultingDiagnosys.FirstExamDate, Mode=TwoWay, NotifyOnValidationError=True}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Z2065_G1_NgayHCNoi, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <DatePicker Margin="9,0,0,2" Width="120"                                       
+                        HorizontalAlignment="Left" SelectedDateFormat="Short" 
+                        SelectedDate="{Binding gConsultingDiagnosys.ConsultingDate, Mode=TwoWay, NotifyOnValidationError=True}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Z2072_G1_BSHCNoi, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <AxControls:AxAutoComplete IsDropDownOpen="True" MinimumPopulateDelay="300" Margin="13,0,0,2"
+					 HorizontalAlignment="Stretch"
+					 Width="200" Height="22"
+                     SelectedItem="{Binding gConsultingDiagnosys.ConsultingDoctorStaff, Mode=TwoWay}"
+					 ValueMemberBinding="{Binding FullName,Mode=TwoWay}"
+					 ValueMemberPath="FullName"
+					 Text="{Binding gConsultingDiagnosys.ConsultingDoctorStaff.FullName}"
+					 cal:Message.Attach="[Event Populating] = [Action cboDoctor_Populating($source, $eventArgs)]"
+					 Style="{StaticResource AxAutoCompleteMyStyle}" MinimumPrefixLength="0" FilterMode="None"
+                     ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}">
+                        <AxControls:AxAutoComplete.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding FullName}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </AxControls:AxAutoComplete.ItemTemplate>
+                    </AxControls:AxAutoComplete>
+                    <TextBlock Text="{Binding Z2066_G1_KetLuanHCNoi, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <TextBox Text="{Binding gConsultingDiagnosys.ConsultingResult, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Margin="24,2" Width="330" Style="{StaticResource MainFrame.TextBox}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="6">
+                    <TextBlock Text="{Binding Z2070_G1_TKKeTiep, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <DatePicker Margin="4,0" Width="120"                                       
+                        HorizontalAlignment="Left" SelectedDateFormat="Short"
+                        IsEnabled="{Binding gConsultingDiagnosys.NextExamDate, Converter={StaticResource CheckIfNullConverter}}"
+                        SelectedDate="{Binding gConsultingDiagnosys.NextExamDate, Mode=TwoWay, NotifyOnValidationError=True}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Z2068_G1_NgayHCNgoai, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="1,0"/>
+                    <DatePicker Margin="0,2" Width="120"                                       
+                        HorizontalAlignment="Left" SelectedDateFormat="Short" 
+                        SelectedDate="{Binding gConsultingDiagnosys.OutPtConsultingDate, Mode=TwoWay, NotifyOnValidationError=True}" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding Z2071_G1_BSHCNgoai, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <AxControls:AxAutoComplete IsDropDownOpen="True" MinimumPopulateDelay="300"
+					 HorizontalAlignment="Stretch"
+					 Width="200" Height="22"
+                     SelectedItem="{Binding gConsultingDiagnosys.OutPtConsultingDoctorStaff, Mode=TwoWay}"
+					 ValueMemberBinding="{Binding FullName,Mode=TwoWay}"
+					 ValueMemberPath="FullName"
+					 Text="{Binding gConsultingDiagnosys.OutPtConsultingDoctorStaff.FullName}"
+					 cal:Message.Attach="[Event Populating] = [Action cboDoctor_Populating($source, $eventArgs)]"
+					 Style="{StaticResource AxAutoCompleteMyStyle}" MinimumPrefixLength="0" FilterMode="None"
+                     ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}">
+                        <AxControls:AxAutoComplete.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding FullName}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </AxControls:AxAutoComplete.ItemTemplate>
+                    </AxControls:AxAutoComplete>
+                    <TextBlock Text="{Binding Z2069_G1_CDoanHCNgoai, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <TextBox Text="{Binding gConsultingDiagnosys.OutPtConsultingResult, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Margin="0,2" Width="330" Style="{StaticResource MainFrame.TextBox}"/>
+                </StackPanel>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Z2168_G1_CDTGP, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Text="{Binding gConsultingDiagnosys.PrevSugeryDiagnostic, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Margin="0,2" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock Grid.Row="3" Text="{Binding Z2169_G1_Intervention, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding gConsultingDiagnosys.Intervention, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.ColumnSpan="3" Margin="0,2" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Z2170_G1_InterventionRG, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="3" Grid.Column="5" Text="{Binding gConsultingDiagnosys.ShortIntervention, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Margin="0,2" Style="{StaticResource MainFrame.TextBox}"/>
+                <TextBlock Grid.Row="4" Text="{Binding P0344_G1_PhanLoai, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <ComboBox Grid.Row="4" Grid.Column="1" Style="{StaticResource MainFrame.ComboBox}" Height="22" ItemsSource="{Binding DiagnosticTypeArray}"
+                          DisplayMemberPath="ObjectValue" SelectedItem="{Binding gConsultingDiagnosys.V_DiagnosticType, Mode=TwoWay}"/>
+                <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding T1720_G1_HuongDTri, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <ComboBox Grid.Row="4" Grid.Column="3" Style="{StaticResource MainFrame.ComboBox}" Height="22" ItemsSource="{Binding TreatmentMethodArray}"
+                          DisplayMemberPath="ObjectValue" SelectedItem="{Binding gConsultingDiagnosys.V_TreatmentMethod, Mode=TwoWay}"/>
+                <TextBlock Grid.Row="4" Grid.Column="4" Text="{Binding Z2073_G1_HinhThucPT, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <StackPanel Grid.Row="4" Grid.Column="5" Orientation="Horizontal">
+                    <RadioButton  GroupName="SurgeryType" VerticalAlignment="Center" Content="Mổ kín" IsChecked="{Binding gConsultingDiagnosys.IsOpenedSugery, Mode=TwoWay, Converter={StaticResource InverseBoolConverter}}"/>
+                    <RadioButton Grid.Row="4" Grid.Column="6" GroupName="SurgeryType" VerticalAlignment="Center" Content="Mổ hở" IsChecked="{Binding gConsultingDiagnosys.IsOpenedSugery, Mode=TwoWay}"/>
+                </StackPanel>
+                <TextBlock Grid.Row="5" Text="{Binding Z2074_G1_SLNChoMau, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding gConsultingDiagnosys.BloodDonorNumberDisplay, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Margin="0,2" Style="{StaticResource MainFrame.TextBox}"/>
+                <StackPanel Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="4" Orientation="Horizontal" VerticalAlignment="Center">
+                    <CheckBox Content="{Binding Z2075_G1_CongCMV, Source={StaticResource eHCMSResources}}" Margin="5,0" IsChecked="{Binding gConsultingDiagnosys.CoronaryArtery, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+                    <CheckBox Content="{Binding Z2076_G1_RungNhiHoVan2La, Source={StaticResource eHCMSResources}}" Margin="5,0" IsChecked="{Binding gConsultingDiagnosys.MitralIncompetence, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+                    <CheckBox Content="{Binding Z2076_G1_HoVan2La, Source={StaticResource eHCMSResources}}" Margin="5,0" IsChecked="{Binding gConsultingDiagnosys.PlastieMitrale, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+                    <CheckBox Content="{Binding Z2076_G1_PTMaze, Source={StaticResource eHCMSResources}}" Margin="5,0" IsChecked="{Binding gConsultingDiagnosys.PTMaze, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+                    <CheckBox Content="{Binding Z2076_G1_DuraGraft, Source={StaticResource eHCMSResources}}" Margin="5,0" IsChecked="{Binding gConsultingDiagnosys.DuraGraft, Mode=TwoWay}" VerticalContentAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Grid.Row="6" Text="{Binding Z2077_G1_CongVan, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <CheckBox Grid.Row="6" Grid.Column="1" Margin="0,2" VerticalAlignment="Center" IsChecked="{Binding gConsultingDiagnosys.ValveIncluded, Mode=TwoWay}"/>
+                <StackPanel Grid.Row="6" Grid.Column="2" VerticalAlignment="Stretch" Orientation="Horizontal" Grid.ColumnSpan="4" Visibility="{Binding gConsultingDiagnosys.ValveIncluded, Converter={StaticResource BooleanToVisibility}}">
+                    <TextBlock Text="{Binding Z2079_G1_SoLuongVan, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <TextBox Width="100" Text="{Binding gConsultingDiagnosys.ValveQtyDisplay, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Margin="8,2,0,2" Style="{StaticResource MainFrame.TextBox}"/>
+                    <TextBlock Text="{Binding Z2081_G1_LoaiVan, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <ComboBox Style="{StaticResource MainFrame.ComboBox}" Height="22" Margin="5,0" Width="200" ItemsSource="{Binding ValveTypeArray}"
+                          DisplayMemberPath="ObjectValue" SelectedItem="{Binding gConsultingDiagnosys.V_ValveType, Mode=TwoWay}"/>
+                </StackPanel>
+                <TextBlock Grid.Row="7" Text="{Binding Z2078_G1_CongVong, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <CheckBox Grid.Row="7" Grid.Column="1" Margin="0,2" VerticalAlignment="Center" IsChecked="{Binding gConsultingDiagnosys.RingIncluded, Mode=TwoWay}" />
+                <StackPanel Grid.Row="7" Grid.Column="2" VerticalAlignment="Stretch" Orientation="Horizontal" Grid.ColumnSpan="4" Visibility="{Binding gConsultingDiagnosys.RingIncluded, Converter={StaticResource BooleanToVisibility}}">
+                    <TextBlock Text="{Binding Z2080_G1_SoLuongVong, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                    <TextBox Text="{Binding gConsultingDiagnosys.RingQtyDisplay, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Margin="0,2" Width="100" Style="{StaticResource MainFrame.TextBox}"/>
+                </StackPanel>
+                <TextBlock Grid.Row="8" Text="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="5" Text="{Binding gConsultingDiagnosys.Note, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Margin="0,2" Style="{StaticResource MainFrame.TextBox}"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Header="{Binding Z2082_G1_GiayBaoChiPhiMo, Source={StaticResource eHCMSResources}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Z2083_G1_ChiPhi, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBox Grid.Column="1" Style="{StaticResource MainFrame.TextBox}" TextAlignment="Right" Text="{Binding gConsultingDiagnosys.EstimationPrice, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Margin="0,2"/>
+                <TextBlock Grid.Column="2" Text="{Binding Z2084_G1_NgayDKNhanHSo, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5,0"/>
+                <DatePicker Grid.Column="3" Margin="0,2" Width="130" HorizontalAlignment="Left" SelectedDateFormat="Short" SelectedDate="{Binding gConsultingDiagnosys.AdminProcessExpDate, Mode=TwoWay, NotifyOnValidationError=True}" VerticalAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+    </AxControls:AxGrid>
+</UserControl>

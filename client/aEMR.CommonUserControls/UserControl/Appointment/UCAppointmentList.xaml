@@ -1,0 +1,125 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             x:Class="aEMR.CommonUserControls.UCAppointmentList"
+             xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" BorderThickness="0"
+             Padding="0,0,0,0"
+             Margin="0,0,0,0"
+             d:DesignHeight="500"
+             d:DesignWidth="950"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:Converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converter:ShortDateConverter x:Key="ShortDateConverter"/>
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"   Click="lnkDelete_Click"   ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/ApplicationStrings;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+        <Grid x:Name="LayoutRoot"
+          Margin="0">
+        <Border x:Name="groupAppointmentDetails"
+                    Style="{StaticResource LightBlueBorderStyleNew}"
+                    Margin="0,0,0,0">
+
+            <StackPanel>
+                <TextBlock TextWrapping="Wrap"
+                               Text="{Binding Z0247_G1_DSCuocHen, Source={StaticResource eHCMSResources}}"
+                               Foreground="#FF5E5E5E"
+                               Margin="0"
+                               Style="{StaticResource TBlock.Heading.02}" />
+                <Grid Margin="0,0,0,0">
+
+                    <DataGrid AutoGenerateColumns="False" x:Name="gridAppointments"
+                                                       IsReadOnly="True"
+                                      ItemsSource="{Binding AppointmentList,Mode=OneWay}" 
+                                      RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}" 
+                                      RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                      Style="{StaticResource MainFrame.DataGridStyle}" 
+                                  Height="350"
+                                  VerticalScrollBarVisibility="Auto"
+                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn x:Name="colDeleted"  Header="" CellTemplate="{StaticResource TemplateDeleteRecord}">
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn 
+                                                        Binding="{Binding ApptDate, Mode=OneWay,Converter={StaticResource ShortDateConverter}}">
+                            <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding N0045_G1_Ng, Source={StaticResource eHCMSResources}}" />
+                            </DataTemplate>
+                            </Setter.Value>
+                            </Setter>
+                            </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn 
+                                                    Binding="{Binding Patient.FullName, Mode=OneWay}" >
+                            <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding K1167_G1_BN, Source={StaticResource eHCMSResources}}" />
+                            </DataTemplate>
+                            </Setter.Value>
+                            </Setter>
+                            </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn 
+                                                    Binding="{Binding ApptStatus.ObjectValue, Mode=OneWay}" >
+                            <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" />
+                            </DataTemplate>
+                            </Setter.Value>
+                            </Setter>
+                            </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn 
+                                                        Binding="{Binding MedServiceNames, Mode=OneWay}" >
+                            <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                            <DataTemplate>
+                            <TextBlock Text="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}" />
+                            </DataTemplate>
+                            </Setter.Value>
+                            </Setter>
+                            </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+
+                        <interact:Interaction.Behaviors>
+                            <customcontrols:DataGridDoubleClickBehavior DoubleClick="DataGridDoubleClickBehavior_DoubleClick">
+                            </customcontrols:DataGridDoubleClickBehavior>
+                        </interact:Interaction.Behaviors>
+                    </DataGrid>
+
+                </Grid>
+            </StackPanel>
+
+        </Border>
+    </Grid>
+</UserControl>

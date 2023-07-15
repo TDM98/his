@@ -1,0 +1,204 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.EditApptPclRequestDetailListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:multibinding="clr-namespace:aEMR.Common.Bindings;assembly=aEMR.Common"
+    d:DesignHeight="400"
+    d:DesignWidth="900"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <commonconverters:DateTimeFromToConverter x:Key="DateTimeFromToConverter" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+
+        <Grid>
+            <!--  ItemsSource="{Binding PCLRequest.ObjPatientApptPCLRequestDetailsList, Mode=OneWay}"  -->
+            <DataGrid
+                Name="dtgList1"
+                MinHeight="300"
+                MaxHeight="350"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                cal:Message.Attach="[Event LoadingRow]=[Action dtgList_LoadingRow($source,$eventArgs)]"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserReorderColumns="True"
+                CanUserResizeColumns="True"
+                CanUserSortColumns="True"
+                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                HeadersVisibility="All"
+                ItemsSource="{Binding FilteredCollection, Mode=OneWay}"
+                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Style="{StaticResource MainFrame.DataGridStyle}">
+                <!--<DataGrid.RowGroupHeaderStyles>-->
+                <!--  Style for groups at top level  -->
+                <!--<Style TargetType="sdk:DataGridRowGroupHeader">
+                            <Setter Property="PropertyNameVisibility" Value="Collapsed" />
+                            <Setter Property="Background" Value="#FFC7C7D1" />
+                            <Setter Property="Foreground" Value="#FF444D58" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Height" Value="25"/>
+                            <Setter Property="SublevelIndent" Value="0" />
+                        </Style>-->
+                <!--  Style for groups under the top level  -->
+                <!--<Style TargetType="sdk:DataGridRowGroupHeader">
+                            <Setter Property="Background" Value="#FFA8B5BE" />
+                        </Style>-->
+                <!--</DataGrid.RowGroupHeaderStyles>-->
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Button
+                                        x:Name="hplDelete"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)]"
+                                        ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                        <Button.Content>
+                                            <Image
+                                                Width="13"
+                                                Height="13"
+                                                Opacity="1"
+                                                Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                        </Button.Content>
+                                    </Button>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding K1209_G1_BH, Source={StaticResource eHCMSResources}}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    cal:Message.Attach="[Event Checked]=[Action ckbIsCountHI_CheckedChanged($source, $eventArgs)];                                       [Event Unchecked]=[Action ckbIsCountHI_CheckedChanged($source, $eventArgs)]"
+                                    IsChecked="{Binding IsCountHI, Mode=OneWay}"
+                                    IsEnabled="{Binding ElementName=LayoutRoot, Path=DataContext.IsOldList, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn
+                        Width="60"
+                        Binding="{Binding ObjPCLExamTypes.PCLExamTypeCode}"
+                        Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTextColumn
+                        Width="Auto"
+                        MinWidth="500"
+                        Binding="{Binding ObjPCLExamTypes.PCLExamTypeName}"
+                        Header="{Binding T2860_G1_LoaiXN, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <!--<sdk:DataGridTemplateColumn Header="{Binding S0583_G1_SLg, Source={StaticResource eHCMSResources}}">
+                            <sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox x:Name="tbQty" Text="{Binding NumberOfTest,Mode=TwoWay, Converter={StaticResource IntConverterMin1}}" TextAlignment="Right"
+                                                                 cal:Message.Attach="[Event LostFocus]=[Action tbQty_LostFocus($source,$eventArgs)]"/>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>
+                        </sdk:DataGridTemplateColumn>-->
+
+                    <DataGridTemplateColumn Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding ObjDeptLocID.Location.LocationName}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <ControlsLibrary:AxComboBox
+                                        Name="cboLocation"
+                                        MinWidth="85"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event SelectionChanged]=[Action cboLocation_SelectionChanged($datacontext,$eventargs)]"
+                                        DisplayMemberPath="Location.LocationName"
+                                        FontWeight="Normal"
+                                        Foreground="Black"
+                                        ItemsSource="{Binding ObjPCLExamTypes.ObjDeptLocationList, Mode=OneWay}"
+                                        SelectedItemEx="{Binding ObjDeptLocID, Mode=TwoWay}"
+                                        SelectedValuePath="DeptLocationID"
+                                        Style="{StaticResource MainFrame.ComboBox}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding G0420_G1_TGian, Source={StaticResource eHCMSResources}}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding ApptTimeSegment.SegmentName, Mode=OneWay}" />
+                                    <TextBlock>
+                                        <multibinding:BindingUtil.MultiBindings>
+                                            <multibinding:MultiBindings>
+                                                <multibinding:MultiBinding Converter="{StaticResource DateTimeFromToConverter}" TargetProperty="Text">
+                                                    <multibinding:MultiBinding.Bindings>
+                                                        <multibinding:BindingCollection>
+                                                            <Binding Path="ApptTimeSegment.StartTime" />
+                                                            <Binding Path="ApptTimeSegment.EndTime" />
+                                                        </multibinding:BindingCollection>
+                                                    </multibinding:MultiBinding.Bindings>
+                                                </multibinding:MultiBinding>
+                                            </multibinding:MultiBindings>
+                                        </multibinding:BindingUtil.MultiBindings>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <ControlsLibrary:AxComboBox
+                                        x:Name="cboSegmentsPCL"
+                                        Grid.Row="5"
+                                        Grid.Column="7"
+                                        cal:Message.Attach="[Event SelectionChanged]=[Action cboSegmentsPCL_SelectionChanged($datacontext,$eventargs)]"
+                                        ItemsSource="{Binding ObjPCLExamTypes.ApptPclTimeSegments, Mode=OneWay}"
+                                        SelectedItemEx="{Binding ApptTimeSegment, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                        SelectedValuePath="ParaclinicalTimeSegmentID"
+                                        Style="{StaticResource MainFrame.ComboBox}">
+                                        <ControlsLibrary:AxComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding SegmentName, Mode=OneWay}" />
+                                                    <TextBlock>
+                                                        <multibinding:BindingUtil.MultiBindings>
+                                                            <multibinding:MultiBindings>
+                                                                <multibinding:MultiBinding Converter="{StaticResource DateTimeFromToConverter}" TargetProperty="Text">
+                                                                    <multibinding:MultiBinding.Bindings>
+                                                                        <multibinding:BindingCollection>
+                                                                            <Binding Path="StartTime" />
+                                                                            <Binding Path="EndTime" />
+                                                                        </multibinding:BindingCollection>
+                                                                    </multibinding:MultiBinding.Bindings>
+                                                                </multibinding:MultiBinding>
+                                                            </multibinding:MultiBindings>
+                                                        </multibinding:BindingUtil.MultiBindings>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ControlsLibrary:AxComboBox.ItemTemplate>
+                                    </ControlsLibrary:AxComboBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

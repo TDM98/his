@@ -1,0 +1,156 @@
+﻿<UserControl x:Class="aEMR.Common.Views.SetEkipForMedicalServiceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             d:DesignHeight="600" d:DesignWidth="2000" mc:Ignorable="d">
+    <UserControl.Resources>
+        <Converters:CanDeleteIconConverter_V2 x:Key="CanDeleteIconConverter_V2"/>
+        <Converters:DecimalConverter x:Key="DecimalConverter"/>
+        <Converters:PaidTimeConverter x:Key="PaidTimeConverter"/>
+        <Converters:ExamRegStatusConverter x:Key="ExamRegStatusConverter"/>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:InvoiceItemViewGroupConverter x:Key="ServiceColViewGroupConverter" />
+        <Converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <Converters:ConditionToVisibilityConverter x:Key="ConditionToVisibilityConverter"/>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        
+        <DataTemplate x:Key="RefEkip" >
+            <TextBlock Text="{Binding V_Ekip.ObjectValue, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="grd_RefEkip">
+            <customcontrols:KeyEnabledComboBox  Name="cbxRefEkip" 
+                Style="{StaticResource MainFrame.ComboBox}"                                             
+                Margin="0,1,0,1" 
+                DisplayMemberPath="ObjectValue"
+                SelectedValuePath="LookupID" 
+                SelectedItem="{Binding V_Ekip,Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.RefEkip, Mode=TwoWay}"                                            
+                cal:Message.Attach="[Event Loaded] = [Action cbxRefEkip_Loaded($source, $eventArgs)]"/>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="RefEkipIndex" >
+            <TextBlock Text="{Binding V_EkipIndex.ObjectValue, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="grd_RefEkipIndex">
+            <customcontrols:KeyEnabledComboBox  Name="cbxRefEkipIndex" 
+                Style="{StaticResource MainFrame.ComboBox}"                                             
+                Margin="0,1,0,1" 
+                DisplayMemberPath="ObjectValue"
+                SelectedValuePath="LookupID" 
+                SelectedItem="{Binding V_EkipIndex,Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.RefEkipIndex, Mode=TwoWay}"                                            
+                cal:Message.Attach="[Event Loaded] = [Action cbxRefEkipIndex_Loaded($source, $eventArgs)]"/>
+        </DataTemplate>
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <customcontrols:AxComboBox x:Name="cboEkip" Grid.Row="0" HorizontalAlignment="Left" Style="{StaticResource MainFrame.ComboBox}" Margin="10,10,0,10"
+                            ItemsSource="{Binding RefEkip, Mode=OneWay}"
+                            SelectedItemEx="{Binding Selected_Ekip, Mode=TwoWay}"
+                            DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID" Width="150"
+                            cal:Message.Attach="[Event SelectionChanged] = [Action cboEkip_SelectionChanged($source, $eventArgs)]"/>
+            <DataGrid x:Name="gridServices" Grid.Row="1" CanUserAddRows="False"                    
+                      Style="{StaticResource MainFrame.DataGridStyle}"
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Disabled"
+                      AutoGenerateColumns="False"
+                      HeadersVisibility="All"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      MinWidth="850" Width="Auto"
+                      ItemsSource="{Binding ObsPatientRegistrationDetail}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="{Binding Z2731_G1_LoaiEkip, Source={StaticResource eHCMSResources}}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"
+                                                CellTemplate="{StaticResource RefEkipIndex}"
+                                                CellEditingTemplate="{StaticResource grd_RefEkipIndex}"
+                                                MinWidth="100"/>
+                    <DataGridTemplateColumn MinWidth="250" Header="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding MedServiceName, Mode=OneWay}"
+                                    Style="{StaticResource MainFrame.HyperlinkButton}"
+                                    Foreground="Blue" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="60" Binding="{Binding DeptLocation.Location.LocationName,Mode=OneWay}" 
+                                    Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}" />
+                    
+                    <DataGridTextColumn Width="80" Binding="{Binding InvoicePrice,Mode=OneWay,Converter={StaticResource DecimalConverter}}" ElementStyle="{StaticResource RightAligmentTextBlock}" 
+                                    Header="{Binding T0849_G1_Gia, Source={StaticResource eHCMSResources}}" />
+                    
+                    <customcontrols:AxDataGridTextColumn Width="80" customcontrols:DataGridColNamingUtil.ColName="colHiAllowedPrice"  
+                                                     Binding="{Binding MaskedHIAllowedPrice,Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                                     ElementStyle="{StaticResource RightAligmentTextBlock}" 
+                                                     Header="{Binding T0895_G1_GiaBH, Source={StaticResource eHCMSResources}}" />
+                    <customcontrols:AxDataGridTextColumn Width="80" customcontrols:DataGridColNamingUtil.ColName="colPriceDifference" 
+                                                     Binding="{Binding TotalPriceDifference, Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                                     ElementStyle="{StaticResource RightAligmentTextBlock}" 
+                                                     Header="{Binding K1803_G1_ChenhLech, Source={StaticResource eHCMSResources}}"/>
+                    <customcontrols:AxDataGridTextColumn Width="80" customcontrols:DataGridColNamingUtil.ColName="colHiPay" 
+                                                     Binding="{Binding TotalHIPayment, Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                                     ElementStyle="{StaticResource RightAligmentTextBlock}" 
+                                                     Header="{Binding K1232_G1_BHTra, Source={StaticResource eHCMSResources}}"/>
+                    
+                    <DataGridTextColumn Width="80" Binding="{Binding TotalPatientPayment, Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                               ElementStyle="{StaticResource RightAligmentTextBlock}" 
+                                               Header="{Binding K1296_G1_BNTra, Source={StaticResource eHCMSResources}}" />
+
+                    <DataGridTextColumn Width="70" Binding="{Binding ReceiptNumber, Mode=OneWay}" ElementStyle="{StaticResource RightAligmentTextBlock}"
+                                                Header="{Binding T1660_G1_HDon, Source={StaticResource eHCMSResources}}"/>
+
+                    <DataGridTextColumn Width="50"
+                                        Binding="{Binding Mode=OneWay,Converter={StaticResource PaidTimeConverter}}"
+                                        ElementStyle="{StaticResource RightAligmentTextBlock}" />
+                    <DataGridTextColumn Width="50"
+                                        Binding="{Binding ExamRegStatus, Mode=OneWay,Converter={StaticResource ExamRegStatusConverter}}"
+                                        ElementStyle="{StaticResource RightAligmentTextBlock}" />
+                    <DataGridTextColumn Width="150" Binding="{Binding RegStaffFullName, Mode=OneWay}"
+                                        Header="{Binding N0286_G1_NhVienDK, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTextColumn Width="150" Binding="{Binding PaidStaffName, Mode=OneWay}"
+                                        Header="{Binding N0295_G1_NhVienTinhTien, Source={StaticResource eHCMSResources}}"/>
+                </DataGrid.Columns>
+                <DataGrid.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="1,1,1,1" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="True" Background="WhiteSmoke"  BorderBrush="#FF002255" Foreground="DarkBlue" BorderThickness="1">
+                                                <Expander.Header>
+                                                    <DockPanel>
+                                                        <TextBlock FontWeight="Bold" Foreground="DarkBlue" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="300" />
+                                                    </DockPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
+            </DataGrid>
+            <Button x:Name="SaveSetEkip" Grid.Row="2" Width="100" Height="22" HorizontalAlignment="Left" Margin="10,10,0,10"
+                    Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" />
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

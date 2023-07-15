@@ -1,0 +1,328 @@
+﻿<!--
+20161231 #001 CMN: Add VAT
+-->
+<UserControl x:Class="aEMR.Registration.Views.GenericPaymentView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:cal="http://www.caliburnproject.org"
+    mc:Ignorable="d" xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    d:DesignHeight="500" d:DesignWidth="1350"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converters:DecimalConverter x:Key="DecimalConverter"/>
+        <Converters:NullableDecimalConverter x:Key="NullableDecimalConverter"/>
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility"/>
+        <DataTemplate x:Key="ColPrintTemplate">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Button cal:Message.Attach="[Event Click] = [Action lnkPrint_Click]" 
+                        ToolTipService.ToolTip="{Binding T1927_G1_InPhL, Source={StaticResource eHCMSResources}}" 
+                        Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Top"
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ColUpdateTemplate">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Button cal:Message.Attach="[Event Click] = [Action btnUpdateGenPaymt_Click]" 
+                        ToolTipService.ToolTip="{Binding K1674_G1_CNhatPh, Source={StaticResource eHCMSResources}}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Top"
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Opacity="1" Width="16" Height="16"/>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ColDelTemplate">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Button cal:Message.Attach="[Event Click] = [Action DeleteGenPaymtCmd]" 
+                        ToolTipService.ToolTip="{Binding G2812_G1_XoaPh, Source={StaticResource eHCMSResources}}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Top" 
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Opacity="1" Width="16" Height="16"/>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ColCodeTemplate">
+            <TextBlock Text="{Binding GenericPaymentCode}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColAmountTemplate">
+            <TextBlock Text="{Binding PaymentAmount,Converter={StaticResource DecimalConverter}}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColReasonTemplate">
+            <TextBlock Text="{Binding ReasonDetail}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColPersonNameTemplate">
+            <TextBlock Text="{Binding PersonName}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColAddressTemplate">
+            <TextBlock Text="{Binding PersonAddress}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColDOBTemplate">
+            <TextBlock Text="{Binding DOB}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColPhoneNumberTemplate">
+            <TextBlock Text="{Binding PhoneNumber}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColTypeTemplate">
+            <TextBlock Text="{Binding V_GenericPaymentTypeName}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColStaffTemplate">
+            <TextBlock Text="{Binding StaffName}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColRecDateTemplate">
+            <TextBlock Text="{Binding RecCreatedDate, StringFormat='dd/MM/yyyy HH:mm:ss'}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColPaymentDateTemplate">
+            <TextBlock Text="{Binding PaymentDate, StringFormat='dd/MM/yyyy HH:mm:ss'}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColNoteTemplate">
+            <TextBlock Text="{Binding GeneralNote}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <!--15072018 TTM
+    Comment busyindicator-->
+    <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsProcessing, Mode=OneWay}"
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">
+        <toolkit:BusyIndicator.BusyContent>
+            <TextBlock Text="{Binding Path=StatusText, Mode=OneWay}" Style="{StaticResource TextBlock.Heading.04}" FontSize="14" FontWeight="Bold" />
+        </toolkit:BusyIndicator.BusyContent>-->
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid x:Name="LayoutRoot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
+                <TextBlock Text="{Binding DeptLocTitle}" Foreground="Red"
+                                HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                Style="{StaticResource MainFrame.TextBlock.Header.01}" 
+                                Height="22" Margin="5,0,0,0" />
+                <TextBlock Text="{Binding P0376_G1_PhiEuThuKhac, Source={StaticResource eHCMSResources}}"
+                                HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                Style="{StaticResource MainFrame.TextBlock.Header.01}" 
+                                Height="22" Margin="50,0,0,0" />
+            </StackPanel>
+            <DockPanel HorizontalAlignment="Stretch" Grid.Row="1" LastChildFill="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <AxControls:AxGrid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <GroupBox HorizontalAlignment="Stretch" Style="{StaticResource MainFrame.GroupBox}" VerticalAlignment="Stretch"
+                                    Header="{Binding G0631_G1_TTinNguoiNopTien, Source={StaticResource eHCMSResources}}" IsEnabled="{Binding CanSaveNew, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Margin="0,5,0,0">
+                            <Grid VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="24"/>
+                                    <RowDefinition Height="24"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="250"/>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="370"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="135"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,0,5,0" Text="{Binding T1567_G1_HoTen, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBox Grid.Column="1" TextAlignment="Left" VerticalContentAlignment="Center"
+                                            Text="{Binding CurGenericPayment.PersonName, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}"
+                                            FontWeight="Bold" TabIndex="0" MaxLength="65" />
+                                <TextBlock Grid.Column="2" Margin="5,0,5,0" Text="{Binding K3354_G1_DChi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" />
+                                <TextBox Grid.Column="3" TextAlignment="Left" VerticalContentAlignment="Center"
+                                            Text="{Binding CurGenericPayment.PersonAddress, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                            FontWeight="Bold" TabIndex="1" MaxLength="128" />
+                                <TextBlock Grid.Column="4" Margin="5,0,5,0" Text="{Binding S0638_G1_SoDT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" />
+                                <TextBox Grid.Column="5" TextAlignment="Left" VerticalContentAlignment="Center"
+                                            Text="{Binding CurGenericPayment.PhoneNumber, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                            FontWeight="Bold" TabIndex="2" MaxLength="30" />
+                                <TextBlock Grid.Row="1" Grid.Column="4" Margin="5,0,5,0" TextWrapping="Wrap" Text="{Binding N0107_G1_NgSinh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                <TextBox Grid.Row="1" Grid.Column="5"  Margin="0,2,0,0" TextAlignment="Left" VerticalContentAlignment="Center"
+                                            Text="{Binding CurGenericPayment.DOB, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                            FontWeight="Bold" TabIndex="3" MaxLength="30" />
+                                <TextBlock Grid.Row="1" Margin="5,0,5,0" Text="{Binding T0846_G1_TenDonVi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" TextAlignment="Left" VerticalContentAlignment="Center"
+                                            Text="{Binding CurGenericPayment.OrgName, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}"
+                                            FontWeight="Bold" TabIndex="4" MaxLength="128" Margin="0,2,0,0"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Style="{StaticResource MainFrame.GroupBox}"
+                                    Header="{Binding G0653_G1_TTinPhThu, Source={StaticResource eHCMSResources}}"  Margin="0,5,0,0" >
+                            <Grid VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="250"/>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="145"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="250"/>
+                                    <ColumnDefinition Width="130"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="5,0,5,0" Text="{Binding A1142_G1_MaPh, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" />
+                                <TextBox Grid.Column="1" TextAlignment="Left" VerticalAlignment="Center" FontSize="15" Foreground="Red" IsReadOnly="True"
+                                            Text="{Binding CurGenericPayment.GenericPaymentCode, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True}" FontWeight="Bold" />
+
+                                <TextBlock Margin="5,0,5,0" Grid.Row="1" Text="{Binding T2805_G1_LoaiPh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"/>
+                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" >
+                                    <RadioButton IsChecked="{Binding IsThuTien, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="rdoThuTien" Content="{Binding G0729_G1_ThuTien, Source={StaticResource eHCMSResources}}" GroupName="FindBy" Margin="0,0,10,0" 
+                                            IsEnabled="{Binding CanSaveNew, UpdateSourceTrigger=PropertyChanged}" TabIndex="4" />
+                                    <RadioButton IsChecked="{Binding IsDoiBienLai, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="rdoDoiBienLai" Content="{Binding K3575_G1_DoiBienLai, Source={StaticResource eHCMSResources}}" GroupName="FindBy" 
+                                                IsEnabled="{Binding CanSaveNew, UpdateSourceTrigger=PropertyChanged}" TabIndex="5" />
+                                </StackPanel>
+
+                                <TextBlock Grid.Row="2" Margin="5,0,5,0" Text="{Binding S0695_G1_SoTien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" />
+                                <TextBox Grid.Column="1" Grid.Row="2" TextAlignment="Right" Style="{StaticResource MainFrame.TextBox}" Margin="0,2,0,2"
+                                            Text="{Binding BeforeVATAmount, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True,Converter={StaticResource DecimalConverter}}"
+                                            FontWeight="Bold" TabIndex="6" cal:Message.Attach="[Event LostFocus] = [Action txtMoney_LostFocus($source,$eventArgs)]" />
+                                <TextBlock Grid.Row="4" Grid.Column="2" Margin="5,0,5,0" Text="{Binding G1183_G1_Ghichu, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" />
+                                <TextBox Grid.Column="3" Grid.ColumnSpan="3" Grid.Row="4" TextAlignment="Left" Style="{StaticResource MainFrame.TextBox}" Margin="0,2,0,2"
+                                            Text="{Binding CurGenericPayment.GeneralNote, Mode=TwoWay}"
+                                            FontWeight="Bold" TabIndex="2147483647" MaxLength="100" />
+                                <TextBlock Text="{Binding N0119_G1_NgThu, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" Margin="5,0,5,0" />
+                                <DatePicker Grid.Column="3" Style="{StaticResource MainFrame.DatePicker}" SelectedDate="{Binding CurGenericPayment.PaymentDate,Mode=TwoWay}" IsEnabled="True" Height="24" VerticalAlignment="Center" TabIndex="7" />
+
+                                <TextBlock Grid.Column="4" Text="{Binding T3154_G1_LyDo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="5,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"/>
+                                <customcontrols:AxComboBox  Grid.Column="5" x:Name="cboReason" ItemsSource="{Binding ListReasonByType}" Width="250"
+                                              HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch" HorizontalAlignment="Left"
+                                              DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID" Style="{StaticResource MainFrame.ComboBox}"
+                                              SelectedItem="{Binding SelectedReason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="24" VerticalAlignment="Center" TabIndex="8" />
+
+                                <TextBlock Grid.Row="1" Grid.Column="2" Margin="5,0,5,0" Text="{Binding K1837_G1_CTiet, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" />
+                                <TextBox Grid.Row="1" Grid.Column="3" TextAlignment="Left" Grid.RowSpan="3" Height="90" VerticalAlignment="Top" VerticalContentAlignment="Top" Grid.ColumnSpan="3"
+                                            Text="{Binding CurGenericPayment.V_GenericPaymentReason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            FontWeight="Bold" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="256" />
+                                <TextBlock Grid.Row="3" Margin="5,0,5,0" Text="{Binding G2183_G1_VATx, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" Visibility="{Binding UseVATOnBill, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+                                <StackPanel Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                                    <TextBox TextAlignment="Right" Style="{StaticResource MainFrame.TextBox}" Margin="0,2,0,2"
+                                            Text="{Binding CurGenericPayment.VATPercent, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True,Converter={StaticResource NullableDecimalConverter}}"
+                                            FontWeight="Bold" TabIndex="6" Visibility="{Binding UseVATOnBill, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" Width="120"
+                                                 cal:Message.Attach="[Event LostFocus] = [Action txtMoney_LostFocus($source,$eventArgs)]"/>
+                                    <CheckBox HorizontalAlignment="Left" Margin="15,6,0,0" Style="{StaticResource MainFrame.Checkbox}" IsChecked="{Binding VATAlreadyInPrice,TargetNullValue=False}" IsEnabled="False" Content="Nằm trong giá" Visibility="{Binding UseVATOnBill, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+                                </StackPanel>
+                                <TextBlock Grid.Row="4" Margin="5,0,5,0" Text="{Binding G1633_G1_TgTienVAT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" Visibility="{Binding UseVATOnBill, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+                                <TextBox Grid.Column="1" Grid.Row="4" TextAlignment="Right" Style="{StaticResource MainFrame.TextBox}" Margin="0,2,0,2" IsReadOnly="True" Visibility="{Binding UseVATOnBill, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}"
+                                            Text="{Binding CurGenericPayment.VATAmount, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True,Converter={StaticResource NullableDecimalConverter}}"
+                                            FontWeight="Bold" TabIndex="6" />
+                                <TextBlock Grid.Row="5" Margin="5,0,5,0" Text="{Binding Z0284_G1_TgTienCoVAT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" Visibility="{Binding UseVATOnBill, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+                                <TextBox Grid.Column="1" Grid.Row="5" TextAlignment="Right" Style="{StaticResource MainFrame.TextBox}" Margin="0,2,0,2" IsReadOnly="True"
+                                            Text="{Binding CurGenericPayment.PaymentAmount, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True,Converter={StaticResource DecimalConverter}}"
+                                            FontWeight="Bold" TabIndex="6" Visibility="{Binding UseVATOnBill, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+                                <Button Grid.Column="6" Margin="10,2,0,2" x:Name="SaveNewPaymentCmd" Content="{Binding T3146_G1_LuuPh, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" TabIndex="9" Style="{StaticResource MainFrame.Button}" />
+                                <Button Grid.Column="6" Margin="10,2,0,2" Grid.Row="1" x:Name="ClearCmd" Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" TabIndex="10" Style="{StaticResource MainFrame.Button}" />
+                                <Button Grid.Column="6" Margin="10,2,0,0" Grid.Row="2" Name="PrintOldReceipt" Content="{Binding T1927_G1_InPhL, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" Visibility="{Binding CanSaveNew,Mode=OneWay,Converter={StaticResource BooleanToNotVisibility}}" TabIndex="11" Style="{StaticResource MainFrame.Button}"/>
+                                <Button Grid.Column="6" Margin="10,2,0,0" Grid.Row="2" Name="btnFinalization" Content="{Binding Z2438_G1_PhatHanhHDDT, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" Visibility="{Binding CanSaveNew,Mode=OneWay,Converter={StaticResource BooleanToNotVisibility}}" TabIndex="11" Style="{StaticResource MainFrame.Button}"/>
+                                <Button Grid.Column="6" Margin="10,2,0,0" Grid.Row="3" Name="btnExportEInvoice" Content="{Binding Z2438_G1_PhatHanhHDDT, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" Visibility="Collapsed" TabIndex="11" Style="{StaticResource MainFrame.Button}"/>
+                            </Grid>
+                        </GroupBox>
+                    </AxControls:AxGrid>
+                    <GroupBox HorizontalAlignment="Stretch" Style="{StaticResource MainFrame.GroupBox}" Grid.Row="1"
+                                       VerticalAlignment="Stretch"  Header="{Binding G1245_G1_TimPhThu, Source={StaticResource eHCMSResources}}" >
+                        <AxControls:AxGrid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="110"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="75"/>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="75"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding T2805_G1_LoaiPh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="5,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" />
+                            <ContentControl TabIndex="0" Grid.Column="1" x:Name="PaymentTypeContent" Height="24" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Center" IsEnabled="{Binding IsSearchByCreatedDate, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding G1933_G1_TuNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="5,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <DatePicker Grid.Column="3" TabIndex="1" SelectedDate="{Binding FromDate,Mode=TwoWay}" VerticalAlignment="Center" Height="24" Margin="0,3,0,3" IsEnabled="{Binding IsSearchByCreatedDate, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource MainFrame.DatePicker}"/>
+                            <TextBlock Grid.Column="4" Text="{Binding K3192_G1_DenNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" Margin="5,0,5,0"/>
+                            <DatePicker Grid.Column="5" TabIndex="2" SelectedDate="{Binding ToDate,Mode=TwoWay}" IsEnabled="{Binding IsSearchByCreatedDate, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Height="24" Margin="0,3,0,3"  Style="{StaticResource MainFrame.DatePicker}"/>
+                            <!--<Button Grid.Column="6" Name="SearchGenericPaymentList" Content="{Binding G1244_G1_TimPh, Source={StaticResource eHCMSResources}}" Margin="45,3,0,3"/>-->
+                            <Button Grid.Column="8" Name="SearchGenericPaymentList" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" ToolTipService.ToolTip="{Binding G1245_G1_TimPhThu, Source={StaticResource eHCMSResources}}" Margin="0,3,0,3" TabIndex="5" Style="{StaticResource MainFrame.Button}">
+                                <!--<Image Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png" Height="24" Width="20" Opacity="1" VerticalAlignment="Center" HorizontalAlignment="Center" />-->
+                            </Button>
+                            <CheckBox Grid.Column="6" Content="{Binding T3423_G1_MaPh, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsSearchByCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="3"/>
+                            <TextBox Grid.Column="7" Text="{Binding SearchCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        cal:Message.Attach="[Event KeyUp] = [Action txtSearchCode_KeyUp($source,$eventArgs)]"  IsTabStop="{Binding IsSearchByCode, UpdateSourceTrigger=PropertyChanged}" TabIndex="4"       
+                                        VerticalAlignment="Center" Margin="5,3,0,3" Width="120" IsEnabled="{Binding IsSearchByCode, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <!--<HyperlinkButton Grid.Column="8" cal:Message.Attach="[Event Click] = [Action SearchGenericPaymentList]" ToolTipService.ToolTip="{Binding G1245_G1_TimPhThu, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                    <HyperlinkButton.Content>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png" Height="20" Width="20" Opacity="1" />
+                                    </HyperlinkButton.Content>
+                                </HyperlinkButton>-->
+                            <CheckBox Grid.Column="9" Content="{Binding Z0019_G1_TatCaNV, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" 
+                                          IsChecked="{Binding IsAllStaff, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                        </AxControls:AxGrid>
+                    </GroupBox>
+                    <GroupBox HorizontalAlignment="Stretch" Style="{StaticResource MainFrame.GroupBox}" Grid.Row="2"
+                                       VerticalAlignment="Stretch" Header="{Binding K3049_G1_DSPhThu, Source={StaticResource eHCMSResources}}"  Margin="1,5,1,0" MinHeight="100" MaxHeight="450">
+                        <DataGrid HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}"
+                                  ItemsSource="{Binding ListGenericPayment}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding SelectedGenPaymt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColPrintTemplate}"/>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColUpdateTemplate}"/>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColDelTemplate}"/>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColCodeTemplate}"  MaxWidth="80" Header="{Binding T3423_G1_MaPh, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColAmountTemplate}"  MaxWidth="120" Header="{Binding S0695_G1_SoTien, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColReasonTemplate}"  MinWidth="250" MaxWidth="300" Header="{Binding T3154_G1_LyDo, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColPersonNameTemplate}"  MaxWidth="150" Header="{Binding N0163_G1_NguoiNop, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColAddressTemplate}"  MinWidth="150" MaxWidth="250" Header="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColDOBTemplate}"  MinWidth="50" MaxWidth="100" Header="{Binding N0107_G1_NgSinh, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColPhoneNumberTemplate}"  MaxWidth="170" Header="{Binding S0638_G1_SoDT, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColTypeTemplate}" Header="{Binding T2805_G1_LoaiPh, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColStaffTemplate}" Header="{Binding N0292_G1_NhVienThu, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColPaymentDateTemplate}" Header="{Binding N0119_G1_NgThu, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColRecDateTemplate}" Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColNoteTemplate}"  MaxWidth="200" Header="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}">
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{Binding S0649_G1_SoHDon, Source={StaticResource eHCMSResources}}" Binding="{Binding InvoiceNumber}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </Grid>
+    </ScrollViewer>
+    <!--</toolkit:BusyIndicator>-->
+</UserControl>

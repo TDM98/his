@@ -1,0 +1,627 @@
+﻿<UserControl
+    x:Class="aEMR.Registration.Views.RegistrationTopMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="50"
+    d:DesignWidth="700"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Menu
+            x:Name="RegistrationTopMenu"
+            Height="35"
+            Margin="1,1,1,1"
+            VerticalAlignment="Top"
+            BorderBrush="DarkGreen"
+            BorderThickness="2">
+            <MenuItem
+                Width="Auto"
+                Height="32"
+                Background="Aquamarine"
+                FontWeight="ExtraBold"
+                Foreground="DarkBlue"
+                Header="{Binding T3719_G1_Mau20NgTru, Source={StaticResource eHCMSResources}}"
+                Visibility="{Binding mNgoaiTru, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}">
+                <MenuItem
+                    x:Name="ReceiveAndRegisterCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="Tiep Nhan - Dang Ky"
+                    Visibility="Collapsed" />
+                <MenuItem
+                    x:Name="RegisterCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K2863_G1_DKDV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mRegister, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="PackCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="Mua gói dịch vụ"
+                    Visibility="{Binding IsPerformingTMVFunctionsA, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ReceivePatientCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding N0183_G1_NhanBenhBaoHiem, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReceivePatient, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ProcessPaymentCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G1308_G1_TinhTien, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mProcessPayment, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="RegistrationSummaryCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K1071_G1_BCThuTien, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mRegistrationSummary, Converter={StaticResource BooleanToVisibility}}" />
+                <!--  19/01/2021 DatTB sửa biến phân quyền  -->
+                <MenuItem
+                    x:Name="RegistrationSummaryDetailCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2418_G1_BaoCaoThuTienNgoaiTruTheoBienLai, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mRegistrationSummaryDetail, Converter={StaticResource BooleanToVisibility}}" />
+                <!--  19/01/2021 DatTB sửa biến phân quyền  -->
+                <!--  Visibility="{Binding IsNoteHMSSystem,Converter={StaticResource BooleanToVisibility}}"  -->
+                <MenuItem
+                    x:Name="ConfirmHIBenefitCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2377_G1_DuyetToa, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed" />
+                <MenuItem
+                    x:Name="OutPtTreatmentPrescriptionCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="Bán thuốc - DTNT"
+                    Visibility="{Binding mOutPtTreatmentPrescription, Converter={StaticResource BooleanToVisibility}}" />
+                <!--  19/01/2021 DatTB sửa biến phân quyền  -->
+                <MenuItem
+                    x:Name="ConfirmHIBenefit_NewCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2377_G1_DuyetToa, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding VisibleNewConfirm, Converter={StaticResource BooleanToVisibility}}" />
+                <MenuItem
+                    x:Name="EditMedicalServiceGroupViewCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding T1280_G1_GoiDV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mEditMedicalServiceGroupView, Converter={StaticResource BooleanToVisibility}}" />
+                <!--  19/01/2021 DatTB sửa biến phân quyền  -->
+                <MenuItem
+                    x:Name="FinalizationCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Q0498_G1_QuyetToan, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mProcessPayment, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="PatientAccountTranCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding T0774_G1_TU, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding IsPerformingTMVFunctionsA, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="OutPatientSettlementCmd_TV"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Q0499_G1_QuyetToanTV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding IsPerformingTMVFunctionsA, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="TicketForCusCareCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="Nhận bệnh - Tư vấn"
+                    Visibility="{Binding mNhanBenhCSKH, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+            </MenuItem>
+            <MenuItem
+                Width="Auto"
+                Height="32"
+                Margin="3,0,0,0"
+                Background="Aquamarine"
+                FontWeight="ExtraBold"
+                Foreground="DarkBlue"
+                Header="{Binding T3713_G1_NoiTru, Source={StaticResource eHCMSResources}}"
+                Visibility="{Binding mNoiTru, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}">
+                <MenuItem
+                    x:Name="ReceiveInPatientCmd"
+                    cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding N0187_G1_NhanBenhNT, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReceiveInPatient, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <!--  HPT: Thêm đường dẫn cho nhận bệnh vãng lai và nhận bệnh tiền giải phẫu (27/08/2015)  -->
+                <MenuItem
+                    x:Name="ReceiveInPatient_Casual_Cmd"
+                    cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding N0189_G1_NhanBenhVL, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReceiveInPatient, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ReceiveInPatient_PreOp_Cmd"
+                    cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding N0186_G1_NhanBenhKTC, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReceiveInPatient, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ReceiveInPatient_OutTreat_Cmd"
+                    cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2774_G1_NhanBenhDTNgoaiTru, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReceiveInPatient, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ReceiveInPatient_WithHI_Cmd"
+                    cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding N0188_G1_NhanBenhNTBH, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed" />
+                <!--  Visibility="{Binding mReceiveInPatient_HI,Converter={StaticResource BooleanToVisibility},Mode=TwoWay}"  -->
+                <MenuItem
+                    x:Name="ReConfirmHI_ForInPtCmd"
+                    cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G2377_G1_XNhanLaiBHYT, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReCalcHiCmd, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <!--  HPT : Thêm đường dẫn xác nhận BHYT cho Bệnh nhân Vãng Lai và Tiền Giải Phẫu  -->
+                <MenuItem
+                    x:Name="InPatientAdmissionCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding N0221_G1_NhapVien, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mInPatientAdmission, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ManageInPatientAdmissionCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Q0449_G1_QuanLyBNNoiTru, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mInPatientAdmissionManage, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ReCalcHi_Cmd"
+                    cal:Message.Attach="[Event Click]=[Action ReCalcHiCmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G1292_G1_TinhLaiBillVPhi, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReCalcBillingInvoice, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    cal:Message.Attach="[Event Click]=[Action ReCalcOutPtHiCmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2730_G1_TinhLaiBillVPhiNgoaiTru, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReCalcBillingInvoice, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="InPtRegisterCmd"
+                    cal:Message.Attach="[Event Click]=[Action InPatientRegisterCmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding T0785_G1_TaoBillVienPhi, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mInPatientRegister, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    cal:Message.Attach="[Event Click]=[Action InPtRegisterSummaryCmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="Quản lý bill viện phí"
+                    Visibility="{Binding mInPatientRegister, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    cal:Message.Attach="[Event Click]=[Action OutPatientRegisterCmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2721_G1_TaoBillNgoaiTru, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mInPatientRegister, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="InPtRegister_HighTechServiceCmd"
+                    cal:Message.Attach="[Event Click]=[Action InPtRegister_HighTechServiceCmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding T0786_G1_TaoBillVienPhiKTC, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed" />
+                <MenuItem
+                    x:Name="InPtRegister_HighTechService_NewCmd"
+                    cal:Message.Attach="[Event Click]=[Action InPtRegister_HighTechService_NewCmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding T0786_G1_TaoBillVienPhiKTC, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mHighTechBillingInvoice, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="AdvanceMoneyCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G0736_G1_ThuTienTU, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mAdvanceMoney, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="InPtProcessPaymentCmd"
+                    cal:Message.Attach="[Event Click]=[Action InPatientProcessPaymentCmd($source)]"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G0737_G1_ThuTienTUBill, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mInPatientProcessPayment, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="InPatientRegisterCmd_TV"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding T0787_G1_TaoBillVienPhiTV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mInPatientRegister_TV, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="SuggestAdvanceMoneyCmd_TV"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K3169_G1_DNghiTUTV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mSuggestAdvanceMoney_TV, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="SuggestPaymentCmd_TV"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K3172_G1_DNghiTToanTV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mSuggestPayment_TV, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="InPatientPaymentCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G0128_G1_TToan, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mInPatientPayment, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="InPatientSettlementCmd_TV"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Q0499_G1_QuyetToanTV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mInPatientSettlement_TV, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="Temp02NoiTruCmd"
+                    Header="{Binding Z0047_G1_Mau02, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed" />
+                <MenuItem
+                    x:Name="Temp02NoiTruNewCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z0007_G1_Mau02New, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed" />
+                <MenuItem
+                    x:Name="Temp12_KhoaPhongCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z3201_G1_Mau12KhPh, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mTemp02, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="Temp12Cmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2354_G1_Mau12, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mTemp02, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="Temp12_TVCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2967_G1_Mau12NoiBo, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mTemp02, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="CreateRptForm02NoiTruCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding T0793_G1_TaoMau02, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mTemp02, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="InPatientSettlementCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Q0498_G1_QuyetToan, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mInPatientSettlement, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="DeptTranferCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K2282_G1_ChKhoa, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mChuyenKhoa, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="DischargeCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G2904_G1_XVRV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mDischarge, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="DischargeCmd_BS"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G2905_G1_XVRVBs, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mDischarge_BS, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="SuggestAdvanceMoneyCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K3167_G1_DNghiTU, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mSuggestAdvanceMoney, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+
+                <MenuItem
+                    x:Name="SuggestPaymentCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K3170_G1_DNghiTToan, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mSuggestPayment, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K1048_G1_BC, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReportSummary, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}">
+                    <MenuItem
+                        x:Name="ReportInPatientNotPayCashAdvanceCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding K1055_G1_BCBNChuaDongTU, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mRptNotPayCashAdvance, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="ReportAdvanceMoneyCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding K1077_G1_BCThuTienTU, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mReportAdvanceMoney, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="ReportAdvanceMoneyForBillCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding K1078_G1_BCThuTienTUBill, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mReportAdvanceMoneyForBill, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="ReportRepayAdvanceMoneyCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding K1070_G1_BCTToan, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mReportRepayAdvanceMoney, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="ReportPatientSettlementCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding K1069_G1_BCQToan, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mReportPatientSettlement, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="ReportOutwardMedDeptInflowCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding K1075_G1_BCThuTienBanLe, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mReportOutwardMedDeptInflow, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="ReportInPatientImportExportDepartmentCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding K1065_G1_BCNXKhoa, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mRptInPtImportExportDept, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="ReportPatientAreTreatedCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding K1057_G1_BCBNDangDTri, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mRptPtAreTreated, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="ReportInPatientDischargeNotPayAllBillCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding K1056_G1_BCBNConNoVPhi, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mRptNotPayCashAdvance, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="BCCongnoNoiTruCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding Z2755_G1_BCCongNoNoiTru, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mRptNotPayCashAdvance, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="BaoCaoDoanhThuTheoKhoaCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding Z3245_G1_BaoCaoDoanhThuTheoKhoa, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mRptNotPayCashAdvance, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                    <MenuItem
+                        x:Name="BaoCaoHoanMienTamUngNoiTruCmd"
+                        Background="Aquamarine"
+                        Foreground="DarkBlue"
+                        Header="{Binding Z3246_G1_BaoCaoHoanMienTamUngNoiTru, Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding mRptNotPayCashAdvance, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                </MenuItem>
+                <MenuItem
+                    x:Name="PhieuCongKhaiDVCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z3293_G1_PhieuCongKhaiDV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mPhieuCongKhaiDV, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="QuotationTemplateCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2883_G1_MauBaoGia, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed" />
+                <MenuItem
+                    x:Name="QuotationCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2879_G1_BaoGia, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed" />
+            </MenuItem>
+            <MenuItem
+                Width="Auto"
+                Height="32"
+                Margin="3,0,0,0"
+                Background="Aquamarine"
+                FontWeight="ExtraBold"
+                Foreground="DarkBlue"
+                Header="{Binding K1052_G1_BCTKe, Source={StaticResource eHCMSResources}}"
+                Visibility="{Binding mReportMenu, Converter={StaticResource BooleanToVisibility}}">
+                <MenuItem
+                    Name="PCLExamTargetCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K1552_G1_CLSSo, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mBaoCaoCLSSo, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="DanhSachDKBHYTCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K2960_G1_DSDKBHYT, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mBaoCaoDanhSachDangKyBHYT, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="DSBNTiepNhanTheoDTCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2360_G1_DSBNTiepNhanTheoDT, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mDSBNTiepNhanTheoDT, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="ReportQuickConsultationCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K1062_G1_BCNhanhKhuKB, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mBaoCaoNhanhKhuKhamBenh, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="ReportMienGiamNgoaiTruCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2358_G1_BCMienGiamNgoaiTru, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReportMienGiamNgoaiTru, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="ReportTreEmDuoi6TCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2359_G1_BCTreEmDuoi6Tuoi, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReportTreEmDuoi6T, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="ReportBaoCaoVienPhiBHYT"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2367_G1_BaoCaoVienPhiBHYT, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReportBaoCaoVienPhiBHYT, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="ReportBaoCaoVienPhiNgoaiTru"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2368_G1_BaoCaoVienPhiNgoaiTru, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mReportBaoCaoVienPhiNgoaiTru, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="BangKeThuPhiXNTheoNgayCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K1044_G1_BKeThuPhiXN, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mBaoCaoBangKeThuPhiXN, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="BangKeThuPhiKB_CDHATheoNgayCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K1043_G1_BKeThuPhiKBVaCDHA, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mBaoCaomBaoCaoBangKeThuPhiXN_HA, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="BangKeThuTamUngNTCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2393_G1_BangKeThuTamUngNT, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mBangKeThuTamUngNT, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="BangKeThuHoanUngNTCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2392_G1_BangKeThuHoanUngNT, Source={StaticResource eHCMSResources}}" 
+                    Visibility="{Binding mBangKeThuHoanUngNT, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="BangKeThuTienVienPhiNTCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2394_G1_BangKeThuTienVienPhiNT, Source={StaticResource eHCMSResources}}" 
+                    Visibility="{Binding mBangKeThuTienVienPhiNT, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="TKeTNhanTheoDiaBanCuTruCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2361_G1_TKeTNhanTheoDiaBanCuTru, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mTKeTNhanTheoDiaBanCuTru, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="TongHopDoanhThuPKCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G1519_G1_THopDThuPK, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mBaoCaoTongHopDoanhThuPK, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="KiemToanCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding T2513_G1_KiemToan, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mKiemToan, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="ReportPaymentReceiptCmd"
+                    Header="{Binding K1071_G1_BCThuTien, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed" />
+                <!--  Visibility="{Binding mReportPaymentReceipt,Converter={StaticResource BooleanToVisibility},Mode=TwoWay}"  -->
+                <MenuItem
+                    Name="RegSummaryCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G1523_G1_TKet, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mRegSummary, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="BCPXKhoBHYTChuaThuTienCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2652_G1_BCPXKhoBHYTChuaThuTien, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mBCPXKhoBHYTChuaThuTien, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="btnConfirmHIRegistration"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G2370_G1_XNhanBHYT, Source={StaticResource eHCMSResources}}"
+                    Visibility="Collapsed" />
+                <MenuItem
+                    x:Name="btnConfirmHIRegistrationNew"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding G2370_G1_XNhanBHYT, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding VisibleNewConfirm, Converter={StaticResource BooleanToVisibility}}" />
+                <MenuItem
+                    x:Name="BC_HuyDichVu_NgTCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="Báo cáo hủy dịch vụ"
+                    Visibility="{Binding mBC_HuyDichVu_NgT, Converter={StaticResource BooleanToVisibility}}" />
+            </MenuItem>
+            <MenuItem
+                Width="Auto"
+                Height="32"
+                Margin="3,0,0,0"
+                Background="Aquamarine"
+                FontWeight="ExtraBold"
+                Foreground="DarkBlue"
+                Header="{Binding G0735_G1_ThuTienKhac, Source={StaticResource eHCMSResources}}" 
+                Visibility="{Binding mAnotherPayment, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}">
+                <MenuItem
+                    Name="GenericPaymentCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding P0377_G1_PhThuTienKhacTV, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mAnotherPayment, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    Name="ReportGenericPaymentCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K1076_G1_BCThuTienKhac, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding mAnotherPayment, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+            </MenuItem>
+
+        </Menu>
+    </Grid>
+</UserControl>

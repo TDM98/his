@@ -1,0 +1,229 @@
+﻿<!--20180409 #001 TTM: Them parameter insert va update cho Certificate va Scode-->
+    <UserControl    x:Class="aEMR.UserAccountManagement.Views.StaffGridView"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:cal="http://www.caliburnproject.org"
+                    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"   
+                    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                    mc:Ignorable="d"
+                    d:DesignWidth="800">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete" 
+                                 cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($source,$eventArgs)]"
+                                 ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="TemplateUpdateRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkUpdate" 
+                                 cal:Message.Attach="[Event Click]=[Action lnkUpdateClick($source,$eventArgs)]"
+                                 ToolTipService.ToolTip="Click here for edit staff." HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit.jpg" Height="13" Width="13" Opacity="1" />
+                        <!--PImage-->
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="TemplateImageRecord">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding PImage}" Height="20" Width="20" Opacity="1" />                
+            </StackPanel>
+        </DataTemplate>
+        <converters:BoolToSexConverter x:Key="BoolToSexConverter"/>
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">            
+            <Grid.RowDefinitions>                
+                <RowDefinition MinHeight="80" Height="270" />
+                <RowDefinition MinHeight="80" Height="300*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <customcontrols:AxGrid Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition MinHeight="25" Height="30" />
+                        <RowDefinition MinHeight="25" Height="30" />
+                        <RowDefinition MinHeight="25" Height="40" />
+                        <RowDefinition MinHeight="25" Height="40" />
+                        <RowDefinition Height="42*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*" />
+                        <ColumnDefinition Width="120*" />
+                        <ColumnDefinition Width="9*" />
+                        <ColumnDefinition Width="291*" />
+                        <ColumnDefinition Width="14*" />
+                        <ColumnDefinition Width="128*" />
+                        <ColumnDefinition Width="11*" />
+                        <ColumnDefinition Width="284*" />
+                        <ColumnDefinition Width="15*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Text="{Binding G1227_G1_TimKiemNhVien, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB" Grid.ColumnSpan="8"  />
+                    <TextBlock Text="{Binding K2732_G1_Country, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}"/>
+                    <TextBlock Text="{Binding K3315_G1_DeptLocation, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="5" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}"/>
+                    <TextBlock Text="{Binding S0720_G1_StaffCategory, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}"/>
+                    <TextBlock Text="{Binding K2285_G1_CityProvince, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="5" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}"/>
+                    <customcontrols:AxComboBox Name="cboCountry"  Grid.Column="3" Grid.Row="2" Height="22" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding allRefCountry, Mode=OneWay}"
+                                          Style="{StaticResource MainFrame.ComboBox}" TabIndex="2"
+                                          SelectedItemEx="{Binding SelectedRefCountry,Mode=TwoWay}"                                          
+                                          DisplayMemberPath="CountryName" SelectedValuePath="CountryID" />
+                    <customcontrols:AxComboBox Name="cboDeptLocation"  Grid.Column="7" Grid.Row="2" Height="22" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding allRefDepartment, Mode=OneWay}"
+                                          Style="{StaticResource MainFrame.ComboBox}" TabIndex="3"
+                                          SelectedItemEx="{Binding SelectedDepartment,Mode=TwoWay}"                                          
+                                          DisplayMemberPath="DeptName" SelectedValuePath="DeptID" />
+                    <customcontrols:AxComboBox Name="cboStaffCategory"  Grid.Column="3" Grid.Row="3" Height="22" VerticalAlignment="Center" 
+                                    ItemsSource="{Binding allRefStaffCategory, Mode=OneWay}"
+                                    Style="{StaticResource MainFrame.ComboBox}" TabIndex="4"
+                                    SelectedItemEx="{Binding SelectedRefStaffCategory,Mode=TwoWay}"                                          
+                                    DisplayMemberPath="StaffCatgDescription" SelectedValuePath="StaffCatgID" />
+                    <customcontrols:AxComboBox Name="cboCityProvine"  Grid.Column="7" Grid.Row="3" Height="22" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding allCitiesProvince, Mode=OneWay}"
+                                          Style="{StaticResource MainFrame.ComboBox}" TabIndex="5"
+                                          SelectedItemEx="{Binding SelectedCitiesProvince,Mode=TwoWay}"                                          
+                                          DisplayMemberPath="CityProvinceName" SelectedValuePath="CityProvinceID" />
+                    <TextBlock Text="{Binding N0034_G1_Name, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}"/>
+                    <!--<TextBlock Text="{Binding S0557_G1_Sex, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="3" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}" Margin="0,0,74,0" />-->
+                    <TextBlock Text="{Binding T1800_G1_IDNumber, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="7" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="left" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}" />
+                    <TextBlock Text="{Binding M0009_G1_MobiNum, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}" Margin="0,12,13,12" />
+                    <TextBlock Text="{Binding T0020_G1_Email, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="5" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}"/>
+                    <TextBlock Text="{Binding R0514_G1_Relegion, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="5" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}"  />
+                    <TextBlock Text="{Binding T0082_G1_Ethnic2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}"  />
+                    <customcontrols:AxTextBox Name="FullName" Text="{Binding curStaff.FullName,Mode=TwoWay}" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" TabIndex="0"/>
+                    <!--<TextBox Name="DOB"  VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Margin="0,6,147,6" Width="128" />-->
+                    <!--<CheckBox Name="chkGender" VerticalAlignment="Center" IsThreeState="False" Grid.Column="3" Grid.Row="6" 
+                          Content="{Binding K0785_G1_1Nam, Source={StaticResource eHCMSResources}}" 
+                          Margin="211,0,0,0" IsChecked="{Binding SearchCriteria.GenderEnabled,Mode=TwoWay}"  Width="64"></CheckBox>-->
+                    <customcontrols:AxTextBox Name="IDNumber" Text="{Binding curStaff.SIDNumber,Mode=TwoWay}" Grid.Column="7" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Margin="84,9,0,9" Width="168" TabIndex="10"/>
+                    <customcontrols:AxTextBox Name="MobilePhoneNumber" Text="{Binding curStaff.SMobiPhoneNumber,Mode=TwoWay}" Grid.Column="3" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Margin="0,9" Width="126" Grid.ColumnSpan="3" TabIndex="9"/>
+                    <customcontrols:AxTextBox Name="Email" Text="{Binding curStaff.SEmailAddress,Mode=TwoWay}" Grid.Column="7" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" TabIndex="1" />
+                    <!--<TextBox Name="Relegion" Grid.Column="7" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}"  />-->
+                    <customcontrols:AxComboBox Name="cboRelegion"  Grid.Column="7" Grid.Row="4" Height="22" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding allReligion, Mode=OneWay}"
+                                          Style="{StaticResource MainFrame.ComboBox}" TabIndex="7"
+                                          SelectedItemEx="{Binding SelectedReligion,Mode=TwoWay}"                                          
+                                          DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID" />
+                    <TextBlock Text="{Binding T3696_G1_MaritalStatus, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}"  />
+                    <customcontrols:AxComboBox Name="cboMaritalStatus"  Grid.Column="3" Grid.Row="5" Height="22" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding allMaritalStatus, Mode=OneWay}"
+                                          Style="{StaticResource MainFrame.ComboBox}" TabIndex="8"
+                                          SelectedItemEx="{Binding SelectedMaritalStatus,Mode=TwoWay}"                                          
+                                          DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID" Margin="0,9,117,9" Width="141" />
+                    <customcontrols:AxComboBox Name="cboEthnic"  Grid.Column="3" Grid.Row="4" Height="22" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding allEthnics, Mode=OneWay}"
+                                          Style="{StaticResource MainFrame.ComboBox}" TabIndex="6"
+                                          SelectedItemEx="{Binding SelectedEthnics,Mode=TwoWay}"                                          
+                                          DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID" Margin="0,9,0,9" />
+                    <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="5" Grid.ColumnSpan="3">
+                        <Button x:Name="butClear" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" Content="{Binding G2830_G1_XoaTimLai, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="100" TabIndex="12"/>
+                        <Button x:Name="butSearch" Grid.Row="4" HorizontalAlignment="Left" Content="{Binding G1241_G1_TimNhVien, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="100" TabIndex="11"/>
+                        <Button x:Name="butNew" Grid.Row="4" HorizontalAlignment="Left" Content="{Binding G0316_G1_ThemNhVien, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="120" Margin="30,0,0,0"  TabIndex="13"/>
+                    </StackPanel>
+                </customcontrols:AxGrid>
+            </Border>
+            <!--<Label Grid.Row="0" Height="18" HorizontalAlignment="Left" Name="lblResult" VerticalAlignment="Top" Content="{Binding K3060_G1_DSRole, Source={StaticResource eHCMSResources}}" Style="{StaticResource Label.Heading.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />-->
+            <Border Grid.Row="1" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="25" Height="40*" />
+                        <RowDefinition MinHeight="120" Height="581*" />
+                        <RowDefinition MinHeight="24" Height="40*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Height="22" HorizontalAlignment="Left" FontWeight="Bold" Name="lblResult" VerticalAlignment="Center" Content="{Binding K3007_G1_DSNhVien, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />
+                    <DataGrid  Name="grdRoleGrid"  Grid.Row="1" MinHeight="250" CanUserAddRows="False"
+                               AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                               ScrollViewer.VerticalScrollBarVisibility="Auto"
+                               ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                               Style="{StaticResource MainFrame.DataGridStyle}"
+                               ItemsSource="{Binding allStaff,Mode=TwoWay}"                               
+                               SelectedItem="{Binding SelectedStaff,Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn x:Name="colDeleted"   CellTemplate="{StaticResource TemplateDeleteRecord}" />
+                                <DataGridTemplateColumn x:Name="colUpdate"  CellTemplate="{StaticResource TemplateUpdateRecord}" />
+                            <DataGridTextColumn Header="{Binding T0882_G1_TenNhVien, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  FullName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding Q0484_G1_QuocGia, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  RefCountry.CountryName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding T2261_G1_KhoaPh, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  RefDepartment.DeptName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding K3584_G1_DoiNgu, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  RefStaffCategory.StaffCatgDescription , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding G0077_G1_TPho, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  CitiesProvince.CityProvinceName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding R0530_G1_RoleCode, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  RoleCode , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding T1223_G1_GTinh, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  Sex , Converter={StaticResource BoolToSexConverter},Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding N0107_G1_NgSinh, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SDOB , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding N0264_G1_NoiSinh, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SBirthPlace , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding S0627_G1_SoCMND, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SIDNumber , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding N0256_G1_NoiCap, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SPlaceOfIssue , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SStreetAddress , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding S0719_G1_SSurburb, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SSurburb , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding S0718_G1_SState, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SState , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding S0633_G1_SoDienThoaiNha, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SPhoneNumber , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding S0639_G1_SoDTDiDong, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SMobiPhoneNumber , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding T0020_G1_Email, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SEmailAddress , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding N0128_G1_NgXinViec, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SEmployDate , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding N0072_G1_NgHetHan, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SLeftDate , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding G1457_G1_TGiao, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  Religion.ObjectValue , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding G1338_G1_TTrangHonNhan, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  MaritalStatus.ObjectValue , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding Q0484_G1_QuocGia, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  Ethnic.ObjectValue , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding S0691_G1_SoTaiKhoan, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SAccountNumber , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding T0875_G1_TenNganHg, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  BankName.ObjectValue , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding Q0445_G1_QuaTrinhLamViec, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SEmploymentHistory , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding S0578_G1_SImage, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SImage , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <!--<DataGridTextColumn Header="{Binding T1520_G1_HA, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  PImage , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  />-->
+                            <DataGridTemplateColumn Header="{Binding T1520_G1_HA, Source={StaticResource eHCMSResources}}" CellTemplate="{StaticResource TemplateImageRecord}"/>
+
+                            <!--//*▼====: #001-->
+                            <DataGridTextColumn Header="{Binding Z2187_G1_ChungChiHanhNghe, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding SCertificateNumber , Mode=OneWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <DataGridTextColumn Header="{Binding Z2188_G1_MaNhanVien, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  SCode , Mode=OneWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                            <!--//*▲====: #001-->
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    <StackPanel Grid.Row="2"  Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <customcontrols:DataPager Name="dpgResource"
+                            Height="25" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                            Source="{Binding allStaff,Mode=TwoWay}"
+                            PageSize="10" Style="{StaticResource MainFrame.DataPager}" Visibility="Visible"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

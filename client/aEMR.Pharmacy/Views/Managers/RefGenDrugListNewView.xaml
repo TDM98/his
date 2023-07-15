@@ -1,0 +1,428 @@
+﻿<UserControl
+    x:Class="aEMR.Pharmacy.Views.RefGenDrugListNewView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="300"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <DataTemplate x:Key="ColDeleteTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="lnkDrugID"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click] = [Action lnkDrugID_Click($source, $eventArgs)];                         [Event Loaded]=[Action lnkDrugID_Loaded($source)]"
+                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                    ToolTipService.ToolTip="{Binding G2410_G1_XemCTiet, Source={StaticResource eHCMSResources}}">
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/book-open-text-icon.png" />
+                </Button>
+                <TextBlock Text="{Binding Z0029_G1_DauGachDung, Source={StaticResource eHCMSResources}}" />
+                <Button
+                    x:Name="lnkEdit"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click] = [Action lnkEdit_Click($source, $eventArgs)];                         [Event Loaded]=[Action lnkEdit_Loaded($source)]"
+                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                    ToolTipService.ToolTip="Cập nhật thuốc">
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/edit.jpg" />
+                </Button>
+                <TextBlock Text="{Binding Z0029_G1_DauGachDung, Source={StaticResource eHCMSResources}}" />
+                <Button
+                    x:Name="lnkDelete"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click] = [Action lnkDelete_Click($source, $eventArgs)];                         [Event Loaded]=[Action lnkDelete_Loaded($source)]"
+                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="97" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="14"
+                FontWeight="Bold"
+                Foreground="#3595CB"
+                Text="{Binding TitleForm}" />
+            <Grid
+                x:Name="GridSearchDrug"
+                Grid.Row="1"
+                ShowGridLines="False"
+                Style="{StaticResource GridSearch}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition Height="23" />
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.RowSpan="5"
+                    Grid.Column="0"
+                    Visibility="{Binding bTim, Converter={StaticResource BooleanToVisibility}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0" />
+                        <RowDefinition Height="16" />
+                        <RowDefinition />
+                        <RowDefinition Height="16" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Name="lblDrugName"
+                        Grid.Row="1"
+                        Margin="20,1,10,0"
+                        Style="{StaticResource MainFrame.TextBlock.02}"
+                        Text="{Binding N0214_G1_NhapTenThuocHoacMa, Source={StaticResource eHCMSResources}}" />
+                    <TextBox
+                        Grid.Row="2"
+                        Margin="20,0,10,0"
+                        cal:Message.Attach="[Event KeyUp] = [Action txt_search_KeyUp($source, $eventArgs)]"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding SearchCriteria.BrandName, Mode=TwoWay}" />
+                    <TextBlock
+                        Name="lblFamilyTherapy"
+                        Grid.Row="3"
+                        Margin="20,1,10,0"
+                        Style="{StaticResource MainFrame.TextBlock.02}"
+                        Text="{Binding T2929_G1_LopThuocTriLieu, Source={StaticResource eHCMSResources}}" />
+                    <AxControls:KeyEnabledComboBox
+                        Name="cbxFamilyTherapy"
+                        Grid.Row="4"
+                        Margin="20,0,10,0"
+                        cal:Message.Attach="[Event SelectionChanged] = [Action cbxFamilyTherapy_SelectionChanged($source, $eventArgs)]"
+                        DisplayMemberPath="FaName"
+                        ItemsSource="{Binding FamilyTherapies, Mode=TwoWay}"
+                        SelectedValuePath="DrugClassID"
+                        Style="{StaticResource ComboBoxStyle}" />
+                    <Border
+                        x:Name="GroupCatDrugType"
+                        Grid.Row="1"
+                        Grid.RowSpan="4"
+                        Grid.Column="1"
+                        Margin="2"
+                        Background="White"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <StackPanel Margin="2" Orientation="Vertical">
+                            <RadioButton
+                                Name="CatDrugType1"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action CatDrugType1_Checked($source, $eventArgs)]"
+                                Content="{Binding T0822_G1_TatCa, Source={StaticResource eHCMSResources}}"
+                                GroupName="GroupCatDrugType"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="CatDrugType2"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action CatDrugType2_Checked($source, $eventArgs)]"
+                                Content="{Binding Z2857_G1_DungChung, Source={StaticResource eHCMSResources}}"
+                                GroupName="GroupCatDrugType"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="CatDrugType3"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action CatDrugType3_Checked($source, $eventArgs)]"
+                                Content="{Binding N0181_G1_NhaThuoc, Source={StaticResource eHCMSResources}}"
+                                GroupName="GroupCatDrugType"
+                                IsChecked="True"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <!--<RadioButton
+                                    Name="CatDrugType4"
+                                    Content="{Binding T2257_G1_KhoaDuoc, Source={StaticResource eHCMSResources}}"
+                                    Margin="0" GroupName="GroupCatDrugType" IsChecked="True"
+                                    Style="{StaticResource MainFrame.RadioButton}"
+                                    cal:Message.Attach="[Event Checked] = [Action CatDrugType4_Checked($source, $eventArgs)]" />-->
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        x:Name="GroupInsurance"
+                        Grid.Row="1"
+                        Grid.RowSpan="4"
+                        Grid.Column="2"
+                        Margin="2"
+                        Background="White"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <StackPanel Margin="2" Orientation="Vertical">
+                            <RadioButton
+                                Name="IsInsurance1"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsInsurance1_Checked($source, $eventArgs)]"
+                                Content="{Binding T0822_G1_TatCa, Source={StaticResource eHCMSResources}}"
+                                GroupName="IsInsurance"
+                                IsChecked="True"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="IsInsurance2"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsInsurance2_Checked($source, $eventArgs)]"
+                                Content="{Binding G1794_G1_TrongDMBHYT, Source={StaticResource eHCMSResources}}"
+                                GroupName="IsInsurance"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="IsInsurance3"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsInsurance3_Checked($source, $eventArgs)]"
+                                Content="{Binding N0142_G1_NgoaiDMBHYT, Source={StaticResource eHCMSResources}}"
+                                GroupName="IsInsurance"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        x:Name="GroupConsult"
+                        Grid.Row="1"
+                        Grid.RowSpan="4"
+                        Grid.Column="3"
+                        Margin="2"
+                        Background="White"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <StackPanel Margin="2" Orientation="Vertical">
+                            <RadioButton
+                                Name="IsConsult1"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsConsult1_Checked($source, $eventArgs)]"
+                                Content="{Binding T0822_G1_TatCa, Source={StaticResource eHCMSResources}}"
+                                GroupName="IsConsult"
+                                IsChecked="True"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="IsConsult2"
+                                Grid.Row="1"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsConsult2_Checked($source, $eventArgs)]"
+                                Content="{Binding Z0049_G1_CanHoiChan, Source={StaticResource eHCMSResources}}"
+                                GroupName="IsConsult"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="IsConsult3"
+                                Grid.Row="2"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsConsult3_Checked($source, $eventArgs)]"
+                                Content="{Binding T2457_G1_KhongCanHChan, Source={StaticResource eHCMSResources}}"
+                                GroupName="IsConsult"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        x:Name="GroupActive"
+                        Grid.Row="1"
+                        Grid.RowSpan="4"
+                        Grid.Column="4"
+                        Margin="2"
+                        Background="White"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <StackPanel Margin="2" Orientation="Vertical">
+                            <RadioButton
+                                Name="IsActive1"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsActive1_Checked($source, $eventArgs)]"
+                                Content="{Binding T0822_G1_TatCa, Source={StaticResource eHCMSResources}}"
+                                GroupName="GroupActive"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="IsActive2"
+                                Grid.Row="1"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsActive2_Checked($source, $eventArgs)]"
+                                Content="{Binding K2716_G1_ConDung, Source={StaticResource eHCMSResources}}"
+                                GroupName="GroupActive"
+                                IsChecked="True"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="IsActive3"
+                                Grid.Row="2"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsActive3_Checked($source, $eventArgs)]"
+                                Content="{Binding T1476_G1_HetDung, Source={StaticResource eHCMSResources}}"
+                                GroupName="GroupActive"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                        </StackPanel>
+                    </Border>
+                    <Border
+                        x:Name="GroupShow"
+                        Grid.Row="1"
+                        Grid.RowSpan="4"
+                        Grid.Column="5"
+                        Margin="2"
+                        Background="White"
+                        Style="{StaticResource LightBlueBorderStyle}">
+                        <StackPanel Margin="2" Orientation="Vertical">
+                            <RadioButton
+                                Name="IsShow1"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsShow1_Checked($source, $eventArgs)]"
+                                Content="{Binding T0822_G1_TatCa, Source={StaticResource eHCMSResources}}"
+                                GroupName="GroupShow"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="IsShow2"
+                                Grid.Row="1"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsShow2_Checked($source, $eventArgs)]"
+                                Content="{Binding K3931_G1_DuocHThi, Source={StaticResource eHCMSResources}}"
+                                GroupName="GroupShow"
+                                IsChecked="True"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Name="IsShow3"
+                                Grid.Row="2"
+                                Margin="0"
+                                cal:Message.Attach="[Event Checked] = [Action IsShow3_Checked($source, $eventArgs)]"
+                                Content="{Binding T2475_G1_KhongHienThi, Source={StaticResource eHCMSResources}}"
+                                GroupName="GroupShow"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <StackPanel
+                    Grid.Row="5"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Name="Search"
+                        Grid.Row="5"
+                        Width="90"
+                        Height="20"
+                        Margin="2,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}"
+                        Visibility="{Binding bTim, Converter={StaticResource BooleanToVisibility}}" />
+                    <Button
+                        Name="btnAddNew"
+                        Grid.Row="5"
+                        Width="75"
+                        Height="20"
+                        Margin="2,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding G0276_G1_ThemMoi, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}"
+                        Visibility="{Binding bThemMoi, Converter={StaticResource BooleanToVisibility}}" />
+                    <Button
+                        Name="btnExportExcel"
+                        Grid.Row="5"
+                        Width="90"
+                        Height="20"
+                        Margin="2,1"
+                        HorizontalAlignment="Right"
+                        Content="{Binding G2849_G1_XuatExcel, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}"
+                        Visibility="{Binding bTim, Converter={StaticResource BooleanToVisibility}}" />
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="GridInfoDrug" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+                <AxControls:DoubleClickDataGrid
+                    x:Name="griddrug"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="2"
+                    cal:Message.Attach="[Event DblClick] = [Action griddrug_DblClick($source, $eventArgs)]"
+                    AutoGenerateColumns="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding DrugsResearch}"
+                    SelectedItem="{Binding CurrentDrug, Mode=TwoWay}"
+                    Style="{StaticResource MainFrame.DataGridStyle}"
+                    VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn CellTemplate="{StaticResource ColDeleteTemplate}" />
+                        <DataGridTextColumn Binding="{Binding CatDrugType.ObjectValue}" Header="{Binding P0344_G1_PhanLoai, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding DrugCode}" Header="{Binding T3649_G1_MaThuoc, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding BrandName}" Header="{Binding T0907_G1_TenThuongMai, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colGenericName"
+                            Binding="{Binding GenericName}"
+                            Header="{Binding T0857_G1_TenHoatChat, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colContent"
+                            Binding="{Binding Content}"
+                            Header="{Binding T1316_G1_HLg, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colDUnits"
+                            Binding="{Binding SeletedUnit.UnitName}"
+                            Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            Binding="{Binding DispenseVolume}"
+                            ElementStyle="{StaticResource MainFrame.TextBlockRightAlign}"
+                            Header="{Binding K3526_G1_Dispensevolume, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colDUnitUse"
+                            Binding="{Binding SeletedUnitUse.UnitName}"
+                            Header="{Binding K3950_G1_DViDung, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colAdministration"
+                            Binding="{Binding Administration}"
+                            Header="{Binding K1503_G1_CachDung, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colPharmaceutical"
+                            Binding="{Binding PharmaceuticalCompany.PCOName}"
+                            Header="{Binding T1410_G1_HgSX2, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colCountryID"
+                            Binding="{Binding SeletedCountry.CountryName}"
+                            Header="{Binding Q0484_G1_QuocGia, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colFaID"
+                            Binding="{Binding SeletedDrugClass.FaName}"
+                            Header="{Binding T2922_G1_LopThuoc, Source={StaticResource eHCMSResources}}" />
+                        <DataGridCheckBoxColumn Binding="{Binding DIsActive}" Header="{Binding G0855_G1_ThuocConDung, Source={StaticResource eHCMSResources}}" />
+                    </DataGrid.Columns>
+                </AxControls:DoubleClickDataGrid>
+                <AxControls:DataPager
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="1,0,0,0"
+                    Source="{Binding DrugsResearch}" />
+            </Grid>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="aEMR.CommonViews.SystemConfiguration.Views.SystemConfigurationTopMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="50"
+    d:DesignWidth="700"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Menu
+            x:Name="SystemConfigurationTopMenu"
+            Height="35"
+            Margin="1,1,1,1"
+            VerticalAlignment="Top"
+            BorderBrush="DarkGreen"
+            BorderThickness="2">
+            <MenuItem
+                Width="Auto"
+                Height="32"
+                Background="Aquamarine"
+                FontWeight="ExtraBold"
+                Foreground="DarkBlue"
+                Header="{Binding T1452_G1_HeThong, Source={StaticResource eHCMSResources}}"
+                Visibility="{Binding mSystem, Converter={StaticResource BooleanToVisibility}}">
+                <MenuItem
+                    x:Name="PrinterSettingsCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K1705_G1_CHinhMayIn, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding bPrinterSettings, Converter={StaticResource BooleanToVisibility}}" />
+                <MenuItem
+                    x:Name="InstallationCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding K1532_G1_CaiDatUDung, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding bInstallOutOfBrowser, Converter={StaticResource BooleanToVisibility}}" />
+                <MenuItem
+                    x:Name="SystemConfigCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2715_G1_CauHinhHeThong, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibility}}" />
+                <!--<MenuItem
+                    x:Name="RefApplicationConfigMgnt"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="Quản lý cấu hình"
+                    Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />-->
+            </MenuItem>
+        </Menu>
+    </Grid>
+</UserControl>

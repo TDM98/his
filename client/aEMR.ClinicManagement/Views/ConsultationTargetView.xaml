@@ -1,0 +1,528 @@
+﻿<UserControl    x:Class="aEMR.ClinicManagement.Views.ConsultationTargetView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"   
+                xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignWidth="1000">
+    <UserControl.Resources>
+	    <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete" 
+                                 Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                 cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($source)]"
+                                 ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="DTTimeTarget">
+            <TextBlock Text="{Binding TargetDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"                       
+                       />
+        </DataTemplate>
+        <DataTemplate x:Key="DTDatePicker">
+            <customcontrols:AxDatePicker Style="{StaticResource MainFrame.DatePicker}" 
+                    SelectedDate="{Binding TargetDate, Mode=TwoWay,StringFormat='dd/MM/yyyy'}"
+                    Height="22" Width="150" 
+                    IsEnabled="{Binding isEdit}"  />
+            <!--Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility} }"-->
+            
+        </DataTemplate>
+        <DataTemplate x:Key="DTtxtNumber">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBox Text="{Binding TargetNumberOfCases, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0" Padding="0" VerticalAlignment="Center"
+                         IsEnabled="{Binding isEdit,Mode=TwoWay}" Width="150" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DTtxtMaxNumber">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBox Text="{Binding MaxNumConsultationAllowed, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0" Padding="0" VerticalAlignment="Center"
+                         IsEnabled="{Binding isEdit,Mode=TwoWay}" Width="150" />
+            </StackPanel>
+        </DataTemplate>
+        
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+            <Grid Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>        
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="105" />
+                <RowDefinition Height="455" />
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Text="{Binding Q0453_G1_QuanLyChiTieuPK, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB" Grid.ColumnSpan="3" Grid.Column="0"  />
+            <Border Grid.Row="1"  Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" >
+                <!--DataContext="{Binding selectedConsultTimeSeg,Mode=TwoWay}"-->
+                <Grid Height="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        
+                        <ColumnDefinition  />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="22"/>
+                        <RowDefinition  Height="25"/>
+                        <RowDefinition Height="22" />
+                        <RowDefinition  Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="{Binding T2222_G1_Khoa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding P0391_G1_PgKham, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding G0436_G1_TGianKham, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding N0045_G1_Ng, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    
+                    <TextBlock Grid.Column="1"  Grid.Row="0" Name="Khoa" Text="{Binding CurRefDepartmentsTree.Parent.NodeText}"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}"  />
+                    <TextBlock Grid.Column="1"  Grid.Row="1" Name="Phong" Text="{Binding CurRefDepartmentsTree.NodeText}"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}"  />
+                    <customcontrols:AxComboBox Name="cboTimeSegment"                                                 
+                                               ItemsSource="{Binding lstConsultationTimeSegments}" Width="120" Grid.Row="2" Grid.Column="1"
+                                               VerticalAlignment="Bottom"
+                                                   DisplayMemberPath="SegmentName"
+                                                   SelectedValuePath="ConsultationTimeSegmentID"
+                                                   SelectedItemEx="{Binding selectedConsultationRoomTarget.ConsultationTimeSegments,Mode=TwoWay}"
+                                               Margin="10,0,10,1" />                    
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding curDate}" Width="110"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}"  />
+                </Grid>
+            </Border>
+            <Border Grid.Row="1"  Width="Auto" Style="{StaticResource LightBlueBorderStyle}"  ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2" >
+                <!--DataContext="{Binding selectedConsultTimeSeg,Mode=TwoWay}"-->
+                <Grid Height="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="136" />                        
+                        <ColumnDefinition Width="12*" />
+                        <ColumnDefinition Width="284*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="20"/>
+                        <RowDefinition  Height="25"/>
+                        <RowDefinition Height="22" />
+                        <RowDefinition  Height="30"/>
+                            <RowDefinition Height="3*" />
+                        </Grid.RowDefinitions>
+                    <!--<Label Height="18" HorizontalAlignment="Left" Name="lblResult" VerticalAlignment="Top" Content="{Binding G0436_G1_TGianKham, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />-->
+                        <Label Grid.Row="0" Height="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="{Binding K3101_G1_DatCTieuPK, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" 
+                                   FontWeight="Bold"  Foreground="#CC0033" Grid.ColumnSpan="3" />
+                        <Label Content="{Binding N0046_G1_NgApDung, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding S0657_G1_SLggBenhNhan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                        <DatePicker Name="dtTargetDay" VerticalAlignment="Center" Width="110" Grid.Row="1" Grid.Column="2" HorizontalAlignment="left"
+                                cal:Message.Attach="[Event Loaded]=[Action dtTargetDay_OnLoaded($source,$eventArgs)]"
+                                    
+                                SelectedDate="{Binding selectedConsultationRoomTarget.TargetDate,Mode=TwoWay}"  Height="22" Style="{StaticResource MainFrame.DatePicker}" />
+                    <TextBox x:Name="txtNumPatient" Grid.Row="2" Width="90" Grid.Column="2" Text="{Binding selectedConsultationRoomTarget.TargetNumberOfCases,Mode=TwoWay}"   HorizontalAlignment="Left" Height="22"  
+                              TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBox}"  />
+                        <!--Visibility="{Binding bQuanAdd,Converter={StaticResource BooleanToVisibility} }"-->
+                        <Button Name="hplCheckDay" Grid.ColumnSpan="3" Grid.Row="3" Content="{Binding K3124_G1_DatNgTrongTuan, Source={StaticResource eHCMSResources}}"
+                                HorizontalContentAlignment="Left"
+                                ToolTipService.ToolTip="{Binding K2065_G1_ChonNgKhamTrongTuan3, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Left" Style="{StaticResource MainFrame.HyperlinkButton.01}" VerticalAlignment="Center" Margin="15,0,0,0">                            
+                        </Button>
+                        <Button x:Name="butSave" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="80"  
+                             />
+                </Grid>
+                </Border>
+            <!--<Label Grid.Row="0" Height="18" HorizontalAlignment="Left" Name="lblResult" VerticalAlignment="Top" Content="{Binding K3060_G1_DSRole, Source={StaticResource eHCMSResources}}" Style="{StaticResource Label.Heading.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />-->
+            <ContentControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Name="RoomTree">
+                
+            </ContentControl>
+            
+            
+            <Border Grid.Row="2" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                    Grid.Column="1" Grid.ColumnSpan="2" >
+                    <Grid  x:Name="LayoutRoot" ShowGridLines="False"
+                          >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition />
+                    </Grid.RowDefinitions>
+                        <Grid Height="Auto" Width="Auto" Grid.Row="0"
+                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="25" Height="28*"/>
+                                <RowDefinition MinHeight="120" Height="581*" />
+                                <RowDefinition MinHeight="34" Height="38*"  />
+
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="0" Height="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="{Binding K1856_G1_CTieuHTaiChoPK, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" FontWeight="Bold"  Foreground="#3595CB"  />
+
+                            <DataGrid   Grid.Row="1"
+                                      AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+					                ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                           Style="{StaticResource MainFrame.DataGridStyle}"
+					                ItemsSource="{Binding curAllConsultationRoomTarget,Mode=TwoWay}"
+                                            IsReadOnly="True"
+                                    >
+                                <DataGrid.Columns>
+                                <DataGridTextColumn Header="{Binding K1437_G1_CaKham, Source={StaticResource eHCMSResources}}" IsReadOnly="True" 
+                                                            Binding="{Binding  ConsultationTimeSegments.SegmentName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="80"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                                <DataGridTextColumn Header="{Binding N0047_G1_NgBDauADung, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Width="140" CanUserReorder="True"
+                                                       Binding="{Binding TargetDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}"/>
+
+                                <!--<DataGridTextColumn Header="{Binding N0074_G1_NgHTai, Source={StaticResource eHCMSResources}}" Width="140" CanUserReorder="True"
+                                                      Binding="{Binding StartTime, Mode=TwoWay}"  />-->
+                                <DataGridTextColumn Header="{Binding S0536_G1_SLggBNhan, Source={StaticResource eHCMSResources}}" Width="110" CanUserReorder="True"                                                       
+                                                            Binding="{Binding TargetNumberOfCases, Mode=TwoWay}"/>
+
+                                <DataGridTextColumn Header="{Binding S0538_G1_SLggToiDa, Source={StaticResource eHCMSResources}}" Width="110" CanUserReorder="True"
+                                                      Binding="{Binding MaxNumConsultationAllowed, Mode=TwoWay}"/>
+
+                                <DataGridTextColumn Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" Width="100" CanUserReorder="True"
+                                                      Binding="{Binding Status, Mode=TwoWay}"/>
+
+                                <DataGridTemplateColumn Header="{Binding T0752_G1_THai, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                  
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Monday,Mode=OneWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Monday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>                                        
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0749_G1_TBa, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                   
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Name="chkTue" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Tuesday,Mode=OneWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Tuesday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0757_G1_TTu, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                  
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Name="chkWed" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Wednesday,Mode=OneWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Wednesday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0753_G1_TNam, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Thursday,Mode=OneWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Thursday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0754_G1_TSau, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                  
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Friday,Mode=OneWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Friday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0750_G1_TBay, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                 
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Saturday,Mode=OneWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Saturday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding K2227_G1_ChuNhat, Source={StaticResource eHCMSResources}}" Width="80" CanUserReorder="True">
+                                   
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Sunday,Mode=OneWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Sunday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>                                        
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+
+                        </Grid>
+                        
+                        <Grid Height="Auto" Width="Auto" Grid.Row="2"
+                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                >
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="25" Height="54*"/>
+                                <RowDefinition MinHeight="120" Height="158*" />
+                                <RowDefinition MinHeight="34" Height="34*"  />
+
+                            </Grid.RowDefinitions>
+                            <Label Height="18" HorizontalAlignment="Center" Name="lblResult" VerticalAlignment="Top" Content="{Binding K2953_G1_DSCTieuPK, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" FontWeight="Bold"  Foreground="#3595CB" Margin="0,10,0,0" />
+                            <StackPanel Grid.Row="0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="left" Margin="45,0,0,5">
+                                <Label Height="18" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                                           Content="{Binding G2481_G1_XemTheoCaKham, StringFormat='{}{0}:  ', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" FontWeight="Bold"  Foreground="#3595CB" Margin="0,10,0,0" />
+                                <customcontrols:AxComboBox Name="cboTimeSegment1"  
+                                               ItemsSource="{Binding lstConsultationTimeSegments}" Width="120" Grid.Row="2" Grid.Column="1"
+                                               VerticalAlignment="Bottom"
+                                                   DisplayMemberPath="SegmentName"
+                                                   SelectedValuePath="ConsultationTimeSegmentID"       
+                                        SelectedItemEx="{Binding selectedConsultTimeSeg,Mode=TwoWay}"
+                                               Margin="10,0,10,1" />
+                                <Button Name="butGetAll"  Content="{Binding G2470_G1_XemTCa, Source={StaticResource eHCMSResources}}" Width="80" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5,6,0,0"/>
+                            </StackPanel>
+                            <customcontrols:ReadOnlyDataGrid  Name="grdListTarget"  Grid.Row="1"
+                                      AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+					                ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                           Style="{StaticResource MainFrame.DataGridStyle}"
+					                ItemsSource="{Binding AllTempConsultationRoomTarget,Mode=TwoWay}"
+                                    SelectedItem="{Binding selectedTempConsultationRoomTarget,Mode=TwoWay}"
+                                           cal:Message.Attach="[Event LoadingRow]=[Action grdListTarget_LoadingRow($source,$eventArgs)]"                                    
+                                    >
+                                <DataGrid.Columns>
+
+                                    <DataGridTemplateColumn CellEditingTemplate="{StaticResource TemplateDeleteRecord}" />
+                                <DataGridTextColumn Header="{Binding K1437_G1_CaKham, Source={StaticResource eHCMSResources}}" IsReadOnly="True" 
+                                                            Binding="{Binding  ConsultationTimeSegments.SegmentName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="70"   ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                                <DataGridTemplateColumn Header="{Binding N0047_G1_NgBDauADung, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Width="140" CanUserReorder="True"                                                            
+                                                      CellTemplate="{StaticResource DTTimeTarget}"/>
+
+                                <DataGridTemplateColumn Header="{Binding S0536_G1_SLggBNhan, Source={StaticResource eHCMSResources}}" Width="120" CanUserReorder="True">
+                                 
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate >
+                                                <TextBox Text="{Binding TargetNumberOfCases, Mode=TwoWay}" 
+                                                         HorizontalAlignment="Center"  VerticalAlignment="Center"
+                                                    IsEnabled="{Binding isEdit,Mode=TwoWay}" Width="80" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding S0538_G1_SLggToiDa, Source={StaticResource eHCMSResources}}" Width="120" CanUserReorder="True">
+                                   
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate >
+                                                <TextBox Text="{Binding MaxNumConsultationAllowed, Mode=TwoWay}" 
+                                                         HorizontalAlignment="Center"  VerticalAlignment="Center"
+                                                    IsEnabled="{Binding isEdit,Mode=TwoWay}" Width="80" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="{Binding T0752_G1_THai, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                    
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Monday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <!--<DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Monday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>-->
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0749_G1_TBa, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                 
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Name="chkTue" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Tuesday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <!--<DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Tuesday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>-->
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0757_G1_TTu, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                 
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Name="chkWed" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Wednesday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <!--<DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox Name="chkMon" VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Wednesday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>-->
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0753_G1_TNam, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                   
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Thursday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <!--<DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Thursday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>-->
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0754_G1_TSau, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                  
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Friday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <!--<DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Friday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>-->
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T0750_G1_TBay, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+                                  
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Saturday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <!--<DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Saturday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>-->
+                                    </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding K2227_G1_ChuNhat, Source={StaticResource eHCMSResources}}" Width="80" CanUserReorder="True">
+                                 
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                          IsEnabled="{Binding isEdit}"
+                                                    IsChecked="{Binding Sunday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <!--<DataGridTemplateColumn.CellEditingTemplate >
+                                            <DataTemplate >
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center"                                                          
+                                                          Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}"
+                                                    IsChecked="{Binding Sunday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>-->
+                                    </DataGridTemplateColumn>
+                                    
+                                </DataGrid.Columns>
+
+                                </customcontrols:ReadOnlyDataGrid>
+                            <Button Name="butUpdate" Grid.Row="2" Content="{Binding K1599_G1_CNhat, Source={StaticResource eHCMSResources}}" Width="80" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+
+                    </Grid>
+                    
+                
+
+            </Border>
+        </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Border>
+</UserControl>

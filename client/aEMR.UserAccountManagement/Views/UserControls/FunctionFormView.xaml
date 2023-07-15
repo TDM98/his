@@ -1,0 +1,162 @@
+﻿<UserControl                        x:Class="aEMR.UserAccountManagement.Views.FunctionFormView"
+                                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                    xmlns:cal="http://www.caliburnproject.org"             
+                                    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"   
+                                    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common" 
+                                    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                                    d:DesignHeight="600" d:DesignWidth="900"
+                                    mc:Ignorable="d">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"  
+                                 cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($source,$eventArgs)]"
+                                 ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="TemplateUpdateRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkUpdate" 
+                                 cal:Message.Attach="[Event Click]=[Action lnkUpdateClick($source,$eventArgs)]"
+                                 ToolTipService.ToolTip="Click here for edit function name." HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit.jpg" Height="13" Width="13" Opacity="1" />
+                        <!--PImage-->
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas"  Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" >
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+            <Grid  MinWidth="800" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowGridLines="False" >            
+            <Grid.RowDefinitions>                
+                <RowDefinition MinHeight="80" Height="120" />
+                <RowDefinition MinHeight="80" Height="150" />
+                <RowDefinition MinHeight="80" Height="300" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="*"  />
+                
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.RowSpan="3" >
+                <ContentControl Name="UCModulesTreeViewEx" >
+                </ContentControl>
+            </StackPanel>
+                <Border  Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="371*" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="5"/>
+                        <RowDefinition  Height="25"/>
+                        <RowDefinition  Height="25"/>
+                        
+                        <RowDefinition  Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="{Binding M0010_G1_ModuleName, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Style="{StaticResource MainFrame.Label.00}"  />
+                    <TextBox x:Name="txtModuleName" Grid.Row="1"  Grid.Column="2" HorizontalAlignment="Stretch" Height="22"  TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBox}"  />
+                    <Label Content="{Binding K3318_G1_Desc, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Style="{StaticResource MainFrame.Label.00}"  />
+                    <TextBox x:Name="txtModuleDescription" Grid.Row="2"  Grid.Column="2" HorizontalAlignment="Stretch" Height="22"  TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBox}"  />
+                    <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button x:Name="butSaveModule" HorizontalAlignment="Left" Content="{Binding G0275_G1_ThemModule, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}"  Width="100"/>
+                    </StackPanel>
+                </Grid>
+                </Border>
+                    
+            <Border  Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">    
+            <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="8" />
+                        <ColumnDefinition Width="323*" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="5"/>
+                        <RowDefinition  Height="25"/>
+                        <RowDefinition  Height="25"/>
+                        <RowDefinition  Height="25"/>
+                        
+                        <RowDefinition  Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="{Binding M0010_G1_ModuleName, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Style="{StaticResource MainFrame.Label.00}"  />
+                    <TextBlock Grid.Row="1"  Grid.Column="2" Text="{Binding SelectedModule.ModuleName,Mode=TwoWay}"  HorizontalAlignment="Stretch" Height="22"  TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.Title}"  />
+                    <Label Content="{Binding T0683_G1_FunctionName, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Style="{StaticResource MainFrame.Label.00}"  />
+                    <TextBox x:Name="txtFunctionName" Grid.Row="2"  Grid.Column="2"  HorizontalAlignment="Stretch" Height="22"  TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBox}"  />
+                    <Label Content="{Binding T0682_G1_FunctionDesc, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" Style="{StaticResource MainFrame.Label.00}"  />
+                    <TextBox x:Name="txtFunctionDescription" Grid.Row="3"  Grid.Column="2" HorizontalAlignment="Stretch" Height="22"  TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBox}"  />
+                    <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button x:Name="butSaveFunc" HorizontalAlignment="Left" Content="{Binding G0257_G1_ThemFunction, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="100"/>
+                    </StackPanel>
+                </Grid>
+                </Border>
+            <Border Grid.Column="1" Grid.Row="2" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                
+              >
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="25" Height="25*"/>
+                    <RowDefinition MinHeight="120" Height="372*" />
+                    <RowDefinition MinHeight="24" Height="44*"  />
+
+                </Grid.RowDefinitions>
+                
+                <TextBlock Grid.Row="0" Height="18" HorizontalAlignment="Left" Name="lblResult" VerticalAlignment="Top" Text="{Binding K2977_G1_DSFunction, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />
+                    <DataGrid  Name="grdRoleGrid"  Grid.Row="1"
+                        AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                        CanUserAddRows="False"       
+                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                        Style="{StaticResource MainFrame.DataGridStyle}"
+                        ItemsSource="{Binding allFunction,Mode=TwoWay}"
+                        SelectedItem="{Binding SelectedFunction,Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn x:Name="colDeleted"  Header="" CellTemplate="{StaticResource TemplateDeleteRecord}">
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn x:Name="colUpdate" CellTemplate="{StaticResource TemplateUpdateRecord}"/>
+                            <DataGridTextColumn Header="{Binding T0851_G1_TenFunction, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  FunctionName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                            
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="{Binding M0008_G1_MoTa, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding FunctionDescription, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                            
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="{Binding T0046_G1_Enum, Source={StaticResource eHCMSResources}}"  Binding="{Binding eNum, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                            
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                        
+                    </DataGrid>
+               
+                <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+
+                    <customcontrols:DataPager  Height="22" HorizontalAlignment="Stretch" Name="dpgResource"  Margin="0,-1,0,0"
+                                     Source="{Binding allFunction,Mode=OneWay}"
+                                    PageSize="10" VerticalAlignment="Center" Style="{StaticResource MainFrame.DataPager}" Visibility="Visible" Width="289" />
+                        <Button Name="butSaveEnum" Content="{Binding G2116_G1_CNhatEnum, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Height="22" Width="100" Margin="100,0,0,0"  />
+                </StackPanel>
+
+        </Grid>
+            </Border>
+        </Grid>
+
+        <!--</toolkit:BusyIndicator>-->
+    </Border>
+</UserControl>

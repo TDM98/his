@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="eHCMS.CommonUserControls.UCBedPatientAlloc"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=eHCMSLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Visibility="{Binding Mode=OneWay,FallbackValue='False',Converter={StaticResource IfNullVisibilityConverter}}">
+            <TextBlock Text="{Binding Z0242_G1_ChuaCoTTinGiuong, Source={StaticResource eHCMSResources}}"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Visibility="{Binding Mode=OneWay,Converter={StaticResource IfNotNullVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="24" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="24" />
+            </Grid.RowDefinitions>
+            <Image Source="{Binding Mode=OneWay,Converter={StaticResource BedAllocIconConverter}}" Height="70"
+                 Width="90" Opacity="1" Grid.RowSpan="3" Grid.Row="1" />
+            <TextBlock Text="{Binding VBedAllocation.BedNumber, Mode=OneWay}" Grid.Column="1" Grid.Row="0"/>
+            <TextBlock Text="{Binding VBedAllocation.VRefMedicalServiceItem.MedServiceName, Mode=OneWay}" Grid.Column="1" Grid.Row="1"/>
+            <TextBlock Text="{Binding VBedAllocation.VDeptLocation.RefDepartment.DeptName, Mode=OneWay}" Grid.Column="1" Grid.Row="2"/>
+            <TextBlock Text="{Binding VBedAllocation.VDeptLocation.Location.LocationName, Mode=OneWay}" Grid.Column="1" Grid.Row="3"/>
+            <TextBlock Text="{Binding PStatus, Mode=OneWay}" Grid.Column="1" Grid.Row="4"/>
+        </Grid>
+    </Grid>
+
+    
+</UserControl>

@@ -1,0 +1,167 @@
+﻿<UserControl                x:Class="aEMR.Pharmacy.Views.StorageView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:cal="http://www.caliburnproject.org"
+                            xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                            xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+                            xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                            d:DesignHeight="300" d:DesignWidth="900"
+                            mc:Ignorable="d">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <DataTemplate x:Key="LinkTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkSupplierID"  cal:Message.Attach="[Event Click] = [Action ViewClick($dataContext, $eventArgs)]
+                                 ;[Event Loaded]=[Action lnkView_Loaded($source)]"    ToolTipService.ToolTip="{Binding S0739_G1_Sua, Source={StaticResource eHCMSResources}}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit.jpg" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+                <TextBlock Text="{Binding Z0029_G1_DauGachDung, Source={StaticResource eHCMSResources}}"></TextBlock>
+                <Button x:Name="lnkDelete"  cal:Message.Attach="[Event Click] = [Action DeletedClick($dataContext, $eventArgs)]
+                                 ;[Event Loaded]=[Action lnkDelete_Loaded($source)]"   ToolTipService.ToolTip="Click here for delete" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}" >
+        
+        <Grid x:Name="LayoutRoot" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="800*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions></Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Border x:Name="BorderFrame" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="2,2,2,2" >
+                <Grid Style="{StaticResource GridSearch}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Height="23" HorizontalAlignment="Left" Margin="6,0,0,0" Text="{Binding TitleForm}" VerticalAlignment="Top" Style="{StaticResource MainTilte}"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <TextBlock Height="23" HorizontalAlignment="Left" Margin="6,1,0,1" Text="{Binding T0859_G1_TenKho, Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.TextBlock.00}"
+                                       Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility} }"/>
+                            <TextBox Height="23" HorizontalAlignment="Left" Margin="5,1,0,1" Text="{Binding StorageName,Mode=TwoWay}" Width="200"  cal:Message.Attach="[Event KeyUp] = [Action txt_search_KeyUp($source, $eventArgs)]" 
+                                 Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility} }" IsEnabled="{Binding NotExpanded}"/>
+                            <Button Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" Name="Search" Margin="5,1,0,1"  Width="75" Height="20" 
+                                Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility} }" IsEnabled="{Binding NotExpanded}"/>
+                            <Button Content="{Binding G0268_G1_ThemKhoMoi, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Name="hlbAdd" FontWeight="Bold" 
+                                             IsEnabled="{Binding NotExpanded}"
+                                             Visibility="{Binding bThem,Converter={StaticResource BooleanToVisibility} }" />
+                        </StackPanel>
+                    </Grid>
+                 
+                </Grid>
+            </Border>
+            <Grid x:Name="detailPrescription" Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60*"></ColumnDefinition>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                    </Grid.RowDefinitions>
+                <DataGrid     x:Name="GridStorages" HeadersVisibility="All" AutoGenerateColumns="False" 
+                              HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Visible" Margin="2" 
+                              ItemsSource="{Binding StorageWareHousesPaging}" 
+                              cal:Message.Attach="[Event LoadingRow] = [Action GridStorages_LoadingRow($source, $eventArgs)]
+                              ; [Event Loaded] = [Action GridStorages_Loaded($source, $eventArgs)]
+                              ; [Event DblClick] = [Action DoubleClick($dataContext, $eventArgs)]"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}" Grid.ColumnSpan="2" IsReadOnly="True" IsEnabled="{Binding NotExpanded}">
+                        <DataGrid.Columns>
+                        <DataGridTemplateColumn CellTemplate="{StaticResource LinkTemplate}"/>
+                        <DataGridTextColumn         x:Name="colswhlName"
+                                                    Header="{Binding T0859_G1_TenKho, Source={StaticResource eHCMSResources}}"
+                                                    Binding="{Binding swhlName}"/>
+
+
+
+                        <DataGridTextColumn 
+                                                    x:Name="colType"
+                                                    Header="{Binding T2780_G1_LoaiKho, Source={StaticResource eHCMSResources}}"
+                                                    Binding="{Binding RefStorageWarehouseType.StoreTypeName}">
+                     
+                        </DataGridTextColumn>
+                        <DataGridTextColumn         x:Name="colDept"
+                                                    Header="{Binding G0876_G1_ThuocKhoa, Source={StaticResource eHCMSResources}}"
+                                                    Binding="{Binding RefDepartment.DeptName}">
+
+                        </DataGridTextColumn>
+                        <DataGridTextColumn         x:Name="colswhlNotes"
+                                                    Header="{Binding M0008_G1_MoTa, Source={StaticResource eHCMSResources}}"
+                                                    Binding="{Binding swhlNotes}"
+                                                    Width="*">
+
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                    </DataGrid>
+                <AxControls:DataPager Grid.Row="1" Source="{Binding StorageWareHousesPaging}" Grid.ColumnSpan="2" IsEnabled="{Binding NotExpanded}"/>
+                <Border Style="{StaticResource LightBlueBorderStyle}" Margin="2" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Visibility="{Binding Visibility}">
+                    <Grid DataContext="{Binding NewStorage,Mode=TwoWay}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="22"></RowDefinition>
+                            <RowDefinition Height="24"></RowDefinition>
+                            <RowDefinition Height="24"></RowDefinition>
+                            <RowDefinition Height="24"></RowDefinition>
+                            <RowDefinition Height="24"></RowDefinition>
+                            <RowDefinition Height="24"></RowDefinition>
+                            <RowDefinition Height="22"></RowDefinition>
+                            <RowDefinition Height="26"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding ElementName=LayoutRoot,Path=DataContext.Contenttitle}"  FontWeight="Bold" Foreground="#FF6F8AA9" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2"></TextBlock>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Margin="20,2,2,2" Text="{Binding T0859_G1_TenKho, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource MainFrame.TextBlock.02}" />
+                        <TextBox Grid.Row="1" Grid.Column="1" Margin="2,1" Text="{Binding swhlName,Mode=TwoWay,NotifyOnValidationError=True}"  VerticalAlignment="Center"  Style="{StaticResource MainFrame.TextBox}" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Margin="20,2,2,2" Text="{Binding T2780_G1_LoaiKho, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource MainFrame.TextBlock.02}" />
+                        <AxControls:KeyEnabledComboBox  Name="cbxCurrency" Grid.Row="2" Grid.Column="1"  Margin="2,1" Style="{StaticResource MainFrame.ComboBox}" SelectedValuePath="StoreTypeID" DisplayMemberPath="StoreTypeName" ItemsSource="{Binding ElementName=LayoutRoot,Path=DataContext.RefStorageWarehouseTypes}"  MinWidth="100"
+                          SelectedValueEx="{Binding StoreTypeID,Mode=TwoWay,NotifyOnValidationError=True}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Margin="20,2,2,2" Text="{Binding G0876_G1_ThuocKhoa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource MainFrame.TextBlock.02}" />
+                        <AxControls:KeyEnabledComboBox  Name="cbxDepartment" Grid.Row="3" Grid.Column="1"  Margin="2,1" Style="{StaticResource MainFrame.ComboBox}" SelectedValuePath="DeptID" DisplayMemberPath="DeptName" ItemsSource="{Binding ElementName=LayoutRoot,Path=DataContext.RefDepartments}"  MinWidth="100"
+                          SelectedValueEx="{Binding DeptID,Mode=TwoWay}"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Margin="20,2,2,2" Text="{Binding M0008_G1_MoTa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource MainFrame.TextBlock.02}" />
+                        <TextBox Grid.Row="4" Grid.Column="1" Margin="2,1" Text="{Binding swhlNotes,Mode=TwoWay}"   Style="{StaticResource MainFrame.TextBox}" AcceptsReturn="True" Grid.RowSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                        <StackPanel Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Right" Orientation="Horizontal" Grid.Column="1">
+                            <Button Name="btnAddOrUpdate" Content="{Binding ElementName=LayoutRoot,Path=DataContext.Content}" Margin="2,1" Width="75" Style="{StaticResource MainFrame.Button}"></Button>
+                            <Button Name="btnCancel" Content="{Binding T1727_G1_HuyBo, Source={StaticResource eHCMSResources}}" Margin="2,1" Width="75" Style="{StaticResource MainFrame.Button}"></Button>
+                        </StackPanel>
+                     
+                        <!--<AxControls:ValidationSummary Grid.Row="8" MaxHeight="70" x:Name="ValidationSummary1" Grid.ColumnSpan="7" Style="{StaticResource MainFrame.ValidationSummary}"></AxControls:ValidationSummary>-->
+                    </Grid>
+                </Border> 
+                </Grid>
+        </Grid>
+    </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

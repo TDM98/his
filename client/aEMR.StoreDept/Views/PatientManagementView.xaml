@@ -1,0 +1,239 @@
+﻿<UserControl    x:Class="aEMR.StoreDept.Views.PatientManagementView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
+                xmlns:datactrl="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignHeight="550" d:DesignWidth="950">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.ColumnSpan="2" Text="Danh sách bệnh nhân" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="14" FontWeight="Bold" Margin="0,10,0,10"></TextBlock>
+        <Border Grid.Row="1">
+            <StackPanel Grid.Row="1">
+                <TextBlock Text="{Binding K1997_G1_ChonKhoa, Source={StaticResource eHCMSResources}}" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"></TextBlock>
+                <ContentControl Name="ContentRefDepartments"/>
+            </StackPanel>
+        </Border>
+        <!--cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"-->
+        <!--cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]
+                                             ;[Event LoadingRow] = [Action gridRegistrations_LoadingRow($source, $eventArgs)]"-->
+        <commonctrl:ReadOnlyDataGrid x:Name="gridRegistrations" Grid.Row="1" Grid.Column="1"
+                                             MinHeight="250" 
+                                             ItemsSource="{Binding Registrations,Mode=OneWay}"
+                                             SelectedItem="{Binding SelectedRegistration,Mode=TwoWay}"
+                                             VerticalAlignment="Stretch"
+                                             Style="{StaticResource MainFrame.DataGridStyle}"
+                                             RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                             RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"                                                 
+                                             HorizontalContentAlignment="Stretch"   
+                                             AutoGenerateColumns="False">
+            <!--TabNavigation="Local"--> <!--bo ra tu commonctrl:ReadOnlyDataGrid-->
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                cal:Message.Attach="[Event Click]=[Action Preview02FormCmd($datacontext, $eventArgs)]"
+                                ToolTipService.ToolTip="In mẫu 02">
+                                <Button.Content>
+                                    <TextBlock Text="02 Report"/>
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Patient.PatientCode,Mode=OneWay}"                                                     
+                                                     MinWidth="20"
+                                                     >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Patient.PatientCode,Mode=OneWay}"                                                     
+                                                     MinWidth="20"
+                                                     >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn x:Name="colPatientName" Binding="{Binding Patient.FullName,Mode=OneWay}" Width="*" MinWidth="150" >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding T0836_G1_TenBN, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Patient.GenderObj.Name}" MinWidth="40">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding T0702_G1_GT, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Patient.DOBText,Mode=OneWay}"                                                     
+                                                     MinWidth="60"
+                                                     >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding N0030_G1_N_S, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Patient.PatientStreetAddress,Mode=OneWay}"
+                                                     Width="*"
+                                                     MinWidth="150"
+                                                     >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding InDeptLocation,Mode=OneWay}"                                                     
+                                                     MinWidth="80"
+                                                     >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding T2222_G1_Khoa, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn x:Name="colAdmissionDate"
+                                                     Binding="{Binding AdmissionDate,StringFormat='dd/MM/yyyy HH:mm:ss'}"                                                     
+                                                     Width="Auto"
+                                                     >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding N0096_G1_NgNhapVien, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn x:Name="colDischargeDate"
+                                                     Binding="{Binding DischargeDate,StringFormat='dd/MM/yyyy HH:mm:ss'}"                                                     
+                                                     Width="Auto"
+                                                     >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding N0132_G1_NgXuatVien, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn x:Name="colStatus"
+                                                     Binding="{Binding InPtAdmissionStatusText,Mode=OneWay}"
+                                                     MinWidth="120"
+                                                     >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn x:Name="colDate"
+                                                     Binding="{Binding ExamDate,StringFormat='dd/MM/yyyy HH:mm:ss'}"                                                     
+                                                     Width="Auto"
+                                                     >
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding N0054_G1_NgDK, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </commonctrl:ReadOnlyDataGrid>
+    </Grid>
+</UserControl>

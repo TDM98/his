@@ -1,0 +1,326 @@
+﻿<UserControl                x:Class="aEMR.DrugDept.Views.SupplierGenMedProductsPrice_ListPriceView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:cal="http://www.caliburnproject.org"
+	                        xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" 
+                            xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                            xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                            d:DesignHeight="600" d:DesignWidth="850" Width="850" Height="600"
+                            mc:Ignorable="d">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">        
+            <Grid x:Name="GridMain" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="TitleForm" Text="{Binding G0597_G1_TTinGia, Source={StaticResource eHCMSResources}}" Grid.Row="0" Foreground="#FF0084FF" FontWeight="Bold" FontSize="14" Margin="5,5,0,5"></TextBlock>
+
+
+            <Expander Name="Expander1" Margin="0,0,0,0" Grid.Row="1"
+	                                Width="Auto"
+	                                VerticalAlignment="Stretch"
+	                                ExpandDirection="Down"	                                
+	                                Header="{Binding G0638_G1_TTinNCCHHoa, Source={StaticResource eHCMSResources}}"	                                
+	                                RenderTransformOrigin="0,0"
+	                                Height="Auto"                                
+	                                HorizontalAlignment="Stretch"
+	                                HorizontalContentAlignment="Stretch"
+	                                VerticalContentAlignment="Stretch"
+	                                Foreground="#FF0E7EB8" FontWeight="Bold" IsExpanded="True">
+                <StackPanel>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                            <StackPanel>
+                                <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding N0177_G1_NCC, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                                </Border>
+
+                                <Grid DataContext="{Binding ObjSupplierCurrent,Mode=OneWay}" Margin="0,5,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="140"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label HorizontalAlignment="Right" Content="{Binding N0177_G1_NCC, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="0" Grid.Column="0" Margin="0,2,5,2" Foreground="Black"></Label>
+                                    <TextBlock Text="{Binding SupplierName}" Grid.Row="0" Grid.Column="1" FontWeight="Bold" Foreground="CadetBlue" Margin="0,2,5,2"></TextBlock>
+
+                                    <Label HorizontalAlignment="Right" Content="{Binding K3354_G1_DChi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="0" Margin="0,2,5,2" Foreground="Black"></Label>
+                                    <TextBlock Text="{Binding Address}" Grid.Row="1" Grid.Column="1" FontWeight="Bold" Foreground="CadetBlue" Margin="0,2,5,2"/>
+
+                                    <Label HorizontalAlignment="Right" Content="{Binding G2339_G1_Website, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="0" Margin="0,2,5,2" Foreground="Black"></Label>
+                                    <TextBlock Text="{Binding WebSiteAddress}" Grid.Row="2" Grid.Column="1" FontWeight="Bold" Foreground="CadetBlue" Margin="0,2,5,2"/>
+
+                                    <Label HorizontalAlignment="Right" Content="{Binding N0159_G1_NguoiLienHe, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="3" Grid.Column="0" Margin="0,2,5,2" Foreground="Black"></Label>
+                                    <TextBlock Text="{Binding ContactPerson}" Grid.Row="3" Grid.Column="1" FontWeight="Bold" Foreground="CadetBlue" Margin="0,2,5,2"></TextBlock>
+
+                                    <Label HorizontalAlignment="Right" Content="{Binding S0638_G1_SoDT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="4" Grid.Column="0" Margin="0,2,5,2" Foreground="Black"></Label>
+
+                                    <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+                                        <TextBlock Text="{Binding TelephoneNumber}" FontWeight="Bold" Foreground="CadetBlue" Margin="0,2,5,2"></TextBlock>
+                                        <Label Content="{Binding T0662_G1_Fax, StringFormat='{}- {0}:', Source={StaticResource eHCMSResources}}" Margin="10,0,5,0" Foreground="Black"></Label>
+                                        <TextBlock Text="{Binding FaxNumber}" FontWeight="Bold" Foreground="CadetBlue" Margin="0,2,5,2"></TextBlock>
+                                    </StackPanel>
+
+
+
+
+                                </Grid>
+
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Row="1" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                            <StackPanel>
+                                <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding G0613_G1_TTinHg, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                                </Border>
+                                    <Grid DataContext="{Binding ObjDrugCurrent,Mode=OneWay}" Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Label HorizontalAlignment="Right" Content="{Binding K2569_G1_Code, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="0" Grid.Column="0" Margin="10,2,5,2" FontWeight="Bold" Foreground="Black"></Label>
+                                        <TextBlock Text="{Binding ObjRefGenMedProductDetails.Code}" Grid.Row="0" Grid.Column="1" FontWeight="Normal" Foreground="Black" Margin="5,2,5,2"></TextBlock>
+
+                                        <Label HorizontalAlignment="Right" Content="{Binding K2661_G1_CodeBHYT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="0" Margin="10,2,5,2" FontWeight="Bold" Foreground="Black"></Label>
+                                        <TextBlock Text="{Binding ObjRefGenMedProductDetails.HICode}" Grid.Row="1" Grid.Column="1" FontWeight="Normal" Foreground="Black" Margin="5,2,5,2"/>
+                                        <Label HorizontalAlignment="Right" Content="{Binding T0907_G1_TenThuongMai, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="0" Grid.Column="2" Margin="10,2,5,2" FontWeight="Bold" Foreground="Black"></Label>
+                                        <TextBlock Text="{Binding ObjRefGenMedProductDetails.BrandName}" Grid.Row="0" Grid.Column="3" FontWeight="Normal" Foreground="Black" Margin="5,2,5,2"></TextBlock>
+
+                                        <Label HorizontalAlignment="Right" Content="{Binding T0839_G1_TenChung, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="2" Margin="10,2,5,2" FontWeight="Bold" Foreground="Black"></Label>
+                                        <TextBlock Text="{Binding ObjRefGenMedProductDetails.GenericName}" Grid.Row="1" Grid.Column="3" FontWeight="Normal" Foreground="Black" Margin="5,2,5,2"/>
+                                    </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Expander>
+
+
+            <Border Grid.Row="2" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                <StackPanel>
+                    <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" HorizontalAlignment="Right" Content="{Binding T2754_G1_LoaiGia, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="0,2,5,2"></Label>
+                                <controlslib:AxComboBox Name="cboPriceType" Grid.Row="0" Grid.Column="1" FontWeight="Normal" Foreground="Black" Margin="0,2,5,2"
+                                                        cal:Message.Attach="[Event SelectionChanged]=[Action cboPriceTypeSelectedItemChanged($this.SelectedIndex)]">
+                                    <ComboBoxItem Content="{Binding T0822_G1_TatCa, StringFormat='{}--{0}--', Source={StaticResource eHCMSResources}}"/>
+                                    <ComboBoxItem Content="{Binding T0986_G1_GiaCu, Source={StaticResource eHCMSResources}}" />
+                                    <ComboBoxItem Content="{Binding T1037_G1_GiaHHanh, Source={StaticResource eHCMSResources}}" IsSelected="True"/>
+                                    <ComboBoxItem Content="{Binding T1107_G1_GiaMoi, Source={StaticResource eHCMSResources}}" />
+                                </controlslib:AxComboBox>
+                                <Button HorizontalAlignment="Left" Width="60" x:Name="btFind" Grid.Row="1" Grid.Column="1" Margin="0,2,5,2"
+                                        Visibility="{Binding bView,Converter={StaticResource BooleanToVisibility} }">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="20" VerticalAlignment="Center" Height="18" Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png"/>
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock HorizontalAlignment="Right" Text="{Binding G0375_G1_TheoNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="0" Grid.Column="0" Margin="0,2,5,2"/>
+                            <CheckBox x:Name="chkFindByDate" Grid.Row="0" Grid.Column="1" Margin="0,2,5,2" IsChecked="{Binding IStatusCheckFindDate}"
+cal:Message.Attach="[Event Click] = [Action chkFindByDate_Click($eventArgs)]"></CheckBox>
+                            <TextBlock HorizontalAlignment="Right" Text="{Binding G1933_G1_TuNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="0" Margin="0,2,5,2"/>
+                            <DatePicker x:Name="dtFromDate" SelectedDate="{Binding Criteria.FromDate,Mode=TwoWay}" IsEnabled="{Binding IStatusFromDate,Mode=TwoWay}" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="1" FontWeight="Normal" Foreground="Black"></DatePicker>
+                            <TextBlock HorizontalAlignment="Right" Text="{Binding K3192_G1_DenNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="2" Margin="0,2,5,2"/>
+                            <DatePicker x:Name="dtToDate" SelectedDate="{Binding Criteria.ToDate,Mode=TwoWay}" IsEnabled="{Binding IStatusToDate,Mode=TwoWay}" HorizontalAlignment="Left" Grid.Row="1" Grid.Column="3" FontWeight="Normal" Foreground="Black"></DatePicker>
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+
+            <Border Grid.Row="3" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                <StackPanel>
+                    <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding K2978_G1_DSGia, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                    </Border>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="25"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,5" >
+                            <Grid Name="GridRecColor">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <Rectangle HorizontalAlignment="Right" Fill="Green" Grid.Row="0" Grid.Column="0" Height="15" Width="15" Stroke="Black" Margin="0,2,5,2"/>
+                                <Label HorizontalAlignment="Right" Foreground="Green" Grid.Row="0" Grid.Column="1" Content="{Binding T1071_G1_GiaHHanhDangApDung, Source={StaticResource eHCMSResources}}" Margin="0,2,5,2"/>
+
+                                <Rectangle HorizontalAlignment="Right" Fill="Gray" Grid.Row="0" Grid.Column="2" Height="15" Width="15" Stroke="Black" Margin="0,2,5,2"/>
+                                <Label HorizontalAlignment="Right" Foreground="Gray" Grid.Row="0" Grid.Column="3" Content="{Binding T1049_G1_GiaHHanhChuaApDung, Source={StaticResource eHCMSResources}}" Margin="0,2,5,2"/>
+
+
+                                <Rectangle HorizontalAlignment="Right" Fill="Blue" Grid.Row="0" Grid.Column="4" Height="15" Width="15" Stroke="Black" Margin="0,2,5,2"/>
+                                <Label HorizontalAlignment="Right" Foreground="Blue" Grid.Row="0" Grid.Column="5" Content="{Binding T1107_G1_GiaMoi, Source={StaticResource eHCMSResources}}" Margin="0,2,15,2"/>
+
+                                <Rectangle HorizontalAlignment="Right" Fill="Orange" Grid.Row="0" Grid.Column="6" Height="15" Width="15" Stroke="Black" Margin="0,2,5,2"/>
+                                <Label HorizontalAlignment="Right" Foreground="Orange" Grid.Row="0" Grid.Column="7" Content="{Binding T0986_G1_GiaCu, Source={StaticResource eHCMSResources}}" Margin="0,2,5,2"/>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,5" >
+                            <Button Name="hplAddNewPrice" ToolTipService.ToolTip ="Tạo Giá Mới" FontWeight="Bold" Foreground="#FF0084FF" FontSize="12" HorizontalAlignment="Center" Style="{StaticResource MainFrame.HyperlinkButton}" VerticalAlignment="Center"
+                                     Visibility="{Binding mTaoGiaMoi,Converter={StaticResource BooleanToVisibility} }"        
+                                             >
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/page-add-icon2.png" Height="13" Width="13" Opacity="1" />
+                                        <TextBlock Text="{Binding T0792_G1_TaoGiaMoi, Source={StaticResource eHCMSResources}}"></TextBlock>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                        <DataGrid Name="dtgList" Grid.Row="2" 
+                      IsReadOnly="True"
+                      AutoGenerateColumns="False" 
+                                      Height="110"
+                      HorizontalScrollBarVisibility="Auto"  
+                      VerticalScrollBarVisibility="Visible"   
+                      HeadersVisibility="All"
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                      Style="{StaticResource MainFrame.DataGridStyle}" Margin="0,0,0,2" 
+                                      ItemsSource="{Binding ObjSupplierGenMedProductsPrice_ListPrice_Paging,Mode=TwoWay}"
+                                      cal:Message.Attach="[Event LoadingRow]=[Action dtgList_LoadingRow($source,$eventArgs)]">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn x:Name="colTemplate"  Header="">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <Button x:Name="hplEditPrice" ToolTipService.ToolTip="{Binding K1652_G1_CNhatGia, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                 cal:Message.Attach="[Event Click]=[Action hplEditPrice_Click($datacontext)]
+                                                                 ;[Event Loaded]=[Action lnkEdit_Loaded($source)]">
+                                                    <Button.Content>
+                                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" />
+                                                    </Button.Content>
+                                                </Button>
+
+                                                <Button x:Name="hplDeletePrice" ToolTipService.ToolTip="{Binding G2779_G1_XoaGiaNay, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                 cal:Message.Attach="[Event Click]=[Action hplDeletePrice_Click($datacontext)]
+                                                                 ;[Event Loaded]=[Action lnkDelete_Loaded($source)]">
+                                                    <Button.Content>
+                                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                                    </Button.Content>
+                                                </Button>
+
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding K3591_G1_DGia, Source={StaticResource eHCMSResources}}" x:Name="dtgListColNormalPrice" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding UnitPrice,StringFormat=N0}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn x:Name="dtgListColPackagePrice" Header="PackagePrice">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding PackagePrice,StringFormat=N0}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding G2156_G1_VAT, Source={StaticResource eHCMSResources}}" x:Name="dtgListColVAT" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding VAT}"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn Header="{Binding K0914_G1_ApDungTu, Source={StaticResource eHCMSResources}}" Binding="{Binding EffectiveDate,StringFormat='dd/MM/yyyy'}" x:Name="col5"/>
+
+                                <DataGridTextColumn Header="{Binding N0289_G1_NhVienLapGia, Source={StaticResource eHCMSResources}}" Binding="{Binding ObjStaffID.FullName}" x:Name="col6"  Width="*"/>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <controlslib:DataPager PageSize="{Binding PageSize}" Grid.Row="3" VerticalAlignment="Bottom"
+                                       Source="{Binding ObjSupplierGenMedProductsPrice_ListPrice_Paging,Mode=TwoWay}"></controlslib:DataPager>
+                    </Grid>
+                </StackPanel>
+            </Border>
+                    
+                    
+            </Grid>        
+    </Grid>
+</UserControl>

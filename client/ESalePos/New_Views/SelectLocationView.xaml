@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="aEMRMain.Views.SelectLocationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Xceed.Wpf.Toolkit;assembly=WpfToolkit.Extended"
+    mc:Ignorable="d"   xmlns:cal="http://www.caliburnproject.org"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" 
+    cal:Message.Attach="[Event Loaded]=[Action SelectLocation_Loaded($source, $eventargs)]"
+    d:DesignHeight="200" d:DesignWidth="400"         
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+
+    <!--CloseButtonVisibility="Hidden" Caption="Chon Phong"-->
+
+    <!--<controls:ChildWindow.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </controls:ChildWindow.Resources>-->
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" ShowGridLines="False"
+          Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="256"/>
+            <ColumnDefinition Width="36*" />
+            <ColumnDefinition Width="44*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Style="{StaticResource TextBlock.Heading.04}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding K2102_G1_ChonPgLamViec, Source={StaticResource eHCMSResources}}" FontSize="16" />
+
+        <!--<TextBlock Style="{StaticResource TextBlock.Heading.04}" HorizontalAlignment="Right" Grid.Row="1" TextWrapping="Wrap" Text="{Binding T2785_G1_LoaiKhoa, Source={StaticResource eHCMSResources}}"/>-->
+
+        <!--Style="{StaticResource MainFrame.ComboBox}"-->
+        <!--<ComboBox x:Name="cboV_DeptTypeOperation" 
+                      Width="220"
+                      Grid.Column="1"
+                      Grid.Row="2"
+                      ItemsSource="{Binding allDepartmentArray, Mode=OneWay}"                      
+                      SelectedItem="{Binding curDepartmentArray,Mode=TwoWay}"
+                      DisplayMemberPath="ObjV_DeptTypeOperation.ObjectValue"
+                      SelectedValuePath="ObjV_DeptTypeOperation.LookupID"/>-->
+
+        <TextBlock Style="{StaticResource TextBlock.Heading.04}" HorizontalAlignment="Right" Grid.Row="2" TextWrapping="Wrap" Text="{Binding T2222_G1_Khoa, Source={StaticResource eHCMSResources}}"/>
+
+        <!--Style="{StaticResource MainFrame.ComboBox}"-->
+        <ComboBox x:Name="Departments" 
+                      Width="220"
+                      Grid.Column="1"
+                      Grid.Row="2"
+                      ItemsSource="{Binding NewDepartments, Mode=OneWay}"
+                      SelectedValuePath="DeptID"
+                      SelectedItem="{Binding curNewDepartments,Mode=TwoWay}"
+                      DisplayMemberPath="DeptName" />
+
+        <TextBlock Style="{StaticResource TextBlock.Heading.04}" HorizontalAlignment="Right" Grid.Row="3" TextWrapping="Wrap" Text="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}"/>
+        <!--Style="{StaticResource MainFrame.ComboBox}"-->
+        <ComboBox x:Name="Locations" 
+                      Width="220"
+                      Grid.Column="1"
+                      Grid.Row="3"
+                      ItemsSource="{Binding Locations, Mode=OneWay}"
+                      SelectedValuePath="DeptLocationID"
+                      SelectedItem="{Binding SelectedLocation,Mode=TwoWay}"
+                      DisplayMemberPath="Location.LocationName" />
+
+        <StackPanel Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,5,0,0">            
+                <Button x:Name="SelectLocationCmd" Content="{Binding O0303_G1_OK, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}"                
+                Width="75" Height="23" Grid.Row="3" Grid.Column="1"/>
+            <Button x:Name="CancelCmd" Content="{Binding K1565_G1_Cancel, Source={StaticResource eHCMSResources}}" Width="75" Height="23" Margin="5,0,0,0"
+                    Visibility="{Binding mCancel,Converter={StaticResource BooleanToVisibility}}"
+                    Style="{StaticResource MainFrame.Button}"/>
+        </StackPanel>
+        
+    </Grid>
+    
+</UserControl>

@@ -1,0 +1,268 @@
+﻿<customcontrols:AxUserControl  x:Class="aEMR.Common.Views.PrescriptionDetailSchedulesNewView"
+                               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                               xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                               xmlns:cal="http://www.caliburnproject.org"
+                               xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                               mc:Ignorable="d"
+                               d:DesignHeight="300" d:DesignWidth="600" Width="590"
+                               xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <commonconverters:DecimalConverter x:Key="DecimalConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <DataTemplate x:Key="LieuDung">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=Name,Mode=TwoWay}" />
+            </StackPanel>
+        </DataTemplate>
+        <!--ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}" -->
+        <DataTemplate x:Key="DTaucLieuDung">
+            <customcontrols:AxAutoComplete cal:Message.Attach="[Event Loaded]=[Action aucLieuDung_Loaded($source,$eventArgs)]
+                                           ;[Event DropDownClosed]=[Action aucLieuDung_DropDownClosed($source,$eventArgs)]
+                                           ;[Event LostFocus]=[Action aucLieuDung_LostFocus($source,$eventArgs)]"
+                                           IsDropDownOpen="True"  Style="{StaticResource AxAutoCompleteMyStyle}"
+                                           ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                           FilterMode="None" HorizontalAlignment="Stretch"
+                                           ValueMemberBinding="{Binding Name,Mode=TwoWay}"
+                                           Text="{Binding ScheGen.Name,Mode=TwoWay}"                                               
+                                           MinimumPopulateDelay="10" ItemTemplate="{StaticResource LieuDung}">
+            </customcontrols:AxAutoComplete>
+        </DataTemplate>
+        <DataTemplate x:Key="DTaucMonday">
+            <customcontrols:AxAutoComplete cal:Message.Attach="[Event Loaded]=[Action aucMonday_Loaded($source,$eventArgs)]
+                                           ;[Event DropDownClosed]=[Action aucMonday_DropDownClosed($source,$eventArgs)]
+                                           ;[Event LostFocus]=[Action aucMonday_LostFocus($source,$eventArgs)]"
+                                           IsDropDownOpen="True"  Style="{StaticResource AxAutoCompleteMyStyle}"
+                                           ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                           FilterMode="None" HorizontalAlignment="Stretch"
+                                           ValueMemberBinding="{Binding Name,Mode=TwoWay}"
+                                           Text="{Binding ScheMonday.Name,Mode=TwoWay}"                                           
+                                           MinimumPopulateDelay="10" ItemTemplate="{StaticResource LieuDung}">
+            </customcontrols:AxAutoComplete>
+        </DataTemplate>
+        <DataTemplate x:Key="DTaucTuesday">
+            <customcontrols:AxAutoComplete cal:Message.Attach="[Event Loaded]=[Action aucTuesday_Loaded($source,$eventArgs)]
+                                           ;[Event DropDownClosed]=[Action aucTuesday_DropDownClosed($source,$eventArgs)]
+                                           ;[Event LostFocus]=[Action aucTuesday_LostFocus($source,$eventArgs)]"
+                                           IsDropDownOpen="True"  Style="{StaticResource AxAutoCompleteMyStyle}"
+                                           ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                           FilterMode="None" HorizontalAlignment="Stretch"
+                                           ValueMemberBinding="{Binding Name,Mode=TwoWay}"                                                
+                                           Text="{Binding ScheTuesday.Name,Mode=TwoWay}"
+                                           MinimumPopulateDelay="10" ItemTemplate="{StaticResource LieuDung}">
+            </customcontrols:AxAutoComplete>
+        </DataTemplate>
+        <DataTemplate x:Key="DTaucWednesday">
+            <customcontrols:AxAutoComplete cal:Message.Attach="[Event Loaded]=[Action aucWednesday_Loaded($source,$eventArgs)]
+                                           ;[Event DropDownClosed]=[Action aucWednesday_DropDownClosed($source,$eventArgs)]
+                                           ;[Event LostFocus]=[Action aucWednesday_LostFocus($source,$eventArgs)]"
+                                           IsDropDownOpen="True"  Style="{StaticResource AxAutoCompleteMyStyle}"
+                                           ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                           FilterMode="None" HorizontalAlignment="Stretch"
+                                           Text="{Binding ScheWednesday.Name,Mode=TwoWay}"                                                
+                                           ValueMemberBinding="{Binding Name,Mode=TwoWay}"
+                                           MinimumPopulateDelay="10" ItemTemplate="{StaticResource LieuDung}">
+            </customcontrols:AxAutoComplete>
+        </DataTemplate>
+        <DataTemplate x:Key="DTaucThurday">
+            <customcontrols:AxAutoComplete cal:Message.Attach="[Event Loaded]=[Action aucThurday_Loaded($source,$eventArgs)]
+                                           ;[Event DropDownClosed]=[Action aucThurday_DropDownClosed($source,$eventArgs)]
+                                           ;[Event LostFocus]=[Action aucThurday_LostFocus($source,$eventArgs)]"
+                                           IsDropDownOpen="True"  Style="{StaticResource AxAutoCompleteMyStyle}"
+                                           ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                           FilterMode="None" HorizontalAlignment="Stretch"
+                                           Text="{Binding ScheThursday.Name,Mode=TwoWay}"                                           
+                                           ValueMemberBinding="{Binding Name,Mode=TwoWay}"
+                                           MinimumPopulateDelay="10" ItemTemplate="{StaticResource LieuDung}">
+            </customcontrols:AxAutoComplete>
+        </DataTemplate>
+        <DataTemplate x:Key="DTaucFriday">
+            <customcontrols:AxAutoComplete cal:Message.Attach="[Event Loaded]=[Action aucFriday_Loaded($source,$eventArgs)]
+                                           ;[Event DropDownClosed]=[Action aucFriday_DropDownClosed($source,$eventArgs)]
+                                           ;[Event LostFocus]=[Action aucFriday_LostFocus($source,$eventArgs)]"
+                                           IsDropDownOpen="True"  Style="{StaticResource AxAutoCompleteMyStyle}"
+                                           ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                           FilterMode="None" HorizontalAlignment="Stretch"
+                                           Text="{Binding ScheFriday.Name,Mode=TwoWay}"                                           
+                                           ValueMemberBinding="{Binding Name,Mode=TwoWay}"
+                                           MinimumPopulateDelay="10" ItemTemplate="{StaticResource LieuDung}">
+            </customcontrols:AxAutoComplete>
+        </DataTemplate>
+        <DataTemplate x:Key="DTaucSaturday">
+            <customcontrols:AxAutoComplete cal:Message.Attach="[Event Loaded]=[Action aucSaturday_Loaded($source,$eventArgs)]
+                                           ;[Event DropDownClosed]=[Action aucSaturday_DropDownClosed($source,$eventArgs)]
+                                           ;[Event LostFocus]=[Action aucSaturday_LostFocus($source,$eventArgs)]"
+                                           IsDropDownOpen="True"  Style="{StaticResource AxAutoCompleteMyStyle}"
+                                           ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                           FilterMode="None" HorizontalAlignment="Stretch"
+                                           Text="{Binding ScheSaturday.Name,Mode=TwoWay}"                                           
+                                           ValueMemberBinding="{Binding Name,Mode=TwoWay}"
+                                           MinimumPopulateDelay="10" ItemTemplate="{StaticResource LieuDung}">
+            </customcontrols:AxAutoComplete>
+        </DataTemplate>
+        <DataTemplate x:Key="DTaucSunday">
+            <customcontrols:AxAutoComplete cal:Message.Attach="[Event Loaded]=[Action aucSunday_Loaded($source,$eventArgs)]                                           
+                                           ;[Event DropDownClosed]=[Action aucSunday_DropDownClosed($source,$eventArgs)]
+                                           ;[Event LostFocus]=[Action aucSunday_LostFocus($source,$eventArgs)]"
+                                           IsDropDownOpen="True"  Style="{StaticResource AxAutoCompleteMyStyle}"
+                                           ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                           FilterMode="None" HorizontalAlignment="Stretch"
+                                           Text="{Binding ScheSunday.Name,Mode=TwoWay}"                                           
+                                           ValueMemberBinding="{Binding Name,Mode=TwoWay}"
+                                           MinimumPopulateDelay="10" ItemTemplate="{StaticResource LieuDung}">
+            </customcontrols:AxAutoComplete>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" x:Name="TitleForm" Text="{Binding K1846_G1_CTietLieuDungTheoTuan, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" 
+                       Style="{StaticResource MainFrame.TextBlock.Header.01}"  Margin="0,10,0,5"></TextBlock>
+            <Grid Grid.Row="1" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"></ColumnDefinition>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                    <ColumnDefinition Width="30*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Label Content="{Binding G0787_G1_Thuoc, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" FontSize="12" FontWeight="Bold"
+                           Style="{StaticResource MainFrame.Label.00}"/>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.BrandName,Mode=OneWay}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="12" FontWeight="Bold"></TextBlock>
+                    <Label Content=" - (" Foreground="#FF0084FF"
+                           Style="{StaticResource MainFrame.Label.00}"/>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.Content,Mode=OneWay}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="12" FontWeight="Bold"></TextBlock>
+                    <Label Content="{Binding Z0027_G1_DauNgoacPhai, Source={StaticResource eHCMSResources}}" Foreground="#FF0084FF"
+                           Style="{StaticResource MainFrame.Label.00}"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Label Content="{Binding K3709_G1_DViTinh, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" FontSize="12"
+                           Style="{StaticResource MainFrame.Label.00}"/>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.UnitName,Mode=OneWay}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="12"></TextBlock>
+                    <Label Content=" - " Foreground="#FF0084FF"
+                           Style="{StaticResource MainFrame.Label.00}"/>
+                    <Label Content="{Binding K3685_G1_DViDung, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="DarkCyan" FontSize="12"
+                           Style="{StaticResource MainFrame.Label.00}"/>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.UnitUse,Mode=OneWay}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="12"></TextBlock>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2">
+                <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Weeks,Mode=TwoWay}"  TextAlignment="Center" Width="40" FontWeight="Bold" Foreground="Brown"/>
+                    <TextBlock Text="{Binding G2047_G1_Tuan, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" Foreground="Brown"></TextBlock>
+                    <TextBlock Text=" = " VerticalAlignment="Center" FontWeight="Bold" Foreground="Brown"></TextBlock>
+                    <TextBlock Text="{Binding TongThuocPhaiDung,Mode=TwoWay}" VerticalAlignment="Center" FontWeight="Bold" Foreground="Brown" Margin="0,0,0,0"></TextBlock>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.UnitName,Mode=OneWay}" VerticalAlignment="Center" Foreground="Brown" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"></TextBlock>
+                </StackPanel>-->
+                <!--Visibility="{Binding IsMaxDay, Mode=OneWay,Converter={StaticResource BooleanToVisibility}}"-->
+                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <sdk:Label Content="{Binding G0872_G1_ThuocDungNganNgSoNgDung, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="Blue" FontSize="11"
+                               Style="{StaticResource MainFrame.Label.00}"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.MaxDayPrescribed,Mode=OneWay}"  Foreground="#FF0084FF" FontSize="12"></TextBlock>
+                </StackPanel>-->
+                
+                <!--KMx: Do đổi cách tính số lượng cho thuốc lịch, nên không hiển thị số tuần và số viên nữa (10/06/2014 11:17)-->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <TextBox Text="{Binding Weeks,Mode=TwoWay}" Visibility="Collapsed" x:Name="tbSoNgayInput" TextAlignment="Center" Width="40" FontWeight="Bold" Foreground="Brown"
+                             cal:Message.Attach="[Event LostFocus]=[Action tbSoNgayInput_LostFocus($source,$eventArgs)]"/>
+                    <TextBlock Text="{Binding G2047_G1_Tuan, Source={StaticResource eHCMSResources}}" Visibility="Collapsed" VerticalAlignment="Center" Margin="5,0,0,0" FontWeight="Bold" Foreground="Brown"></TextBlock>
+                    <TextBlock Text=" = " Visibility="Collapsed" VerticalAlignment="Center" FontWeight="Bold" Foreground="Brown"></TextBlock>
+                    <TextBlock Text="{Binding TongThuocPhaiDung,Mode=TwoWay}" Visibility="Collapsed" VerticalAlignment="Center" FontWeight="Bold" Foreground="Brown" Margin="0,0,0,0"></TextBlock>
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.UnitName,Mode=OneWay}" Visibility="Collapsed" VerticalAlignment="Center" Foreground="Brown" FontSize="12" FontWeight="Bold" Margin="5,0,0,0"></TextBlock>
+                    <Label Content="{Binding G0872_G1_ThuocDungNganNgSoNgDung, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Foreground="Blue" FontSize="11"
+                               Style="{StaticResource MainFrame.Label.00}"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding ObjPrescriptionDetail.SelectedDrugForPrescription.MaxDayPrescribed,Mode=OneWay}"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF0084FF" FontSize="12"></TextBlock>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="3" Margin="3">
+                <DataGrid x:Name="dtgList"
+                          CanUserAddRows="False"
+                          AutoGenerateColumns="False"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Visible"
+                          ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                          Style="{StaticResource MainFrame.DataGridStyle}"
+                          ItemsSource="{Binding ObjPrescriptionDetailSchedules_ByPrescriptDetailID,Mode=OneWay}"
+                          SelectedItem="{Binding curPrescriptionDetailSchedules,Mode=TwoWay}"
+                          cal:Message.Attach="[Event PreparingCellForEdit]=[Action dtgList_PreparingCellForEdit($source,$eventArgs)]">
+                    <DataGrid.Columns>
+                        <!--<DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button x:Name="hplDelete" ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                 cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)]">
+                                        <Button.Content>
+                                            <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                        </Button.Content>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>-->
+                        <DataGridTextColumn Header="{Binding K1394_G1_Buoi, Source={StaticResource eHCMSResources}}" Binding="{Binding ObjV_PeriodOfDay.ObjectValue}" IsReadOnly="True"
+                                            Width="50" Foreground="Green" FontWeight="Bold"/>
+                        <!--<sdk:DataGridTemplateColumn Header="{Binding T2602_G1_LieuDung, Source={StaticResource eHCMSResources}}" Width="85">
+                            <sdk:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <controlslib:AxComboBox Name="cboLieuDung" Style="{StaticResource MainFrame.ComboBox}" Margin="0,2,5,2"
+                                        ItemsSource="{Binding ObjPrescriptionDetailSchedulesLieuDung,Mode=OneWay}"
+                                        DisplayMemberPath="Name"
+                                        SelectedValuePath="ID"                                                            
+                                        cal:Message.Attach="[Event SelectionChanged]=[Action cboLieuDung_SelectionChanged($source, $eventArgs)]"/>
+                                </DataTemplate>
+                            </sdk:DataGridTemplateColumn.CellTemplate>
+                        </sdk:DataGridTemplateColumn>-->
+                        <DataGridTemplateColumn Header="{Binding T2602_G1_LieuDung, Source={StaticResource eHCMSResources}}" x:Name="acbLieDung" Width="85"
+                                                CellTemplate="{StaticResource DTaucLieuDung}"/>
+                        <DataGridTemplateColumn Header="{Binding G0702_G1_Thu2, Source={StaticResource eHCMSResources}}" x:Name="acbMonday" Width="55"
+                                                CellTemplate="{StaticResource DTaucMonday}"/>
+                        <DataGridTemplateColumn Header="{Binding G0704_G1_Thu3, Source={StaticResource eHCMSResources}}" x:Name="acbTuesday" Width="55"
+                                                CellTemplate="{StaticResource DTaucTuesday}"/>
+                        <DataGridTemplateColumn Header="{Binding G0706_G1_Thu4, Source={StaticResource eHCMSResources}}" x:Name="acbWednesday" Width="55"
+                                                CellTemplate="{StaticResource DTaucWednesday}"/>
+                        <DataGridTemplateColumn Header="{Binding G0708_G1_Thu5, Source={StaticResource eHCMSResources}}" x:Name="acbThurday" Width="55"
+                                                CellTemplate="{StaticResource DTaucThurday}"/>
+                        <DataGridTemplateColumn Header="{Binding G0710_G1_Thu6, Source={StaticResource eHCMSResources}}" x:Name="acbFriday" Width="55"
+                                                CellTemplate="{StaticResource DTaucFriday}"/>
+                        <DataGridTemplateColumn Header="{Binding G0712_G1_Thu7, Source={StaticResource eHCMSResources}}" x:Name="acbSaturday" Width="55"
+                                                CellTemplate="{StaticResource DTaucSaturday}"/>
+                        <DataGridTemplateColumn Header="{Binding K2227_G1_ChuNhat, Source={StaticResource eHCMSResources}}" x:Name="acbSunday" Width="75"
+                                                CellTemplate="{StaticResource DTaucSunday}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <Grid Grid.Row="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding T2912_G1_LoiDan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Foreground="#1f1f1f"  FontWeight="Bold" Margin="5,0,0,0" />
+                <customcontrols:AxTextBox MaxLength="1024" Text="{Binding ObjPrescriptionDetail.DrugInstructionNotes, Mode=TwoWay}" Grid.Row="1" Margin="1,2,0,0" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" MaxHeight="50" HorizontalScrollBarVisibility="Auto" Style="{StaticResource MainFrame.TextBox}"/>
+
+            </Grid>
+            <Grid Grid.Row="5" HorizontalAlignment="Right" Margin="3,3,0,10">
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="btSave" Content="{Binding T0842_G1_GNhan, Source={StaticResource eHCMSResources}}" Margin="0,0,5,0" Width="80"
+                            Style="{StaticResource MainFrame.Button}"/>
+                    <Button Name="btCancel" Content="{Binding K3818_G1_DongLai, Source={StaticResource eHCMSResources}}" Margin="0,0,3,0" Width="80"
+                            Style="{StaticResource MainFrame.Button}"/>
+                    <Button Name="btDelete" Content="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" Margin="0,0,5,0" Width="80"
+                            Style="{StaticResource MainFrame.Button}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</customcontrols:AxUserControl>

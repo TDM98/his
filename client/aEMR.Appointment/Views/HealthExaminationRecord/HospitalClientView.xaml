@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="aEMR.Appointment.Views.HospitalClientView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    <Grid>
+        <DataGrid Style="{StaticResource MainFrame.DataGridStyle}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  ItemsSource="{Binding HospitalClientCollection}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="" IsReadOnly="True" Width="24">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    cal:Message.Attach="[Event Click]=[Action EditHospitalClientItemCmd($datacontext, $eventArgs)]"
+                                    ToolTipService.ToolTip="{Binding T1484_G1_HChinh,Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                                <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="13" Width="13" Opacity="1" />
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{Binding Z2670_G1_MaKhachHang,Source={StaticResource eHCMSResources}}" Binding="{Binding HosClientCode}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T0858_G1_TenKhachHg,Source={StaticResource eHCMSResources}}" Binding="{Binding ClientName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding Z2670_G1_TenCongTy,Source={StaticResource eHCMSResources}}" Binding="{Binding CompanyName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding Z2368_G1_MST,Source={StaticResource eHCMSResources}}" Binding="{Binding TaxNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding K3354_G1_DChi,Source={StaticResource eHCMSResources}}" Binding="{Binding Address}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding N0159_G1_NguoiLienHe,Source={StaticResource eHCMSResources}}" Binding="{Binding ContactPerson}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding S0632_G1_SoDienThoai,Source={StaticResource eHCMSResources}}" Binding="{Binding TelephoneNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T0662_G1_Fax,Source={StaticResource eHCMSResources}}" Binding="{Binding FaxNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T0020_G1_Email,Source={StaticResource eHCMSResources}}" Binding="{Binding EmailAddress}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding G2339_G1_Website,Source={StaticResource eHCMSResources}}" Binding="{Binding WebSite}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T2669_G1_Loai,Source={StaticResource eHCMSResources}}" Binding="{Binding HosClientType}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding S0691_G1_SoTaiKhoan,Source={StaticResource eHCMSResources}}" Binding="{Binding AccountNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T0875_G1_TenNganHg,Source={StaticResource eHCMSResources}}" Binding="{Binding BankName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding Z2670_G1_ChiNhanh,Source={StaticResource eHCMSResources}}" Binding="{Binding BranchName}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

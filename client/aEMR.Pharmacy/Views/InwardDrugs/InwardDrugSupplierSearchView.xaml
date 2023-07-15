@@ -1,0 +1,245 @@
+﻿<UserControl
+    x:Class="aEMR.Pharmacy.Views.InwardDrugSupplierSearchView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AutoBoxTK="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="398"
+    d:DesignWidth="658"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="14"
+                FontWeight="Bold"
+                Foreground="#3595CB"
+                Text="{Binding pageTitle}" />
+            <Grid
+                x:Name="Gridsearch"
+                Grid.Row="1"
+                DataContext="{Binding SearchCriteria, Mode=TwoWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="5,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.01}"
+                    Text="{Binding T3486_G1_MaPhN, Source={StaticResource eHCMSResources}}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="5,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.01}"
+                    Text="{Binding T3394_G1_MaHDonon, Source={StaticResource eHCMSResources}}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Margin="5,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.01}"
+                    Text="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="5,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.01}"
+                    Text="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Margin="5,2,5,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.01}"
+                    Text="{Binding N0175_G1_NhaCC, Source={StaticResource eHCMSResources}}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Margin="2"
+                    VerticalContentAlignment="Center"
+                    cal:Message.Attach="[Event KeyUp] = [Action InwardID_KeyUp($source, $eventArgs)]"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding InwardID, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Margin="2"
+                    VerticalContentAlignment="Center"
+                    cal:Message.Attach="[Event KeyUp] = [Action InvoiceNumber_KeyUp($source, $eventArgs)]"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding InvoiceNumber, Mode=TwoWay}" />
+                <DatePicker
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="2"
+                    SelectedDate="{Binding FromDate, Mode=TwoWay}" />
+                <DatePicker
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Margin="2"
+                    SelectedDate="{Binding ToDate, Mode=TwoWay}" />
+
+                <!--<AxControls:KeyEnabledComboBox
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Margin="2"
+                    DisplayMemberPath="SupplierName"
+                    ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.SuppliersSearch}"
+                    SelectedValue="{Binding SupplierID, Mode=TwoWay}"
+                    SelectedValuePath="SupplierID"
+                    Style="{StaticResource MainFrame.ComboBox}" />-->
+
+                <AxControls:AxAutoComplete
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Margin="2"
+                    HorizontalAlignment="Stretch"
+                    cal:Message.Attach="[Event Populating] = [Action Supplier_Populating($source, $eventArgs)]"
+                    FilterMode="None"
+                    FontWeight="Bold"
+                    IsDropDownOpen="True"
+                    IsTabStop="False"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="200"
+                    MinimumPrefixLength="0"
+                    SelectedItem="{Binding ElementName=LayoutRoot, Path=DataContext.SelectedSupplier, Mode=TwoWay}"
+                    Style="{StaticResource AxAutoCompleteMyStyle}"
+                    ValueMemberBinding="{Binding SupplierName, Mode=TwoWay}"
+                    Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.ShowSupplier, Converter={StaticResource BooleanToVisibility}}">
+                    <AutoBoxTK:AutoCompleteBox.ItemTemplate>
+                        <DataTemplate>
+                            <!--  ItemsSource="{Binding ElementName=LayoutRoot,Path=DataContext.Suppliers}"  -->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Width="160"
+                                    Margin="0,0,10,0"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                                    Text="{Binding SupplierCode}" />
+                                <TextBlock
+                                    Margin="0"
+                                    Padding="0"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                                    Text="{Binding SupplierName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </AutoBoxTK:AutoCompleteBox.ItemTemplate>
+                </AxControls:AxAutoComplete>
+
+                <Button
+                    Name="btnSupplier"
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Margin="2,1"
+                    HorizontalAlignment="Left"
+                    Content="  ...  "
+                    Style="{StaticResource MainFrame.Button}"
+                    Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.ShowSupplier, Converter={StaticResource BooleanToVisibility}}" />
+
+                <StackPanel
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="3"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Right"
+                    DataContext="{Binding ElementName=LayoutRoot, Path=DataContext, Mode=TwoWay}">
+                    <Button
+                        x:Name="btnSearch"
+                        Width="75"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Right"
+                        Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="2,2,2,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+                <AxControls:DoubleClickDataGrid
+                    Name="dataGrid1"
+                    Margin="0"
+                    cal:Message.Attach="[Event DblClick] = [Action dataGrid1_DblClick($source, $eventArgs)]"
+                    AutoGenerateColumns="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding InwardInvoiceList}"
+                    Style="{StaticResource MainFrame.DataGridStyle}"
+                    Unloaded="dataGrid1_Unloaded">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding InvID}" Header="{Binding T3486_G1_MaPhN, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colFaxNumber"
+                            Binding="{Binding DSPTModifiedDate, StringFormat='dd/MM/yyyy'}"
+                            Header="{Binding N0094_G1_NgNhap, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colContactPerson"
+                            Binding="{Binding InvInvoiceNumber}"
+                            Header="{Binding T3394_G1_MaHDonon, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colTelephoneNumber"
+                            Binding="{Binding InvDateInvoice, StringFormat='dd/MM/yyyy'}"
+                            Header="{Binding N0077_G1_NgHDon, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colPAHEmailAddress"
+                            Binding="{Binding VATSearch}"
+                            Header="{Binding G2156_G1_VAT, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colFirstName"
+                            Binding="{Binding SelectedSupplier.SupplierName}"
+                            Header="{Binding T0880_G1_TenNhaCC, Source={StaticResource eHCMSResources}}" />
+                        <DataGridCheckBoxColumn
+                            x:Name="colCityStateZipCode"
+                            Binding="{Binding CheckedPoint}"
+                            Header="{Binding K2800_G1_DaKC, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            x:Name="colMiddleName"
+                            Binding="{Binding SelectedStaff.FullName}"
+                            Header="{Binding N0201_G1_NhVienNhap, Source={StaticResource eHCMSResources}}" />
+                    </DataGrid.Columns>
+                </AxControls:DoubleClickDataGrid>
+                <AxControls:DataPager
+                    Name="dataPager1"
+                    Grid.Row="1"
+                    Margin="0,0,0,0"
+                    Source="{Binding InwardInvoiceList}"
+                    Unloaded="dataPager1_Unloaded" />
+            </Grid>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

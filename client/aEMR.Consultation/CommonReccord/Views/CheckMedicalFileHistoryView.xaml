@@ -1,0 +1,166 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.CommonRecs.Views.CheckMedicalFileHistoryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    x:Name="Me"
+    d:DesignHeight="500"
+    d:DesignWidth="1100"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converters:DatetimeConverter x:Key="DatetimeConverter" />
+    </UserControl.Resources>
+    <toolkit:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <DockPanel
+            x:Name="SPLayout"
+            Margin="0,10,0,0"
+            VerticalAlignment="Stretch"
+            Background="White"
+            LastChildFill="True"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    x:Name="TitleForm"
+                    Margin="20,0,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                    Text="Lịch sử kiểm duyệt hồ sơ" />
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="477*" />
+                        <ColumnDefinition Width="73*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <AxControls:AxDataGridEx
+                        Name="grdCommonRecord"
+                        Grid.ColumnSpan="2"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        cal:Message.Attach="[Event LoadingRow] = [Action grdCMFHistory_LoadingRow($source, $eventArgs)]"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserReorderColumns="True"
+                        CanUserResizeColumns="True"
+                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                        HeadersVisibility="All"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding CheckMedicalFileHistoryList, Mode=TwoWay}"
+                        RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Style="{StaticResource MainFrame.DataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="SizeToCells"
+                                MinWidth="150"
+                                Binding="{Binding DateSendRequest, Mode=TwoWay, Converter={StaticResource DatetimeConverter}, StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                                CanUserReorder="True"
+                                CanUserResize="True"
+                                CanUserSort="True"
+                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                Header="Ngày giờ gửi KHTH"
+                                IsReadOnly="True"
+                                Visibility="Visible" />
+                            <DataGridTextColumn
+                                Width="SizeToCells"
+                                MinWidth="130"
+                                Binding="{Binding DLS_CheckDate, Mode=TwoWay, Converter={StaticResource DatetimeConverter}, StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                                CanUserReorder="True"
+                                CanUserResize="True"
+                                CanUserSort="True"
+                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                Header="Ngày giờ DLS duyệt"
+                                IsReadOnly="True"
+                                Visibility="Visible" />
+                            <DataGridTextColumn
+                                Width="SizeToCells"
+                                MinWidth="145"
+                                Binding="{Binding KHTH_CheckDate, Mode=TwoWay, Converter={StaticResource DatetimeConverter}, StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                                CanUserReorder="True"
+                                CanUserResize="True"
+                                CanUserSort="True"
+                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                Header="Ngày giờ KHTH duyệt"
+                                IsReadOnly="True"
+                                Visibility="Visible" />
+                            <DataGridTextColumn
+                                Width="SizeToCells"
+                                MinWidth="130"
+                                Binding="{Binding RejectDateStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                CanUserReorder="True"
+                                CanUserResize="True"
+                                CanUserSort="True"
+                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                Header="Ngày giờ trả hồ sơ"
+                                IsReadOnly="True"
+                                Visibility="Visible" />
+                            <DataGridTextColumn
+                                Width="SizeToCells"
+                                MinWidth="110"
+                                Binding="{Binding Check_KHTH, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                CanUserReorder="True"
+                                CanUserResize="True"
+                                CanUserSort="True"
+                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                Header="Lý do trả hồ sơ"
+                                IsReadOnly="True"
+                                Visibility="Visible" />
+                            <DataGridTextColumn
+                                Width="SizeToCells"
+                                MinWidth="110"
+                                Binding="{Binding Check_DLS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                CanUserReorder="True"
+                                CanUserResize="True"
+                                CanUserSort="True"
+                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                Header="Chẩn đoán DLS"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                Width="SizeToCells"
+                                MinWidth="100"
+                                Binding="{Binding Note_DLS, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                CanUserReorder="True"
+                                CanUserResize="True"
+                                CanUserSort="True"
+                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                Header="Ghi chú"
+                                IsReadOnly="True" />
+                            <DataGridTextColumn
+                                MinWidth="80"
+                                Binding="{Binding CreatedStaff.FullName, Mode=OneWay}"
+                                Header="User DLS duyệt" />
+                            <DataGridTextColumn
+                                MinWidth="80"
+                                Binding="{Binding KHTH_Staff.FullName, Mode=OneWay}"
+                                Header="User KHTH duyệt" />
+                            <DataGridTextColumn
+                                MinWidth="80"
+                                Binding="{Binding RejectStaffStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Header="User trả hồ sơ" />
+                            <DataGridTextColumn
+                                MinWidth="200"
+                                Binding="{Binding SendRequestStaff.FullName, Mode=OneWay}"
+                                Header="Người gửi" />
+                        </DataGrid.Columns>
+                    </AxControls:AxDataGridEx>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </toolkit:BusyIndicator>
+</UserControl>

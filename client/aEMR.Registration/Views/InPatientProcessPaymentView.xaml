@@ -1,0 +1,196 @@
+﻿<UserControl x:Class="aEMR.Registration.Views.InPatientProcessPaymentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:cal="http://www.caliburnproject.org" mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="900" Loaded="UserControl_Loaded"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           IsBusy="{Binding IsProcessing, Mode=OneWay}"
+                           DisplayAfter="0:0:0.100"
+                           Margin="0,0,0,10">
+        <toolkit:BusyIndicator.BusyContent>
+            <TextBlock Text="{Binding Path=StatusText, Mode=OneWay}"
+                       FontSize="14" FontWeight="Bold" />
+        </toolkit:BusyIndicator.BusyContent>
+        <Grid x:Name="LayoutRoot"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto"
+                                   MinHeight="24" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                            Margin="0,10,0,10">
+                    <TextBlock Text="{Binding DeptLocTitle}" Foreground="Red"
+                               HorizontalAlignment="Left" VerticalAlignment="Center" 
+                               Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                               Height="22" Margin="5,0,0,0" />
+                    <TextBlock Text="{Binding G1317_G1_TinhTienNoiTru, Source={StaticResource eHCMSResources}}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                               Height="22" Margin="50,0,0,0" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Stretch" Grid.Row="1">
+                    <Grid HorizontalAlignment="Stretch"
+                          d:LayoutOverrides="Height">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border Padding="5,0,5,0"
+                                BorderThickness="1"
+                                Height="30"
+                                MinWidth="550"
+                                HorizontalAlignment="Stretch"
+                                Style="{StaticResource LightBlueBorderStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <ContentControl Name="SearchRegistrationContent"
+                                                HorizontalContentAlignment="Stretch"
+                                                VerticalContentAlignment="Stretch" />
+                                <Button x:Name="OldRegistrationsCmd"
+                                        Content="{Binding K1461_G1_LanDKTruoc, Source={StaticResource eHCMSResources}}"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                        VerticalAlignment="Center" Margin="5,0,0,0"
+                                        IsEnabled="{Binding CurrentRegMode,ConverterParameter=PATIENT_NOT_SELECTED, Converter={StaticResource NotOperatorEnumConverter}, Mode=OneWay}"
+                                        Visibility="{Binding CurPatient,Mode=OneWay,Converter={StaticResource IfNotNullVisibilityConverter}}"
+                                        Grid.Column="4" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="1"
+                                Padding="5,0,5,0"
+                                BorderThickness="1"
+                                Height="30"
+                                Width="310"
+                                Style="{StaticResource LightBlueBorderStyle}">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Border Padding="5,0,5,0" BorderThickness="1" Height="26"
+                                        Background="AntiqueWhite"
+                                        HorizontalAlignment="Stretch"
+                                        Style="{StaticResource LightBlueBorderStyle}">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock TextWrapping="Wrap"
+                                                   Text="{Binding T3332_G1_MaDK, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                                   Style="{StaticResource TextBlock.Heading.04}"
+                                                   FontWeight="Bold" FontSize="11" Foreground="Blue"
+                                                   VerticalAlignment="Center"
+                                                   Margin="10,0,0,0" />
+                                        <TextBlock Text="{Binding CurRegistration.PtRegistrationCode,Mode=OneWay}"
+                                                   Style="{StaticResource TextBlock.Heading.Impression}"
+                                                   FontWeight="Bold" FontSize="13"
+                                                   MinWidth="80"
+                                                   VerticalAlignment="Center"
+                                                   Margin="5,0,10,0" />
+                                    </StackPanel>
+                                </Border>
+                                <TextBlock TextWrapping="Wrap"
+                                           Text="{Binding N0045_G1_Ng, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"
+                                           Style="{StaticResource TextBlock.Heading.04}"
+                                           VerticalAlignment="Center" />
+                                <TextBox x:Name="txtToday"
+                                         Text="{Binding CurRegistration.ExamDate, Mode=TwoWay, StringFormat=dd/MM/yyyy}"
+                                         Width="100" Height="22"
+                                         IsEnabled="False" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Grid.Row="2">
+                    <ContentControl Name="PatientSummaryInfoContent"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch" />
+                </StackPanel>
+                <TextBlock Text="{Binding K1181_G1_BNDaXV, Source={StaticResource eHCMSResources}}"
+                           Grid.Row="3"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="Crimson"
+                           Style="{StaticResource TextBlock.Heading.04}"
+                           FontSize="14"
+                           Visibility="{Binding isDischarged, Mode=OneWay,Converter={StaticResource BooleanToVisibility}}"
+                           Height="20" Margin="5,0,0,0" />
+                <DockPanel HorizontalAlignment="Stretch"
+                           Grid.Row="4" LastChildFill="True">
+                    <!--KMx: BN xuất viện rồi vẫn cho thu tiền tạm ứng (23/05/2015 11:09).-->
+                    <!--<GroupBox HorizontalAlignment="Stretch" Style="{StaticResource MainFrame.GroupBox}"
+                                       VerticalAlignment="Stretch"
+                                       Header="{Binding G0552_G1_TTinBillVPhi, Source={StaticResource eHCMSResources}}"
+                                       IsEnabled="{Binding isChangeDept,Mode=OneWay}"
+                                       Margin="0,5,0,0">-->
+                    <GroupBox HorizontalAlignment="Stretch" Style="{StaticResource MainFrame.GroupBox}"
+                              VerticalAlignment="Stretch"
+                              Header="{Binding G0552_G1_TTinBillVPhi, Source={StaticResource eHCMSResources}}"
+                              Margin="0,5,0,0">
+                        <TabControl x:Name="tabBillingInvoiceInfo"
+                                    IsTabStop="False" VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    Style="{StaticResource MainFrame.TabControl}">
+                            <TabItem Header="{Binding K2939_G1_DSBillChuaDongTien, Source={StaticResource eHCMSResources}}">
+                                <StackPanel>
+                                    <ContentControl x:Name="BillingInvoiceListingNotYetPaidContent"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="PayCmd"
+                                                Content="{Binding G1673_G1_TraTien, Source={StaticResource eHCMSResources}}"
+                                                Width="80"
+                                                Visibility="{Binding mTinhTienNoiTru_TraTien,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                                IsEnabled="{Binding CanPay, Mode=OneWay}"
+                                                Style="{StaticResource MainFrame.Button}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </TabItem>
+                            <TabItem Header="{Binding K2942_G1_DSBillDaDongTien, Source={StaticResource eHCMSResources}}">
+                                <StackPanel>
+                                    <ContentControl
+                                        x:Name="BillingInvoiceListingPaidAlreadyContent"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch" Height="400" />
+                                    <ContentControl
+                                        x:Name="CashAdvanceBillContent"
+                                        HorizontalContentAlignment="Stretch"
+                                        VerticalContentAlignment="Stretch" Height="300" />
+                                </StackPanel>
+                            </TabItem>
+                        </TabControl>
+                    </GroupBox>
+                </DockPanel>
+                <StackPanel Grid.Row="5"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0,10,0,5">
+                        <!--<Button x:Name="PayCmd"
+                                Content="{Binding G1673_G1_TraTien, Source={StaticResource eHCMSResources}}"
+                                Width="80"
+                                Visibility="{Binding mTinhTienNoiTru_TraTien,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                IsEnabled="{Binding CanPay, Mode=OneWay}"
+                                Style="{StaticResource MainFrame.Button}" />-->
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>

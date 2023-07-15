@@ -1,0 +1,333 @@
+﻿<commonctrl:AxUserControl
+    x:Class="aEMR.Views.SearchPCLRequestView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="430"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid
+            x:Name="LayoutRoot"
+            Margin="8"
+            VerticalAlignment="Center"
+            Background="White">
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <TextBlock
+                        x:Name="TitleForm"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="{Binding P0381_G1_PhYeuCauCLS, Source={StaticResource eHCMSResources}}" />
+                </Grid>
+
+                <Border
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    Style="{StaticResource LightBlueBorderStyle}">
+                    <StackPanel>
+                        <Border
+                            Margin="10,-10,0,0"
+                            HorizontalAlignment="Left"
+                            BorderBrush="#6F8AA9"
+                            BorderThickness="1">
+                            <TextBlock
+                                Margin="10,0,10,0"
+                                FontWeight="Bold"
+                                Text="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" />
+                        </Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource TextBlock.Heading.04}"
+                                Text="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" />
+                            <DatePicker
+                                Name="dpFromdate"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,2,0,2"
+                                SelectedDate="{Binding SearchCriteria.FromDate, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DatePicker}"
+                                TabIndex="0" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource TextBlock.Heading.04}"
+                                Text="{Binding T3230_G1_MaBN, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                            <TextBox
+                                Name="tbPatientCode"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0,2,0,2"
+                                Style="{StaticResource MainFrame.TextBox}"
+                                TabIndex="2"
+                                Text="{Binding SearchCriteria.PatientCode, Mode=TwoWay}" />
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource TextBlock.Heading.04}"
+                                Text="{Binding S0680_G1_SoPh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                            <TextBox
+                                Name="tbPCLRequestNumID"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="0,2,0,2"
+                                Style="{StaticResource MainFrame.TextBox}"
+                                TabIndex="4"
+                                Text="{Binding SearchCriteria.PCLRequestNumID, Mode=TwoWay}" />
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="3"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource TextBlock.Heading.04}"
+                                Text="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" />
+                            <DatePicker
+                                Name="dpToDate"
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Margin="0,2,0,2"
+                                SelectedDate="{Binding SearchCriteria.ToDate, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DatePicker}"
+                                TabIndex="1" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="3"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource TextBlock.Heading.04}"
+                                Text="{Binding T0834_G1_TenBenhNhan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                            <TextBox
+                                Name="tbFullName"
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Margin="0,2,0,2"
+                                Style="{StaticResource MainFrame.TextBox}"
+                                TabIndex="3"
+                                Text="{Binding SearchCriteria.FullName, Mode=TwoWay}" />
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="3"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource TextBlock.Heading.04}"
+                                Text="{Binding G1691_G1_TThai, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                            <commonctrl:AxComboBox
+                                x:Name="cboV_PCLMainCategory"
+                                Grid.Row="2"
+                                Grid.Column="4"
+                                Margin="0,1,0,1"
+                                DisplayMemberPath="ObjectValue"
+                                ItemsSource="{Binding RequestStatusList, Mode=OneWay}"
+                                SelectedValueEx="{Binding SearchCriteria.V_PCLRequestStatus, Mode=TwoWay}"
+                                SelectedValuePath="LookupID"
+                                Style="{StaticResource MainFrame.ComboBox}" />
+                            <CheckBox
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Height="26"
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Content="{Binding K2098_G1_ChonPgCLS, Source={StaticResource eHCMSResources}}"
+                                IsChecked="{Binding isCheckDeptPCL, Mode=TwoWay}"
+                                Visibility="{Binding hasChoiceDept, Converter={StaticResource BooleanToVisibility}}" />
+                            <ComboBox
+                                x:Name="Locations"
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                DisplayMemberPath="Location.LocationName"
+                                ItemsSource="{Binding Locations, Mode=OneWay}"
+                                SelectedValue="{Binding SearchCriteria.PCLExamTypeLocationsDeptLocationID, Mode=TwoWay}"
+                                SelectedValuePath="DeptLocationID"
+                                Style="{StaticResource MainFrame.ComboBox}"
+                                Visibility="{Binding isCheckDeptPCL, Converter={StaticResource BooleanToVisibility}}" />
+
+                            <Button
+                                x:Name="btSearch"
+                                Grid.Row="3"
+                                Grid.Column="3"
+                                Width="85"
+                                Margin="2"
+                                HorizontalAlignment="Right"
+                                Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}"
+                                TabIndex="5" />
+
+                            <Button
+                                x:Name="btClear"
+                                Grid.Row="3"
+                                Grid.Column="4"
+                                Width="85"
+                                Margin="2"
+                                HorizontalAlignment="Left"
+                                Content="{Binding N0209_G1_NhapLai, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}"
+                                TabIndex="6" />
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource TextBlock.Heading.04}"
+                                Text="{Binding G1464_G1_Tg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="5"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{Binding AllCasePCL}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border
+                    Grid.Row="2"
+                    Margin="0,10,0,0"
+                    Style="{StaticResource LightBlueBorderStyle}">
+                    <StackPanel>
+                        <Border
+                            Margin="10,-10,0,0"
+                            HorizontalAlignment="Left"
+                            BorderBrush="#6F8AA9"
+                            BorderThickness="1">
+                            <TextBlock
+                                Margin="10,0,10,0"
+                                FontWeight="Bold"
+                                Text="{Binding K3035_G1_DSPh, Source={StaticResource eHCMSResources}}" />
+                        </Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="25" />
+                            </Grid.RowDefinitions>
+                            <commonctrl:ReadOnlyDataGrid
+                                Name="dtgList"
+                                MinHeight="200"
+                                cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ObjPatientPCLRequest_SearchPaging, Mode=OneWay}"
+                                SelectedItem="{Binding ObjPatientPCLRequest_SearchPaging_Selected, Mode=TwoWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding PCLRequestNumID}" Header="{Binding S0680_G1_SoPh, Source={StaticResource eHCMSResources}}" />
+
+                                    <DataGridTextColumn Binding="{Binding FullName}" Header="{Binding T0834_G1_TenBenhNhan, Source={StaticResource eHCMSResources}}" />
+
+                                    <DataGridTextColumn Binding="{Binding PatientCode}" Header="{Binding T3230_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+
+                                    <DataGridTextColumn Binding="{Binding DOB}" Header="{Binding N0036_G1_NSinh, Source={StaticResource eHCMSResources}}" />
+
+                                    <DataGridTextColumn
+                                        Binding="{Binding CreatedDate, StringFormat='dd/MM/yyyy'}"
+                                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                        Header="{Binding N0054_G1_NgDK, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn
+                                        Binding="{Binding V_PCLRequestStatusName}"
+                                        ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                                        Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding RequestedDoctorName}" Header="{Binding R0012_G1_BSiCDinh, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding PerformStaffName}" Header="{Binding K0990_G1_BSiTHien, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTemplateColumn Header="{Binding K1837_G1_CTiet, Source={StaticResource eHCMSResources}}">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock VerticalAlignment="Center" Text="{Binding PCLExamTypeName}" />
+                                                    <TextBlock VerticalAlignment="Center" Text=" - " />
+                                                    <TextBlock VerticalAlignment="Center" Text="{Binding V_ExamRegStatusName}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </commonctrl:ReadOnlyDataGrid>
+
+                            <commonctrl:DataPager
+                                Grid.Row="1"
+                                VerticalAlignment="Bottom"
+                                PageSize="{Binding PageSize}"
+                                Source="{Binding ObjPatientPCLRequest_SearchPaging, Mode=OneWay}" />
+
+
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel
+                    Grid.Row="3"
+                    Margin="0,5,0,10"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btOK"
+                        Width="75"
+                        Height="23"
+                        Margin="0,0,10,0"
+                        HorizontalAlignment="Right"
+                        Content="{Binding K3847_G1_DongY, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+
+                    <Button
+                        x:Name="btCancel"
+                        Width="75"
+                        Height="23"
+                        HorizontalAlignment="Right"
+                        Content="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Grid>
+
+
+        </Grid>
+    </xctk:BusyIndicator>
+</commonctrl:AxUserControl>

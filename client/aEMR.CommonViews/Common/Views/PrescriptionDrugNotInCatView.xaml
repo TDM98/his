@@ -1,0 +1,199 @@
+﻿<AxControls:AxUserControl   x:Class="aEMR.Common.Views.PrescriptionDrugNotInCatView"
+                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                            xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" 
+                            xmlns:Converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                            xmlns:cal="http://www.caliburnproject.org" 
+                            mc:Ignorable="d"
+                            d:DesignHeight="360" d:DesignWidth="600" 
+                            Width="600" Height="360"
+                            xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converter:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNot"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid Margin="10" DataContext="{Binding ObjPrescriptionDetail,Mode=TwoWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+                <ColumnDefinition Width="40"></ColumnDefinition>
+                <ColumnDefinition Width="80"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.RowDefinitions>                
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="10"></RowDefinition>
+                <RowDefinition Height="100"></RowDefinition>
+                <RowDefinition Height="80"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="TitleForm" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+                       Text="{Binding G0895_G1_ThuocNgoaiDM, Source={StaticResource eHCMSResources}}"                        
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Style="{StaticResource MainFrame.TextBlock.Header.01}"></TextBlock>
+
+            <TextBlock Text="{Binding T0904_G1_TenThuoc, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+            <TextBox TabIndex="0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" 
+                     MaxLength="128"
+                     Text="{Binding SelectedDrugForPrescription.BrandName,Mode=TwoWay}"
+                     Style="{StaticResource MainFrame.TextBox}"/>
+            <TextBlock Text="  *" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Red" Style="{StaticResource TextBlock.Heading.04}"/>
+
+            <TextBlock Text="{Binding T1316_G1_HLg, Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+            <TextBox TabIndex="1" Grid.Row="2" Grid.Column="1" 
+                     MaxLength="128"
+                     Text="{Binding SelectedDrugForPrescription.Content,Mode=TwoWay}"
+                     Style="{StaticResource MainFrame.TextBox}"/>
+
+            <TextBlock Text="{Binding K1503_G1_CachDung, Source={StaticResource eHCMSResources}}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top"                        
+                       Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+            <TextBox TabIndex="2" Name="tb_WayUse" Grid.Row="3" Grid.Column="1"                     
+                     MaxLength="128"
+                     Text="{Binding SelectedDrugForPrescription.Administration,Mode=TwoWay}"
+                     Style="{StaticResource MainFrame.TextBox}"/>
+            
+            
+            <TextBlock Text="{Binding K3709_G1_DViTinh, Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+            <TextBox TabIndex="3" Grid.Row="2" Grid.Column="4" 
+                     MaxLength="64"
+                     Text="{Binding SelectedDrugForPrescription.UnitName,Mode=TwoWay}"
+                     Style="{StaticResource MainFrame.TextBox}"/>
+
+            <TextBlock Text="{Binding K3685_G1_DViDung, Source={StaticResource eHCMSResources}}" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+            <TextBox TabIndex="4" Grid.Row="3" Grid.Column="4" 
+                     MaxLength="64"
+                     Text="{Binding SelectedDrugForPrescription.UnitUse,Mode=TwoWay}"
+                     Style="{StaticResource MainFrame.TextBox}"/>
+            <Grid Grid.Row="5" Grid.ColumnSpan="6" 
+                  Visibility="{Binding HasSchedules,Converter={StaticResource BooleanToVisibilityNot} }" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"></ColumnDefinition>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding T2602_G1_LieuDung, Source={StaticResource eHCMSResources}}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+                <TextBox x:Name="tbLieuDung" TabIndex="5" Grid.Row="0" Grid.Column="1" TextAlignment="Right" Style="{StaticResource MainFrame.TextBox}" 
+                     Text="{Binding dosageStr,Mode=TwoWay}"
+                     cal:Message.Attach="[Event LostFocus] = [Action tbLieuDung_LostFocus($source,$eventArgs)]"/>
+                <TextBlock Text="{Binding K1394_G1_Buoi, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+                <AxControls:KeyEnabledComboBox 
+                TabIndex="6"
+                Name="cbxChooseDose"                                                    
+                Grid.Row="1" Grid.Column="1"
+                Style="{StaticResource MainFrame.ComboBox}"                                             
+                Margin="0,1,0,1" 
+                DisplayMemberPath="Name"
+                SelectedValuePath="ID"                                
+                ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.ChooseDoses}"                
+                cal:Message.Attach="[Event SelectionChanged]=[Action cbxChooseDose_SelectionChanged($source, $eventArgs)]"/>
+
+                <Grid Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding S0540_G1_Sang, Source={StaticResource eHCMSResources}}" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+                    <TextBox x:Name="tbSang" TabIndex="7" Grid.Row="0" Grid.Column="1" Text="{Binding MDoseStr,Mode=TwoWay}"
+                         TextAlignment="Right"
+                         Style="{StaticResource MainFrame.TextBox}"
+                         cal:Message.Attach="[Event LostFocus] = [Action tbSang_LostFocus($source,$eventArgs)]"/>
+
+
+                    <TextBlock Text="{Binding G1808_G1_Trua, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+                    <TextBox x:Name="tbTrua" TabIndex="8" Grid.Row="1" Grid.Column="1" Text="{Binding ADoseStr,Mode=TwoWay}"
+                         TextAlignment="Right"
+                         Style="{StaticResource MainFrame.TextBox}"
+                         cal:Message.Attach="[Event LostFocus] = [Action tbTrua_LostFocus($source,$eventArgs)]"/>
+
+                    <TextBlock Text="{Binding K1860_G1_Chieu, Source={StaticResource eHCMSResources}}" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+                    <TextBox x:Name="tbChieu" TabIndex="9" Grid.Row="0" Grid.Column="4" Text="{Binding EDoseStr,Mode=TwoWay}"
+                         TextAlignment="Right"
+                         Style="{StaticResource MainFrame.TextBox}"
+                         cal:Message.Attach="[Event LostFocus] = [Action tbChieu_LostFocus($source,$eventArgs)]"/>
+
+                    <TextBlock Text="{Binding G1446_G1_Toi, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+                    <TextBox x:Name="tbToi" TabIndex="10" Grid.Row="1" Grid.Column="4" Text="{Binding NDoseStr,Mode=TwoWay}"
+                         TextAlignment="Right"
+                         Style="{StaticResource MainFrame.TextBox}"
+                         cal:Message.Attach="[Event LostFocus] = [Action tbToi_LostFocus($source,$eventArgs)]"/>
+
+                </Grid>
+
+                <TextBlock Text="{Binding N0062_G1_NgDung, Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+                <TextBox x:Name="tbNgayDung" TabIndex="11" Grid.Row="2" Grid.Column="1" 
+                     Text="{Binding DayRpts,Mode=TwoWay}"
+                     Style="{StaticResource MainFrame.TextBox}"
+                     TextAlignment="Right"
+                     cal:Message.Attach="[Event LostFocus] = [Action tbNgayDung_LostFocus($source,$eventArgs)]"/>
+                <TextBlock Text="{Binding Z0045_G1_DauSao, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Red" Style="{StaticResource TextBlock.Heading.04}"/>
+                <TextBlock Text="{Binding N0063_G1_NgDungThem, Source={StaticResource eHCMSResources}}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+                <TextBox x:Name="tbNgayDungExt" TabIndex="12" Grid.Row="3" Grid.Column="1" 
+                     Text="{Binding DayExtended,Mode=TwoWay}"
+                     Style="{StaticResource MainFrame.TextBox}"
+                     TextAlignment="Right"
+                     cal:Message.Attach="[Event LostFocus] = [Action tbNgayDungExt_LostFocus($source,$eventArgs)]"/>
+
+                <TextBlock Text="{Binding S0656_G1_SLgg, Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+                <TextBox x:Name="tbSoLuong" TabIndex="13" Grid.Row="2" Grid.Column="4" 
+                     Text="{Binding Qty, Mode=TwoWay}"
+                     Style="{StaticResource MainFrame.TextBox}"
+                     TextAlignment="Right"
+                     cal:Message.Attach="[Event LostFocus] = [Action tbSoLuong_LostFocus($source,$eventArgs)]"/>
+            </Grid>
+
+            <TextBlock Text="{Binding G0894_G1_ThuocNayDungTheoLichTuan, Source={StaticResource eHCMSResources}}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="5" VerticalAlignment="Top"                        
+                       FontSize="16" Foreground="Crimson"
+                       Style="{StaticResource TextBlock.Heading.04}" 
+                       Visibility="{Binding HasSchedules,Converter={StaticResource BooleanToVisibility} }"/>
+
+
+
+            <TextBlock Text="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+            <TextBox Name="tb_Note" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4"
+                     TabIndex="14"  TextWrapping="Wrap" AcceptsReturn="True"                   
+                     MaxLength="128"
+                     Text="{Binding DrugInstructionNotes,Mode=TwoWay}"
+                     Style="{StaticResource MainFrame.TextBox}"/>
+
+            <TextBlock Text=" " Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"></TextBlock>
+
+            <Grid Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="2">
+                <StackPanel Orientation="Horizontal">
+                    <Button TabIndex="15" Name="btSave" Content="{Binding T0842_G1_GNhan, Source={StaticResource eHCMSResources}}" Margin="0,0,5,0" Width="80"
+                            Style="{StaticResource MainFrame.Button}"/>
+                    <Button TabIndex="16" Name="btCancel" Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}" Width="80"
+                            Style="{StaticResource MainFrame.Button}"/>                    
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</AxControls:AxUserControl>

@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="aEMR.SystemConfiguration.Views.SystemConfigurationLeftMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vsm="clr-namespace:System.Windows;assembly=WPFToolkit"
+    xmlns:layoutToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit"
+    mc:Ignorable="d"
+    xmlns:cal="http://www.caliburnproject.org"
+    d:DesignHeight="300" d:DesignWidth="400"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" SizeChanged="LayoutRoot_SizeChanged" MinHeight="250" VerticalAlignment="Stretch">
+        <layoutToolkit:Accordion x:Name="mnuLeft"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Margin="2,2,2,2"
+                           MinWidth ="185" BorderThickness="0"
+                           ItemsSource="{Binding LeftMenuItems,Mode=OneWay}" 
+                           HorizontalContentAlignment="Stretch"
+                           VerticalContentAlignment="Stretch">
+            <layoutToolkit:Accordion.Items>
+                <layoutToolkit:AccordionItem Header="{Binding T1452_G1_HeThong, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Background="White"
+                                       Visibility="{Binding mSystem,Converter={StaticResource BooleanToVisibility} }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding K1705_G1_CHinhMayIn, Source={StaticResource eHCMSResources}}" Name="PrinterSettingsCmd" 
+                                             Visibility="{Binding bPrinterSettings,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding K1532_G1_CaiDatUDung, Source={StaticResource eHCMSResources}}" Name="InstallationCmd" 
+                                             Visibility="{Binding bInstallOutOfBrowser,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+            </layoutToolkit:Accordion.Items>
+        </layoutToolkit:Accordion>
+    </Grid>
+</UserControl>

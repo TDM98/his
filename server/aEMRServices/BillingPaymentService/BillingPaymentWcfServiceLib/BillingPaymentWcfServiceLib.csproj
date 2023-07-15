@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{973188B4-E123-4EB4-92C9-C7143B2BF415}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BillingPaymentWcfServiceLib</RootNamespace>
+    <AssemblyName>BillingPaymentWcfServiceLib</AssemblyName>
+    <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxCaching">
+      <HintPath>P:\\AxCaching.dll</HintPath>
+    </Reference>
+    <Reference Include="AxLogging.Server">
+      <HintPath>P:\\AxLogging.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="DataEntities.Server">
+      <HintPath>P:\\DataEntities.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="eHCMSBillPaymt">
+      <HintPath>P:\\eHCMSBillPaymt.dll</HintPath>
+    </Reference>
+    <Reference Include="eHCMSLanguage">
+      <HintPath>P:\\eHCMSLanguage.dll</HintPath>
+    </Reference>
+    <Reference Include="ErrorLibrary">
+      <HintPath>P:\\ErrorLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="GenLib">
+      <HintPath>..\..\..\..\..\aEMR_Server\Libs\GenLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Service.Core.Server">
+      <HintPath>P:\\Service.Core.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web">
+      <HintPath>C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows">
+      <HintPath>C:\Program Files\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\System.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WCFServiceBase">
+      <HintPath>P:\\WCFServiceBase.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BillingPaymentWcfServiceLib.cs" />
+    <Compile Include="Connected Services\BankingPaymentServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="IBillingPaymentWcfServiceLib.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BankingPaymentServiceReference\BankingPaymentService.wsdl" />
+    <None Include="Connected Services\BankingPaymentServiceReference\BankingPaymentService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BankingPaymentServiceReference\BankingPaymentService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BankingPaymentServiceReference\BankingPaymentService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BankingPaymentServiceReference\BillingPaymentWcfServiceLib.BankingPaymentServiceReference.TransactionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommonLib\eHCMSConfig\eHCMSConfig\eHCMSConfig.csproj">
+      <Project>{4fa5e0b4-2b4e-448a-af47-4deb2d0dc409}</Project>
+      <Name>eHCMSConfig</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataAccess\DataAccessLayerProviders\DataAccessLayerProviders.csproj">
+      <Project>{a6371707-fc32-4962-a396-e1b60781397d}</Project>
+      <Name>DataAccessLayerProviders</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\BankingPaymentServiceReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\BankingPaymentServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\BankingPaymentServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\BankingPaymentServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{3D9AD99F-2412-4246-B90B-4EAA41C64699}">
+        <WcfProjectProperties>
+          <AutoStart>True</AutoStart>
+        </WcfProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>Copy "$(TargetDir)$(TargetFileName)" "P:\"
+Copy "$(TargetDir)$(TargetName).pdb" "P:\"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

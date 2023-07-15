@@ -1,0 +1,229 @@
+﻿<UserControl
+    x:Class="aEMR.TransactionManager.Views.CreateFastReportView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="600"
+    d:DesignWidth="1000"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </UserControl.Resources>
+    <Grid
+        x:Name="LayoutRoot"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.ColumnSpan="3"
+                Margin="0,10,0,10"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    Height="22"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                    Text="{Binding TitleForm, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" />
+            </StackPanel>
+            <GroupBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,5,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Header="{Binding G0524_G1_TTinBC, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.BlueGroupBox}">
+                <Grid VerticalAlignment="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="2,1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.04}"
+                        Text="{Binding G0936_G1_TieuDe, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBox
+                        Grid.Column="1"
+                        MinWidth="250"
+                        Margin="2"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding gReport.Title, Mode=TwoWay}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="2,1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.04}"
+                        Text="{Binding K2058_G1_ChonNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                        Visibility="{Binding IsDate, Mode=OneWay}" />
+                    <DatePicker
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="2"
+                        HorizontalAlignment="Left"
+                        SelectedDate="{Binding gReport.FromDate, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.DatePicker}"
+                        Visibility="{Binding IsTime, Mode=OneWay}" />
+                    <CheckBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="2"
+                        HorizontalAlignment="Left"
+                        Content="{Binding K1088_G1_BaoGomDkTruocTgDaChon, Source={StaticResource eHCMSResources}}"
+                        IsChecked="{Binding HIReport.IncludeBeforeFromDate, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.Checkbox}"
+                        Visibility="Collapsed" />
+                    <StackPanel
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="0,8,0,0"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="CreateReportCmd"
+                            Width="85"
+                            Content="{Binding T0781_G1_TaoBC, Source={StaticResource eHCMSResources}}"
+                            Style="{StaticResource MainFrame.Button}" />
+                        <Button
+                            x:Name="SearchCmd"
+                            Width="85"
+                            Margin="5,0"
+                            Content="{Binding G1155_G1_TimBC, Source={StaticResource eHCMSResources}}"
+                            Style="{StaticResource MainFrame.Button}" />
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+            <DockPanel
+                Grid.Row="2"
+                Grid.ColumnSpan="3"
+                HorizontalAlignment="Stretch"
+                LastChildFill="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <GroupBox
+                        Grid.Row="1"
+                        Height="500"
+                        Margin="2,5,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Header="{Binding K2929_G1_DSBC, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.BlueGroupBox}">
+                        <DataGrid
+                            VerticalAlignment="Stretch"
+                            cal:Message.Attach="[Event LoadingRow] = [Action gvReports_LoadingRow($source, $eventArgs)]                                   ;[Event MouseDoubleClick] = [Action gvReports_MouseDoubleClick($source, $eventArgs)]"
+                            AutoGenerateColumns="False"
+                            HeadersVisibility="All"
+                            HorizontalScrollBarVisibility="Auto"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding gReportCollection}"
+                            Style="{StaticResource MainFrame.DataGridStyle}"
+                            VerticalScrollBarVisibility="Auto">
+                            <DataGrid.Columns>
+
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action TransferDataToFAST_Click($datacontext)]"
+                                                    IsEnabled="{Binding IsTransferCompleted, Converter={StaticResource InverseBoolConverter}}"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding Z2651_G1_ChuyenDuLieu, Source={StaticResource eHCMSResources}}">
+                                                    <Image
+                                                        Width="13"
+                                                        Height="13"
+                                                        Opacity="1"
+                                                        Source="/aEMR.CommonViews;component/Assets/Images/xml_icon.png" />
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    cal:Message.Attach="[Event Click]=[Action DeleteReportBeforeTransfer_Click($datacontext)]"
+                                                    IsEnabled="{Binding IsTransferCompleted, Converter={StaticResource InverseBoolConverter}}"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                    <Image
+                                                        Width="13"
+                                                        Height="13"
+                                                        Opacity="1"
+                                                        Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTextColumn
+                                    x:Name="colTitle"
+                                    Binding="{Binding Title}"
+                                    ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                                    Header="{Binding G0936_G1_TieuDe, Source={StaticResource eHCMSResources}}" />
+                                <DataGridTextColumn
+                                    x:Name="colV_HIReportType"
+                                    Binding="{Binding V_HIReportType.ObjectValue}"
+                                    ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                    Header="{Binding Z0257_G1_LoaiBC, Source={StaticResource eHCMSResources}}" />
+                                <DataGridTextColumn
+                                    x:Name="colFromDate"
+                                    Binding="{Binding FromDate, StringFormat='dd/MM/yyyy'}"
+                                    ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                    Header="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" />
+                                <DataGridTextColumn
+                                    x:Name="colFullName"
+                                    MinWidth="100"
+                                    Binding="{Binding Staff.FullName, Mode=OneWay}"
+                                    ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                    Header="Người tạo" />
+                                <DataGridTextColumn
+                                    x:Name="colStatus"
+                                    MinWidth="100"
+                                    Binding="{Binding V_ReportStatus_Name, Mode=OneWay}"
+                                    ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                    Header="{Binding G1319_G1_TTrang, Source={StaticResource eHCMSResources}}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="aEMR.Registration.Views.ConfirmHiBenefitView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+             xmlns:cal="http://www.caliburnproject.org"
+             cal:Message.Attach="[Event RemoveHiItemAtIndex]=[Action RemoveHiItemAtIndex($source,$eventArgs)]"
+             d:DesignHeight="200"
+             d:DesignWidth="400"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility"/>
+    </UserControl.Resources>
+
+  <Grid Name="LayoutRoot">
+        <Grid Grid.Row="1" Margin="5,0,5,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Padding="5,0,5,0" Margin="0,5,0,0" BorderThickness="1" HorizontalAlignment="Stretch" 
+                Style="{StaticResource LightBlueBorderStyle}" Grid.ColumnSpan="2">
+                <StackPanel >
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="290" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding Q0496_G1_QuyenLoi, Source={StaticResource eHCMSResources}}" Style="{StaticResource TBlock.Heading.02.RightAlignment}" Margin="0,0,0,4" VerticalAlignment="Center" />
+                            <TextBox x:Name="txtHIPatientBenefit"  
+                                     IsEnabled="{Binding isTextBox,Mode=OneWay}" FontWeight="Bold" FontSize="26" Foreground="Red"
+                         Text="{Binding HiBenefit, Mode=TwoWay, NotifyOnValidationError=True,Converter={StaticResource PercentageConverter2}}" Grid.Column="1" />
+                            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Visibility="{Binding VisibilityCbxAllowCrossRegion, Mode=OneWay, Converter={StaticResource BooleanToNotVisibility}}">
+                                <RadioButton Content="{Binding K3925_G1_DungTuyen, Source={StaticResource eHCMSResources}}" IsChecked="{Binding IsSameRegion, Mode=TwoWay}" HorizontalAlignment="Left" GroupName="group1" IsEnabled="{Binding IsEditing,Mode=OneWay}"/>
+                                <RadioButton Content="{Binding G1687_G1_TraiTuyen, Source={StaticResource eHCMSResources}}" IsChecked="{Binding IsCrossRegion, Mode=TwoWay}" HorizontalAlignment="Left" GroupName="group1" IsEnabled="{Binding IsEditing,Mode=OneWay}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Visibility="{Binding VisibilityCbxAllowCrossRegion, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}">
+                                <RadioButton Content="{Binding K3925_G1_DungTuyen, Source={StaticResource eHCMSResources}}" IsChecked="{Binding IsSameRegion, Mode=TwoWay}" HorizontalAlignment="Left" GroupName="group2" IsEnabled="{Binding IsEditing,Mode=OneWay}"/>
+                                <RadioButton Content="{Binding G1687_G1_TraiTuyen, Source={StaticResource eHCMSResources}}" IsChecked="{Binding IsCrossRegion, Mode=TwoWay}" HorizontalAlignment="Left" GroupName="group2" IsEnabled="{Binding IsEditing,Mode=OneWay}"/>
+                                <RadioButton Content="Thông Tuyến" IsChecked="{Binding IsAllowCrossRegion, Mode=OneWay}" HorizontalAlignment="Left" GroupName="group2" IsEnabled="{Binding IsEditing,Mode=OneWay}"/>
+                            </StackPanel>
+
+                            <TextBlock Text="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}" Style="{StaticResource TBlock.Heading.02.RightAlignment}" Margin="0,0,0,4" VerticalAlignment="Center" Grid.Row="2"/>
+                            <TextBox Grid.Row="2" Height="50" AcceptsReturn="False"
+                                     IsEnabled="{Binding CanEdit,Mode=OneWay}"
+                                        Text="{Binding HIComment, Mode=TwoWay}" Grid.Column="1" Style="{StaticResource MainFrame.TextBox}"/>
+                            <!--Visibility="{Binding IsEditing,Mode=OneWay,Converter={StaticResource VisibilityConverter}}"-->
+                            <TextBlock Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" Margin="2,0,0,0" Foreground="Crimson" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="2" 
+                                       Visibility="Collapsed"/>
+                        </Grid>
+                    </StackPanel>
+                    
+                    <StackPanel Margin="50,4,0,2"  Visibility="{Binding ShowOptToAddNewCardToRegis,Mode=OneWay,Converter={StaticResource BooleanToVisibility}}" Orientation="Horizontal" >
+                        <RadioButton Content="{Binding K3965_G1_XacNhanDoiThe, Source={StaticResource eHCMSResources}}" IsEnabled="{Binding IsEnabledSelectOptions_O,Mode=OneWay}" IsChecked="{Binding IsConfirmReplaceWithAnotherCard, Mode=TwoWay}" HorizontalAlignment="Left" GroupName="group3" Visibility="{Binding ShowOptToOverwriteConfirmedCard,Mode=OneWay,Converter={StaticResource BooleanToVisibility}}" />
+                        <RadioButton Margin="10,0,0,0" Content="{Binding K3967_G1_XacNhanNoiThe, Source={StaticResource eHCMSResources}}" IsEnabled="{Binding IsEnabledSelectOptions_J,Mode=OneWay}" IsChecked="{Binding IsConfirmJoiningWithNewCard, Mode=TwoWay}" HorizontalAlignment="Left" GroupName="group3" Visibility="{Binding ShowOptToAddNewJoiningCardToRegis,Mode=OneWay,Converter={StaticResource BooleanToVisibility}}" />
+                        <RadioButton Margin="10,0,0,0" Content="{Binding K3968_G1_ConfirmRemoveLastAdded, Source={StaticResource eHCMSResources}}" IsEnabled="{Binding IsEnabledSelectOptions_R,Mode=OneWay}" IsChecked="{Binding IsConfirmRemoveLastAddedCard, Mode=TwoWay}" HorizontalAlignment="Left" GroupName="group3" Visibility="{Binding ShowOptToRemLastAddedCardFromRegis,Mode=OneWay,Converter={StaticResource BooleanToVisibility}}"/>
+                        <RadioButton Margin="10,0,0,0" Content="{Binding K3969_G1_ConfirmNoChangeHiCard, Source={StaticResource eHCMSResources}}" IsEnabled="{Binding IsEnabledSelectOptions_N,Mode=OneWay}" IsChecked="{Binding IsConfirmNoChangeCard, Mode=TwoWay}" HorizontalAlignment="Left" GroupName="group3" Visibility="{Binding ShowOptNoChangeCard,Mode=OneWay,Converter={StaticResource BooleanToVisibility}}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="80,5,0,5" >
+                        <Button x:Name="OkCmd" IsEnabled="{Binding CanPressOKButton,Mode=OneWay}"
+                              Visibility="{Binding ShowSaveHiInfoCmd,Mode=OneWay,Converter={StaticResource VisibilityConverter}}" Content="{Binding K3847_G1_DongY, Source={StaticResource eHCMSResources}}"
+                              Width="75" Style="{StaticResource MainFrame.Button}" />
+                        <!--Visibility="{Binding ShowBeginEditCmd,Mode=OneWay,Converter={StaticResource VisibilityConverter}}"-->
+                        <Button x:Name="EditCmd" Margin="5,0,0,0" IsEnabled="{Binding CanEdit,Mode=OneWay}"
+                               Content="{Binding S0739_G1_Sua, Source={StaticResource eHCMSResources}}"
+                              Width="75" Style="{StaticResource MainFrame.Button}" Visibility="Collapsed"/>
+                        <Button x:Name="CancelCmd" Margin="5,0,0,0" Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}"
+                      Width="75" Style="{StaticResource MainFrame.Button}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

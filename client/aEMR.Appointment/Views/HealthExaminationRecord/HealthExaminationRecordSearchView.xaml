@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="aEMR.Appointment.Views.HealthExaminationRecordSearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:ShortDateConverter x:Key="ShortDateConverter"/>
+    </UserControl.Resources>
+    <toolkit:BusyIndicator BusyContent="{Binding BusyContent}" IsBusy="{Binding IsBusy}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding S0647_G1_SoHD, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.01}" VerticalAlignment="Center" Margin="5 0"></TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource MainFrame.TextBox}" Text="{Binding SearchClientContract.ContractNo}" Margin="0 2"></TextBox>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Z2670_G1_TenHopDong, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.01}" VerticalAlignment="Center" Margin="5 0"></TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="3" Style="{StaticResource MainFrame.TextBox}" MinWidth="100" Text="{Binding SearchClientContract.ContractName}" Margin="0 2"></TextBox>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding T0858_G1_TenKhachHg, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.01}" VerticalAlignment="Center" Margin="5 0"></TextBlock>
+            <AxControls:AxAutoComplete Grid.Row="1" Grid.Column="1" Margin="0 2"
+                                       IsDropDownOpen="True" FilterMode="None" MinimumPrefixLength="1"
+                                       ValueMemberBinding="{Binding ClientName}" MinimumPopulateDelay="300"
+                                       ValueMemberPath="HosClientID"
+                                       cal:Message.Attach="[Event Populating] = [Action HosClient_Populating($source, $eventArgs)]
+                                       ;[Event DropDownClosed] = [Action HosClient_DropDownClosed($source, $eventArgs)]"
+                                       Text="{Binding SearchClientContract.HosClient.ClientName}"
+                                       Style="{StaticResource AxAutoCompleteMyStyle}"
+                                       ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}">
+                <AxControls:AxAutoComplete.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding HosClientCode}" Style="{StaticResource MainFrame.TextBlock.01}" MinWidth="50" Margin="0" Padding="0" />
+                            <TextBlock Text="{Binding ClientName}" Style="{StaticResource MainFrame.TextBlock.01}" MinWidth="300" Margin="5,0,0,0" Padding="0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </AxControls:AxAutoComplete.ItemTemplate>
+            </AxControls:AxAutoComplete>
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding N0069_G1_NgHD, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.01}" VerticalAlignment="Center" Margin="5 0"></TextBlock>
+            <StackPanel Grid.Row="1" Grid.Column="3" Orientation="Horizontal">
+                <AxControls:AxDateTextBox Text="{Binding SearchClientContract.ValidDateFrom,Mode=TwoWay,NotifyOnValidationError=True,Converter={StaticResource ShortDateConverter}}"
+                                          HorizontalAlignment="Stretch" Width="90" VerticalAlignment="Center" Height="22" Margin="0 2"/>
+                <AxControls:AxDateTextBox Text="{Binding SearchClientContract.ValidDateTo,Mode=TwoWay,NotifyOnValidationError=True,Converter={StaticResource ShortDateConverter}}"
+                                          HorizontalAlignment="Stretch" Width="90" VerticalAlignment="Center" Height="22"
+                                          Margin="5 2">
+                </AxControls:AxDateTextBox>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Orientation="Horizontal" Margin="0 5">
+                <Button x:Name="btnSearch" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Margin="5 0" MinWidth="80"></Button>
+                <Button x:Name="btnSelect" Content="{Binding K1916_G1_Chon, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Margin="5 0" MinWidth="80"></Button>
+            </StackPanel>
+            <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" AutoGenerateColumns="False" CanUserAddRows="False"
+                      ItemsSource="{Binding HospitalClientContractCollection,Mode=OneWay}"
+                      SelectedItem="{Binding SelectedHospitalClientContract,Mode=TwoWay}"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                      Style="{StaticResource MainFrame.DataGridStyle}"
+                      IsReadOnly="True"
+                      cal:Message.Attach="[Event MouseDoubleClick] = [Action gvClientContracts_MouseDoubleClick($source, $eventArgs)]">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{Binding S0647_G1_SoHD, Source={StaticResource eHCMSResources}}"
+                                        Binding="{Binding ContractNo,Mode=OneWay}" Width="Auto"/>
+                    <DataGridTextColumn Header="{Binding Z2670_G1_TenHopDong, Source={StaticResource eHCMSResources}}"
+                                        Binding="{Binding ContractName,Mode=OneWay}" Width="Auto"/>
+                    <DataGridTextColumn Header="{Binding T0858_G1_TenKhachHg, Source={StaticResource eHCMSResources}}"
+                                        Binding="{Binding HosClient.ClientName,Mode=OneWay}" Width="Auto"/>
+                    <DataGridTextColumn Header="{Binding Z2670_G1_TenCongTy, Source={StaticResource eHCMSResources}}"
+                                        Binding="{Binding HosClient.CompanyName,Mode=OneWay}" Width="Auto"/>
+                    <DataGridTextColumn Header="{Binding N0069_G1_NgHD, Source={StaticResource eHCMSResources}}"
+                                        Binding="{Binding ContractDate,Mode=OneWay,Converter={StaticResource ShortDateConverter}}" Width="Auto"/>
+                    <DataGridTextColumn Header="{Binding N0165_G1_NguoiTao, Source={StaticResource eHCMSResources}}"
+                                        Binding="{Binding CreatedStaff.FullName,Mode=OneWay}" Width="Auto"/>
+                    <DataGridCheckBoxColumn Header="{Binding Z2788_G1_DaHoanTat, Source={StaticResource eHCMSResources}}"
+                                            Binding="{Binding IsCompleted,Mode=OneWay}" Width="Auto"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>

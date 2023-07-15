@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="aEMR.Common.Views.ValidationErrorView" Padding="0,0,0,0" Margin="0,0,0,0"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="640" d:DesignHeight="480" 
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+<Grid x:Name="LayoutRoot"
+          Width="400">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="ContentStackPanel" Grid.Row="2" Margin="0,6,0,0">
+            <ListBox Height="200"
+                     ItemsSource="{Binding ValidationErrors,Mode=OneWay}">
+            </ListBox>
+
+        </StackPanel>
+
+        <Button x:Name="OkCmd" Grid.Row="3" Style="{StaticResource MainFrame.Button}"
+            Width="75" Height="23" HorizontalAlignment="Right" Margin="0,10,0,0" 
+            TabIndex="0" Content="{Binding G0391_G1_Thoat, Source={StaticResource eHCMSResources}}"/>
+
+    </Grid>
+</UserControl>

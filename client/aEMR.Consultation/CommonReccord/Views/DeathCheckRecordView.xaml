@@ -1,0 +1,355 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.CommonRecs.Views.DeathCheckRecordView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    x:Name="Me"
+    d:DesignHeight="500"
+    d:DesignWidth="1100"
+    Background="white"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converters:DatetimeConverter x:Key="DatetimeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.ColumnSpan="6"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="5,2,5,2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontFamily="Times New Roman"
+                FontSize="20"
+                FontWeight="Bold"
+                Foreground="Blue"
+                Text="Trích biên bản kiểm điểm tử vong" />
+        </StackPanel>
+        <TextBlock
+            Grid.Row="1"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="{Binding T1794_G1_ID, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5,2,5,2"
+            IsEnabled="False"
+            Text="{Binding CurPatient.PatientCode, Mode=TwoWay}" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="2"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="{Binding T1567_G1_HoTen, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="3"
+            Margin="5,2,5,2"
+            IsEnabled="False"
+            Text="{Binding CurPatient.FullName}" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="4"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Số vào viện" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="5"
+            Margin="5,2,5,2"
+            IsEnabled="False"
+            Text="{Binding CurPatient.FileCodeNumber}" />
+        <TextBlock
+            Grid.Row="2"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="{Binding T3674_G1_MaYTe2, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="5,2,5,2"
+            IsEnabled="False"
+            Text="{Binding MedicalCode}" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="2"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="{Binding G2057_G1_Tuoi, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="3"
+            Margin="5,2,5,2"
+            IsEnabled="False"
+            Text="{Binding CurPatient.Age}" />
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="4"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="{Binding T1223_G1_GTinh, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="5"
+            Margin="5,2,5,2"
+            IsEnabled="False"
+            Text="{Binding CurPatient.GenderString}" />
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Vào viện lúc" />
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="5,2,5,2"
+            IsEnabled="False"
+            Text="{Binding CurrentPatientRegistration.AdmissionInfo.AdmissionDate, StringFormat='dd/MM/yyyy HH:mm'}" />
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="2"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Tại khoa" />
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="3"
+            Margin="5,2,5,2"
+            IsEnabled="False"
+            Text="{Binding CurrentPatientRegistration.AdmissionInfo.DischargeDepartment.DeptName}" />
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Tử vong lúc" />
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="5,2,5,2"
+            IsEnabled="False"
+            Text="{Binding CurrentPatientRegistration.AdmissionInfo.DeceasedInfo.DeceasedDateTime, StringFormat='dd/MM/yyyy'}" />
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="0"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Kiểm điểm tử vong lúc" />
+
+        <ContentControl
+            x:Name="CheckRecordDateTime"
+            Grid.Row="5"
+            Grid.Column="1"
+            MinWidth="300"
+            MinHeight="22"
+            Margin="5,2,5,2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            VerticalContentAlignment="Bottom" />
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="0"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Chủ tọa" />
+
+        <AxControls:AxAutoComplete
+            Grid.Row="6"
+            Grid.Column="1"
+            Height="22"
+            Margin="5,2,5,2"
+            HorizontalAlignment="Stretch"
+            cal:Message.Attach="[Event Populating] = [Action cboDoctor_Populating($source, $eventArgs)]"
+            FilterMode="None"
+            IsDropDownOpen="True"
+            ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+            MinimumPopulateDelay="300"
+            MinimumPrefixLength="0"
+            SelectedItem="{Binding PresideStaffs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource AxAutoCompleteMyStyle}"
+            Text="{Binding PresideStaffs.FullName}"
+            ValueMemberBinding="{Binding FullName, Mode=TwoWay}"
+            ValueMemberPath="FullName">
+            <AxControls:AxAutoComplete.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock
+                            Margin="0"
+                            Padding="0"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding FullName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </AxControls:AxAutoComplete.ItemTemplate>
+        </AxControls:AxAutoComplete>
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="2"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Thư ký" />
+        <AxControls:AxAutoComplete
+            Grid.Row="6"
+            Grid.Column="3"
+            Grid.ColumnSpan="2"
+            Height="22"
+            Margin="5,2,5,2"
+            HorizontalAlignment="Stretch"
+            cal:Message.Attach="[Event Populating] = [Action cboDoctorSecretary_Populating($source, $eventArgs)]"
+            FilterMode="None"
+            IsDropDownOpen="True"
+            ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+            MinimumPopulateDelay="300"
+            MinimumPrefixLength="0"
+            SelectedItem="{Binding SecretaryStaffs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource AxAutoCompleteMyStyle}"
+            Text="{Binding SecretaryStaffs.FullName}"
+            ValueMemberBinding="{Binding FullName, Mode=TwoWay}"
+            ValueMemberPath="FullName">
+            <AxControls:AxAutoComplete.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock
+                            Margin="0"
+                            Padding="0"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding FullName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </AxControls:AxAutoComplete.ItemTemplate>
+        </AxControls:AxAutoComplete>
+        <TextBlock
+            Grid.Row="7"
+            Grid.Column="0"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Thành viên tham gia" />
+        <AxControls:AxAutoComplete
+            Grid.Row="7"
+            Grid.Column="1"
+            Height="22"
+            Margin="5,2,5,2"
+            HorizontalAlignment="Stretch"
+            cal:Message.Attach="[Event Populating] = [Action cboDoctorMember_Populating($source, $eventArgs)];[Event SelectionChanged] = [Action cboDoctorMember_SelectedItemChanged($source, $eventArgs)]"
+            FilterMode="None"
+            IsDropDownOpen="True"
+            ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+            MinimumPopulateDelay="300"
+            MinimumPrefixLength="0"
+            SelectedItem="{Binding MemberStaffs, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource AxAutoCompleteMyStyle}"
+            Text="{Binding MemberStaff.FullName}"
+            ValueMemberBinding="{Binding FullName, Mode=TwoWay}"
+            ValueMemberPath="FullName">
+            <AxControls:AxAutoComplete.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock
+                            Margin="0"
+                            Padding="0"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding FullName}" />
+                    </StackPanel>
+                </DataTemplate>
+            </AxControls:AxAutoComplete.ItemTemplate>
+        </AxControls:AxAutoComplete>
+        <TextBox
+            Grid.Row="7"
+            Grid.Column="2"
+            Grid.ColumnSpan="6"
+            Margin="5,2,5,2"
+            Text="{Binding CurDeathCheckRecord.MemberStaff, Mode=TwoWay}" />
+        <TextBlock
+            Grid.Row="8"
+            Grid.Column="0"
+            Grid.ColumnSpan="6"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Tóm tắt quá trình diễn tiến bệnh, quá trình điều trị và chăm sóc người bệnh" />
+        <TextBox
+            Grid.Row="9"
+            Grid.Column="0"
+            Grid.ColumnSpan="6"
+            Height="66"
+            Margin="5,2,5,2"
+            AcceptsReturn="True"
+            Text="{Binding CurDeathCheckRecord.TreatmentProcess, Mode=TwoWay}"
+            VerticalScrollBarVisibility="Auto" />
+        <TextBlock
+            Grid.Row="10"
+            Grid.Column="0"
+            Margin="5,2,5,2"
+            Style="{StaticResource TextBlock.Heading.04}"
+            Text="Kết luận" />
+        <TextBox
+            Grid.Row="11"
+            Grid.Column="0"
+            Grid.ColumnSpan="6"
+            Height="66"
+            Margin="5,2,5,2"
+            AcceptsReturn="True"
+            Text="{Binding CurDeathCheckRecord.Conclude, Mode=TwoWay}"
+            VerticalScrollBarVisibility="Auto" />
+        <StackPanel
+            Grid.Row="12"
+            Grid.Column="0"
+            Grid.ColumnSpan="6"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnSave"
+                Width="100"
+                Margin="5,5"
+                Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}" />
+            <Button
+                x:Name="btnPreview"
+                Width="80"
+                Margin="5,5"
+                Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}" />
+            <Button
+                x:Name="btnDelete"
+                Width="100"
+                Margin="5,5"
+                Content="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

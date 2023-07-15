@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="aEMR.Appointment.Views.HealthExaminationRecordServiceEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:CanDeleteIconConverter_V2 x:Key="CanDeleteIconConverter_V2"/>
+        <Converters:DecimalConverter x:Key="DecimalConverter"/>
+        <Converters:ExamRegStatusConverter x:Key="ExamRegStatusConverter"/>
+        <Converters:EnumValueToStringConverter x:Key="EnumValueToStringConverter"/>
+        <Converters:DecimalConverter3 x:Key="DecimalConverter3"/>
+        <Converters:ShortDateConverter x:Key="ShortDateConverter"/>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNotConverter"/>
+        <Converters:ConditionToVisibilityConverter x:Key="ConditionToVisibilityConverter"/>
+        <Converters:ConditionToNotVisibilityConverter x:Key="ConditionToNotVisibilityConverter"/>
+        <Converters:ConditionToBooleanConverter x:Key="ConditionToBooleanConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <StackPanel Visibility="{Binding IsHasPatientGroup,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="{Binding N0239_G1_Nhom,Source={StaticResource eHCMSResources}}"
+                           Style="{StaticResource MainFrame.TextBlock.01}"
+                           VerticalAlignment="Center" Margin="5 5"/>
+                <ComboBox x:Name="PatientGroupComboBox" Margin="5,0,5,5" Style="{StaticResource MainFrame.ComboBox}" ItemsSource="{Binding PatientGroupCollection}"
+                          DisplayMemberPath="HosClientContractPatientGroupName" SelectedValuePath="HosClientContractPatientGroupID"
+                          cal:Message.Attach="[Event SelectionChanged]=[Action PatientGroupComboBox_SelectionChanged($source,$eventArgs)]"
+                          SelectedValue="{Binding CurrentPatientGroupID,Mode=TwoWay}">
+                </ComboBox>
+            </StackPanel>
+            <ContentControl Name="UCOutPtAddServiceAndPCL" MinWidth="250"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch">
+            </ContentControl>
+        </StackPanel>
+        <DataGrid Grid.Row="0" Grid.Column="1"
+                  Style="{StaticResource MainFrame.DataGridStyle}"
+                  CanUserAddRows="False"
+                  AutoGenerateColumns="False"
+                  HeadersVisibility="All"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                  cal:Message.Attach="[Event CellEditEnding]=[Action gvMedRegItems_CellEditEnding($source,$eventArgs)];
+                  [Event BeginningEdit]=[Action gvMedRegItems_BeginningEdit($source,$eventArgs)]"
+                  ItemsSource="{Binding MedRegItemBaseCollection,Mode=OneWay}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="" IsReadOnly="True" Width="24">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Button HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext,$eventArgs)]"
+                                        ToolTipService.ToolTip="{Binding G2617_G1_Xoa,Source={StaticResource eHCMSResources}}"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                        Visibility="{Binding V_NewPriceType,Converter={StaticResource ConditionToNotVisibilityConverter},ConverterParameter=60410}">
+                                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                </Button>
+                                <Button HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                        Visibility="{Binding V_NewPriceType,Converter={StaticResource ConditionToVisibilityConverter},ConverterParameter=60410}">
+                                    <Image Source="/aEMR.CommonViews;component/Assets/Images/tick.png" Height="13" Width="13" Opacity="1" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{Binding K2569_G1_Code,Source={StaticResource eHCMSResources}}" Binding="{Binding ChargeableItemCode,Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="{Binding K3421_G1_DV,Source={StaticResource eHCMSResources}}" Binding="{Binding ChargeableItemName,Mode=OneWay}"
+                                    IsReadOnly="True" Width="Auto">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T2669_G1_Loai,Source={StaticResource eHCMSResources}}" x:Name="colMedProductType"
+                                    Binding="{Binding MedProductType,Mode=OneWay,Converter={StaticResource EnumValueToStringConverter}}"
+                                    IsReadOnly="True" Width="Auto">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding S0583_G1_SLg,Source={StaticResource eHCMSResources}}" AxControls:DataGridColNamingUtil.ColName="colQty"
+                                    Binding="{Binding Qty,Mode=TwoWay,UpdateSourceTrigger=LostFocus,Converter={StaticResource DecimalConverter3}}"
+                                    IsReadOnly="False" Width="40">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T0860_G1_GiaBan,Source={StaticResource eHCMSResources}}" MinWidth="80"
+                                    IsReadOnly="True"
+                                    Binding="{Binding ChargeableItem.NormalPrice,Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                    ElementStyle="{StaticResource RightAligmentTextBlock}">
+                </DataGridTextColumn>
+                <DataGridTemplateColumn AxControls:DataGridColNamingUtil.ColName="ItemPriceColumn" Header="{Binding T0849_G1_Gia,Source={StaticResource eHCMSResources}}" MinWidth="80"
+                                        IsReadOnly="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding InvoicePrice,Mode=TwoWay,UpdateSourceTrigger=LostFocus,Converter={StaticResource DecimalConverter}}" HorizontalAlignment="Stretch"
+                                     Style="{StaticResource MainFrame.TextBox}"
+                                     VerticalAlignment="Stretch"
+                                     IsReadOnly="{Binding V_NewPriceType,Converter={StaticResource ConditionToBooleanConverter},ConverterParameter=60410}">
+                            </TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{Binding N0105_G1_NgSD,Source={StaticResource eHCMSResources}}" x:Name="colCreatedDate"
+                                    Binding="{Binding CreatedDate,Mode=OneWay,Converter={StaticResource ShortDateConverter}}"
+                                    IsReadOnly="True">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="5"
+                    Visibility="{Binding IsChoossingCase,Converter={StaticResource BooleanToVisibilityNotConverter}}">
+            <Button x:Name="btnSave" Content="{Binding T2937_G1_Luu,Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Margin="5 0" MinWidth="80"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

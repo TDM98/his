@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="aEMR.Common.ViewModels.RegistrationListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
+             xmlns:my="clr-namespace:aEMR.CommonViews"
+             xmlns:commonusercontrols="clr-namespace:aEMR.CommonUserControls;assembly=aEMR.CommonUserControls"            
+             Padding="0,0,0,0" Margin="0,0,0,0" 
+             d:DesignWidth="640" d:DesignHeight="480"              
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+             mc:Ignorable="d"> 
+    
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot"
+          Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <commonusercontrols:UCPatientInfoV2 x:Name="ctrlPatientInfo" DataContext="{Binding CurrentPatient,Mode=OneWay}" />
+        <DockPanel Grid.Row="1"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           LastChildFill="True">
+            <my:UCPatientRegistrations x:Name="ctrlRegistrations" DataContext="{Binding Registrations,Mode=OneWay}"  VerticalAlignment="Stretch" />
+        </DockPanel>
+        <StackPanel Grid.Row="2" Margin="0,5,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <Button x:Name="OkCmd"
+                    Content="{Binding T0643_G1_Exit, Source={StaticResource eHCMSResources}}"
+                    Width="75"
+                    Height="23"
+                    Style="{StaticResource MainFrame.Button}"
+                    HorizontalAlignment="Right"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

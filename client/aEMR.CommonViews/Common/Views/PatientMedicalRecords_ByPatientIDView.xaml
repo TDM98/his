@@ -1,0 +1,54 @@
+﻿<UserControl    x:Class="aEMR.Common.Views.PatientMedicalRecords_ByPatientIDView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="836"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+                <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White" Margin="3">
+        <Border x:Name="BorderCanvas" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1">
+            <Grid Height="Auto" Width="Auto">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition MinWidth="5"  Width="5"/>
+                    <!--0.Alignment-->
+                    <ColumnDefinition MinWidth="115" Width="120"/>
+                    <!--1.Empty-->
+                    <ColumnDefinition MinWidth="50" Width="6*" />
+                    <!--2.Empty-->
+                    <ColumnDefinition MinWidth="80" Width="80"/>
+                    <!--3.National Med code lable-->
+                    <ColumnDefinition MinWidth="60" Width="90"/>
+                    <!--4.National Med code value-->
+                    <ColumnDefinition MinWidth="125" Width="130"/>
+                    <!--5.PtRecID label-->
+                    <ColumnDefinition MinWidth="70" Width="6*"/>
+                    <!--6.PtRecID value-->
+                    <ColumnDefinition MinWidth="80" Width="80"/>
+                    <!--7.ExamDate Label-->
+                    <ColumnDefinition MinWidth="80" Width="80"/>
+                    <!--8.ExamDate value-->
+                    <!--<ColumnDefinition MinWidth="60" Width="85"/>-->
+                    <!--9.PtRecID value-->
+                    <ColumnDefinition MinWidth="50" Width="3*"/>
+                    <!--10.CreateDate Value-->
+                    <ColumnDefinition MinWidth="5" Width="5"/>
+                    <!--11.Alignment-->
+                </Grid.ColumnDefinitions>
+
+                <Label Content="{Binding T3674_G1_MaYTe2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Style="{StaticResource MainFrame.Label.01}" />
+                <TextBlock Text="{Binding ObjPMRByPatientID.NationalMedicalCode, Mode=TwoWay}" x:Name="txtNatMedCode" Margin="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="0"  Grid.Column="2" Style="{StaticResource MainFrame.TextBlock.02}" Foreground="Red"  />
+                <Label Content="{Binding T3224_G1_MaBAn, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3" Style="{StaticResource MainFrame.Label.01}" />
+                <TextBlock Text="{Binding ObjPMRByPatientID.PatientRecID, Mode=TwoWay}"  x:Name="txtPrRecID" Margin="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="0"  Grid.Column="4" Style="{StaticResource MainFrame.TextBlock.02}" />
+                <Label Content="{Binding N0112_G1_NgTaoBAn, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="5" Style="{StaticResource MainFrame.Label.01}" />
+                <TextBlock Text="{Binding ObjPMRByPatientID.CreatedDate, StringFormat='dd/MM/yyyy', Mode=TwoWay}"  x:Name="txtCreatedDate" Margin="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="0"  Grid.Column="6" Style="{StaticResource MainFrame.TextBlock.02}" />
+                <Label Content="{Binding S0629_G1_SoDK, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="7" Style="{StaticResource MainFrame.Label.01}" />
+                <TextBlock Text="{Binding ObjPMRByPatientID.PtRegistrationID, Mode=TwoWay}"  x:Name="txtExamDate" Margin="2,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="NoWrap" Grid.Row="0"  Grid.Column="8" Style="{StaticResource MainFrame.TextBlock.02}" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

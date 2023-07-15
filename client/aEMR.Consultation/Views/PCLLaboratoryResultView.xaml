@@ -1,0 +1,45 @@
+﻿<UserControl    x:Class="aEMR.ConsultantEPrescription.Views.PCLLaboratoryResultView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="400"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TitleForm" Text="{Binding G2442_G1_XemKQuaXN, Source={StaticResource eHCMSResources}}" Grid.ColumnSpan="3" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Style="{StaticResource MainFrame.TextBlock.Header.01}"/>
+        <Expander Grid.Row="1" Margin="0,0,0,0" VerticalAlignment="Stretch" Foreground="#CC0033" FontWeight="Bold"
+                                ExpandDirection="Down" IsExpanded="False" 
+                                  Header="{Binding UCPatientProfileInfo.CurrentPatient.GeneralInfoString,Mode=OneWay}" 
+                                  Background="#FFDBE5F1" 
+                                RenderTransformOrigin="0,0" Height="Auto"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                >
+            <Grid >
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition MinWidth="1" Width="1"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <ContentControl  x:Name="UCPatientProfileInfo" Grid.Column="0"  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                <ContentControl x:Name="UCDoctorProfileInfo" Grid.Column="2"   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+            </Grid>
+        </Expander>
+        <TabControl Name="tabCommon" Margin="0,0,0,0"  Style="{StaticResource MainFrame.TabControl}" Grid.Row="2">
+            <TabItem Header="{Binding G2441_G1_XemKQuaTheoSoPh, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}" Name="TabRequest" IsSelected="True"></TabItem>
+            <TabItem Header="{Binding G2439_G1_XemKQuaExamtype, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}" Name="TabExamType" ></TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

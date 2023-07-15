@@ -1,0 +1,47 @@
+﻿<customcontrols:AxUserControl x:Class="aEMR.Common.Views.RoomTreeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+             
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"       
+    xmlns:cal="http://www.caliburnproject.org"
+                              d:DesignHeight="500" d:DesignWidth="200"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <customcontrols:AxUserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <HierarchicalDataTemplate x:Key="PersonTemplate" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="13" Margin="0,0,3,0" VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding ImgIcon}"/>
+                <TextBlock FontSize="13" Text="{Binding NodeText}"/>
+            </StackPanel>
+        </HierarchicalDataTemplate>
+    </customcontrols:AxUserControl.Resources>
+<Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+            <Grid x:Name="LayoutRoot" Background="White" HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                <TreeView MinHeight="550" MinWidth="230" MaxHeight="550" Name="treeView"  Margin="1"
+                          ToolTipService.ToolTip="{Binding K2378_G1_ClkNotCayDeChonPg, Source={StaticResource eHCMSResources}}"
+                          ItemsSource="{Binding allRefDepartmentsTree,Mode=TwoWay}" 
+                          cal:Message.Attach="[Event SelectedItemChanged]=[Action treeView_SelectedItemChanged($eventArgs)]"
+                          ScrollViewer.HorizontalScrollBarVisibility="Visible" 
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          Style="{StaticResource TreeViewStyle}"
+                          ItemTemplate="{StaticResource PersonTemplate}">
+                    <TreeView.Resources>
+                        <Style TargetType="TreeViewItem">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+                        </Style>
+                    </TreeView.Resources>
+                </TreeView>
+            </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Border>
+</customcontrols:AxUserControl>

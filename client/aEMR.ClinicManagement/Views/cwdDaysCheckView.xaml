@@ -1,0 +1,105 @@
+﻿<UserControl    x:Class="aEMR.ClinicManagement.Views.cwdDaysCheckView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"   
+                xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                mc:Ignorable="d"
+                d:DesignWidth="560">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete" 
+                                 cal:Message.Attach="[Event Loaded]=[Action lnkDeleteLoaded($source,$eventArgs)]
+                                 ;[Event Click]=[Action lnkDeleteClick($source,$eventArgs)]"
+                                 ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        
+
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+            <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                        DataContext="{Binding curConsultationRoomTarget,Mode=TwoWay}"
+              >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition MinHeight="80" Height="150" />                    
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" FontSize="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Text="{Binding K2065_G1_ChonNgKhamTrongTuan3, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB"  />
+                <Border Grid.Column="0" 
+                     Grid.Row="1" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <!---->
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition  />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="13"/>
+                        <RowDefinition  Height="25"/>
+                        <RowDefinition  Height="50"/>                        
+                        <RowDefinition  Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Label Content="{Binding G0716_G1_ThuHai, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding G0714_G1_ThuBa, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding G0738_G1_ThuTu, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding G0722_G1_ThuNam, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding G0727_G1_ThuSau, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding G0715_G1_ThuBay, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding K2227_G1_ChuNhat, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+                    
+                    <CheckBox Name="chkMon"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                 IsChecked="{Binding Monday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                    <CheckBox Name="chkTue"  Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                 IsChecked="{Binding Tuesday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                    <CheckBox Name="chkWed"  Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                 IsChecked="{Binding Wednesday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                    <CheckBox Name="chkThu"  Grid.Column="4" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                 IsChecked="{Binding Thursday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                    <CheckBox Name="chkFri"  Grid.Column="5" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                 IsChecked="{Binding Friday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                    <CheckBox Name="chkSat"  Grid.Column="6" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                 IsChecked="{Binding Saturday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                    <CheckBox Name="chkSun"  Grid.Column="7" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                 IsChecked="{Binding Sunday,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+                    
+                    
+                    
+                    <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="9" Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button x:Name="butSave" HorizontalAlignment="Left" Content="{Binding K1599_G1_CNhat, Source={StaticResource eHCMSResources}}" Height="20" Style="{StaticResource MainFrame.Button}" Width="80"
+                                />
+                        <!--Visibility="{Binding bAdd,Converter={StaticResource BooleanToVisibility} }"-->
+                    </StackPanel>
+                </Grid>
+                </Border>
+            <!--<Label Grid.Row="0" Height="18" HorizontalAlignment="Left" Name="lblResult" VerticalAlignment="Top" Content="{Binding K3060_G1_DSRole, Source={StaticResource eHCMSResources}}" Style="{StaticResource Label.Heading.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />-->
+
+                   
+            </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Border>
+</UserControl>

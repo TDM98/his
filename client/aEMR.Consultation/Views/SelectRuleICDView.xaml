@@ -1,0 +1,91 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.SelectRuleICDView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converters:FontBoldConverter x:Key="FontBoldConverter" />
+    </UserControl.Resources>
+    <Border
+        x:Name="BorderCanvas"
+        Margin="1,1,1,1"
+        Style="{StaticResource LightBlueBorderStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32" />
+                <RowDefinition Height="*" MaxHeight="400" />
+                <RowDefinition Height="32" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                Margin="20,0,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="18"
+                Style="{StaticResource MainFrame.TextBlock.Header.01}" />
+
+            <commonctrl:ReadOnlyDataGrid
+                Name="dtgList"
+                Grid.Row="1"
+                MaxHeight="500"
+                Margin="0,2"
+                cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]; [Event SelectionChanged]=[Action dtgListSelectionChanged($eventArgs)]"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                HeadersVisibility="All"
+                IsReadOnly="True"
+                ItemsSource="{Binding ListRuleDiseasesReferences, Mode=TwoWay}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                Style="{StaticResource MainFrame.DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Chọn">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding IsChoosed, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn
+                        x:Name="col0"
+                        Binding="{Binding SubICDInfo.ICD10Code, Mode=OneWay}"
+                        Header="Mã bệnh" />
+                    <DataGridTextColumn
+                        x:Name="col1"
+                        Binding="{Binding SubICDInfo.DiseaseNameVN, Mode=OneWay}"
+                        Header="Tên bệnh" />
+                    <DataGridTextColumn
+                        x:Name="col2"
+                        Binding="{Binding Desc, Mode=OneWay}"
+                        Header="Ghi chú" />
+                </DataGrid.Columns>
+            </commonctrl:ReadOnlyDataGrid>
+            <StackPanel
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="btnOK"
+                    Width="80"
+                    Height="22"
+                    Margin="2,1"
+                    Content="Đồng ý"
+                    Style="{StaticResource MainFrame.Button}" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,165 @@
+﻿<UserControl    x:Class="aEMR.Configuration.PCLExamTypeExamTestPrint.Views.PCLExamTypeExamTestPrintIndexView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+	            xmlns:cal="http://www.caliburnproject.org"
+                xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common" 
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <commonconverters:IntConverterMin0 x:Key="IntConverterMin0"/>
+    </UserControl.Resources>
+    <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="LayoutRoot" Background="White" Margin="10">
+            <Grid x:Name="GridMain">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <TextBlock Text="{Binding K1702_G1_CHinhInPCLexamtypesExamtest, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" Foreground="#3595CB" FontSize="14" FontWeight="Bold" Margin="0,10,0,0"></TextBlock>
+                </Grid>
+
+                <Border Grid.Row="1" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                    <StackPanel>
+                        <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                        </Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.ColumnSpan="2">
+                                <CheckBox Content="{Binding P0353_G1_PhanTrang, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="2,1" Style="{StaticResource MainFrame.Checkbox}" cal:Message.Attach="[Event Checked] = [Action Paging_Checked($source, $eventArgs)];[Event Unchecked] = [Action Paging_Unchecked($source, $eventArgs)]"></CheckBox>
+                                <TextBlock Text="{Binding S0637_G1_SoDong_Trang, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,1,2,1" Style="{StaticResource MainFrame.TextBlock.01}" Visibility="{Binding VisibilityPaging}"></TextBlock>
+                                <ComboBox Margin="2,1" Name="cbxPageSize" Style="{StaticResource MainFrame.ComboBox}" MinWidth="50" cal:Message.Attach="[Event SelectionChanged] = [Action cbxPageSize_SelectionChanged($source, $eventArgs)]"
+                          Visibility="{Binding VisibilityPaging}">
+                                    <ComboBoxItem Content="10"></ComboBoxItem>
+                                    <ComboBoxItem Content="20"></ComboBoxItem>
+                                    <ComboBoxItem IsSelected="True" Content="30"></ComboBoxItem>
+                                    <ComboBoxItem Content="40"></ComboBoxItem>
+                                    <ComboBoxItem Content="50"></ComboBoxItem>
+                                </ComboBox>
+
+                                <Label Grid.Row="0" Grid.Column="0" Content="{Binding T3185_G1_Ma, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" HorizontalAlignment="Right" Margin="0,2,5,2"></Label>
+                                <TextBox Text="{Binding SearchCode,Mode=TwoWay}" Grid.Row="0" Grid.Column="1" Width="100" x:Name="tbCode" Margin="0,2,5,2" cal:Message.Attach="[Event KeyUp]=[Action SearchCode_KeyUp($source,$eventArgs)]"></TextBox>
+
+                                <Label Grid.Row="1" Grid.Column="0" Content="{Binding T0829_G1_Ten, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" HorizontalAlignment="Right" Margin="0,2,5,2"></Label>
+                                <TextBox Text="{Binding SearchName,Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Width="100" x:Name="tbName" Margin="0,2,5,2" cal:Message.Attach="[Event KeyUp]=[Action SearchName_KeyUp($source,$eventArgs)]"></TextBox>
+
+                                <Button HorizontalAlignment="Left" Grid.Row="2" Grid.Column="2" Width="60"
+                                Height="23"
+                                x:Name="btnFilter">
+                                    <StackPanel Orientation="Horizontal">
+                                    <Image Width="20" VerticalAlignment="Center" Height="18" Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png"/>
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+
+
+
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="2" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                    <StackPanel>
+                        <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding K2975_G1_DSExamtypeExamtest, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                        </Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="25"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <DataGrid Grid.Row="0" Name="dtgList"              
+                      AutoGenerateColumns="False"    IsReadOnly="True"
+                      HorizontalScrollBarVisibility="Auto"  
+                      VerticalScrollBarVisibility="Visible"   
+                                      Height="380"
+                      HeadersVisibility="All"
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                      Style="{StaticResource MainFrame.DataGridStyle}" Margin="0,5,0,0"
+                                  ItemsSource="{Binding ObjPCLExamTypeExamTestPrintlst,Mode=OneWay}"
+                                      cal:Message.Attach="[Event LoadingRow]=[Action dtgList_LoadingRow($source,$eventArgs)]">
+                                <DataGrid.Columns>
+
+                                <DataGridTextColumn Header="{Binding T1794_G1_ID, Source={StaticResource eHCMSResources}}" Binding="{Binding ID}" IsReadOnly="True"/>
+
+                                <DataGridTextColumn Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" Binding="{Binding Code}" IsReadOnly="True"/>
+
+                                <DataGridTextColumn Header="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" Binding="{Binding Name}" IsReadOnly="True"/>
+
+                                <DataGridCheckBoxColumn Header="{Binding T1907_G1_InDam, Source={StaticResource eHCMSResources}}" Binding="{Binding IsBold}" IsReadOnly="True"/>
+
+                                <DataGridTextColumn Header="{Binding T1952_G1_Indent, Source={StaticResource eHCMSResources}}" Binding="{Binding Indent,Converter={StaticResource IntConverterMin0}}" IsReadOnly="True"/>
+
+                                <DataGridCheckBoxColumn Header="{Binding T1970_G1_IsDisplay, Source={StaticResource eHCMSResources}}" Binding="{Binding IsDisplay}" IsReadOnly="True"/>
+
+                                <DataGridCheckBoxColumn Header="{Binding T2488_G1_KhongKQ, Source={StaticResource eHCMSResources}}" Binding="{Binding IsNoNeedResult}" IsReadOnly="True"/>
+
+                                <DataGridCheckBoxColumn Header="{Binding T1974_G1_IsExamType, Source={StaticResource eHCMSResources}}" Binding="{Binding IsPCLExamType}" IsReadOnly="True"/>
+
+                                <DataGridCheckBoxColumn Header="{Binding T1972_G1_IsExamTest, Source={StaticResource eHCMSResources}}" Binding="{Binding IsPCLExamTest}" IsReadOnly="True"/>
+
+                                <DataGridTemplateColumn Header="{Binding P0408_G1_PrintIndex, Source={StaticResource eHCMSResources}}" >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBox MaxLength="50"  Text="{Binding PrintIndex,Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}" TextAlignment="Right"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <commonctrl:AxDataPager x:Name="pager1" PageSize="{Binding PCVPageSize,Mode=TwoWay}" Grid.Row="1" VerticalAlignment="Bottom"                                                                                                            
+                                                                 Visibility="{Binding VisibilityPaging}" cal:Message.Attach="[Event Loaded] = [Action pagerSellingList_Loaded($source, $eventArgs)]"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Name="GridRecColor" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Rectangle HorizontalAlignment="Right" Fill="#99AC5D" Grid.Row="0" Grid.Column="0" Height="15" Width="15" Stroke="Black" Margin="0,2,5,2"/>
+                        <Label HorizontalAlignment="Left" Foreground="#88A44F" Grid.Row="0" Grid.Column="1" Content="{Binding P0329_G1_PCLExamType, Source={StaticResource eHCMSResources}}" Margin="0,2,5,2"/>
+
+                    </Grid>
+
+                    <Button Grid.Column="1" x:Name="btSave" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Width="80" HorizontalAlignment="Left"></Button>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    <!--</toolkit:BusyIndicator>-->
+</UserControl>

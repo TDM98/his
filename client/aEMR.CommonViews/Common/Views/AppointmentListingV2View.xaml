@@ -1,0 +1,57 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.AppointmentListingV2View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="300"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <converters:EnumValueToStringConverter x:Key="EnumValueToStringConverter" />
+        <converters:ShortDateConverter x:Key="MyShortDataConverter" />
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <StackPanel>
+                <customcontrols:ReadOnlyDataGrid
+                    x:Name="gridAppointments"
+                    MinHeight="250"
+                    cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"
+                    AutoGenerateColumns="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    ItemsSource="{Binding Appointments, Mode=OneWay}"
+                    RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                    RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                    SelectedItem="{Binding Path=SelectedAppointment, Mode=TwoWay}"
+                    Style="{StaticResource MainFrame.DataGridStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding ApptDate, Mode=OneWay, Converter={StaticResource MyShortDataConverter}}" Header="{Binding N0110_G1_NgTaiKham, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            MinWidth="150"
+                            Binding="{Binding Patient.FullName, Mode=OneWay}"
+                            Header="{Binding K1167_G1_BN, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding Patient.PatientCode, Mode=OneWay}" Header="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding Patient.DOBText, Mode=OneWay}" Header="{Binding N0107_G1_NgSinh, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding V_ApptStatus, Mode=OneWay, Converter={StaticResource EnumValueToStringConverter}}" Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding RecDateCreated, StringFormat='dd/MM/yyyy', Mode=OneWay, Converter={StaticResource MyShortDataConverter}}" Header="{Binding N0113_G1_NgTaoHen, Source={StaticResource eHCMSResources}}" />
+                        <DataGridCheckBoxColumn Binding="{Binding IsInTreatmentProgram, Mode=OneWay}" Header="{Binding Z2949_G1_DieuTriNgoaiTru, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding ClientContract.ContractName, Mode=OneWay}" Header="{Binding Z2670_G1_HopDong, Source={StaticResource eHCMSResources}}" />
+                    </DataGrid.Columns>
+                </customcontrols:ReadOnlyDataGrid>
+                <customcontrols:DataPager
+                    x:Name="pagerGridAppointments"
+                    Margin="0,-1,0,0"
+                    HorizontalContentAlignment="Left"
+                    PageSize="{Binding PageSize}"
+                    Source="{Binding Appointments, Mode=OneWay}" />
+            </StackPanel>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

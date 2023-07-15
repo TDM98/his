@@ -1,0 +1,66 @@
+﻿<UserControl    x:Class="aEMR.UserAccountManagement.Views.UserGroupTabView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"   
+                xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common" 
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignWidth="800">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        
+        <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+            <Grid.RowDefinitions>                
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                
+                <RowDefinition />                
+                
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0" Grid.Column="0">
+                <Expander Margin="0,0,0,0" 
+                                VerticalAlignment="Stretch"
+                                ExpandDirection="Down"
+                                Name="expGroupRole"
+                                  FlowDirection="LeftToRight"
+                                IsExpanded="False"
+                                Header="{Binding Q0478_G1_QuanLyUsergroup, Source={StaticResource eHCMSResources}}"
+                                DockPanel.Dock="Left"
+                                Background="#FFDBE5F1"
+                                RenderTransformOrigin="0,0"
+                                Height="auto"
+                                Visibility="{Binding ShowRegisteredServices,Mode=OneWay,Converter={StaticResource VisibilityConverter}}">
+                    <!--Style="{StaticResource LightExpanderStyle}"--> <!--bo ra tu Expander-->
+                    <!--<UserAccountControls:UCUserGroupFormEx x:Name="UCUserGroupFormEx" DataContext="{StaticResource ModulesTreeVM}" Grid.Row="1" Grid.Column="1" />-->
+                    <ContentControl Name="UCUserGroupFormEx"/>
+                </Expander>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="0">
+                <Expander Margin="0,0,0,0" 
+                                VerticalAlignment="Stretch"
+                                ExpandDirection="Down"
+                                Name="expUserGroup"
+                                  FlowDirection="LeftToRight"
+                                IsExpanded="False"
+                                Header="{Binding G0339_G1_ThemUsrgroup, Source={StaticResource eHCMSResources}}"
+                                DockPanel.Dock="Left"
+                                Background="#FFDBE5F1"
+                                RenderTransformOrigin="0,0"
+                                Height="auto"
+                                Visibility="{Binding ShowRegisteredServices,Mode=OneWay,Converter={StaticResource VisibilityConverter}}">
+                    <!--Style="{StaticResource LightExpanderStyle}"--><!--bo ra tu Expander-->
+                    <!--<UserAccountControls:UCUserGroupForm x:Name="UCUserGroupForm" DataContext="{StaticResource ModulesTreeVM}" Grid.Row="1" Grid.Column="1" />-->
+                    <ContentControl Name="UCUserGroupForm"/>
+                </Expander>
+            </StackPanel>
+        </Grid>
+
+        
+    </Border>
+</UserControl>

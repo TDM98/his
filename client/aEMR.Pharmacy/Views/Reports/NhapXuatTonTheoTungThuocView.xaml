@@ -1,0 +1,98 @@
+﻿<UserControl    x:Class="aEMR.Pharmacy.Views.NhapXuatTonTheoTungThuocView"
+                xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing" 
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        
+        <DataTemplate x:Key="AutoDrugTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Name="txtDrugName" Text="{Binding BrandName}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TitleForm" Text="{Binding N0225_G1_NXTTungThuoc, Source={StaticResource eHCMSResources}}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#3595CB" 
+                               FontSize="14" FontWeight="Bold" />
+            <Expander x:Name="RightExpander" Grid.Row="1" Margin="0,0,0,0" Width="Auto" ExpandDirection="Left" MinWidth="10" IsExpanded="True" Header="{Binding G0458_G1_ThSoBC, Source={StaticResource eHCMSResources}}"  Background="#FFDBE5F1" RenderTransformOrigin="0,0" DockPanel.Dock="Right" >
+            <Border x:Name="BorderFrame"  Style="{StaticResource LightBlueBorderStyle}" Height="Auto" Background="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                        <RowDefinition Height="25"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding G0458_G1_ThSoBC, Source={StaticResource eHCMSResources}}"  FontWeight="Bold" Foreground="#FF6F8AA9" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2"></TextBlock>
+                    <!--Column 1-->
+                    <Label Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Left" VerticalAlignment="Center"  Content="{Binding G1933_G1_TuNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                    <DatePicker Name="Dpk_FromDate" SelectedDate="{Binding FromDate,Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Margin="2"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource MainFrame.DatePicker}" FontSize="10" SelectedDateFormat="Short" />
+
+                    <Label Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Left" VerticalAlignment="Center"  Content="{Binding K3192_G1_DenNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                    <DatePicker Name="Dpk_ToDate" SelectedDate="{Binding ToDate,Mode=TwoWay}" Grid.Column="1" Grid.Row="2" Margin="2"  HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource MainFrame.DatePicker}"   />
+
+                    <!--column 2-->
+                    <Label Grid.Column="0" Grid.Row="3"  HorizontalAlignment="Left" VerticalAlignment="Center"  Content="{Binding K2170_G1_ChonThuoc, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                    <AxControls:AxAutoComplete Name="AutoDrug_Text" IsTextCompletionEnabled="False" Margin="2,1,0,1" MinWidth="150"
+                                           Grid.Column="2" Grid.Row="3"   IsTabStop="False" 
+                                           ValueMemberBinding="{Binding BrandName}" IsDropDownOpen="True" Height="22"
+                                           cal:Message.Attach="[Event Populating] = [Action AutoCompleteBox_Populating($source, $eventArgs)]" 
+                                           SelectedItem="{Binding CurrentRefGenericDrugDetail,Mode=TwoWay}"
+                                           FilterMode="None"
+                                           MinimumPopulateDelay="300"
+                                           Style="{StaticResource AxAutoCompleteMyStyle}"
+                                           
+                                           ItemTemplate="{StaticResource AutoDrugTemplate}" MinimumPrefixLength="0"></AxControls:AxAutoComplete>
+                    <Label Grid.Column="0" Grid.Row="4"  HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding T3649_G1_MaThuoc, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" />
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="4">
+                        <TextBlock Margin="2,1" Text="{Binding CurrentRefGenericDrugDetail.DrugID}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.TextBlock.01}"></TextBlock>
+                        <Label Margin="15,1,2,1"  HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding K3966_G1_Dvt, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" />
+                        <TextBlock Margin="2,1" Text="{Binding CurrentRefGenericDrugDetail.SeletedUnit.UnitName}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.TextBlock.01}"></TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Name="btn_View" Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}" Width="75" HorizontalAlignment="Right"  Margin="2"  VerticalAlignment="Center"  Style="{StaticResource MainFrame.Button}" 
+                                Visibility="{Binding bReport,Converter={StaticResource BooleanToVisibility} }"/>
+                        <Button Name="btn_Print" Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}"   Width="75"  Margin="2" HorizontalAlignment="Left" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Button}" 
+                                Visibility="{Binding bPrint,Converter={StaticResource BooleanToVisibility} }"/>
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+        </Expander>
+
+        <dxp:DocumentPreviewControl
+            Grid.Column="1" Grid.Row="1" Height="875" Width="Auto"
+            DocumentSource="{Binding ReportModel,Mode=OneWay}" AutoShowParametersPanel="False" />
+        
+    </Grid>
+        
+</UserControl>

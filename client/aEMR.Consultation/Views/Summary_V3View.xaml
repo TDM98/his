@@ -1,0 +1,399 @@
+﻿<!--
+* 20230201 #001 DatTB: Thêm trường dữ liệu về KSNK trong phần Thông tin chung NB nội trú
+-->
+<UserControl x:Class="aEMR.ConsultantEPrescription.Views.Summary_V3View"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="800" 
+       xmlns:cal="http://www.caliburnproject.org"
+       xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+       xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+       xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+       xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converters:BoolToXConverter x:Key="BoolToXConverter"/>
+        <Converters:IsEnableConverter x:Key="IsEnableConverter"/>
+        <Converters:ValueNotNullToVisibilityConverter x:Key="ValueNotNullToVisibilityConverter" />
+    </UserControl.Resources>
+    <toolkit:BusyIndicator HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch"
+              BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <DockPanel x:Name="SPLayout" LastChildFill="True" Margin="1" Background="White" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+            <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Grid x:Name="LayoutRoot" Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Expander Grid.Row="0" Margin="0,0,0,0" VerticalAlignment="Stretch" Foreground="#CC0033" FontWeight="Bold"
+                              ExpandDirection="Down" IsExpanded="False"
+                              Header="{Binding G1347_G1_TTrangTChatDHieuSTon,Source={StaticResource eHCMSResources}}"
+                              Background="#FFDBE5F1"
+                              RenderTransformOrigin="0,0" Height="Auto"
+                              HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <Grid>
+                            <Grid.ColumnDefinitions >
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <!--Dị Ứng/Cảnh Báo-->
+                            <Border Name="grpAllergiesWarning" Grid.Row="0" Grid.Column="0" Style="{StaticResource LightBlueBorderStyle}" Margin="0,10,0,0">
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      Visibility="{Binding mThongTinChung_DiUngCanhBao_ThongTin,Converter={StaticResource BooleanToVisibility}}">
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0" Margin="10,-12,0,0" Style="{StaticResource LightBlueBorderStyleNo}" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding K3344_G1_DiUng,Source={StaticResource eHCMSResources}}" FontWeight="Bold" Style="{StaticResource TextBlockHeadingS1}"></TextBlock>
+                                    </Border>
+                                    <DataGrid Grid.Row="1" Name="gridAllergiesWarning" IsReadOnly="True"
+                       Height="100"
+                       AutoGenerateColumns="False" HorizontalAlignment="Stretch"
+                       Margin="0,0,0,0" VerticalAlignment="Stretch"
+                       ItemsSource="{Binding PtAllergyList, Mode=TwoWay}"
+                       SelectedItem="{Binding Allergy, Mode=TwoWay}"
+                       ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn>
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Button x:Name="hplDelete" ToolTipService.ToolTip="{Binding G2617_G1_Xoa,Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)]">
+                                                                <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Header="{Binding K3344_G1_DiUng,Source={StaticResource eHCMSResources}}" Binding="{Binding AllergiesItems, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True" Width="Auto"/>
+                                            <DataGridTextColumn Header="{Binding P0354_G1_PhanUng,Source={StaticResource eHCMSResources}}" Binding="{Binding Reactions, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True" Width="Auto"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <Grid Grid.Row="2" MinHeight="40" Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{Binding K1576_G1_CBao, StringFormat='{}{0}: ',Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="0" FontWeight="Bold" Foreground="#164679"></TextBlock>
+                                        <TextBox Text="{Binding SPtWarningList,Mode=OneWay}"
+                         Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5,0,0,0" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
+                         HorizontalScrollBarVisibility="Auto" Style="{StaticResource MainFrame.TextBox}"
+                         IsReadOnly="True" MaxHeight="50"/>
+                                    </Grid>
+                                    <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right"
+                        Visibility="{Binding mThongTinChung_DiUngCanhBao_ChinhSua,Converter={StaticResource BooleanToVisibility}}">
+                                        <Button Content="{Binding G2772_G1_XoaCBao, StringFormat='{}{0} | ',Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left"
+                        Name="hpkClearWarning" VerticalAlignment="Center" Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                        IsEnabled="{Binding CanSelectClearChk,Converter={StaticResource IsEnableConverter}}"/>
+                                        <Button Content="{Binding G0251_G1_ThemDiUngCBao,Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"
+                        Name="hpkEditAllergiesWarning" VerticalAlignment="Center" Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                        IsEnabled="{Binding PatientID,Converter={StaticResource IsEnableConverter}}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <!--Yếu tố nguy cơ-->
+                            <Border Grid.Row="0" Grid.Column="2" DataContext="{Binding curRiskFactors, Mode=OneWay}" Style="{StaticResource LightBlueBorderStyle}" Margin="0,10,0,0">
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      Visibility="{Binding mThongTinChung_DiUngCanhBao_ThongTin,Converter={StaticResource BooleanToVisibility}}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0" Margin="10,0,0,2" Style="{StaticResource LightBlueBorderStyleNo}" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding G2961_G1_YeuToNguyCo,Source={StaticResource eHCMSResources}}" Height="15" FontWeight="Bold" Style="{StaticResource TextBlockHeadingS1}"></TextBlock>
+                                    </Border>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding Smoking,Converter={StaticResource BooleanToVisibility}}">
+                                        <TextBlock Text="{Binding T1722_G1_HutThuoc, StringFormat='{}- {0}: ',Source={StaticResource eHCMSResources}}" Width="Auto" Foreground="Blue" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding SmokingDescr, Mode=OneWay}" Width="auto" Foreground="Red" FontWeight="Bold"
+                                                   MaxHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal"
+                        Visibility="{Binding Drinking,Converter={StaticResource BooleanToVisibility}}" >
+                                        <TextBlock Text="{Binding G2104_G1_UongRuou, StringFormat='{}- {0}: ',Source={StaticResource eHCMSResources}}" Width="Auto" Foreground="Blue" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding DrinkingDescr, Mode=OneWay}" Width="auto" Foreground="Red" FontWeight="Bold"
+                          MaxHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="3" Orientation="Horizontal"
+                    Visibility="{Binding Diabetics,Converter={StaticResource BooleanToVisibility}}" >
+                                        <TextBlock Text="{Binding G0973_G1_TieuDuong, StringFormat='{}- {0}: ',Source={StaticResource eHCMSResources}}" Width="Auto" Foreground="Blue" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding DiabeticsDescr, Mode=OneWay}" Width="auto" Foreground="Red" FontWeight="Bold" 
+                          MaxHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="4" Orientation="Horizontal"
+                        Visibility="{Binding Dyslipidemia,Converter={StaticResource BooleanToVisibility}}" >
+                                        <TextBlock Text="{Binding R0524_G1_RoiLoanLipid, StringFormat='{}- {0}: ',Source={StaticResource eHCMSResources}}" Width="Auto" Foreground="Blue" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding DyslipidemiaDescr, Mode=OneWay}" Width="auto" Foreground="Red" FontWeight="Bold" 
+                          MaxHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="5" Orientation="Horizontal"
+                        Visibility="{Binding Obesity,Converter={StaticResource BooleanToVisibility}}">
+                                        <TextBlock Text="{Binding A0008_G1_BeoPhi,Source={StaticResource eHCMSResources}}" Width="Auto" Foreground="Blue" FontWeight="Bold" />
+                                        <TextBlock Text="{Binding ObesityDescr, Mode=OneWay}" Width="auto" Foreground="Red" FontWeight="Bold" 
+                          MaxHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="6" Orientation="Horizontal"
+                        Visibility="{Binding Hypertension,Converter={StaticResource BooleanToVisibility}}">
+                                        <TextBlock Text="{Binding T0778_G1_TangHuyetAp, StringFormat='{}- {0}: ',Source={StaticResource eHCMSResources}}" Width="Auto" Foreground="Blue" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding HypertensionDescr, Mode=OneWay}" Width="auto" Foreground="Red" FontWeight="Bold" 
+                          MaxHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="7">
+                                        <TextBlock Text="{Binding Other, Mode=OneWay}" Width="Auto" Foreground="Red" FontWeight="Bold"
+                          MaxHeight="40"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="8" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right"
+                            Visibility="{Binding ElementName=LayoutRoot,Path=DataContext.mThongTinChung_DiUngCanhBao_ChinhSua,Converter={StaticResource BooleanToVisibility}}">
+                                        <Button Content="{Binding G0342_G1_ThemYTguyCo, StringFormat='{}{0} ',Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left"
+                            Name="hpkNewRiskFactor" VerticalAlignment="Center" Style="{StaticResource MainFrame.HyperlinkButton.01}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <Grid x:Name="Col1" Grid.Column="1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border Name="grpPhysicalExam" Grid.Row="0" Style="{StaticResource LightBlueBorderStyle}" Margin="0,10,0,0" >
+                                        <Grid Margin="0,0,0,0" Visibility="{Binding mThongTinChung_TinhTrangTheChat_ThongTin,Converter={StaticResource BooleanToVisibility}}" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="206*" />
+                                                <ColumnDefinition Width="181*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Border Margin="10,-12,0,0" Style="{StaticResource LightBlueBorderStyleNo}" HorizontalAlignment="Left">
+                                                <TextBlock Text="{Binding G1347_G1_TTrangTChatDHieuSTon,Source={StaticResource eHCMSResources}}" FontWeight="Bold" Style="{StaticResource TextBlockHeadingS1}"></TextBlock>
+                                            </Border>
+                                            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                                <TextBlock HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding N0075_G1_NgHChinh, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" d:LayoutOverrides="Height" Style="{StaticResource TextBlock.Heading.04}"/>
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding PtPhyExamItem.RecordDate,Mode=TwoWay,StringFormat='dd/MM/yyyy'}" Margin="5,0,0,0" Style="{StaticResource TextBlock.Heading.02}"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="2">
+                                                <TextBlock HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding K1558_G1_CanNang, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" d:LayoutOverrides="Height" Style="{StaticResource TextBlock.Heading.04}"/>
+                                                <TextBlock TextWrapping="Wrap" Foreground="Crimson" FontWeight="Bold"
+                                                           Text="{Binding PtPhyExamItem.Weight}" Margin="5,0,0,0" Style="{StaticResource TextBlock.Heading.02}"/>
+                                                <TextBlock Grid.Column="4" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding T2089_G1_Kg, StringFormat='{}( {0})',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" Margin="5,0" />
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding K1862_G1_ChieuCao, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" Margin="30,0,0,0" Style="{StaticResource TextBlock.Heading.04}"/>
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding PtPhyExamItem.Height}" Foreground="Crimson" FontWeight="Bold" Margin="5,0,0,0" Style="{StaticResource TextBlock.Heading.02}"/>
+                                                <TextBlock Grid.Column="4" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding K2391_G1_Cm, StringFormat='{}( {0})',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" Margin="5,0" />
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding K1268_G1_BMI2, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" Margin="30,0,0,0" Style="{StaticResource TextBlock.Heading.04}"/>
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding PtPhyExamItem.BMI}" Foreground="Crimson" FontWeight="Bold" Grid.Column="1" Grid.Row="2" Style="{StaticResource TextBlock.Heading.04}" Margin="5,0"/>
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="2">
+                                                <TextBlock HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding T1775_G1_HAp, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" d:LayoutOverrides="Height" Style="{StaticResource TextBlock.Heading.04}"/>
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding PtPhyExamItem.SystolicPressure}" Foreground="Crimson" FontWeight="Bold" Margin="5,0,0,0" Style="{StaticResource TextBlock.Heading.02}"/>
+                                                <TextBlock TextWrapping="Wrap" Text="/" Margin="2,0,0,0" Style="{StaticResource TextBlock.Heading.04}"/>
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding PtPhyExamItem.DiastolicPressure}" Foreground="Crimson" FontWeight="Bold" Margin="2,0,0,0" Style="{StaticResource TextBlock.Heading.02}"/>
+                                                <TextBlock Grid.Column="4" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding M0005_G1_mmHg, StringFormat='{}( {0})',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" Margin="5,0" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="3" Orientation="Horizontal" Grid.Column="2">
+                                                <TextBlock HorizontalAlignment="Left" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding N0238_G1_NhipTim, StringFormat='{}{0} :',Source={StaticResource eHCMSResources}}" d:LayoutOverrides="Height" Style="{StaticResource TextBlock.Heading.04}"/>
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding PtPhyExamItem.Pulse}" Foreground="Crimson" FontWeight="Bold" Margin="5,0,0,0" Style="{StaticResource TextBlock.Heading.02}"/>
+                                                <TextBlock Grid.Column="4" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding A1097_G1_LanTrenPhut, StringFormat='{} {0}',Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}" Margin="5,0" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="4" Orientation="Horizontal" Grid.ColumnSpan="2">
+                                                <TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding N0237_G1_NhipTho, StringFormat='{}{0} ',Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" d:LayoutOverrides="Width" Style="{StaticResource TextBlock.Heading.04}" />
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding PtPhyExamItem.RespiratoryRate}" Foreground="Crimson" FontWeight="Bold" Margin="5,0,0,0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.02}"/>
+                                                <TextBlock Grid.Column="4" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding A1097_G1_LanTrenPhut, StringFormat='{} {0}',Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" Margin="5,0" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="5" Orientation="Horizontal" Grid.ColumnSpan="2">
+                                                <TextBlock Grid.Row="1" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding N0234_G1_NhietDo, StringFormat='{}{0} ',Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" d:LayoutOverrides="Width" Style="{StaticResource TextBlock.Heading.04}" />
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding PtPhyExamItem.Temperature}" Foreground="Crimson" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource TextBlock.Heading.02}"/>
+                                                <TextBlock Grid.Row="1" Grid.Column="4" HorizontalAlignment="Left" TextWrapping="Wrap" Text=" (°C)" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" Margin="5,0" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="6" Orientation="Horizontal" Grid.ColumnSpan="2">
+                                                <TextBlock Grid.Row="2" HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding S0716_G1_SpO2, StringFormat='{}{0} ',Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" d:LayoutOverrides="Width" Style="{StaticResource TextBlock.Heading.04}" />
+                                                <TextBlock TextWrapping="Wrap" Text="{Binding PtPhyExamItem.SpO2}" Foreground="Crimson" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0" Style="{StaticResource TextBlock.Heading.02}"/>
+                                                <TextBlock Grid.Row="2" Grid.Column="4" HorizontalAlignment="Left" TextWrapping="Wrap" Text=" (%)" Margin="5,0" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}" />
+                                            </StackPanel>
+                                            <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="right" Grid.ColumnSpan="2">
+                                                <Button Grid.Row="0" Content="{Binding T1513_G1_HChinhTTTC,Source={StaticResource eHCMSResources}}" Height="22"
+                                                        Name="hpkEditPhysicalExam" Style="{StaticResource MainFrame.HyperlinkButton.01}" d:LayoutOverrides="HorizontalAlignment"
+                                                        IsEnabled="{Binding PatientID,Converter={StaticResource IsEnableConverter}}"
+                                                        Visibility="{Binding mThongTinChung_TinhTrangTheChat_ChinhSua,Converter={StaticResource BooleanToVisibility}}" />
+                                            </StackPanel>
+                                            <TextBlock HorizontalAlignment="Left" Height="1" Margin="54,0,0,7" TextWrapping="Wrap" Text="{Binding G0032_G1_TextBlock,Source={StaticResource eHCMSResources}}" VerticalAlignment="Bottom" Width="5"/>
+                                        </Grid>
+                                    </Border>
+                                    <!--Các Lần Khám Bệnh-->
+                                    <Border Name="grpConsultation" Grid.Row="1" Style="{StaticResource LightBlueBorderStyle}" Margin="0,10,0,0"
+                                            Visibility="Collapsed">
+                                        <Grid Visibility="{Binding mThongTinChung_XemLanKhamBenh,Converter={StaticResource BooleanToVisibility}}" >
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                                <RowDefinition Height="Auto"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Border Margin="10,-12,0,0" Style="{StaticResource LightBlueBorderStyleNo}" HorizontalAlignment="Left">
+                                                <TextBlock Text="{Binding K1473_G1_LanKB,Source={StaticResource eHCMSResources}}" FontWeight="Bold" Style="{StaticResource TextBlockHeadingS1}"></TextBlock>
+                                            </Border>
+                                            <DataGrid Name="gridConsultation" Grid.Row="1" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Height="100" Margin="0,0,0,0" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                                      ItemsSource="{Binding PtSumDiagList,Mode=TwoWay}" IsReadOnly="True"
+                                                      SelectedItem="{Binding SelectedPtDiagnosic,Mode=TwoWay}"
+                                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="{Binding N0045_G1_Ng,Source={StaticResource eHCMSResources}}" Binding="{Binding PatientServiceRecord.ExamDate, Mode=OneWay,StringFormat='dd/MM/yyyy'}" CanUserReorder="True" CanUserResize="True" CanUserSort="True" Width="Auto"/>
+                                                    <DataGridTextColumn Header="{Binding K0961_G1_BSi,Source={StaticResource eHCMSResources}}" Binding="{Binding ObjDoctorStaffID.FullName, Mode=OneWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True" Width="Auto"/>
+                                                    <DataGridTextColumn Header="{Binding K1530_G1_CachXuTri,Source={StaticResource eHCMSResources}}" Binding="{Binding PatientServiceRecord.LookupBehaving.ObjectValue, Mode=OneWay}" CanUserResize="True" CanUserSort="True" Width="2*"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                            <customcontrols:DataPager x:Name="pagerGridRegistrations" Grid.Row="2"
+                                                                      PageSize="{Binding PageSize}"
+                                                                      HorizontalContentAlignment="Right"
+                                                                      Source="{Binding PtSumDiagList,Mode=OneWay}"
+                                                                      Margin="0,-1,0,0" />
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                            <!--▼==== #001-->
+                            <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource LightBlueBorderStyle}" Margin="0,10,0,0">
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0" Margin="10,-12,0,2" Style="{StaticResource LightBlueBorderStyleNo}" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding Z3298_G1_VKDaKhang, Source={StaticResource eHCMSResources}}" Height="15" FontWeight="Bold" Style="{StaticResource TextBlockHeadingS1}"></TextBlock>
+                                    </Border>
+
+                                    <DataGrid Grid.Row="1" IsReadOnly="True" 
+                                      MinHeight="100"
+                                      AutoGenerateColumns="False" HorizontalAlignment="Stretch" 
+                                      Margin="0,0,0,0" VerticalAlignment="Stretch" 
+                                      ItemsSource="{Binding allIC_MRBacteria, Mode=TwoWay}"
+                                      SelectedItem="{Binding curIC_MRBacteria, Mode=TwoWay}"
+                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}"
+                                      Visibility="{Binding curIC_MRBacteria.DefiniteDate, Converter={StaticResource ValueNotNullToVisibilityConverter}}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="{Binding Z3300_G1_NgXacDinh, Source={StaticResource eHCMSResources}}" Binding="{Binding DefiniteDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  Width="Auto"/>
+                                            <DataGridTextColumn Header="{Binding Z3302_G1_TenViKhuan, Source={StaticResource eHCMSResources}}" Binding="{Binding BacteriaName, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  Width="Auto"/>
+                                            <DataGridTextColumn Header="{Binding Z3301_G1_MDDaKhang, Source={StaticResource eHCMSResources}}" Binding="{Binding Bacteria_LOT_Str, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  Width="Auto"/>
+                                            <DataGridTextColumn Header="{Binding Z3304_G1_BPPhgNgua, Source={StaticResource eHCMSResources}}" Binding="{Binding BacteriaMeasure, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  Width="Auto"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource LightBlueBorderStyle}" Margin="0,10,0,0">
+                                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Margin="10,-12,0,2" Style="{StaticResource LightBlueBorderStyleNo}" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding Z3299_G1_NKBV, Source={StaticResource eHCMSResources}}" Height="15" FontWeight="Bold" Style="{StaticResource TextBlockHeadingS1}"></TextBlock>
+                                    </Border>
+
+                                    <DataGrid Grid.Row="1" IsReadOnly="True" 
+                                      MinHeight="100"
+                                      AutoGenerateColumns="False" HorizontalAlignment="Stretch" 
+                                      Margin="0,0,0,0" VerticalAlignment="Stretch" 
+                                      ItemsSource="{Binding allIC_HosInfection, Mode=TwoWay}"
+                                      SelectedItem="{Binding curIC_HosInfection, Mode=TwoWay}"
+                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}"
+                                      Visibility="{Binding curIC_HosInfection.DefiniteDate, Converter={StaticResource ValueNotNullToVisibilityConverter}}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="{Binding Z3300_G1_NgXacDinh, Source={StaticResource eHCMSResources}}" Binding="{Binding DefiniteDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  Width="Auto"/>
+                                            <DataGridTextColumn Header="{Binding Z3302_G1_TenViKhuan, Source={StaticResource eHCMSResources}}" Binding="{Binding BacteriaName, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  Width="Auto"/>
+                                            <DataGridTextColumn Header="{Binding Z3303_G1_LoaiNKBV, Source={StaticResource eHCMSResources}}" Binding="{Binding Bacteria_LOT_Str, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  Width="Auto"/>
+                                            <DataGridTextColumn Header="{Binding Z3304_G1_BPPhgNgua, Source={StaticResource eHCMSResources}}" Binding="{Binding BacteriaMeasure, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  Width="Auto"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Border>
+                            <!--▲==== #001-->
+                        </Grid>
+                    </Expander>
+                    <Expander Grid.Row="1" Margin="0,0,0,0" VerticalAlignment="Stretch"
+                              ExpandDirection="Down" IsExpanded="False"
+                              Header="{Binding Z2315_G1_KhamLamSang,Source={StaticResource eHCMSResources}}"
+                              Background="#FFDBE5F1"
+                              RenderTransformOrigin="0,0" Height="Auto"
+                              HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Foreground="#CC0033" FontWeight="Bold"></TextBlock>
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <Grid IsEnabled="{Binding ConsultationOldIsEditingEnable}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding Z2309_G1_TriGiac, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CS_DS.DiagTreatment.KLSTriGiac, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" Margin="0 2"/>
+                            <TextBlock Grid.Column="2" Grid.Row="0" Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding Z2310_G1_NiemMac, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding CS_DS.DiagTreatment.KLSNiemMac, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" Margin="0 2"/>
+                            <TextBlock Grid.Column="4" Grid.Row="0" Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding A1135_G1_KetMac, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <TextBox Grid.Column="5" Grid.Row="0" Text="{Binding CS_DS.DiagTreatment.KLSKetMac, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" Margin="0 2"/>
+                            <TextBlock Grid.Column="0" Grid.Row="1" Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding A1176_G1_TuyenGiap, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding CS_DS.DiagTreatment.KLSTuyenGiap, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" Margin="0 2"/>
+                            <TextBlock Grid.Column="2" Grid.Row="1" Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding Z2311_G1_HachBachHuyet, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding CS_DS.DiagTreatment.KLSHachBachHuyet, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" Margin="0 2"/>
+                            <TextBlock Grid.Column="4" Grid.Row="1" Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding Z2312_G1_Phoi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <TextBox Grid.Column="5" Grid.Row="1" Text="{Binding CS_DS.DiagTreatment.KLSPhoi, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" Margin="0 2"/>
+                            <TextBlock Grid.Column="0" Grid.Row="2" Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding Z2313_G1_Tim, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding CS_DS.DiagTreatment.KLSTim, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" Margin="0 2"/>
+                            <TextBlock Grid.Column="2" Grid.Row="2" Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding K1392_G1_Bung2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding CS_DS.DiagTreatment.KLSBung, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" Margin="0 2"/>
+                            <TextBlock Grid.Column="4" Grid.Row="2" Margin="0 0 5 0" VerticalAlignment="Center" Text="{Binding Z2314_G1_TMH, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"/>
+                            <TextBox Grid.Column="5" Grid.Row="2" Text="{Binding CS_DS.DiagTreatment.KLSTMH, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" Margin="0 2"/>
+                        </Grid>
+                    </Expander>
+                    <ContentControl Grid.Row="2" x:Name="UCConsultations" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                    <ContentControl Grid.Row="3" x:Name="UCePrescriptions" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                </Grid>
+            </Border>
+        </DockPanel>
+    </toolkit:BusyIndicator>
+</UserControl>

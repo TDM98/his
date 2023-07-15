@@ -1,0 +1,390 @@
+﻿<UserControl x:Class="aEMR.ConsultantEPrescription.PCL_ViewResults.Views.PatientPCLDeptImagingExtResultView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" mc:Ignorable="d"
+             xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+             d:DesignWidth="900" d:DesignHeight="480"
+             xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:bindingContext="clr-namespace:aEMR.Common.Bindings;assembly=aEMR.Common"
+             xmlns:eHcmsConvert="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <bindingContext:DataContextProxy x:Key="dataContextProxy" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <eHcmsConvert:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNot" />
+        <eHcmsConvert:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <DataTemplate x:Key="grdImportTPL_lnkView">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="lnkView" ToolTipService.ToolTip="Click here for view" 
+                         Content="{Binding ObjectResult.PCLResultFileName,Mode=TwoWay}" 
+                         cal:Message.Attach="[Event Click]=[Action lnkView_Click($source,$eventArgs)]" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="grdImportTPL_lnkDelete">
+            <!---->
+            <StackPanel 
+                Visibility="{Binding Source={StaticResource dataContextProxy},Path=DataSource.IsEdit,Converter={StaticResource BooleanToVisibility}}"
+                Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="lnkDelete" ToolTipService.ToolTip="Click here for delete"
+                        cal:Message.Attach="[Event Click]=[Action lnkDelete_Click($source,$eventArgs)]">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png"
+                           Height="13" Width="13" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" >
+        <!--IsEnabled="{Binding FormIsEnabled,Mode=OneWay}"-->
+            <ContentControl >
+                <toolkit:BusyIndicator 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    IsBusy="{Binding IsLoading, Mode=OneWay}"
+                    DisplayAfter="0:0:0.100" Margin="0,0,0,10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="18*" />
+                            <RowDefinition Height="452*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="2" HorizontalAlignment="Stretch"
+                              Background="White" ShowGridLines="False" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <!--PMR Info -->
+                            <Border x:Name="BorderCanvas" Grid.Row="3" Width="Auto"
+                                    Style="{StaticResource LightBlueBorderStyle}" Margin="1">
+                                <Grid ShowGridLines="False">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <!--0.-->
+                                        <RowDefinition Height="Auto" />
+                                        <!--1.-->
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="70" />
+                                            <ColumnDefinition Width="125" />
+                                            <ColumnDefinition Width="65" />
+                                            <ColumnDefinition Width="140" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="400*" />
+                                            <ColumnDefinition Width="2" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="24" />
+                                            <RowDefinition Height="24" />
+                                            <RowDefinition Height="24" />
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Column="0"
+                                               Content="{Binding P0360_G1_Ph, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Right"
+                                               Style="{StaticResource MainFrame.Label.01}" />
+                                        <Label Grid.Column="2" Content="{Binding N0111_G1_NgTao, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}"
+                                               VerticalAlignment="Center" HorizontalAlignment="Right"
+                                               Style="{StaticResource MainFrame.Label.01}" />
+                                        <TextBox Grid.Column="1" HorizontalAlignment="Stretch"
+                                                 Text="{Binding ObjPatientPCLRequestNew.PCLRequestNumID}"
+                                                 IsReadOnly="True" Margin="0,1" />
+                                        <TextBox Grid.Column="3" HorizontalAlignment="Stretch"
+                                                 Text="{Binding ObjPatientPCLRequestNew.CreatedDate}"
+                                                 IsReadOnly="True" Margin="0,1" />
+                                        <!--<ControlsLibrary:AxComboBox Name="cboPMRRequest" Grid.Column="1" HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center" Height="20" ItemsSource="{Binding ObjPatientPCLRequest_ByPtRegIDV_PCLCategory, Mode=OneWay}"
+                                        DisplayMemberPath="Diagnosis" SelectedValuePath="PatientPCLReqID"
+                                        SelectedValueEx="{Binding ObjPatientPCLImagingResult.PatientPCLReqID,Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                        cal:Message.Attach="[Event SelectionChanged]=[Action cboPMRRequest_SelectionChanged($source,$eventArgs)]" />-->
+
+                                        <Label Content="{Binding M0008_G1_MoTa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                                               Grid.Column="4" Style="{StaticResource MainFrame.Label.01}" />
+                                        <TextBox Grid.Column="5" HorizontalAlignment="Stretch" IsEnabled="{Binding IsEdit}"
+                                                 Text="{Binding ObjPatientPCLImagingResult.PCLExamType.PCLExamTypeName,Mode=TwoWay}" Margin="0,1"/>
+                                        <!--<ControlsLibrary:AxComboBox Name="cboPCLExamType" Grid.Column="3" HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center" Height="20" ItemsSource="{Binding ObjPCLExamTypes_ByPatientPCLReqID, Mode=OneWay}"
+                                        DisplayMemberPath="PCLExamTypeName" SelectedValuePath="PCLExamTypeID"
+                                        SelectedValueEx="{Binding ObjPatientPCLImagingResult.PCLExamTypeID,Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                        cal:Message.Attach="[Event SelectionChanged]=[Action cboPCLExamType_SelectionChanged($source,$eventArgs)]" />-->
+
+                                        <Label Grid.Column="0" Content="{Binding K1746_G1_CDoan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                               VerticalAlignment="Center" Grid.Row="1" HorizontalAlignment="Right"
+                                               Style="{StaticResource MainFrame.Label.01}" />
+                                        <Label Grid.Column="4" Content="{Binding K1206_G1_BV2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                               VerticalAlignment="Center" Grid.Row="1" HorizontalAlignment="Right"
+                                               Style="{StaticResource MainFrame.Label.01}" />
+                                        <!--<TextBox Grid.Column="5" Grid.Row="1" HorizontalAlignment="Stretch" Text="{Binding ObjPatientPCLRequestNew.HosName}" IsReadOnly="True" Margin="0,1"></TextBox>-->
+                                        <ControlsLibrary:AxComboBox 
+                                            Grid.Column="5" Grid.Row="1" IsEnabled="{Binding IsEdit}"
+                                            Name="cbx_TestingAgency" Style="{StaticResource MainFrame.ComboBox}"
+                                            ItemsSource="{Binding ObjTestingAgencyList,Mode=TwoWay}"
+                                            DisplayMemberPath="AgencyName" SelectedValuePath="AgencyID"
+                                            SelectedValueEx="{Binding ObjPatientPCLRequestNew.AgencyID,Mode=TwoWay}" />
+                                        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                                                 Grid.RowSpan="2" HorizontalAlignment="Stretch" Margin="0,2"
+                                                 Text="{Binding ObjPatientPCLRequestNew.Diagnosis,Mode=TwoWay}"
+                                                 IsReadOnly="{Binding IsEdit,Converter={StaticResource InverseBoolConverter}}"
+                                                 TextWrapping="Wrap" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+
+                            <!--xét nghiệm bên ngoài-->
+                            <!--<Border Grid.Row="4" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <CheckBox Content="{Binding G2356_G1_XNBenNgoai, Source={StaticResource eHCMSResources}}" Grid.Row="0" Margin="0,0,5,0" Name="chkExternalExam"
+                    VerticalAlignment="Center" Style="{StaticResource MainFrame.Checkbox}" IsEnabled="{Binding IsEnableButton,Mode=OneWay}"
+                    IsChecked="{Binding ObjPatientPCLImagingResult.IsExternalExam,TargetNullValue=False, Mode=TwoWay}"
+                    cal:Message.Attach="[Event Click]=[Action chkExternalExam_Click($source,$eventArgs)]" />
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding K1925_G1_ChonBV2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0"></Label>
+                                <ControlsLibrary:AxComboBox IsEnabled="{Binding CtrIsEnabled,Mode=TwoWay}"
+                                        Name="cbx_TestingAgency" Grid.Column="1" DisplayMemberPath="AgencyName" SelectedValuePath="AgencyID"
+                                        SelectedItemEx="{Binding ObjPatientPCLImagingResult.AgencyID,Mode=TwoWay}"
+                                        ItemsSource="{Binding ObjTestingAgencyList,Mode=TwoWay}" />
+                                <Button Content="{Binding K2210_G1_Chon3, Source={StaticResource eHCMSResources}}" Width="60" IsEnabled="{Binding CtrIsEnabled,Mode=TwoWay}"
+                    Grid.Column="2" Margin="5,0,0,0" Style="{StaticResource MainFrame.Button}"></Button>
+                            </Grid>
+
+                        </Grid>
+                    </Border>-->
+
+                            <Grid Grid.Row="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0"
+                                       Content="{Binding K1455_G1_KQuaSACLS2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                       VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.01}" />
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="3" />
+                                        <ColumnDefinition Width="285" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--C0-->
+                                    <Grid Grid.Column="0">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <DataGrid Grid.Row="0" AutoGenerateColumns="False" Name="grdImport"
+                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="130"
+                                                      ItemsSource="{Binding ObjGetPCLResultFileStoreDetails,Mode=OneWay}" HeadersVisibility="All"
+                                                      SelectedItem="{Binding ObjPCLResultFileStorageDetailSelected,Mode=TwoWay}"
+                                                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                      Style="{StaticResource MainFrame.DataGridStyle}">
+                                                <DataGrid.Columns>
+                                                    <DataGridTemplateColumn 
+                                                        x:Name="colRemove" CellEditingTemplate="{StaticResource grdImportTPL_lnkDelete}" />
+                                                    <DataGridTemplateColumn
+                                                        Header="{Binding T0850_G1_TenFile, Source={StaticResource eHCMSResources}}"
+                                                        x:Name="colView" CellTemplate="{StaticResource grdImportTPL_lnkView}" />
+                                                    <DataGridTextColumn
+                                                        Header="{Binding G2209_G1_ViTri, Source={StaticResource eHCMSResources}}"
+                                                        Binding="{Binding ObjectResult.PCLResultLocation,Mode=TwoWay}"
+                                                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}" IsReadOnly="True"/>
+                                                    <DataGridTextColumn
+                                                        Header="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}"
+                                                        Binding="{Binding ObjectResult.PCLResultFileNotes,Mode=TwoWay}"
+                                                        MinWidth="120" Width="*" />
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                            <Grid Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0"
+                                                       Content="{Binding T0820_G1_TapTinDinhKem, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                                                       HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.01}" />
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                    <RadioButton IsChecked="True" Height="16"
+                                                                 Content="{Binding T1516_G1_Hinh, Source={StaticResource eHCMSResources}}"
+                                                                 HorizontalAlignment="Right" Name="gOption0" VerticalAlignment="Center"
+                                                                 Style="{StaticResource MainFrame.RadioButton}"
+                                                                 GroupName="gOption" Margin="0,0,15,0"
+                                                                 cal:Message.Attach="[Event Click]=[Action gOption0_Click($source,$eventArgs)]" />
+                                                    <RadioButton IsChecked="False" Height="16"
+                                                                 Content="{Binding G2251_G1_Video, Source={StaticResource eHCMSResources}}"
+                                                                 HorizontalAlignment="Right" Name="gOption1" VerticalAlignment="Center"
+                                                                 Style="{StaticResource MainFrame.RadioButton}"
+                                                                 GroupName="gOption" Margin="0,0,15,0"
+                                                                 cal:Message.Attach="[Event Click]=[Action gOption1_Click($source,$eventArgs)]" />
+                                                    <RadioButton IsChecked="False" Height="16" GroupName="gOption"
+                                                                 Content="{Binding T0769_G1_TaiLieu, Source={StaticResource eHCMSResources}}"
+                                                                 HorizontalAlignment="Right" Name="gOption2" VerticalAlignment="Center"
+                                                                 Style="{StaticResource MainFrame.RadioButton}"
+                                                                 cal:Message.Attach="[Event Click]=[Action gOption2_Click($source,$eventArgs)]" />
+                                                </StackPanel>
+                                                <Label Grid.Column="2" Content="{Binding Z0027_G1_DauNgoacPhai, Source={StaticResource eHCMSResources}}"
+                                                       VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.01}" />
+                                            </Grid >
+                                            <StackPanel Grid.Row="2">
+                                                <Grid HorizontalAlignment="Stretch">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="90" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="100" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Content="{Binding K2167_G1_ChonThuMuc2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" />
+                                                    <ControlsLibrary:AxComboBox
+                                                        Grid.Column="1" Name="cboListFolder" IsEnabled="{Binding IsEdit}"
+                                                        ItemsSource="{Binding FolderList,Mode=OneWay}"
+                                                        SelectedValueEx="{Binding FolderListTextSelect,Mode=TwoWay}"
+                                                        cal:Message.Attach="[Event SelectionChanged]=[Action cboListFolder_SelectionChanged($source,$eventArgs)]" />
+                                                    <Button x:Name="btBrowse" Margin="5,0,0,0" Grid.Column="2"
+                                                            Content="{Binding K1942_G1_ChonFile2, Source={StaticResource eHCMSResources}}"
+                                                            IsEnabled="{Binding IsEdit}"
+                                                            Style="{StaticResource MainFrame.Button}" />
+                                                </Grid>
+                                            </StackPanel>
+                                            <Label Content="{Binding K1762_G1_CDoanDuaTrenKQuaCLS2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                                   Grid.Row="3" Style="{StaticResource MainFrame.Label.01}" />
+                                            <TextBox Text="{Binding ObjPatientPCLImagingResult.DiagnoseOnPCLExam,Mode=TwoWay,NotifyOnValidationError=True}"
+                                                     Name="txtDiagnosis" Grid.Row="4" Margin="0,2,2,2" AcceptsReturn="True"
+                                                     VerticalScrollBarVisibility="Visible" MaxHeight="50"
+                                                     HorizontalScrollBarVisibility="Auto" Style="{StaticResource MainFrame.TextBox}"
+                                                     IsReadOnly="{Binding IsEdit,Converter={StaticResource InverseBoolConverter}}" />
+                                            <Label Content="{Binding T1198_G1_GThichTrenKQuaCLS, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                                   HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="5" Style="{StaticResource MainFrame.Label.01}" />
+                                            <TextBox Text="{Binding ObjPatientPCLImagingResult.ResultExplanation,Mode=TwoWay,NotifyOnValidationError=True}"
+                                                     Grid.Row="6" Margin="0,2,2,2" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
+                                                     HorizontalScrollBarVisibility="Auto" Style="{StaticResource MainFrame.TextBox}"
+                                                     IsReadOnly="{Binding IsEdit,Converter={StaticResource InverseBoolConverter}}" MaxHeight="50" />
+                                            <Grid Grid.Row="7">
+                                                <!--<HyperlinkButton Grid.Column="0" ToolTipService.ToolTip="{Binding G2486_G1_XemToaThuocHHanh, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" Name="hpkViewPrescription" VerticalAlignment="Center" Style="{StaticResource MainFrame.HyperlinkButton}">
+                                    <HyperlinkButton.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/aEMR.CommonViews;component/Assets/Images/book-open-text-icon.png" Width="13" />
+                                            <TextBlock Text="{Binding G2486_G1_XemToaThuocHHanh, Source={StaticResource eHCMSResources}}" Margin="3,0,0,0"></TextBlock>
+                                        </StackPanel>
+                                    </HyperlinkButton.Content>
+                                </HyperlinkButton>-->
+                                                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center"
+                                                            Visibility="{Binding FormIsEnabled,Mode=TwoWay,Converter={StaticResource BooleanToVisibility}}">
+                                                    <Button x:Name="btNew" Content="{Binding T0795_G1_TaoMoi, Source={StaticResource eHCMSResources}}"
+                                                            Width="70" Style="{StaticResource MainFrame.Button}"
+                                                            IsEnabled="{Binding btNewIsEnabled,Mode=OneWay}"
+                                                            Visibility="{Binding mPCL_TaoPhieuMoi_Them,Mode=TwoWay,Converter={StaticResource BooleanToVisibility}}" />
+                                                    <Button x:Name="btEdit" Content="{Binding T1484_G1_HChinh, Source={StaticResource eHCMSResources}}"
+                                                            Width="70" Style="{StaticResource MainFrame.Button}"
+                                                            IsEnabled="{Binding btNewIsEnabled,Mode=OneWay}" Margin="5,0,0,0"
+                                                            Visibility="{Binding mPCL_XemSuaPhieuYeuCau_ChinhSua,Mode=TwoWay,Converter={StaticResource BooleanToVisibility}}" />
+                                                    <Button  Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                                                             Width="75" Height="22"  Margin="5,0,0,0" ClickMode="Hover"
+                                                             cal:Message.Attach="[Event MouseLeftButtonDown]=[Action btSave_MouseLeftButtonDown($source,$eventArgs)]"
+                                                             HorizontalAlignment="Right" Style="{StaticResource MainFrame.Button}" />
+                                                    <Button x:Name="ClearBtn" Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}"
+                                                            Width="75" Height="22" IsEnabled="{Binding IsEnableButton,Mode=OneWay}" Margin="5,0,0,0"
+                                                            HorizontalAlignment="Right" Style="{StaticResource MainFrame.Button}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <!--C1-->
+                                    <Grid Grid.Column="2">
+                                        <Border CornerRadius="3" Background="#F2F3F4" BorderBrush="#C1D2E6"
+                                                BorderThickness="1" Margin="0,10,0,5">
+                                            <StackPanel>
+                                                <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1"
+                                                        Background="#F2F3F4" HorizontalAlignment="Left">
+                                                    <TextBlock Text="{Binding G2505_G1_XemTruoc, Source={StaticResource eHCMSResources}}"
+                                                               Margin="10,0,10,0" FontWeight="Bold" />
+                                                </Border>
+                                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Image Grid.Row="0" Name="imgPreview" Source="{Binding ObjBitmapImage,Mode=TwoWay}"
+                                                           Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                                           Width="250" Height="250" Visibility="{Binding ControlImgVisibility,Mode=OneWay}" />
+                                                    <MediaElement Grid.Row="0" Name="mediaPreview" Stretch="UniformToFill"
+                                                                  HorizontalAlignment="Center" VerticalAlignment="Top"
+                                                                  Width="280" Height="250"
+                                                                  Visibility="{Binding ControlVideoVisibility,Mode=OneWay}" Margin="0,20,0,0" />
+                                                    <!-- 20181024 TNHX [BM0003222] Hidden list button because when was clicked the program crash-->
+                                                    <StackPanel x:Name="spControlVideo" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"
+                                                                Visibility="Collapsed" Margin="0,5,0,0">
+                                                        <!--Visibility="{Binding ControlVideoVisibility,Mode=OneWay}" Margin="0,5,0,0">-->
+                                                        <Button Content="{Binding P0401_G1_Play, Source={StaticResource eHCMSResources}}" Name="btPlay"
+                                                                Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Right"
+                                                                Width="48" Margin="0,0,5,0" Visibility="Collapsed"/>
+                                                        <Button Content="{Binding P0322_G1_Pause, Source={StaticResource eHCMSResources}}"
+                                                                Name="btPause" Style="{StaticResource MainFrame.Button}"
+                                                                HorizontalAlignment="Right" Width="48" Margin="0,0,5,0" />
+                                                        <Slider x:Name="btVolume" Height="18" Width="70" HorizontalAlignment="Right"
+                                                                Maximum="100" Margin="0,0,5,0"
+                                                                cal:Message.Attach="[Event ValueChanged]=[Action btVolume_ValueChanged($source,$eventArgs)]" />
+                                                        <Button Content="{Binding M0028_G1_Mute, Source={StaticResource eHCMSResources}}"
+                                                                Name="btMute" Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Right"
+                                                                Width="48" Margin="0,0,5,0" />
+                                                        <Button Content="{Binding S0728_G1_Stop, Source={StaticResource eHCMSResources}}"
+                                                                Name="btStop" Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Right"
+                                                                Width="48" Margin="0,0,0,0" />
+                                                    </StackPanel>
+                                                    <Grid Grid.Row="2">
+                                                        <Button x:Name="hplDiagnoticsImg" Margin="5,0,0,0"
+                                                                Content="{Binding P0350_G1_PhanTichHA, Source={StaticResource eHCMSResources}}"
+                                                                HorizontalAlignment="Left" Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                                VerticalAlignment="Center" Visibility="{Binding ControlImgVisibility,Mode=OneWay}" />
+                                                        <Label Name="lbl_error" Foreground="Red" HorizontalAlignment="Center"
+                                                               Style="{StaticResource MainFrame.Label.00}" />
+                                                        <Button x:Name="hplDiagnoticsVideo" Margin="0,0,5,0"
+                                                                Content="{Binding P0351_G1_PhanTichVideo, Source={StaticResource eHCMSResources}}"
+                                                                HorizontalAlignment="Right" Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                                VerticalAlignment="Center" Visibility="{Binding ControlVideoVisibility,Mode=OneWay}" />
+                                                    </Grid>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <!--<Grid Grid.Row="6">
+                        <HyperlinkButton x:Name="hplLinkInputPCLResultParam" Content="{Binding N0216_G1_NhapThongSoKetQua, Source={StaticResource eHCMSResources}}" Height="20"
+                         VerticalAlignment="Center" Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                         cal:Message.Attach="[Event Click]=[Action hplLinkInputPCLResultParam_Click($source,$eventArgs)]" />
+                    </Grid>-->
+                        </Grid>
+                    </Grid>
+                </toolkit:BusyIndicator>
+            </ContentControl>
+            </Grid>
+</UserControl>

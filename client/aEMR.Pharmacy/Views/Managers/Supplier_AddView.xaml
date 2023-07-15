@@ -1,0 +1,110 @@
+﻿<UserControl            x:Class="aEMR.Pharmacy.Views.Supplier_AddView"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:ct="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.Input"
+                        xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" 
+                        xmlns:System="clr-namespace:System;assembly=mscorlib"
+                        xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                        xmlns:cal="http://www.caliburnproject.org"
+                        d:DesignHeight="450" d:DesignWidth="550"
+                        mc:Ignorable="d"> 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    <!--Comment BusyIndicator-->
+<!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+    <Grid x:Name="LayoutRoot" Margin="10" Width="500">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TitleForm" Text="{Binding G0305_G1_ThemMoiNCC, Source={StaticResource eHCMSResources}}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#3595CB" 
+                               FontSize="14" FontWeight="Bold" />
+        <AxControls:AxGrid Grid.Row="1" x:Name="LayOutSelect" DataContext="{Binding NewSupplier, Mode=TwoWay}">
+            <AxControls:AxGrid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </AxControls:AxGrid.ColumnDefinitions>
+            <AxControls:AxGrid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </AxControls:AxGrid.RowDefinitions>
+
+            <TextBlock  HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto" Text="{Binding T0880_G1_TenNhaCC, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock  HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="1" Text="{Binding T0911_G1_TenVietTat, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock   HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="2" Text="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock   HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="3" Text="{Binding T3652_G1_MaTinhTp, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock  HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="4" Text="{Binding N0159_G1_NguoiLienHe, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock   HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="5" Text="{Binding K3449_G1_DienThoai, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock   HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="6" Text="{Binding T0662_G1_Fax, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock   HorizontalAlignment="Right" Margin="0,1.5,2,1.5" VerticalAlignment="Top" Width="Auto"  Grid.Row="7" Text="{Binding T0020_G1_Email, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock  HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="8" Text="{Binding G2339_G1_Website, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock   HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="9" Text="{Binding K2559_G1_CQuanCNhan, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock  HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="10" Text="{Binding S0691_G1_SoTaiKhoan, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock   HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="11" Text="{Binding N0043_G1_Nganhang, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock   HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="12" Text="{Binding M0008_G1_MoTa, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBlock   HorizontalAlignment="Right" Margin="0,1.5,2,1.5"  VerticalAlignment="Top" Width="Auto"  Grid.Row="14" Text="Phân loại" Style="{StaticResource MainFrame.TextBlock.02}"/>
+            <TextBox x:Name="tbx_suppliername" Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Text="{Binding SupplierName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Style="{StaticResource MainFrame.TextBox}" TabIndex="0" />
+            <TextBox  Grid.Column="1" Grid.Row="1" Margin="2,1.5,2,1.5" VerticalAlignment="Top" Text="{Binding SupplierCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Style="{StaticResource MainFrame.TextBox}" TabIndex="1" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="2" Text="{Binding Address, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Style="{StaticResource MainFrame.TextBox}" TabIndex="2" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="3"  Text="{Binding CityStateZipCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Style="{StaticResource MainFrame.TextBox}" TabIndex="3" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="4"  Text="{Binding ContactPerson, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Style="{StaticResource MainFrame.TextBox}" TabIndex="4" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="5"  Text="{Binding TelephoneNumber, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Style="{StaticResource MainFrame.TextBox}" TabIndex="5" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="6"  Text="{Binding FaxNumber, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" TabIndex="6" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="7"  Text="{Binding PAHEmailAddress, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Style="{StaticResource MainFrame.TextBox}" TabIndex="7" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="8"  Text="{Binding WebSiteAddress, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" TabIndex="8" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="9"  Text="{Binding CertificateAgency, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" TabIndex="9" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="10"  Text="{Binding AccountNumber, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" TabIndex="10" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,1.5" VerticalAlignment="Top" Grid.Row="11"  Text="{Binding BankName, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" TabIndex="11" />
+            <TextBox Grid.Column="1"  Margin="2,1.5,2,0" VerticalAlignment="Top" Grid.Row="12" AcceptsReturn="True" Grid.RowSpan="2"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible" Height="50" Text="{Binding SupplierDescription, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" TabIndex="12" />
+            <StackPanel Orientation="Horizontal" Grid.Column="1"  Margin="2,1.5,2,0"  Grid.Row="14">
+                <RadioButton
+                                Margin="2,1"
+                                Content="Dùng chung"
+                                cal:Message.Attach="[Event Checked]=[Action SupplierType_Checked($source, 3)]"
+                                Uid="3"
+                                GroupName="SupplierType"
+                                IsChecked="True" />
+                <RadioButton
+                                Margin="2,1"
+                                Content="Nhà thuốc"
+                                cal:Message.Attach="[Event Checked]=[Action SupplierType_Checked($source, 2)]"
+                                Uid="2"
+                                GroupName="SupplierType" />
+            </StackPanel>
+            <AxControls:DescriptionViewer Grid.Row="0" Grid.Column="2" Description="Enter Supplier Name"  HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Center"/>
+            <AxControls:DescriptionViewer Grid.Row="2" Grid.Column="2" Description="Enter Address"  HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Center"/>
+            <AxControls:DescriptionViewer Grid.Row="3" Grid.Column="2" Description="Enter Zipcode"  HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Center"/>
+            <AxControls:DescriptionViewer Grid.Row="5" Grid.Column="2" Description="Enter Telephone"  HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Center"/>
+        </AxControls:AxGrid>
+        <Button x:Name="CancelButton" Content="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}"  Width="75" Height="23" HorizontalAlignment="Right" Margin="0,1,0,1" Grid.Row="2" Grid.Column="1" Style="{StaticResource MainFrame.Button}" TabIndex="14" />
+        <Button x:Name="OKButton" Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" Width="75" Height="23" HorizontalAlignment="Left" Margin="345,1,0,1" Grid.Row="2" Style="{StaticResource MainFrame.Button}"   TabIndex="13" />
+        <!--<sdk:ValidationSummary MaxHeight="70" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="10" Style="{StaticResource MainFrame.ValidationSummary}">
+        </sdk:ValidationSummary>-->
+    </Grid>
+    <!--</toolkit:BusyIndicator>-->
+</UserControl>

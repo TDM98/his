@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="aEMR.PCLDepartment.Views.UploadFileView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Border CornerRadius="3" Background="#F2F3F4" BorderBrush="#C1D2E6"
+                    BorderThickness="1" Margin="0,10,0,5">
+                <StackPanel>
+                    <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1"
+                            Background="#F2F3F4" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding G2505_G1_XemTruoc, Source={StaticResource eHCMSResources}}"
+                                   Margin="10,0,10,0" FontWeight="Bold" />
+                    </Border>
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0" Name="imgPreview" Source="{Binding ObjBitmapImage,Mode=TwoWay}"
+                               Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"
+                               Width="280" Height="350"
+                               Visibility="{Binding ControlImgVisibility,Mode=OneWay}" />
+                        <MediaElement Grid.Row="0" Name="mediaPreview" Stretch="UniformToFill"
+                                      HorizontalAlignment="Center" VerticalAlignment="Top"
+                                      Width="280" Height="250" Margin="0,20,0,0"
+                                      Visibility="{Binding ControlVideoVisibility,Mode=OneWay}" />
+                        <!--AutoPlay="False"-->
+                        <!--bo ra tu MediaElement-->
+                        <!-- 20181024 TNHX [BM0003222] Hidden list button because when was clicked the program crash-->
+                        <StackPanel x:Name="spControlVideo" Grid.Row="1" Orientation="Horizontal"
+                          HorizontalAlignment="Center" Visibility="Collapsed" Margin="0,5,0,0">
+                            <!--HorizontalAlignment="Center" Visibility="{Binding ControlVideoVisibility,Mode=OneWay}" Margin="0,5,0,0">-->
+                            <Button Content="{Binding P0401_G1_Play, Source={StaticResource eHCMSResources}}"
+                                    Name="btPlay" Style="{StaticResource MainFrame.Button}"
+                                    HorizontalAlignment="Right" Width="48" Margin="0,0,5,0" />
+                            <Button Content="{Binding P0322_G1_Pause, Source={StaticResource eHCMSResources}}"
+                                    Name="btPause" Style="{StaticResource MainFrame.Button}"
+                                    HorizontalAlignment="Right" Width="48" Margin="0,0,5,0" />
+                            <Slider Height="18" Width="70" HorizontalAlignment="Right" x:Name="btVolume" Maximum="100"
+                      Margin="0,0,5,0" cal:Message.Attach="[Event ValueChanged]=[Action btVolume_ValueChanged($source,$eventArgs)]" />
+                            <Button Content="{Binding M0028_G1_Mute, Source={StaticResource eHCMSResources}}"
+                                    Name="btMute" Style="{StaticResource MainFrame.Button}"
+                                    HorizontalAlignment="Right" Width="48" Margin="0,0,5,0" />
+                            <Button Content="{Binding S0728_G1_Stop, Source={StaticResource eHCMSResources}}"
+                                    Name="btStop" Style="{StaticResource MainFrame.Button}"
+                                    HorizontalAlignment="Right" Width="48" Margin="0,0,0,0" />
+                        </StackPanel>
+                        <Grid Grid.Row="2">
+                            <Button x:Name="hplDiagnoticsImg" Margin="25,0,0,0"
+                                    Content="{Binding P0350_G1_PhanTichHA, Source={StaticResource eHCMSResources}}"
+                                    HorizontalAlignment="Left" Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                    VerticalAlignment="Center" Visibility="{Binding ControlImgVisibility,Mode=OneWay}" />
+                            <Label Name="lbl_error" Foreground="Red" HorizontalAlignment="Center" />
+                            <Button x:Name="hplDiagnoticsVideo" Margin="0,0,20,0"
+                                    Content="{Binding P0351_G1_PhanTichVideo, Source={StaticResource eHCMSResources}}"
+                                    HorizontalAlignment="Right" Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                    VerticalAlignment="Center" Visibility="{Binding ControlVideoVisibility,Mode=OneWay}" />
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <TreeView Height="410" Name="treeView1" Margin="1" DisplayMemberPath="FolderName"
+                  SelectedValuePath="FolderName" ItemsSource="{Binding ObjFillDirectoryAll,Mode=TwoWay}"
+                  Style="{StaticResource TreeViewStyle}" Grid.ColumnSpan="1"
+                  cal:Message.Attach="[Event SelectedItemChanged]=[Action treeView1_SelectedItemChanged($source,$eventArgs)]">
+            <!--<TreeView.ItemTemplate>
+        <HierarchicalDataTemplate x:Name="PersonTemplate" ItemsSource="{Binding FolderChildren}">
+          <StackPanel Orientation="Horizontal">
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/BlueFolderXP.jpg" Stretch="UniformToFill"
+                   HorizontalAlignment="Center"></Image>
+            <TextBlock Text="{Binding FolderName}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Margin="5,0,0,0" />
+          </StackPanel>
+        </HierarchicalDataTemplate>
+      </TreeView.ItemTemplate>-->
+        </TreeView>
+        <Label Content="{Binding T0666_G1_FileChon, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1"
+               Margin="5,1,500,1" Style="{StaticResource MainFrame.Label.01}" Grid.ColumnSpan="2" />
+        <TextBox Grid.Row="1" Height="23" Margin="80,1,156,1"
+             Text="{Binding NodeSelected.ParentFolderName,Mode=TwoWay}" Name="txt_path" VerticalAlignment="Center"
+             Style="{StaticResource MainFrame.TextBox}" IsReadOnly="True" Grid.ColumnSpan="2" />
+        <Button x:Name="btChooseFileResultForPCL" Content="{Binding K1916_G1_Chon, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}" Width="75"
+            Margin="0,1,78,0" Grid.Row="1" Height="23" HorizontalAlignment="Right"
+            IsEnabled="{Binding btChooseFileResultForPCLIsEnabled,Mode=OneWay}" Grid.Column="1" VerticalAlignment="Top" />
+        <Button x:Name="btCancel" Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.Button}" Width="75" Margin="1"
+                Grid.Row="1" Height="23" HorizontalAlignment="Right" Grid.ColumnSpan="2" />
+        <Label Content="{Binding G1183_G1_Ghichu, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2"
+               Margin="5,1,500,1" Style="{StaticResource MainFrame.Label.01}" Grid.ColumnSpan="2" />
+        <TextBox MaxLength="512" Grid.Row="2" Grid.ColumnSpan="2" Height="30" HorizontalScrollBarVisibility="Auto"
+             VerticalScrollBarVisibility="Visible" AcceptsReturn="True" VerticalAlignment="Top" Foreground="Black"
+             FontWeight="Normal" Margin="80,1,1,1"
+             Text="{Binding ObjPCLResultFileStorageDetailSelected.PCLResultFileNotes,Mode=TwoWay}" TabIndex="11" />
+        <Label Content="{Binding T0668_G1_FileLuu, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3"
+               Margin="5,1,200,1" Style="{StaticResource MainFrame.Label.01}" Grid.Column="0" />
+        <TextBox Grid.ColumnSpan="2" Grid.Row="3" Height="23" Margin="80,1,1,1"
+             Text="{Binding ObjPCLResultFileStorageDetailSelected.PCLResultFileName,Mode=TwoWay}" Name="txt_filename"
+             VerticalAlignment="Center" Style="{StaticResource MainFrame.TextBox}" IsReadOnly="True" />
+        <Button Content="{Binding G2125_G1_UploadFile, Source={StaticResource eHCMSResources}}"
+                Name="btUploadFile" Grid.Row="3" />
+    </Grid>
+</UserControl>

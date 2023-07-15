@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5FD033F7-CAD4-4774-9DD6-4826CB6A4F82}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsultationsService</RootNamespace>
+    <AssemblyName>ConsultationsService</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxCaching">
+      <HintPath>P:\\AxCaching.dll</HintPath>
+    </Reference>
+    <Reference Include="AxLogging.Server">
+      <HintPath>P:\\AxLogging.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="AxInterop.AcroPDFLib">
+      <HintPath>P:\\AxInterop.AcroPDFLib.dll</HintPath>
+    </Reference>
+    <Reference Include="DataEntities.Server, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>P:\\DataEntities.Server.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="eHCMSConfig, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>P:\eHCMSConfig.dll</HintPath>
+    </Reference>
+    <Reference Include="eHCMSLanguage">
+      <HintPath>P:\eHCMSLanguage.dll</HintPath>
+    </Reference>
+    <Reference Include="ErrorLibrary">
+      <HintPath>P:\ErrorLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Service.Core.Server, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>P:\\Service.Core.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.Services" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Windows">
+      <HintPath>C:\Program Files\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\System.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WCFServiceBase">
+      <HintPath>P:\WCFServiceBase.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\ICommonUtils.cs" />
+    <Compile Include="Common\CommonUtilServices.cs" />
+    <Compile Include="ePMRs\IePMRs.cs" />
+    <Compile Include="ePMRs\ePMRsServices.cs" />
+    <Compile Include="ePrescriptions\ePrescriptionServices.cs" />
+    <Compile Include="ePrescriptions\IePrescriptions.cs" />
+    <Compile Include="ParaClinical\PCLsService.cs" />
+    <Compile Include="ParaClinical\IPCLs.cs" />
+    <Compile Include="ParaClinical\IPCLsImport.cs" />
+    <Compile Include="ParaClinical\PCLsImportService.cs" />
+    <Compile Include="PatientInstruction\IPatientInstruction.cs" />
+    <Compile Include="PatientInstruction\PatientInstructionService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PtDashboard\CommonRecords\CommonRecordsServices.cs" />
+    <Compile Include="PtDashboard\CommonRecords\ICommonRecords.cs" />
+    <Compile Include="PtDashboard\Summary\ISummary.cs" />
+    <Compile Include="PtDashboard\Summary\SummaryServices.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PtFile\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccessLayerProviders\DataAccessLayerProviders.csproj">
+      <Project>{a6371707-fc32-4962-a396-e1b60781397d}</Project>
+      <Name>DataAccessLayerProviders</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>Copy "$(TargetDir)$(TargetFileName)" "P:\"
+Copy "$(TargetDir)$(TargetName).pdb" "P:\"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

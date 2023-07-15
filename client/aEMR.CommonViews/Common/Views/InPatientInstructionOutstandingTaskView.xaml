@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="aEMR.Common.Views.InPatientInstructionOutstandingTaskView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:cal="http://www.caliburnproject.org" 
+             mc:Ignorable="d"
+    d:DesignHeight="420" d:DesignWidth="300"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility"/>
+        <HierarchicalDataTemplate x:Key="TreeTemplate"  ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="13" Margin="0,0,3,0" VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding ImgIcon}"/>
+                <TextBlock FontSize="13" Text="{Binding NodeText}"/>
+            </StackPanel>
+        </HierarchicalDataTemplate>
+    </UserControl.Resources>
+    <TreeView Height="Auto" MinWidth="280"
+        ItemsSource="{Binding PatientInstructionTreeCollection, Mode=OneWay}"
+        ScrollViewer.HorizontalScrollBarVisibility="Visible"
+        ScrollViewer.VerticalScrollBarVisibility="Visible"
+        ItemTemplate="{StaticResource TreeTemplate}"
+        cal:Message.Attach="[Event MouseDoubleClick]=[Action InstructionDoubleClick($source, $eventArgs)]"
+        Style="{StaticResource TreeViewStyle}"/>
+</UserControl>

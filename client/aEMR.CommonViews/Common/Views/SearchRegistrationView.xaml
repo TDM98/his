@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="aEMR.Common.Views.SearchRegistrationView" Padding="0,0,0,0" Margin="0,0,0,0"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
+             Width="700" Height="500" 
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             mc:Ignorable="d"> 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="{Binding S0553_G1_Search, Source={StaticResource eHCMSResources}}" Margin="2" Style="{StaticResource MainFrame.GroupBox}">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <!--row 0-->
+                <TextBlock Text="{Binding P0320_G1_PatientName, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Style="{StaticResource TextBlock.Heading.04}" />
+                <commonctrl:AxTextBox Name="tbxFullName" Grid.Column="2" Margin="0,2,0,2" Style="{StaticResource MainFrame.TextBox}" Text="{Binding SearchCriteria.FullName,Mode=TwoWay}">
+                    <interact:Interaction.Triggers>
+                        <interact:EventTrigger EventName="KeyDown" >
+                            <commonctrl:TextBoxEnterButtonInvoke TargetName="btnSearch" />
+                        </interact:EventTrigger>
+                    </interact:Interaction.Triggers>
+                </commonctrl:AxTextBox>
+                <TextBlock Text="{Binding P0319_G1_PatientCode, Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="0" Grid.Column="4" Style="{StaticResource TextBlock.Heading.04}" />
+                <commonctrl:AxTextBox Name="tbxPatientCode" Grid.Column="5" Margin="0,2,0,2" Style="{StaticResource MainFrame.TextBox}" Text="{Binding SearchCriteria.PatientCode,Mode=TwoWay}" >
+                    <interact:Interaction.Triggers>
+                        <interact:EventTrigger EventName="KeyDown" >
+                            <commonctrl:TextBoxEnterButtonInvoke TargetName="btnSearch" />
+                        </interact:EventTrigger>
+                    </interact:Interaction.Triggers>
+                </commonctrl:AxTextBox>
+                <!--row 1-->
+                <TextBlock Text="{Binding T0675_G1_FromDate, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Style="{StaticResource TextBlock.Heading.04}"  />
+                <DatePicker Name="dpkFromdate" Margin="0,2,0,2" Grid.Row="1" Grid.Column="2" Style="{StaticResource MainFrame.DatePicker}" SelectedDate="{Binding SearchCriteria.FromDate,Mode=TwoWay}"></DatePicker>
+                <TextBlock Text="{Binding G1426_G1_ToDate, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" Style="{StaticResource TextBlock.Heading.04}" />
+                <DatePicker Name="dpkTodate" Margin="0,2,0,2" Grid.Row="1" Grid.Column="5" Style="{StaticResource MainFrame.DatePicker}" SelectedDate="{Binding SearchCriteria.ToDate,Mode=TwoWay}"></DatePicker>
+                <!-- row 3-->
+                <StackPanel Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="5" Margin="0" HorizontalAlignment="Center">
+                    <Button x:Name="SearchCmd" HorizontalAlignment="Right" Style="{StaticResource MainFrame.Button}"
+                	Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Width="100" Margin="2"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Results" Margin="2" Grid.Row="1" Style="{StaticResource MainFrame.GroupBox}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                </Grid.RowDefinitions>
+                <commonctrl:ReadOnlyDataGrid AutoGenerateColumns="False"  Margin="0" Name="dataGrid1" ItemsSource="{Binding Registrations,Mode=TwoWay}"
+                              SelectedItem="{Binding SelectedRegistration, Mode=TwoWay}" cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{Binding P0320_G1_PatientName, Source={StaticResource eHCMSResources}}" x:Name="colPtname" Binding="{Binding FullName}"/>
+                        <DataGridTextColumn Header="{Binding P0319_G1_PatientCode, Source={StaticResource eHCMSResources}}" x:Name="colPtCode"
+                                            Binding="{Binding PatientCode}"/>
+                        <DataGridTextColumn Header="{Binding R0512_G1_RegistrationID, Source={StaticResource eHCMSResources}}" x:Name="colPtReg" Binding="{Binding PtRegistrationID}"/>
+                        <DataGridTextColumn x:Name="colPtRegCode" Binding="{Binding PtRegistrationCode}" Header="Reg.Code"/>
+                        <DataGridTextColumn Header="{Binding T0640_G1_ExamDate, Source={StaticResource eHCMSResources}}" x:Name="colExamdate" Binding="{Binding ExamDate}"/>
+                    </DataGrid.Columns>
+                </commonctrl:ReadOnlyDataGrid>
+                <commonctrl:DataPager Grid.Row="1"  Margin="0,0,0,0" Name="dataPager1" PageSize="10" Source="{Binding Registrations,Mode=TwoWay}"/>
+            </Grid>
+        </GroupBox>
+        <StackPanel Grid.Row="2" Margin="0,5,0,0"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <Button x:Name="OkCmd"
+                    Content="{Binding K3847_G1_DongY, Source={StaticResource eHCMSResources}}"
+                    Width="75"
+                    Height="23"
+                    Style="{StaticResource MainFrame.Button}"
+                    HorizontalAlignment="Right"/>
+            <Button x:Name="CancelCmd"
+                    Content="{Binding G0391_G1_Thoat, Source={StaticResource eHCMSResources}}"
+                    Width="75"
+                    Height="23"
+                    Style="{StaticResource MainFrame.Button}"
+                    HorizontalAlignment="Right"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

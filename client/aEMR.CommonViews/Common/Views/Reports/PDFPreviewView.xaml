@@ -1,0 +1,24 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.PDFPreviewView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+    xmlns:dxpdf="http://schemas.devexpress.com/winfx/2008/xaml/pdf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    cal:Message.Attach="[Event Unloaded]=[Action UserControl_Unloaded($source,$eventArgs)]"
+    d:DesignHeight="600"
+    d:DesignWidth="950"
+    mc:Ignorable="d">
+    <Grid x:Name="LayoutRoot" Background="White">
+        <dxpdf:PdfViewerControl
+            x:Name="PDFViewer"
+            Width="auto"
+            Height="auto"
+            MinWidth="1000"
+            MinHeight="875"
+            DetachStreamOnLoadComplete="True"
+            DocumentSource="{Binding PDFViewerSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </Grid>
+</UserControl>

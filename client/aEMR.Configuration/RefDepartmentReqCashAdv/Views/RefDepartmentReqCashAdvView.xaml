@@ -1,0 +1,92 @@
+﻿<UserControl            x:Class="aEMR.Configuration.RefDepartmentReqCashAdv.Views.RefDepartmentReqCashAdvView"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:cal="http://www.caliburnproject.org"
+                        xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" 
+                        xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                        d:DesignHeight="230" d:DesignWidth="700"
+                        mc:Ignorable="d"> 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" Margin="2,1" Style="{StaticResource MainFrame.GroupBox}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="26"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="{Binding T0829_G1_Ten, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" HorizontalAlignment="Right" Margin="0,2,5,2"></Label>
+                <TextBox Text="{Binding SearchCriteria.FindName,Mode=TwoWay}" Grid.Row="0" Grid.Column="1" x:Name="txSearch" Margin="2,1" Width="180" cal:Message.Attach="[Event KeyUp]=[Action btnSearch_KeyUp($source,$eventArgs)]"></TextBox>
+
+                <Button HorizontalAlignment="Left" Grid.Row="0" Grid.Column="2" Width="60"
+                                Height="23"
+                                x:Name="btnSearch">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" VerticalAlignment="Center" Height="18" Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png"/>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"/>
+                    </StackPanel>
+                </Button>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,2" Grid.Column="3">
+                    <Button cal:Message.Attach="[Event Click]=[Action hplAddNewExamTypeCombo_Click()]" Name="hplAddNewTestItem" ToolTipService.ToolTip="Thêm Mới" FontWeight="Bold" Foreground="#FF0084FF" FontSize="12" HorizontalAlignment="Center" Style="{StaticResource MainFrame.HyperlinkButton}" VerticalAlignment="Center">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/aEMR.CommonViews;component/Assets/Images/page-add-icon2.png" Height="13" Width="13" Opacity="1" />
+                                <TextBlock Text="{Binding G0276_G1_ThemMoi, Source={StaticResource eHCMSResources}}"></TextBlock>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <commonctrl:DoubleClickDataGrid IsReadOnly="True" Grid.Row="1" Name="dtgList"            
+                                      AutoGenerateColumns="False"    
+                                      HorizontalScrollBarVisibility="Auto"  
+                                      VerticalScrollBarVisibility="Visible"   
+                                      HeadersVisibility="All"
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                      Style="{StaticResource MainFrame.DataGridStyle}" Margin="2,1"
+                                  ItemsSource="{Binding RefDepartmentReqCashAdvLst,Mode=OneWay}" 
+                                      cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]
+                                        ;[Event LoadingRow]=[Action dtgList_LoadingRow($source,$eventArgs)]">
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="hplDelete" ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                 cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)]">
+                                    <Button.Content>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                    </Button.Content>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" Binding="{Binding DeptID}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" Binding="{Binding DeptName}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding S0695_G1_SoTien, Source={StaticResource eHCMSResources}}" Binding="{Binding CashAdvAmtReq}" Width="120">
+                </DataGridTextColumn>              
+            </DataGrid.Columns>
+        </commonctrl:DoubleClickDataGrid>
+        <commonctrl:DataPager Grid.Row="2"  Margin="0,0,0,0" Name="dataPager1" Source="{Binding RefDepartmentReqCashAdvLst}"/>
+    </Grid>
+</UserControl>

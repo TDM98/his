@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="aEMR.Common.Views.InPatientBedRegDetailListingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org" 
+             xmlns:Converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             d:DesignHeight="300" d:DesignWidth="800"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             mc:Ignorable="d"> 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converter:DecimalConverter x:Key="DecimalConverter"/>
+        <Converter:ShortDateConverter x:Key="ShortDateConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <DataGrid x:Name="grid"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding AllItems,Mode=OneWay}"
+                  Style="{StaticResource MainFrame.DataGridStyle}"
+                  ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                  RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto"
+                  VerticalContentAlignment="Stretch"
+                  Width="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}" Binding="{Binding PatientRegistrationDetail.ChargeableItemName, Mode=OneWay}"
+                                    IsReadOnly ="True"
+                                    Width="Auto"/>
+                <DataGridTextColumn Header="{Binding S0583_G1_SLg, Source={StaticResource eHCMSResources}}" x:Name="colQty" Binding="{Binding PatientRegistrationDetail.Qty, Mode=OneWay}"
+                                    IsReadOnly ="False" Width="40"/>
+                <DataGridTextColumn Header="{Binding T0849_G1_Gia, Source={StaticResource eHCMSResources}}" Binding="{Binding PatientRegistrationDetail.InvoicePrice, Mode=OneWay,Converter={StaticResource DecimalConverter}}"/>
+                <DataGridTextColumn Header="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" Binding="{Binding BillFromDate,Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
+                                    IsReadOnly ="True" Width="90"/>
+                <DataGridTextColumn Header="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" Binding="{Binding BillToDate,Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
+                                    IsReadOnly ="True" Width="90"/>
+                <DataGridTextColumn Header="{Binding K1296_G1_BNTra, Source={StaticResource eHCMSResources}}" Width="80"
+                                    IsReadOnly ="True"
+                                    Binding="{Binding PatientRegistrationDetail.TotalPatientPayment, Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                    ElementStyle="{StaticResource RightAligmentTextBlock}"/>
+                <DataGridTextColumn Header="{Binding K1232_G1_BHTra, Source={StaticResource eHCMSResources}}" Width="80"
+                                    IsReadOnly ="True"
+                                    Binding="{Binding PatientRegistrationDetail.TotalHIPayment, Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                    ElementStyle="{StaticResource RightAligmentTextBlock}"/>
+                <DataGridTextColumn Header="{Binding N0286_G1_NhVienDK, Source={StaticResource eHCMSResources}}" Width="80" IsReadOnly ="True"
+                                    Binding="{Binding PatientRegistrationDetail.TotalHIPayment, Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                    ElementStyle="{StaticResource RightAligmentTextBlock}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

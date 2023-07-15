@@ -1,0 +1,522 @@
+﻿<UserControl
+    x:Class="aEMR.ClinicManagement.Views.MedicalFileManagementView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AutoBoxTK="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="550"
+    d:DesignWidth="1200"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <Converters:NullRefShelfNameConverter x:Key="NullRefShelfNameConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <DataTemplate x:Key="AutoCompleteTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text="{Binding LocName}" />
+            </StackPanel>
+        </DataTemplate>
+        <!--<HierarchicalDataTemplate x:Key="LsPtRegistration" ItemsSource="{Binding ListPtRegistration}">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="{Binding ExamDate, StringFormat='{}{0:dd/MM/yyyy}'}" />
+                <TextBlock Text=" - " />
+                <TextBlock Text="{Binding DischargeDate, StringFormat='{}{0:dd/MM/yyyy}'}" />
+            </StackPanel>
+        </HierarchicalDataTemplate>-->
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" Margin="0,10,0,10">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="18"
+                Foreground="#3595CB"
+                Style="{StaticResource TextBlock.Heading.02}"
+                Text="{Binding Z1968_G1_QLyHS, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" />
+        </StackPanel>
+        <Grid Grid.Row="1" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="0" Grid.ColumnSpan="5"  CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,0,0,10">
+                <StackPanel>
+                    <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                    </Border>
+                    <Grid Margin="0,5,0,5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="220" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="5,0,5,0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource MainFrame.TextBlock.00}"
+                            Text="{Binding T2144_G1_Kho, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                        <AxControls:AxComboBox
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="0,2,0,2"
+                            HorizontalAlignment="Stretch"
+                            DisplayMemberPath="swhlName"
+                            ItemsSource="{Binding AllStores}"
+                            SelectedIndex="0"
+                            SelectedItem="{Binding SelectedStore, Mode=TwoWay}" 
+                            Style="{StaticResource MainFrame.ComboBox}"/>
+                        <TextBlock Grid.Row="2" 
+                            Grid.Column="0" 
+                            Text="{Binding T2013_G1_Ke, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center" 
+                            Margin="0,2,5,2"
+                            Style="{StaticResource MainFrame.TextBlock.00}" />
+                        <AxControls:AxComboBox Grid.Row="2" 
+                            Grid.Column="1" 
+                            Margin="0,2,0,2"
+                            HorizontalAlignment="Stretch" 
+                            ItemsSource="{Binding AllRefShelfs}" 
+                            DisplayMemberPath="RefShelfName"
+                            SelectedItem="{Binding SelectedRefShelf, Mode=TwoWay}" 
+                            Style="{StaticResource MainFrame.ComboBox}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" 
+                            Text="{Binding Z3275_G1_Day, Source={StaticResource eHCMSResources},  StringFormat='{}{0}:'}" 
+                            VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" 
+                            Style="{StaticResource MainFrame.TextBlock.00}" />
+                        <AxControls:AxComboBox Grid.Row="1" Grid.Column="1"
+                            Margin="0,2,0,2"
+                            HorizontalAlignment="Stretch" 
+                            ItemsSource="{Binding AllRefRows}" 
+                            DisplayMemberPath="RefRowName"
+                            SelectedItem="{Binding SelectedRow, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.ComboBox}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" 
+                            Text="{Binding Z1997_G1_Ngan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center" Margin="0,2,5,2"
+                            Style="{StaticResource MainFrame.TextBlock.00}" />
+                        <AxControls:AxComboBox 
+                            Grid.Row="3" Grid.Column="1"
+                            Margin="0,2,0,2"
+                            HorizontalAlignment="Stretch" ItemsSource="{Binding AllRefShelfDetails}" 
+                            DisplayMemberPath="LocName"
+                            SelectedItem="{Binding SelectedRefShelfDetail, Mode=TwoWay}" 
+                            Style="{StaticResource MainFrame.ComboBox}"/>
+                        <TextBlock Grid.Column="0" Grid.Row="4" Text="{Binding Z3263_G1_LoaiHS, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center" 
+                            Margin="0,2,5,2"
+                            Style="{StaticResource MainFrame.TextBlock.00}"/>
+                        <AxControls:AxComboBox Grid.Column="1" Grid.Row="4"
+                            FontWeight="Normal" Foreground="Black" Margin="0,2,0,2"
+                            ItemsSource="{Binding V_MedicalFileType, Mode=OneWay}" 
+                            DisplayMemberPath="ObjectValue"
+                            SelectedValuePath="LookupID"
+                            SelectedItem="{Binding SelectedMedicalFileType}" 
+                            Style="{StaticResource MainFrame.ComboBox}"/>
+                        <TextBlock Grid.Row="0" 
+                            Grid.Column="3" 
+                            Text="{Binding S0648_G1_SoHoSo, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" 
+                            HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,2,5,2"
+                            Style="{StaticResource MainFrame.TextBlock.00}" />
+                        <TextBox MaxLength="128" 
+                            Text="{Binding FileCodeNumber, Mode=TwoWay}" 
+                            Grid.Row="0" 
+                            Grid.Column="4" 
+                            Margin="0,2,0,2" />
+                        <TextBlock Grid.Row="1" 
+                            Grid.Column="3" 
+                            Text="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center" Margin="0,2,5,2"
+                            Style="{StaticResource MainFrame.TextBlock.00}" />
+                        <TextBox MaxLength="128"
+                            Text="{Binding PatientCode, Mode=TwoWay}" 
+                            Grid.Row="1" 
+                            Grid.Column="4" 
+                            Margin="0,2,0,2" />
+                        <TextBlock Grid.Row="2" 
+                            Grid.Column="3" 
+                            Text="{Binding T0834_G1_TenBenhNhan, Source={StaticResource eHCMSResources}, StringFormat='{}{0}:'}" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center" Margin="0,2,5,2"
+                            Style="{StaticResource MainFrame.TextBlock.00}" />
+                        <TextBox MaxLength="128"
+                            Text="{Binding PatientName, Mode=TwoWay}" 
+                            Grid.Row="2" 
+                            Grid.Column="4" 
+                            Margin="0,2,0,2" />
+                        <TextBlock Grid.Row="3" 
+                            Grid.Column="3" 
+                            Text="{Binding G1691_G1_TThai, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center" Margin="0,2,5,2"
+                            Style="{StaticResource MainFrame.TextBlock.00}" />
+                        <AxControls:AxComboBox Grid.Row="3" 
+                            Grid.Column="4"
+                            Margin="0,2,0,2"
+                            HorizontalAlignment="Stretch" ItemsSource="{Binding V_MedicalFileStatus}" 
+                            DisplayMemberPath="ObjectValue"
+                            SelectedValuePath="LookupID"
+                            SelectedItem="{Binding SelectedMedicalFileStatus, Mode=TwoWay}" 
+                            Style="{StaticResource MainFrame.ComboBox}"/>
+                        <StackPanel
+                            Grid.Row="4"
+                            Grid.Column="4"
+                            Margin="0,2,0,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <Button
+                                x:Name="btnSearch"
+                                Width="80"
+                                HorizontalAlignment="Left"
+                                Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <!--<TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5,0,5,0"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.00}"
+                Text="{Binding T2144_G1_Kho, Source={StaticResource eHCMSResources}}" />
+            <AxControls:AxComboBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="200"
+                Margin="2,1,0,1"
+                HorizontalAlignment="Left"
+                DisplayMemberPath="swhlName"
+                ItemsSource="{Binding AllStores}"
+                SelectedIndex="0"
+                SelectedItem="{Binding SelectedStore, Mode=TwoWay}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="5,0,5,0"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.00}"
+                Text="{Binding Z1997_G1_Ngan, Source={StaticResource eHCMSResources}}" />
+            <AxControls:AxAutoComplete
+                Grid.Row="0"
+                Grid.Column="3"
+                Width="200"
+                Height="22"
+                Margin="2,1,0,1"
+                HorizontalAlignment="Left"
+                cal:Message.Attach="[Event Loaded]=[Action txtShelfDetail_Loaded($source,$eventArgs)]"
+                FontWeight="Bold"
+                IsTabStop="False"
+                ItemTemplate="{StaticResource AutoCompleteTemplate}"
+                ItemsSource="{Binding AllRefShelfDetails, Mode=OneWay}"
+                MinimumPopulateDelay="300"
+                MinimumPrefixLength="0"
+                SelectedItem="{Binding SelectedRefShelfDetail, Mode=TwoWay}"
+                Text="{Binding SelectedRefShelfDetail.LocName, Mode=OneWay}"
+                TextBoxStyle="{StaticResource MainFrame.TextBox}"
+                ValueMemberBinding="{Binding LocName, Mode=TwoWay}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="5,0,5,0"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.00}"
+                Text="{Binding T2013_G1_Ke, Source={StaticResource eHCMSResources}}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="3"
+                Width="200"
+                Margin="2,1"
+                HorizontalAlignment="Left"
+                IsReadOnly="True"
+                Style="{StaticResource MainFrame.TextBox}"
+                Text="{Binding SelectedRefShelf.RefShelfName, Mode=OneWay}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5,0,5,0"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.00}"
+                Text="{Binding S0648_G1_SoHoSo, Source={StaticResource eHCMSResources}}" />
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="200"
+                Margin="2,1"
+                HorizontalAlignment="Left"
+                IsTabStop="True"
+                Style="{StaticResource MainFrame.TextBox}"
+                TabIndex="0"
+                Text="{Binding FileCodeNumber, Mode=TwoWay}" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="2"
+                Margin="5,0,5,0"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.00}"
+                Text="{Binding ErrorMessage, Mode=OneWay}" />-->
+            <Grid Grid.Row="1"  Grid.ColumnSpan="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <AxControls:AxDataGridNy
+                    Grid.Row="0"
+                    Name="gvShelfFiles"               
+                    Height="Auto"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    HeadersVisibility="All"
+                    HorizontalScrollBarVisibility="Auto"
+                    ItemsSource="{Binding AllPatientMedicalFileStorageCheckOut, Mode=OneWay}"
+                    Opacity="5"
+                    Style="{StaticResource MainFrame.DataGridStyle}"
+                    VerticalScrollBarVisibility="Auto"
+                    IsReadOnly="True"
+                    RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                    cal:Message.Attach="[Event LoadingRow] = [Action grd_LoadingRow($source, $eventArgs)]"
+                    IsTabStop="True" 
+                    RowDetailsVisibilityMode="Collapsed">
+                    <DataGrid.RowDetailsTemplate>
+                        <DataTemplate>
+                            <AxControls:AxDataGridNy ItemsSource="{Binding ListPtRegistration}"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False"
+                                AutoGenerateColumns="False"
+                                HeadersVisibility="None"
+                                IsReadOnly="True"
+                                Style="{StaticResource MainFrame.DataGridStyle}"
+                                Margin="10,0,0,0"
+                                IsTabStop="True">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button cal:Message.Attach="[Event Click]=[Action hplPreview_Click($datacontext)]"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                    ToolTipService.ToolTip="Xem bảng kê">
+                                                    <Button.Content>
+                                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Document-icon.png" 
+                                                        Width="14"
+                                                        Height="15"
+                                                        Opacity="1" />
+                                                    </Button.Content>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn
+                                        Binding="{Binding ExamDate, StringFormat='{}{0:dd/MM/yyyy}'}"
+                                        CanUserReorder="True"
+                                        CanUserResize="True"
+                                        CanUserSort="True"
+                                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                        Header="{Binding N0096_G1_NgNhapVien, Source={StaticResource eHCMSResources}}"
+                                        IsReadOnly="True" 
+                                        Width="80" />
+                                    <DataGridTextColumn
+                                        Binding="{Binding DischargeDate, StringFormat='{}{0:dd/MM/yyyy}'}"
+                                        CanUserReorder="True"
+                                        CanUserResize="True"
+                                        CanUserSort="True"
+                                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                        Header="{Binding N0132_G1_NgXuatVien, Source={StaticResource eHCMSResources},StringFormat='{}{0:dd/MM/yyyy}'}"
+                                        IsReadOnly="True"
+                                        Width="80" />
+                                </DataGrid.Columns>
+                            </AxControls:AxDataGridNy>
+                        </DataTemplate>
+                    </DataGrid.RowDetailsTemplate>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button cal:Message.Attach="[Event Click]=[Action Expander_Process($source)]"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                        ToolTipService.ToolTip="Xem danh sách bảng kê">
+                                        <Button.Content>
+                                            <Image Source="/aEMR.CommonViews;component/Assets/Images/Document-copy-icon.png" 
+                                            Width="15"
+                                            Height="15"
+                                            Opacity="1" />
+                                        </Button.Content>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button cal:Message.Attach="[Event Click]=[Action hplMedicalFileInfo_Click($datacontext)]"
+                                        IsEnabled="{Binding ElementName=LayoutRoot, Path=DataContext.IsEnableMedicalFileInfo}"
+                                        ToolTipService.ToolTip="{Binding Z2905_G1_ThongTinBenhAn, Source={StaticResource eHCMSResources}}" 
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                                        <Button.Content>
+                                            <Image Source="/aEMR.CommonViews;component/Assets/Images/checklist.png" 
+                                                Height="15" 
+                                                Width="15" 
+                                                Opacity="1" />
+                                        </Button.Content>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn
+                            MinWidth="80"
+                            Binding="{Binding PatientCode}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="80"
+                            Binding="{Binding FileCodeNumber}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                            Header="{Binding S0648_G1_SoHoSo, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="120"
+                            Binding="{Binding FullName}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                            Header="{Binding T1580_G1_HoTenBN, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="100"
+                            Binding="{Binding FileCreatedDate, StringFormat=dd/MM/yyyy}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="120"
+                            Binding="{Binding swhlName}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                            Header="{Binding T2144_G1_Kho, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="120"
+                            Binding="{Binding RefRowName}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                            Header="{Binding Z3275_G1_Day, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Binding="{Binding RefShelfName, Converter={StaticResource NullRefShelfNameConverter}}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                            Header="{Binding T2013_G1_Ke, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" 
+                            MinWidth="120"/>
+                        <DataGridTextColumn
+                            Binding="{Binding LocName, Converter={StaticResource NullRefShelfNameConverter}}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                            Header="{Binding Z1997_G1_Ngan, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True"
+                            MinWidth="120"/>
+                        <DataGridTextColumn
+                            MinWidth="100"
+                            Binding="{Binding RecCreatedDate, StringFormat=dd/MM/yyyy}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding N0094_G1_NgNhap, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="120"
+                            Binding="{Binding ExpiryTime, StringFormat='{}{0} năm'}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                            Header="{Binding Z3286_G1_HanLuuTru, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="120"
+                            Binding="{Binding MedicalFileStatus}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"
+                            Header="{Binding G1319_G1_TTrang, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                    </DataGrid.Columns>
+                </AxControls:AxDataGridNy>
+                <AxControls:DataPager
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="5"
+                    Margin="0,5,0,0"
+                    PageSize="{Binding PageSize, Mode=OneTime}"
+                    Source="{Binding AllPatientMedicalFileStorageCheckOut, Mode=TwoWay}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

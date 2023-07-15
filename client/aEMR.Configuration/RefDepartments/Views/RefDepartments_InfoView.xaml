@@ -1,0 +1,152 @@
+﻿<UserControl
+    x:Class="aEMR.Configuration.RefDepartments.Views.RefDepartments_InfoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="225"
+    d:DesignWidth="500"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="GridMain">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                Grid.Row="0"
+                Margin="5,5,0,5"
+                FontSize="14"
+                FontWeight="Bold"
+                Foreground="#FF0084FF"
+                Text="Title" />
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    Content="{Binding T0829_G1_Ten, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    Content="{Binding Z3321_G1_TenTiengAnh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="{Binding M0008_G1_MoTa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+
+
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="{Binding G0889_G1_ThuocLoai, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" />
+                <controlslib:AxComboBox
+                    x:Name="cboV_DeptTypeOperation"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    DisplayMemberPath="ObjectValue"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    ItemsSource="{Binding ObjV_DeptTypeOperation, Mode=OneWay}"
+                    SelectedValueEx="{Binding ObjRefDepartments_Current.V_DeptTypeOperation, Mode=TwoWay}"
+                    SelectedValuePath="LookupID" />
+
+
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="{Binding K1595_G1_CapCha, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+
+                <TextBox
+                    x:Name="tbDeptName"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,2,0,2"
+                    MaxLength="125"
+                    Text="{Binding ObjRefDepartments_Current.DeptName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+
+                <TextBox
+                    x:Name="tbDeptNameEng"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,2,0,2"
+                    MaxLength="125"
+                    Text="{Binding ObjRefDepartments_Current.DeptNameEng, Mode=TwoWay}" />
+
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Height="75"
+                    AcceptsReturn="True"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    HorizontalScrollBarVisibility="Auto"
+                    MaxLength="255"
+                    Text="{Binding ObjRefDepartments_Current.DeptDescription, Mode=TwoWay}"
+                    VerticalScrollBarVisibility="Visible" />
+
+
+                <controlslib:AxComboBox
+                    Name="cboParent"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="0,2,0,2"
+                    DisplayMemberPath="DeptName"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    ItemsSource="{Binding ObjRefDepartment_SubtractAllChild_ByDeptID, Mode=TwoWay}"
+                    SelectedValueEx="{Binding ObjRefDepartments_Current.ParDeptID, Mode=TwoWay}"
+                    SelectedValuePath="DeptID" />
+
+                <StackPanel
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btSave"
+                        Width="90"
+                        Margin="0,5,10,5"
+                        Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" />
+                    <Button
+                        x:Name="btClose"
+                        Width="90"
+                        Margin="0,5,0,5"
+                        Content="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Grid>
+</UserControl>

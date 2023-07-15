@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="aEMR.Common.Views.CommonSelectDrugView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+
+        <DataTemplate x:Key="AutoCompleteTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock  Text="{Binding Code}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+                <TextBlock  Text=" - " Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+                <TextBlock  Text="{Binding BrandName}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+                <TextBlock  Text=" - " Style="{StaticResource MainFrame.TextBlock.Auto}" Visibility="{Binding IsVisibleForRemaining, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBlock  Text="{Binding Remaining}" Style="{StaticResource MainFrame.TextBlock.Auto}" Margin="0" Padding="0" Visibility="{Binding IsVisibleForRemaining, Converter={StaticResource BooleanToVisibility}}" />
+                <TextBlock  Text="{Binding SelectedUnit.UnitName}" Style="{StaticResource MainFrame.TextBlock.Auto}" Margin="10,0,0,0" Padding="0" Visibility="{Binding IsVisibleForRemaining, Converter={StaticResource BooleanToVisibility}}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <AxControls:AxGrid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*" MinWidth="80" ></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ComboBox Margin="5 0 0 5" Grid.ColumnSpan="2" ItemsSource="{Binding gMedProductTypeCollection}" SelectedValue="{Binding V_MedProductType, Mode=TwoWay}" SelectedValuePath="LookupID" DisplayMemberPath="ObjectValue" Style="{StaticResource MainFrame.ComboBox}"/>
+            <CheckBox Grid.Row="1" Grid.ColumnSpan="2" Margin="15, 2, 5, 2" Content="{Binding N0211_G1_NhapLieuDung, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" IsThreeState="False"
+                                IsChecked="{Binding IsInputDosage,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" 
+                                      Visibility="{Binding DoseVisibility, Converter={StaticResource BooleanToVisibility} }"/>
+
+            <!--KMx: Bỏ IsEnabled vì không sử dụng Radio Button Code - Tên nữa (04/02/2016 11:52).-->
+            <TextBlock Margin="15, 2, 5, 2" Grid.Row="2" Grid.Column="0" Text="{Binding K2569_G1_Code, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.TextBlock.02}"></TextBlock>
+            <AxControls:AxTextBox Grid.Row="2" Grid.Column="1"  Margin="3" Style="{StaticResource MainFrame.TextBox}" Text="{Binding  CurrentReqOutwardDrugClinicDeptPatient.RefGenericDrugDetail.Code,Mode=TwoWay}" cal:Message.Attach="[Event LostFocus] = [Action AxTextBox_LostFocus($source, $eventArgs)];[Event Loaded] = [Action AxTextBox_Loaded($source, $eventArgs)]" 
+                                                    TabIndex="0"/>
+
+            <TextBlock Margin="15, 2, 5, 2" Grid.Row="2" Grid.Column="2" Text="{Binding T0829_G1_Ten, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.TextBlock.02}"></TextBlock>
+            <!--TextBoxStyle="{StaticResource MainFrame.TextBox}"-->
+            <!--<AxControls:AxAutoComplete  Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="5"  Name="AutoDrug_Text" Margin="3" TabIndex="1"
+                                        ValueMemberBinding="{Binding BrandName, Mode=TwoWay}" 
+                                        cal:Message.Attach="[Event Populating] = [Action AutoCompleteBox_Populating($source, $eventArgs)]
+                                        ;[Event DropDownClosed] = [Action AutoDrug_Text_DropDownClosed($source, $eventArgs)]
+                                        ; [Event Loaded] = [Action AutoDrug_Text_Loaded($source, $RoutedEventArgs)]
+                                        ;[Event LostFocus] = [Action AutoDrug_LostFocus($source, $eventArgs)]"
+                                        FontWeight="Bold" MinimumPopulateDelay="300"
+                                        Text="{Binding CurrentReqOutwardDrugClinicDeptPatient.RefGenericDrugDetail.BrandName}"
+                                        SelectedItem="{Binding CurrentReqOutwardDrugClinicDeptPatient.RefGenericDrugDetail,Mode=TwoWay}"
+                                        Style="{StaticResource  AxAutoCompleteMyStyle}"  ItemTemplate="{StaticResource AutoCompleteTemplate}" 
+                                        ItemsSource="{Binding RefGenMedProductDetails}" FilterMode="None"
+                                        ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}">
+            </AxControls:AxAutoComplete>-->
+            <AxControls:AxAutoComplete Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="5" Margin="3"
+                                                       IsTextCompletionEnabled="False"
+                                                       MinimumPrefixLength="1" MinimumPopulateDelay="300"
+                                                       Style="{StaticResource AxAutoCompleteMyStyle}"
+                                                       ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                                       ItemTemplate="{StaticResource AutoCompleteTemplate}"
+                                                       ItemsSource="{Binding RefGenMedProductDetails}" FilterMode="None"
+                                                       ValueMemberBinding="{Binding BrandName}"
+                                                       SelectedItem="{Binding CurrentReqOutwardDrugClinicDeptPatient.RefGenericDrugDetail, Mode=TwoWay}"
+                                                       Text="{Binding CurrentReqOutwardDrugClinicDeptPatient.RefGenericDrugDetail.BrandName}"
+                                                       cal:Message.Attach="[Event Populating] = [Action AutoCompleteBox_Populating($source, $eventArgs)]
+                                                       ;[Event DropDownClosed] = [Action AutoDrug_Text_DropDownClosed($source, $eventArgs)]
+                                                       ;[Event Loaded] = [Action AutoDrug_Text_Loaded($source, $RoutedEventArgs)]
+                                                       ;[Event LostFocus] = [Action AutoDrug_LostFocus($source, $eventArgs)]">
+            </AxControls:AxAutoComplete>
+
+            <TextBlock Margin="15, 2, 5, 2" Grid.Row="2" Grid.Column="8" Text="{Binding K3966_G1_Dvt, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.TextBlock.02}"></TextBlock>
+            <TextBox Grid.Row="2" Grid.Column="9" Margin="3" Style="{StaticResource MainFrame.TextBox}" Text="{Binding SelectedSellVisitor.SelectedUnit.UnitName,Mode=OneWay}" IsEnabled="False"></TextBox>
+
+            <TextBlock Margin="15, 2, 5, 2" Grid.Row="3" Text="{Binding S0540_G1_Sang, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.TextBlock.02}" Visibility="{Binding DoseVisibility, Converter={StaticResource BooleanToVisibility} }"></TextBlock>
+            <AxControls:AxTextBox Grid.Row="3" Grid.Column="1" Text="{Binding CurrentReqOutwardDrugClinicDeptPatient.MDoseStr,Mode=TwoWay}" Margin="3" TabIndex="2" Style="{StaticResource MainFrame.TextBox}" TextAlignment="Right"  cal:Message.Attach="[Event LostFocus] = [Action tbxMDoseStr_LostFocus($source, $eventArgs)]" Visibility="{Binding DoseVisibility, Converter={StaticResource BooleanToVisibility} }"></AxControls:AxTextBox>
+
+            <TextBlock Margin="15, 2, 5, 2" Grid.Row="3" Grid.Column="2" Text="{Binding G1808_G1_Trua, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.TextBlock.02}" Visibility="{Binding DoseVisibility, Converter={StaticResource BooleanToVisibility} }"></TextBlock>
+            <AxControls:AxTextBox Grid.Row="3" Grid.Column="3" Text="{Binding CurrentReqOutwardDrugClinicDeptPatient.ADoseStr,Mode=TwoWay}" Margin="3" TabIndex="3" Style="{StaticResource MainFrame.TextBox}" TextAlignment="Right" cal:Message.Attach="[Event LostFocus] = [Action tbxADoseStr_LostFocus($source, $eventArgs)]" Visibility="{Binding DoseVisibility, Converter={StaticResource BooleanToVisibility} }"></AxControls:AxTextBox>
+
+            <TextBlock Margin="15, 2, 5, 2" Grid.Row="3" Grid.Column="4" Text="{Binding K1860_G1_Chieu, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.TextBlock.02}" Visibility="{Binding DoseVisibility, Converter={StaticResource BooleanToVisibility} }"></TextBlock>
+            <AxControls:AxTextBox Grid.Row="3" Grid.Column="5" Text="{Binding CurrentReqOutwardDrugClinicDeptPatient.EDoseStr,Mode=TwoWay}" Margin="3" TabIndex="4" Style="{StaticResource MainFrame.TextBox}" TextAlignment="Right" cal:Message.Attach="[Event LostFocus] = [Action tbxEDoseStr_LostFocus($source, $eventArgs)]" Visibility="{Binding DoseVisibility, Converter={StaticResource BooleanToVisibility} }"></AxControls:AxTextBox>
+
+            <TextBlock Margin="15, 2, 5, 2" Grid.Row="3" Grid.Column="6" Text="{Binding G1446_G1_Toi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.TextBlock.02}" Visibility="{Binding DoseVisibility, Converter={StaticResource BooleanToVisibility} }"></TextBlock>
+            <AxControls:AxTextBox Grid.Row="3" Grid.Column="7" Text="{Binding CurrentReqOutwardDrugClinicDeptPatient.NDoseStr,Mode=TwoWay}" Margin="3" TabIndex="5" Style="{StaticResource MainFrame.TextBox}" TextAlignment="Right" cal:Message.Attach="[Event LostFocus] = [Action tbxNDoseStr_LostFocus($source, $eventArgs)]" Visibility="{Binding DoseVisibility, Converter={StaticResource BooleanToVisibility} }"></AxControls:AxTextBox>
+
+
+            <TextBlock Margin="15, 2, 5, 2" Grid.Row="3" Grid.Column="8" Text="{Binding S0614_G1_SLgCD, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.TextBlock.02}"></TextBlock>
+            <AxControls:AxTextBox Grid.Row="3" Grid.Column="9" Text="{Binding CurrentReqOutwardDrugClinicDeptPatient.ReqQty,Mode=TwoWay}" Margin="3" TabIndex="6" Style="{StaticResource MainFrame.TextBox}"  Foreground="Red" TextAlignment="Right"  cal:Message.Attach="[Event Loaded] = [Action tbxQty_Loaded($source, $eventArgs)]" ></AxControls:AxTextBox>
+
+            <CheckBox  Grid.Row="3" Grid.Column="10" Content="{Binding G0368_G1_TheoDVD, Source={StaticResource eHCMSResources}}"  Margin="15, 2, 5, 2" VerticalAlignment="Center" IsThreeState="False"
+                                IsChecked="{Binding CalByUnitUse,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox}" />
+
+            <Button Grid.Row="3" Grid.Column="11" Grid.ColumnSpan="2" Name="btnAddItem" Margin="2,1" Height="24" Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Style="{StaticResource MainFrame.Button}"  TabIndex="7" ></Button>
+        </AxControls:AxGrid>
+
+    </Grid>
+</UserControl>

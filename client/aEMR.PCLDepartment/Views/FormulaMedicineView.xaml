@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="aEMR.PCLDepartment.Views.FormulaMedicineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             Width="900" Height="600">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Danh sách công thức y khoa" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="19" Typography.Capitals="AllSmallCaps" />
+            <Button Grid.Row="1" 
+                    x:Name="btnThyroidVolumeCal"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Content="{Binding Z2596_G1_TheTichTuyenGiap, Source={StaticResource eHCMSResources}}" 
+                    FontSize="18"
+                    Style="{StaticResource MainFrame.HyperlinkButton.01}"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <StackPanel Height="600" Visibility="{Binding vThyroidVolumeCal}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"></ColumnDefinition>
+                        <ColumnDefinition Width="260"></ColumnDefinition>
+                        <ColumnDefinition Width="40"></ColumnDefinition>
+                        <ColumnDefinition Width="260*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.ColumnSpan="4" Grid.Column="0" Text="{Binding Title}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"/>
+                    <TextBlock Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Text="{Binding G1686_G1_Trai, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Typography.Capitals="AllSmallCaps"/>
+                    <TextBlock Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="1" Text="{Binding P0335_G1_Phai, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Typography.Capitals="AllSmallCaps"/>
+                    <TextBlock  Grid.Column="0" Grid.Row="2" Text="A:" FontSize="25"/>
+                    <TextBlock  Grid.Column="0" Grid.Row="3" Text="B:" FontSize="25"/>
+                    <TextBlock  Grid.Column="0" Grid.Row="4" Text="C:" FontSize="25"/>
+                    <TextBlock  Grid.Column="0" Grid.Row="5" Text="V1:" FontSize="25"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding NumberA}" Margin="2,2,2,2"/>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding NumberB}" Margin="2,2,2,2"/>
+                    <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding NumberC}" Margin="2,2,2,2"/>
+                    <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding NumberV1}" Margin="2,2,2,2"  IsReadOnly="True" IsTabStop="False" />
+                    
+                    <TextBlock  Grid.Column="2" Grid.Row="2" Text="A:" FontSize="25" Margin="2,0,0,0" />
+                    <TextBlock  Grid.Column="2" Grid.Row="3" Text="B:" FontSize="25"  Margin="2,0,0,0" />
+                    <TextBlock  Grid.Column="2" Grid.Row="4" Text="C:" FontSize="25"  Margin="2,0,0,0" />
+                    <TextBlock  Grid.Column="2" Grid.Row="5" Text="V2:" FontSize="25"  Margin="2,0,0,0" />
+
+                    <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding NumberD}" Margin="2,2,2,2"/>
+                    <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding NumberE}" Margin="2,2,2,2"/>
+                    <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding NumberF}" Margin="2,2,2,2"/>
+                    <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding NumberV2}" Margin="2,2,2,2" IsReadOnly="True" IsTabStop="False"/>
+                    <Button x:Name="btnCalThyroid" Grid.Row="6" Grid.Column="3" Content="{Binding G0739_G1_THien, Source={StaticResource eHCMSResources}}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

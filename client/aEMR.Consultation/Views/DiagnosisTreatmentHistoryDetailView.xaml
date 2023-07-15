@@ -1,0 +1,343 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.DiagnosisTreatmentHistoryDetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:CheckIfNotNullConverter x:Key="CheckIfNotNullConverter" />
+        <Converters:IfNotNullVisibilityConverter x:Key="IfNotNullVisibilityConverter" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid
+        x:Name="LayoutRoot"
+        MinWidth="800"
+        MinHeight="600"
+        MaxWidth="1200">
+        <TabControl
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            cal:Message.Attach="[Event Loaded]=[Action TCMain_Loaded($source, $eventArgs)]"
+            Style="{StaticResource MainFrame.TabControl}">
+            <TabItem
+                x:Name="TIPrescription"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                Style="{StaticResource MainFrame.TabItem}"
+                Visibility="{Binding CurrentPrescription, Converter={StaticResource IfNotNullVisibilityConverter}}">
+                <TabItem.Header>
+                    <TextBlock
+                        Padding="4"
+                        Foreground="#B2442D"
+                        Text="{Binding G1434_G1_ToaThuoc, Source={StaticResource eHCMSResources}}" />
+                </TabItem.Header>
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    DataContext="{Binding CurrentPrescription}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource MainFrame.TextBlock.Normal.14}" Text="{Binding K0961_G1_BSi, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                        <TextBlock
+                            FontWeight="Normal"
+                            Foreground="Black"
+                            Style="{StaticResource TBlock.Heading.01}"
+                            Text="{Binding ObjIssuerStaffID.FullName}" />
+                    </StackPanel>
+                    <TextBlock
+                        Grid.Row="1"
+                        Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                        Text="{Binding K1746_G1_CDoan, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                    <TextBlock
+                        Grid.Row="2"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Style="{StaticResource TBlock.Heading.01}"
+                        Text="{Binding ObjDiagnosisTreatment.DiagnosisFinal}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                        Text="{Binding K1497_G1_CachDTri2, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                    <TextBlock
+                        Grid.Row="4"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Style="{StaticResource TBlock.Heading.01}"
+                        Text="{Binding ObjDiagnosisTreatment.Treatment}"
+                        TextWrapping="Wrap" />
+                    <StackPanel Grid.Row="5" Orientation="Horizontal">
+                        <TextBlock Style="{StaticResource MainFrame.TextBlock.Normal.14}" Text="{Binding G0696_G1_TTinToaThuoc, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                            Text="{Binding G1432_G1_ToaKhongThuoc, Source={StaticResource eHCMSResources}}"
+                            Visibility="{Binding IsEmptyPrescription, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    </StackPanel>
+                    <DataGrid
+                        Grid.Row="6"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        cal:Message.Attach="[Event LoadingRow] = [Action grdPrescription_LoadingRow($source, $eventArgs)]"
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="All"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding PrescriptionDetails}"
+                        Style="{StaticResource MainFrame.DataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding BrandName}" Header="{Binding G0787_G1_Thuoc, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding Content}" Header="{Binding T1316_G1_HLg, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding UnitName}" Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding UnitUse}" Header="{Binding K3960_G1_Dvd, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding MDoseStr, StringFormat='{}{0}'}" Header="{Binding S0540_G1_Sang, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding ADoseStr}" Header="{Binding G1808_G1_Trua, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding EDoseStr}" Header="{Binding K1860_G1_Chieu, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding NDoseStr}" Header="{Binding G1446_G1_Toi, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding DayRpts}" Header="{Binding N0045_G1_Ng, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding Qty}" Header="{Binding S0656_G1_SLgg, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding Administration}" Header="{Binding K1503_G1_CachDung, Source={StaticResource eHCMSResources}}" />
+                            <DataGridTextColumn Binding="{Binding DrugInstructionNotes}" Header="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBlock
+                        Grid.Row="7"
+                        Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                        Text="{Binding R0338_G1_Loidan, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                    <TextBlock
+                        Grid.Row="8"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Style="{StaticResource TBlock.Heading.01}"
+                        Text="{Binding DoctorAdvice}"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </TabItem>
+            <TabItem
+                x:Name="TIDiagnosis"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                IsSelected="{Binding CurrentDiagnosisTreatment, Converter={StaticResource CheckIfNotNullConverter}}"
+                Style="{StaticResource MainFrame.TabItem}"
+                Visibility="{Binding CurrentDiagnosisTreatment, Converter={StaticResource IfNotNullVisibilityConverter}}">
+                <TabItem.Header>
+                    <TextBlock
+                        Padding="4"
+                        Foreground="#B2442D"
+                        Text="{Binding K1746_G1_CDoan, Source={StaticResource eHCMSResources}}" />
+                </TabItem.Header>
+                <Grid
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    DataContext="{Binding CurrentDiagnosisTreatment}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                        Text="{Binding N0082_G1_NgKham, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="30,2,3,0"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Style="{StaticResource TBlock.Heading.01}"
+                        Text="{Binding DiagnosisDate, StringFormat='HH:mm dd/MM/yyyy'}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                        Text="{Binding G1785_G1_TrieuChungDHieuLS, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="30,2,3,0"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Style="{StaticResource TBlock.Heading.01}"
+                        Text="{Binding Diagnosis}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                        Text="{Binding K1746_G1_CDoan, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="30,2,3,0"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Style="{StaticResource TBlock.Heading.01}"
+                        Text="{Binding DiagnosisFinal}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                        Text="{Binding Z3309_G1_DienBienBenh, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                    <TextBlock
+                        Grid.Row="7"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="30,2,3,0"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Style="{StaticResource TBlock.Heading.01}"
+                        Text="{Binding OrientedTreatment}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Row="8"
+                        Grid.Column="0"
+                        Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                        Text="{Binding K1497_G1_CachDTri2, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                    <TextBlock
+                        Grid.Row="9"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="30,2,3,0"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Style="{StaticResource TBlock.Heading.01}"
+                        Text="{Binding Treatment}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Row="10"
+                        Grid.Column="0"
+                        Style="{StaticResource MainFrame.TextBlock.Normal.14}"
+                        Text="{Binding K2235_G1_ChuThich2, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="30,2,3,0"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Style="{StaticResource TBlock.Heading.01}"
+                        Text="{Binding DoctorComments}"
+                        TextWrapping="Wrap" />
+                    <GroupBox
+                        Grid.Row="12"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Stretch"
+                        Header="{Binding T3402_G1_MaICD10, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.GroupBox}">
+                        <DataGrid
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            AutoGenerateColumns="False"
+                            HeadersVisibility="Column"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.CurrentIcd10Collection}"
+                            SelectionMode="Extended"
+                            Style="{StaticResource MainFrame.DataGridStyle}">
+                            <DataGrid.RowStyle>
+                                <Style BasedOn="{StaticResource MainFrame.DataGridRowStyle.Normal}" TargetType="DataGridRow">
+                                    <Setter Property="Background" Value="White" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMain}" Value="True">
+                                            <Setter Property="Background" Value="#FA9BE8" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding DiseasesReference.ICD10Code}" Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" />
+                                <DataGridTextColumn Binding="{Binding DiseasesReference.DiseaseNameVN}" Header="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" />
+                                <DataGridCheckBoxColumn Binding="{Binding IsMain}" Header="{Binding K1737_G1_Ch, Source={StaticResource eHCMSResources}}" />
+                                <DataGridCheckBoxColumn Binding="{Binding IsCongenital}" Header="{Binding Z2318_G1_ManTinhGhiTat, Source={StaticResource eHCMSResources}}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <GroupBox
+                        Grid.Row="13"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Stretch"
+                        Header="{Binding Z1911_G1_MaICD9, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.GroupBox}"
+                        Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsHasIcd9, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <DataGrid
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            AutoGenerateColumns="False"
+                            HeadersVisibility="Column"
+                            IsReadOnly="True"
+                            ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.CurrentIcd9Collection}"
+                            SelectionMode="Extended"
+                            Style="{StaticResource MainFrame.DataGridStyle}">
+                            <DataGrid.RowStyle>
+                                <Style BasedOn="{StaticResource MainFrame.DataGridRowStyle.Normal}" TargetType="DataGridRow">
+                                    <Setter Property="Background" Value="White" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMain}" Value="True">
+                                            <Setter Property="Background" Value="#FA9BE8" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding RefICD9.ICD9Code}" Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" />
+                                <DataGridTextColumn Binding="{Binding RefICD9.ProcedureName}" Header="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" />
+                                <DataGridCheckBoxColumn Binding="{Binding IsMain}" Header="{Binding K1737_G1_Ch, Source={StaticResource eHCMSResources}}" />
+                                <DataGridCheckBoxColumn Binding="{Binding IsCongenital}" Header="{Binding Z2318_G1_ManTinhGhiTat, Source={StaticResource eHCMSResources}}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="aEMR.Common.Views.frmPatientAdmissionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" 
+    d:DesignHeight="350" d:DesignWidth="500" Height="350" Width="500"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    mc:Ignorable="d"> 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="LayoutRoot" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="138*" />
+                <ColumnDefinition Width="13*" />
+                <ColumnDefinition Width="296*" />
+                <ColumnDefinition Width="40*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="80" />
+                
+                
+                
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" FontSize="18" Grid.ColumnSpan="4"  Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{Binding K1196_G1_BNNpVien, Source={StaticResource eHCMSResources}}"  Style="{StaticResource MainFrame.Label.00}" />
+
+            <Label Grid.Column="0" Grid.Row="1" Content="{Binding T1567_G1_HoTen, Source={StaticResource eHCMSResources}}" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.Label.00}"  />
+            <Label Grid.Column="0" Grid.Row="2" Content="{Binding T3312_G1_MaDK, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.Label.00}" />
+            <Label Grid.Column="0" Grid.Row="3" Content="{Binding N0096_G1_NgNhapVien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.Label.00}" />
+            <Label Grid.Column="0" Grid.Row="4" Content="{Binding T3163_G1_LyDoNhVien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.Label.00}" />
+            <Label Grid.Column="0" Grid.Row="5" Content="{Binding G1183_G1_Ghichu, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Height="auto" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Right" Style="{StaticResource MainFrame.Label.00}" />
+            
+            <DatePicker Grid.Row="3" Grid.Column="2" Width="150" Height="22" Style="{StaticResource MainFrame.DatePicker}" SelectedDate="{Binding curInPatientAdmDisDetails.AdmissionDate,Mode=TwoWay}"/>
+
+            <customcontrols:AxTextBox Name="Email" Text="{Binding curStaff.SEmailAddress,Mode=TwoWay}" Grid.Column="2" Grid.Row="1" TabIndex="1"
+                    VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" />
+            <customcontrols:AxTextBox Text="{Binding curPatientRegistration.PtRegistrationID,Mode=TwoWay}" Grid.Column="2" Grid.Row="2" TabIndex="2"
+                    VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" />
+            
+            <ComboBox x:Name="cboLookupSmokeStatus" MinWidth="80" Grid.Column="2" Grid.Row="4" Height="22"
+                                    TabIndex="6"
+                                        ItemsSource="{Binding allAdmissionType,Mode=OneWay}" 
+                                        SelectedItem="{Binding curAdmissionType,Mode=TwoWay}" 
+                                        DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID"
+                                              Style="{StaticResource MainFrame.ComboBox}"
+                                  />
+            <customcontrols:AxTextBox Text="{Binding curInPatientAdmDisDetails.AdmissionNote,Mode=TwoWay}" Grid.Column="2" Grid.Row="5" AcceptsReturn="True" TabIndex="7"
+                    VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Height="60"  />
+            
+            <StackPanel Name="spBut" Orientation="Horizontal" Grid.Row="6" Grid.Column="2" MinHeight="20" MinWidth="50" HorizontalAlignment="Right" Height="51" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="200">
+                <Button x:Name="butSave" Content="{Binding S0544_G1_Save, Source={StaticResource eHCMSResources}}" Height="20" Style="{StaticResource MainFrame.Button}"  Width="80" TabIndex="8" />
+                <Button x:Name="butExit" Content="{Binding T0643_G1_Exit, Source={StaticResource eHCMSResources}}" Height="20" Style="{StaticResource MainFrame.Button}"  Width="80" TabIndex="9" />
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</UserControl>

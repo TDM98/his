@@ -1,0 +1,1106 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.CheckDoctorDiagAndPrescriptionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converters:FontBoldConverter x:Key="FontBoldConverter" />
+        <converters:PatientClassConverter x:Key="PatientClassConverter" />
+
+        <DataTemplate x:Key="grdPrescriptionTPL_chk_HI">
+            <CheckBox
+                Name="chk_HI"
+                Margin="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding BeOfHIMedicineList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding ElementName=LayoutRoot, Path=DataContext.isHisID, Mode=OneWay}"
+                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="grdPrescriptionTPL_chk_NotInCat">
+            <CheckBox
+                x:Name="chk_NotInCat"
+                Margin="0"
+                Padding="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsChecked="{Binding IsDrugNotInCat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="grdPrescriptionTPL_SelectedDrugForPrescriptionBrandName">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Name="txtDrugName"
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text="{Binding BrandName}" />
+                <TextBlock
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text="{Binding Z0028_G1_DauNgoacTrai, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" />
+                <TextBlock
+                    Name="txtGenericName"
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text="{Binding RefGenericDrugDetail.GenericName}" />
+                <TextBlock
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text=" " />
+                <TextBlock
+                    Name="txtStrength"
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text="{Binding Strength}" />
+                <TextBlock
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text="{Binding Z0027_G1_DauNgoacPhai, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" />
+
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="grdPrescriptionTPL_DrugInstructionNotes_Cell">
+            <TextBlock
+                MaxHeight="30"
+                VerticalAlignment="Center"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Text="{Binding DrugInstructionNotes, Mode=OneWay}"
+                TextAlignment="Left" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="grdPrescriptionTPL_DrugInstructionNotes_CellEditing">
+            <customcontrols:AxAutoComplete
+                Name="DrugInstructionNotes"
+                Height="Auto"
+                MinWidth="200"
+                MaxHeight="30"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                cal:Message.Attach="[Event Loaded] = [Action DrugInstructionNotes_Loaded($source, $eventArgs)];                 [Event Populating] = [Action DrugInstructionNotes_Populating($source, $eventArgs)];                 [Event LostFocus] = [Action DrugInstructionNotes_LostFocus($source, $eventArgs)];                 [Event DropDownClosed] = [Action DrugInstructionNotes_DropDownClosed($source, $eventArgs)]"
+                FilterMode="None"
+                IsDropDownOpen="True"
+                IsTabStop="False"
+                IsTextCompletionEnabled="False"
+                ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                ItemsSource="{Binding GhiChuAfterFiltering, Mode=OneWay}"
+                MinimumPopulateDelay="300"
+                MinimumPrefixLength="1"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Style="{StaticResource AxAutoCompleteMyStyle}"
+                Text="{Binding DrugInstructionNotes, Mode=TwoWay}"
+                ValueMemberBinding="{Binding NoteDetails}">
+                <customcontrols:AxAutoComplete.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Name="txtDrugName"
+                                Margin="0"
+                                Padding="0"
+                                Style="{StaticResource MainFrame.TextBlock.Auto}"
+                                Text="{Binding NoteDetails}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </customcontrols:AxAutoComplete.ItemTemplate>
+            </customcontrols:AxAutoComplete>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border
+        x:Name="BorderCanvas"
+        Margin="1,1,1,1"
+        Style="{StaticResource LightBlueBorderStyle}">
+        <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+            <ScrollViewer CanContentScroll="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl
+                            x:Name="SearchRegistrationContent"
+                            Grid.Row="1"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" />
+                        <TextBlock
+                            x:Name="TitleForm"
+                            Margin="20,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                            Text="KIỂM TRA LỊCH SỬ KCB CỦA BÁC SĨ" />
+                    </StackPanel>
+                    <Grid
+                        Grid.Row="4"
+                        MinWidth="800"
+                        MinHeight="500">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <customcontrols:AxGrid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70" />
+                                    <ColumnDefinition Width="215" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#6F8AB2"
+                                    Text="{Binding G1933_G1_TuNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                                <DatePicker
+                                    Name="Dpk_FromDate"
+                                    Grid.Column="1"
+                                    Width="205"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    SelectedDate="{Binding SearchCriteria.FromDate, Mode=TwoWay}"
+                                    SelectedDateFormat="Short"
+                                    Style="{StaticResource MainFrame.DatePicker}" />
+
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#6F8AB2"
+                                    Text="{Binding K3192_G1_DenNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                                <DatePicker
+                                    Name="Dpk_ToDate"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Width="205"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    SelectedDate="{Binding SearchCriteria.ToDate, Mode=TwoWay}"
+                                    Style="{StaticResource MainFrame.DatePicker}" />
+
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#6F8AB2"
+                                    Style="{StaticResource TextBlock.Heading.02}"
+                                    Text="{Binding K0961_G1_BSi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                <customcontrols:AxAutoComplete
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Width="205"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    cal:Message.Attach="[Event Loaded] = [Action DoctorStaff_Loaded($source, $eventArgs)];                                 [Event Populating] = [Action DoctorStaff_Populating($source, $eventArgs)];                                 [Event DropDownClosed] = [Action DoctorStaff_DropDownClosed($source, $eventArgs)]"
+                                    FilterMode="None"
+                                    IsDropDownOpen="True"
+                                    IsEnabled="{Binding IsDiag}"
+                                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                    MinimumPopulateDelay="300"
+                                    MinimumPrefixLength="0"
+                                    SelectedItem="{Binding gSelectedDoctorStaff, Mode=TwoWay}"
+                                    Style="{StaticResource AxAutoCompleteMyStyle}"
+                                    Text="{Binding gSelectedDoctorStaff.FullName}"
+                                    ValueMemberBinding="{Binding FullName, Mode=TwoWay}"
+                                    ValueMemberPath="FullName" />
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#6F8AB2"
+                                    Text="{Binding T0914_G1_TenMaBN, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                                <customcontrols:AxSearchPatientTextBox
+                                    x:Name="txtName"
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    Width="205"
+                                    Height="22"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    FullName="{Binding SearchCriteria.FullName, Mode=TwoWay}"
+                                    HICardNumber="{Binding SearchCriteria.InsuranceCard, Mode=TwoWay}"
+                                    PatientCode="{Binding SearchCriteria.PatientCode, Mode=TwoWay}"
+                                    PtRegistrationCode="{Binding SearchCriteria.PtRegistrationCode, Mode=TwoWay}"
+                                    TabIndex="1" />
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#6F8AB2"
+                                    Style="{StaticResource TextBlock.Heading.02}"
+                                    Text="Tình trạng" />
+                                <customcontrols:AxComboBox
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    Width="205"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    cal:Message.Attach="[Event Loaded]=[Action KscV_CheckMedicalFilesStatusForDLS_Loaded($source,$eventArgs)]"
+                                    DisplayMemberPath="ObjectValue"
+                                    ItemsSource="{Binding V_CheckMedicalFilesStatusForDLS}"
+                                    SelectedValue="{Binding SearchCriteria.V_CheckMedicalFilesStatusForDLS, Mode=TwoWay}"
+                                    SelectedValuePath="LookupID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                                <TextBlock
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#6F8AB2"
+                                    Style="{StaticResource TextBlock.Heading.02}"
+                                    Text="{Binding P0391_G1_PgKham, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                <customcontrols:AxComboBox
+                                    Grid.Row="5"
+                                    Grid.Column="1"
+                                    Width="205"
+                                    Margin="5,2,0,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    cal:Message.Attach="[Event Loaded]=[Action KscLocations_Loaded($source,$eventArgs)]"
+                                    DisplayMemberPath="Location.LocationName"
+                                    ItemsSource="{Binding Locations}"
+                                    SelectedValue="{Binding SelectedLocation, Mode=TwoWay}"
+                                    SelectedValuePath="Location.LocationID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+                                <ComboBox
+                                    x:Name="Departments"
+                                    Grid.Row="5"
+                                    Grid.Column="1"
+                                    Width="205"
+                                    Margin="0,2,0,2"
+                                    DisplayMemberPath="Location.LocationName"
+                                    ItemsSource="{Binding Locations, Mode=OneWay}"
+                                    SelectedValue="{Binding SearchCriteria.DeptLocID, Mode=TwoWay}"
+                                    SelectedValuePath="DeptLocationID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="0"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#6F8AB2"
+                                    Style="{StaticResource TextBlock.Heading.02}"
+                                    Text="{Binding G1464_G1_Tg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="1"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontWeight="Bold"
+                                    Foreground="#6F8AB2"
+                                    Style="{StaticResource TextBlock.Heading.02}"
+                                    Text="{Binding CountPatientRegistration}" />
+                                
+                                <CheckBox Grid.Row="7" Style="{StaticResource MainFrame.Checkbox.Title1}"
+                                  Content="BN Chưa duyệt toa Bảo hiểm"
+                                  Margin="5,0,0,0" IsChecked="{Binding SearchCriteria.IsConfirmHI, Mode=TwoWay}"
+                                  VerticalContentAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Left"
+                                  Grid.ColumnSpan="2"/>
+
+                                <Button
+                                    x:Name="btnFindRegistration"
+                                    Grid.Row="7"
+                                    Grid.Column="1"
+                                    Margin="5,0,5,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}" />
+                            </customcontrols:AxGrid>
+
+                            <customcontrols:ReadOnlyDataGrid
+                                Grid.Row="0"
+                                Width="auto"
+                                Height="678"
+                                cal:Message.Attach="[Event DblClick]=[Action DoubleClick($source, $eventArgs)];[Event LoadingRow]=[Action grdPatientRegistration_LoadingRow($source,$eventArgs)]"
+                                AutoGenerateColumns="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding curObjPatientRegistration, Mode=OneWay}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                Style="{StaticResource MainFrame.DataGridStyle}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Patient.PatientCode}" Header="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn
+                                        Width="150"
+                                        Binding="{Binding Patient.FullName}"
+                                        Header="{Binding T0834_G1_TenBenhNhan, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn
+                                        Width="150"
+                                        Binding="{Binding MedServiceNames}"
+                                        Header="{Binding T0844_G1_TenDV, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn
+                                        Width="150"
+                                        Binding="{Binding DischargeDate, StringFormat='HH:mm dd/MM/yyy'}"
+                                        Header="Ngày ra viện" />
+                                    <DataGridTemplateColumn Header="{Binding K1209_G1_BH, Source={StaticResource eHCMSResources}}">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding PatientClassID, Mode=OneWay, Converter={StaticResource PatientClassConverter}}" IsEnabled="False" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </customcontrols:ReadOnlyDataGrid>
+                        </StackPanel>
+
+                        <TabControl
+                            Name="tabCommon"
+                            Grid.Column="1"
+                            Margin="0,0,0,0"
+                            Style="{StaticResource MainFrame.TabControl}">
+                            <TabItem Header="{Binding G0558_G1_TTinCTiet, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="740" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <ScrollViewer MaxHeight="800" CanContentScroll="True">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition MinHeight="30" MaxHeight="50" />
+                                                <RowDefinition MinHeight="30" MaxHeight="50" />
+                                                <RowDefinition MinHeight="30" MaxHeight="50" />
+                                                <RowDefinition MinHeight="30" />
+                                                <RowDefinition MinHeight="30" />
+                                                <RowDefinition MinHeight="30" />
+                                                <RowDefinition Height="280" />
+                                                <RowDefinition Height="400" />
+                                                <RowDefinition MinHeight="30" />
+                                                <RowDefinition MinHeight="30" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="150" />
+                                                <ColumnDefinition Width="55" />
+                                                <ColumnDefinition Width="50" />
+                                                <ColumnDefinition Width="55" />
+                                                <ColumnDefinition Width="50" />
+                                                <ColumnDefinition Width="55" />
+                                                <ColumnDefinition Width="70" />
+                                                <ColumnDefinition Width="110" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border
+                                                Grid.ColumnSpan="11"
+                                                BorderBrush="LightGray"
+                                                BorderThickness="1,0,0,1" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding T1584_G1_HoTenBN2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding FullName}" />
+
+                                            <Border
+                                                Grid.Row="1"
+                                                Grid.ColumnSpan="11"
+                                                BorderBrush="LightGray"
+                                                BorderThickness="1,0,0,1" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding T3309_G1_MaBN, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding CurPatientRegistation.Patient.PatientCode}" />
+
+                                            <Border
+                                                Grid.Row="2"
+                                                Grid.ColumnSpan="11"
+                                                BorderBrush="LightGray"
+                                                BorderThickness="1,0,0,1" />
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Grid.Column="0"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="Bsi khám" />
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding CurPatientRegistation.DiagnosisTreatment.ObjDoctorStaffID.FullName}" />
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="2"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding T1223_G1_GTinh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="3"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding GenderString}" />
+
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="2"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding G2057_G1_Tuoi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="3"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding Age}" />
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="4"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding K1558_G1_CanNang, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="5"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding CurPhysicalExamination.Weight}" />
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="6"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding K1268_G1_BMI2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="7"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding CurPhysicalExamination.BMI}" />
+
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="6"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding T1775_G1_HAp, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="7"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding Pressure}" />
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="8"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding N0238_G1_NhipTim, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="9"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding CurPhysicalExamination.Pulse}" />
+
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="8"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding N0237_G1_NhipTho, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="9"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding CurPhysicalExamination.RespiratoryRate}" />
+
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Grid.Column="8"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding N0234_G1_NhietDo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Grid.Column="9"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding CurPhysicalExamination.Temperature, StringFormat='{}{0} °C'}" />
+
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="4"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding K1862_G1_ChieuCao, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="5"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="Red"
+                                                Text="{Binding CurPhysicalExamination.Height}" />
+
+                                            <Border
+                                                Grid.Row="3"
+                                                Grid.ColumnSpan="11"
+                                                BorderBrush="LightGray"
+                                                BorderThickness="1,0,0,1" />
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                Grid.Column="8"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="Mã bệnh chính:" />
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                Grid.Column="9"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Foreground="Red"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding ListICD10}"
+                                                TextWrapping="Wrap" />
+
+                                            <Border
+                                                Grid.Row="4"
+                                                Grid.ColumnSpan="11"
+                                                BorderBrush="LightGray"
+                                                BorderThickness="1,0,0,1" />
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                Grid.Column="8"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="Mã bệnh kèm theo:" />
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                Grid.Column="9"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Foreground="Red"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding ListICD10Sub}"
+                                                TextWrapping="Wrap" />
+
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="Tên bệnh chính:" />
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                Grid.ColumnSpan="7"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Foreground="Red"
+                                                Text="{Binding Diagnosis}"
+                                                TextWrapping="Wrap" />
+
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                Grid.Column="0"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="Tên bệnh kèm theo:" />
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                Grid.Column="1"
+                                                Grid.ColumnSpan="7"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Foreground="Red"
+                                                Text="{Binding DiagnosisSub}"
+                                                TextWrapping="Wrap" />
+
+                                            <Border
+                                                Grid.Row="5"
+                                                Grid.ColumnSpan="11"
+                                                BorderBrush="LightGray"
+                                                BorderThickness="1,0,0,1" />
+                                            <TextBlock
+                                                Grid.Row="5"
+                                                Grid.Column="0"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="Chẩn đoán của bác sĩ" />
+                                            <TextBlock
+                                                Grid.Row="5"
+                                                Grid.Column="1"
+                                                Grid.ColumnSpan="7"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Foreground="Red"
+                                                Text="{Binding CurPatientRegistation.DiagnosisTreatment.DiagnosisOther}"
+                                                TextWrapping="Wrap" />
+
+                                            <TextBlock
+                                                Grid.Row="5"
+                                                Grid.Column="8"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding K1497_G1_CachDTri2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                            <TextBlock
+                                                Grid.Row="5"
+                                                Grid.Column="9"
+                                                Margin="5,0,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="15"
+                                                Foreground="Red"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding CurPatientRegistation.DiagnosisTreatment.TreatmentType}"
+                                                TextWrapping="Wrap" />
+                                            <ScrollViewer
+                                                Grid.Row="6"
+                                                Grid.ColumnSpan="12"
+                                                Height="250"
+                                                MaxWidth="1500"
+                                                Margin="15">
+                                                <customcontrols:EmrPrescriptionGrid
+                                                    Name="grdPrescription"
+                                                    HorizontalAlignment="Stretch"
+                                                    VerticalAlignment="Top"
+                                                    AutoGenerateColumns="False"
+                                                    CanUserAddRows="False"
+                                                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                    HeadersVisibility="All"
+                                                    HorizontalScrollBarVisibility="Auto"
+                                                    IsEnabled="False"
+                                                    ItemsSource="{Binding ObjPrescriptionDetails, Mode=TwoWay}"
+                                                    Opacity="5"
+                                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                    SelectionMode="Extended"
+                                                    Style="{StaticResource MainFrame.DataGridStyle}"
+                                                    VerticalScrollBarVisibility="Disabled">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTemplateColumn
+                                                            CanUserReorder="True"
+                                                            CanUserResize="True"
+                                                            CanUserSort="True"
+                                                            CellTemplate="{StaticResource grdPrescriptionTPL_chk_HI}"
+                                                            Header="{Binding K1209_G1_BH, Source={StaticResource eHCMSResources}}" />
+
+                                                        <DataGridTemplateColumn
+                                                            CanUserReorder="True"
+                                                            CanUserResize="True"
+                                                            CanUserSort="True"
+                                                            CellTemplate="{StaticResource grdPrescriptionTPL_chk_NotInCat}"
+                                                            Header="{Binding N0029_G1_N, Source={StaticResource eHCMSResources}}"
+                                                            IsReadOnly="True" />
+
+                                                        <DataGridTemplateColumn
+                                                            Width="600"
+                                                            MinWidth="130"
+                                                            MaxWidth="600"
+                                                            CanUserReorder="True"
+                                                            CanUserResize="True"
+                                                            CanUserSort="True"
+                                                            CellTemplate="{StaticResource grdPrescriptionTPL_SelectedDrugForPrescriptionBrandName}"
+                                                            Header="{Binding T0904_G1_TenThuoc, Source={StaticResource eHCMSResources}}" />
+
+                                                        <DataGridTemplateColumn Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding UnitName}"
+                                                                        TextAlignment="Left" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+                                                        <DataGridTemplateColumn Header="{Binding S0532_G1_S, Source={StaticResource eHCMSResources}}">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding MDoseStr}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <customcontrols:AxTextBox
+                                                                        HorizontalAlignment="Stretch"
+                                                                        VerticalAlignment="Stretch"
+                                                                        Text="{Binding MDoseStr, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                                        </DataGridTemplateColumn>
+
+                                                        <DataGridTemplateColumn Header="{Binding G1638_G1_Tr, Source={StaticResource eHCMSResources}}">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding ADoseStr}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <customcontrols:AxTextBox
+                                                                        HorizontalAlignment="Stretch"
+                                                                        VerticalAlignment="Stretch"
+                                                                        Text="{Binding ADoseStr, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                                        </DataGridTemplateColumn>
+
+                                                        <DataGridTemplateColumn Header="{Binding K1737_G1_Ch, Source={StaticResource eHCMSResources}}">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding EDoseStr}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <customcontrols:AxTextBox
+                                                                        HorizontalAlignment="Stretch"
+                                                                        VerticalAlignment="Stretch"
+                                                                        Text="{Binding EDoseStr, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                                        </DataGridTemplateColumn>
+
+                                                        <DataGridTemplateColumn Header="{Binding T0748_G1_T, Source={StaticResource eHCMSResources}}">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding NDoseStr}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <customcontrols:AxTextBox
+                                                                        HorizontalAlignment="Stretch"
+                                                                        VerticalAlignment="Stretch"
+                                                                        Text="{Binding NDoseStr, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                                        </DataGridTemplateColumn>
+
+                                                        <DataGridTemplateColumn Header="{Binding N0042_G1_NG, Source={StaticResource eHCMSResources}}">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding RealDay}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <customcontrols:AxTextBox
+                                                                        HorizontalAlignment="Stretch"
+                                                                        VerticalAlignment="Stretch"
+                                                                        Text="{Binding RealDay, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DecimalConverter}}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                                        </DataGridTemplateColumn>
+
+                                                        <DataGridTemplateColumn Header="{Binding S0583_G1_SLg, Source={StaticResource eHCMSResources}}">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock
+                                                                        VerticalAlignment="Center"
+                                                                        Text="{Binding Qty}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                            <DataGridTemplateColumn.CellEditingTemplate>
+                                                                <DataTemplate>
+                                                                    <customcontrols:AxTextBox
+                                                                        HorizontalAlignment="Stretch"
+                                                                        VerticalAlignment="Stretch"
+                                                                        Text="{Binding Qty, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, Converter={StaticResource DecimalConverterRound}, UpdateSourceTrigger=PropertyChanged}"
+                                                                        TextAlignment="Right" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellEditingTemplate>
+                                                        </DataGridTemplateColumn>
+                                                        <DataGridTextColumn
+                                                            Binding="{Binding Administration}"
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                                            Header="{Binding K1503_G1_CachDung, Source={StaticResource eHCMSResources}}"
+                                                            IsReadOnly="True" />
+                                                        <DataGridTemplateColumn
+                                                            Width="300"
+                                                            MaxWidth="500"
+                                                            CellEditingTemplate="{StaticResource grdPrescriptionTPL_DrugInstructionNotes_CellEditing}"
+                                                            CellTemplate="{StaticResource grdPrescriptionTPL_DrugInstructionNotes_Cell}"
+                                                            Header="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}" />
+                                                    </DataGrid.Columns>
+                                                </customcontrols:EmrPrescriptionGrid>
+                                            </ScrollViewer>
+
+
+
+
+                                            <customcontrols:ReadOnlyDataGrid
+                                                Grid.Row="7"
+                                                Grid.ColumnSpan="12"
+                                                Width="Auto"
+                                                Height="400"
+                                                Margin="15,0,15,0"
+                                                cal:Message.Attach="[Event DblClick] = [Action grdPCLRequest_DblClick($source, $eventArgs)]"
+                                                AutoGenerateColumns="False"
+                                                CanUserAddRows="False"
+                                                CanUserReorderColumns="False"
+                                                CanUserSortColumns="False"
+                                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                HorizontalScrollBarVisibility="Visible"
+                                                IsEnabled="True"
+                                                ItemsSource="{Binding ObjPatientPCLRequestDetails, Mode=OneWay}"
+                                                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                                Style="{StaticResource MainFrame.DataGridStyle}">
+                                                <DataGrid.Columns>
+
+                                                    <DataGridTemplateColumn Header="{Binding K1209_G1_BH, Source={StaticResource eHCMSResources}}">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox IsChecked="{Binding IsDoctorChooseHI, Mode=OneWay}" IsEnabled="False" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+
+                                                    <DataGridTextColumn
+                                                        Width="300"
+                                                        MaxWidth="600"
+                                                        Binding="{Binding PCLExamType.PCLExamTypeName}"
+                                                        Header="{Binding T0842_G1_TenCLS, Source={StaticResource eHCMSResources}}"
+                                                        IsReadOnly="True" />
+                                                    <DataGridTextColumn
+                                                        Width="150"
+                                                        Binding="{Binding HIAllowedPrice}"
+                                                        Header="{Binding K3647_G1_DGiaBH, Source={StaticResource eHCMSResources}}"
+                                                        IsReadOnly="True"
+                                                        Visibility="Collapsed" />
+                                                    <DataGridTextColumn
+                                                        Width="150"
+                                                        Binding="{Binding TotalInvoicePrice}"
+                                                        Header="{Binding T1009_G1_GiaDV, Source={StaticResource eHCMSResources}}"
+                                                        IsReadOnly="True"
+                                                        Visibility="Collapsed" />
+                                                    <DataGridTextColumn
+                                                        Width="300"
+                                                        Binding="{Binding DoctorStaff.FullName}"
+                                                        Header="{Binding N0151_G1_NguoiCDinh, Source={StaticResource eHCMSResources}}"
+                                                        IsReadOnly="True" />
+                                                    <DataGridTextColumn
+                                                        Width="300"
+                                                        Binding="{Binding DiagnosisForCheck}"
+                                                        Header="{Binding K1746_G1_CDoan, Source={StaticResource eHCMSResources}}"
+                                                        IsReadOnly="True" />
+                                                    <DataGridTextColumn
+                                                        Width="Auto"
+                                                        Binding="{Binding Result}"
+                                                        Header="Kết luận"
+                                                        IsReadOnly="True" />
+                                                </DataGrid.Columns>
+                                            </customcontrols:ReadOnlyDataGrid>
+                                        </Grid>
+                                    </ScrollViewer>
+                                    <StackPanel Grid.Row="1" Margin="0,10,3,2">
+                                        <TextBlock
+                                            Grid.Row="8"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource TextBlock.Heading.04}"
+                                            Text="Ghi chú DLS:"
+                                            TextAlignment="Center" />
+                                        <TextBox
+                                            Name="txtCommentDLS"
+                                            Grid.Row="8"
+                                            Grid.Column="1"
+                                            Grid.ColumnSpan="12"
+                                            Width="auto"
+                                            Height="40"
+                                            Margin="0,2,3,2"
+                                            AcceptsReturn="True"
+                                            HorizontalScrollBarVisibility="Auto"
+                                            IsEnabled="{Binding DLSIsEnabled, Mode=OneWay}"
+                                            Style="{StaticResource MainFrame.TextBox}"
+                                            Text="{Binding ObjCheckMedicalFiles.Note_DLS, Mode=TwoWay}"
+                                            TextWrapping="WrapWithOverflow" />
+                                        <DockPanel Grid.Row="9" Grid.ColumnSpan="3">
+                                            <Button
+                                                x:Name="btSave"
+                                                Width="80"
+                                                Height="22"
+                                                Margin="2,1"
+                                                Content="Lưu"
+                                                Style="{StaticResource MainFrame.Button}" />
+                                            <Button
+                                                x:Name="btCheckDLS"
+                                                Width="80"
+                                                Height="22"
+                                                Margin="2,1"
+                                                Content="Duyệt"
+                                                Style="{StaticResource MainFrame.Button}" />
+                                            <Button
+                                                x:Name="ICDListCmd"
+                                                Grid.Row="7"
+                                                Grid.Column="1"
+                                                Width="100"
+                                                Height="22"
+                                                Margin="2,1"
+                                                HorizontalAlignment="Right"
+                                                Content="{Binding Z3101_G1_DM_ICD, Source={StaticResource eHCMSResources}}"
+                                                Style="{StaticResource MainFrame.Button}" />
+                                        </DockPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </xctk:BusyIndicator>
+    </Border>
+</UserControl>

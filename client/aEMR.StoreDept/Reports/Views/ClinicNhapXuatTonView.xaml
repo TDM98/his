@@ -1,0 +1,169 @@
+﻿<UserControl x:Class="aEMR.StoreDept.Reports.Views.ClinicNhapXuatTonView"
+             xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             mc:Ignorable="d" d:DesignHeight="600" d:DesignWidth="950">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converter:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+    <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <TextBlock Text="{Binding StrHienThi, Mode=OneWay}"
+                       Style="{StaticResource TBlock.TilteFrom}"
+                       HorizontalAlignment="Center" />
+        </Grid>
+        <!--Header="{Binding G0458_G1_ThSoBC, Source={StaticResource eHCMSResources}}"-->
+        <Expander Grid.Row="1" x:Name="RightExpander" Margin="0,0,0,0" Width="Auto"
+                  ExpandDirection="Left" MinWidth="10" IsExpanded="True"
+                  Background="#FFDBE5F1" RenderTransformOrigin="0,0" DockPanel.Dock="Right">
+            <Border x:Name="BorderFrame" Style="{StaticResource LightBlueBorderStyle}"
+                    Height="Auto" Background="White"
+                    Visibility="{Binding mBaoCaoXuatNhapTon_XemIn, Converter={StaticResource BooleanToVisibility}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>                       
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="25" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition />
+                            <RowDefinition Height="29" />
+                            <RowDefinition Height="25" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding G0458_G1_ThSoBC, Source={StaticResource eHCMSResources}}"
+                               FontWeight="Bold" Foreground="#FF6F8AA9"
+                               Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2" />
+                    <!--Column 1-->
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding G1933_G1_TuNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                    <DatePicker SelectedDate="{Binding FromDate, Mode=TwoWay}"
+                                Name="Dpk_FromDate" Grid.Column="1" Grid.Row="1" Margin="2"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                Style="{StaticResource MainFrame.DatePicker}"
+                                SelectedDateFormat="Short" />
+
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding K3192_G1_DenNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                    <DatePicker SelectedDate="{Binding ToDate, Mode=TwoWay}"
+                                Name="Dpk_ToDate" Grid.Column="1" Grid.Row="2" Margin="2"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                Style="{StaticResource MainFrame.DatePicker}" />
+                    
+                    <!--column 2-->
+                    <TextBlock Grid.Column="0" Grid.Row="3"
+                               HorizontalAlignment="Left" VerticalAlignment="Center"
+                               Text="{Binding K1973_G1_ChonKho, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                    <ComboBox Name="cbx_Storage" Grid.Column="1"
+                              Grid.Row="3" Margin="2" Grid.ColumnSpan="3"
+                              Style="{StaticResource MainFrame.ComboBox}"
+                              SelectedItem="{Binding Store, Mode=TwoWay}"
+                              SelectedValuePath="StoreID" DisplayMemberPath="swhlName"
+                              ItemsSource="{Binding StoreCbx}" />
+                    <!--column 3-->
+
+                        <TextBlock Grid.Column="0" Grid.Row="4" Height="25" Padding="0,4,0,0"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   Text="{Binding P0344_G1_PhanLoai, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                                   Visibility="{Binding CanSelectedRefGenDrugCatID_1, Converter={StaticResource VisibilityConverter}}" />
+                        <AxControls:KeyEnabledComboBox 
+                            TabIndex="25" Grid.Column="1" Margin="1" Grid.Row="4"
+                            SelectedValueEx="{Binding RefGenDrugCatID_1, Mode=TwoWay, NotifyOnValidationError=True}"
+                            SelectedValuePath="RefGenDrugCatID_1" DisplayMemberPath="CategoryName"
+                            ItemsSource="{Binding RefGenericDrugCategory_1s}"
+                            Style="{StaticResource MainFrame.ComboBox}"
+                            Visibility="{Binding CanSelectedRefGenDrugCatID_1, Converter={StaticResource VisibilityConverter}}" />
+
+                        <CheckBox Name="chk_ViewBefore20150331"
+                                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="5" Margin="2"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                  Content="Xem BC trước 31/03/2015"
+                                  Visibility="Collapsed"
+                                  IsChecked="{Binding ViewBefore20150331, Mode=TwoWay}" />
+                    <!--KMx: A.Tuấn nói không cho xem tổng kho, nhân viên kho nào thì xem kho đó (17/04/2015 09:00)-->
+                    <!--<CheckBox Name="chk_TongKho" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding G2494_G1_XemTgKho, Source={StaticResource eHCMSResources}}"  IsChecked="{Binding IsCheck, Mode=TwoWay}" />-->
+                    <!--column 4-->
+                    
+                    <StackPanel Grid.Row="6" Grid.ColumnSpan="2"
+                                Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Name="Btn_View"
+                                Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                                Width="75" HorizontalAlignment="Right" Margin="2"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding mBaoCaoXuatNhapTon_XemIn, Converter={StaticResource BooleanToVisibility}}" />
+                        <Button Name="btn_Print"
+                                Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}"
+                                Width="75" Margin="2"
+                                HorizontalAlignment="Left" VerticalAlignment="Center"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding mBaoCaoXuatNhapTon_XemIn, Converter={StaticResource BooleanToVisibility}}" />
+                    </StackPanel>
+                        <TextBlock Grid.Column="0" Grid.Row="7"
+                                   HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                                   Text="{Binding T2008_G1_KCDenNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                                   Margin="2,1" Visibility="Collapsed" />
+                        <DatePicker SelectedDate="{Binding CheckPointDate, Mode=TwoWay}"
+                                    Name="dtpCheckPointDate"
+                                    Grid.Column="1" Grid.Row="7" Margin="2,1"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Bottom"
+                                    Style="{StaticResource MainFrame.DatePicker}"
+                                    SelectedDateFormat="Short" Visibility="Collapsed" />
+
+                        <TextBlock Grid.Column="0" Grid.Row="8"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   Text="{Binding G0936_G1_TieuDe, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                                   Margin="2,1" Visibility="Collapsed" />
+                        <TextBox Text="{Binding CheckPointName, Mode=TwoWay}"
+                                     Grid.Column="1" Grid.Row="8"
+                                     VerticalAlignment="Center"
+                                     Style="{StaticResource MainFrame.TextBox}"
+                                     Margin="2,1" Visibility="Collapsed" />
+                    <!--<Button Name="btnKetChuyenTonDauKy" Content="{Binding T2030_G1_KCTDK, Source={StaticResource eHCMSResources}}" Grid.Row="8" Height="22" VerticalAlignment="Bottom" Margin="2,1" Grid.ColumnSpan="3"
+                                Visibility="{Binding mBaoCaoXuatNhapTon_KetChuyen, Converter={StaticResource BooleanToVisibility}}" />-->
+                        <Button Name="btnKetChuyenTonDauKy"
+                                Content="{Binding T2030_G1_KCTDK, Source={StaticResource eHCMSResources}}"
+                                Grid.Row="9" Height="22" VerticalAlignment="Bottom"
+                                Margin="2,1" Grid.ColumnSpan="3"
+                                Visibility="Collapsed" />
+                    </Grid>
+            </Border>
+        </Expander>
+
+        <dxp:DocumentPreviewControl
+            Grid.Row="1" Grid.Column="1" Height="875" Width="Auto"
+            DocumentSource="{Binding ReportModel, Mode=OneWay}"
+            cal:Message.Attach="[Event Loaded] = [Action Report_Loaded($source, $eventArgs)]"
+            AutoShowParametersPanel="False" />        
+    </Grid>
+        <!--</toolkit:BusyIndicator>-->
+</UserControl>

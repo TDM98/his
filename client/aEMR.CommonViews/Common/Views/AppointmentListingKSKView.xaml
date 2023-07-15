@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="aEMR.Common.Views.AppointmentListingKSKView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="600"
+             xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <converters:EnumValueToStringConverter x:Key="EnumValueToStringConverter"/>
+        <converters:ShortDateConverter x:Key="MyShortDataConverter"/>
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}" >
+        <Grid x:Name="LayoutRoot" Background="White">
+            <StackPanel>
+                <customcontrols:ReadOnlyDataGrid AutoGenerateColumns="False" x:Name="gridAppointments"
+                                      ItemsSource="{Binding Appointments,Mode=OneWay}" 
+                                      RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}" 
+                                      RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                      Style="{StaticResource MainFrame.DataGridStyle}"                                                      
+                                      SelectedItem="{Binding Path=SelectedAppointment, Mode=TwoWay}"                                                     
+                                      cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"
+                                      MinHeight="250"
+                                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Patient.PatientCode, Mode=OneWay}" MinWidth="100"
+                                            Header="{Binding T3674_G1_MaYTe2,Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding Patient.FullName, Mode=OneWay}" MinWidth="150"
+                                             Header="{Binding T0858_G1_TenKhachHg,Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding Patient.DOBText, Mode=OneWay}" MinWidth="100"
+                                            Header="{Binding N0107_G1_NgSinh,Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn Binding="{Binding ClientContract.ContractNo,Mode=OneWay}" MinWidth="100"
+                                            Header="{Binding Z2821_G1_SoHopDong,Source={StaticResource eHCMSResources}}"/>
+                        <DataGridTextColumn Binding="{Binding ClientContract.ContractName,Mode=OneWay}" MinWidth="100"
+                                            Header="{Binding Z2670_G1_TenHopDong,Source={StaticResource eHCMSResources}}"/>
+                    </DataGrid.Columns>
+                </customcontrols:ReadOnlyDataGrid>
+                <customcontrols:DataPager x:Name ="pagerGridAppointments" PageSize="{Binding PageSize}"
+                                        HorizontalContentAlignment="Left"
+                                        Source="{Binding Appointments, Mode=OneWay}" 
+                                        Margin="0,-1,0,0" />
+            </StackPanel>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

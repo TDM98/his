@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="aEMR.Common.Views.UCTotalPay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="200"
+             d:DesignWidth="400"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <Grid ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" MinWidth="100" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="28" Height="Auto" />
+            <RowDefinition MinHeight="28" Height="Auto" />
+            <RowDefinition MinHeight="28" Height="Auto" />
+            <RowDefinition MinHeight="28" Height="Auto" />
+            <RowDefinition MinHeight="28" Height="Auto" />
+            <RowDefinition MinHeight="28" Height="Auto" />
+            <RowDefinition MinHeight="28" Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Content="{Binding K0574_G1_1TgSoTienPhaiTraChoDK, StringFormat='{}(1) {0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0"
+               Style="{StaticResource MainFrame.Label.01}" />
+        <Label Content="{Binding G1540_G1_TSoTienBHTra, StringFormat='{}(2) {0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1"
+               Style="{StaticResource MainFrame.Label.01}" />
+        <Label Content="{Binding K0602_G1_3TgSoTienBNPhaiTra, StringFormat='{}(3) {0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2"
+               Style="{StaticResource MainFrame.Label.01}" />
+        <TextBlock Grid.Row="0" Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Text="{Binding TotalPrice, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                   TextAlignment="Right" />
+        <TextBlock Grid.Row="1" Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Text="{Binding TotalHIPayment, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                   TextAlignment="Right" />
+        <TextBlock Grid.Row="2" Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Text="{Binding TotalPatientPayment, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                   TextAlignment="Right" />
+        <Label Content="{Binding Z2344_G1_TongTienMienGiam, StringFormat='{}(4) {0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="3"
+               Style="{StaticResource MainFrame.Label.01}" />
+        <TextBlock Grid.Row="3" Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Text="{Binding Path=TotalDiscountAmount, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                   TextAlignment="Right" />
+        <Label Content="{Binding K0603_G1_4TgSoTienBNDaTra, StringFormat='{}(4) {0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="4"
+               Style="{StaticResource MainFrame.Label.01}" />
+        <TextBlock Grid.Row="4" Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Text="{Binding Path=TotalPatientPaid, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                   TextAlignment="Right" />
+        <Label Content="{Binding K0604_G1_5TgSoTienDvDaTToan, StringFormat='{}(5) {0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="5"
+               Style="{StaticResource MainFrame.Label.01}" />
+        <TextBlock Grid.Row="5" Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Text="{Binding Path=TotalPaymentForTransaction, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                   Foreground="Red" TextAlignment="Right" />
+        <Label Content="{Binding K0605_G1_6TgSoTienBNConNo, StringFormat='{}(6) {0}:', Source={StaticResource eHCMSResources}}"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="6"
+               Style="{StaticResource MainFrame.Label.01}" />
+        <TextBlock Grid.Row="6" Grid.Column="1"
+                   VerticalAlignment="Center"
+                   Text="{Binding Path=TotalPatientRemainingOwed, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                   Foreground="Red" TextAlignment="Right" />
+    </Grid>
+</UserControl>

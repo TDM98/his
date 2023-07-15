@@ -1,0 +1,91 @@
+﻿<UserControl    x:Class="aEMR.TransactionManager.Views.Temp38NgoaiTruView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                xmlns:controls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                mc:Ignorable="d"
+                d:DesignWidth="640" d:DesignHeight="300">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid Height="Auto" HorizontalAlignment="Stretch" Background="White" ShowGridLines="False" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource LightBlueBorderStyle}" Grid.Row="0" Margin="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="15"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding K3505_G1_DKienTim, Source={StaticResource eHCMSResources}}"  FontWeight="Bold" Foreground="#FF6F8AA9" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2"></TextBlock>
+
+                
+                <Label  Style="{StaticResource MainFrame.Label.00}" Margin="5,2,5,2" Content="{Binding T0836_G1_TenBN, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right"></Label>
+                <TextBox Style="{StaticResource MainFrame.TextBox}" Grid.Column="2" Text="{Binding SearchCriteria.FullName,Mode=TwoWay}" Grid.Row="1"></TextBox>
+                <Label  Style="{StaticResource MainFrame.Label.00}" Margin="5,2,5,2" Content="{Binding T3274_G1_MaBN, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right"></Label>
+                <TextBox Style="{StaticResource MainFrame.TextBox}" Grid.Column="5" Text="{Binding SearchCriteria.PatientCode,Mode=TwoWay}" Grid.Row="1"></TextBox>
+
+                <Label  Style="{StaticResource MainFrame.Label.00}" Margin="5,2,5,2" Content="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right"></Label>
+                <DatePicker Style="{StaticResource MainFrame.DatePicker}" Grid.Row="2" Grid.Column="2" Margin="0,1,0,1" SelectedDate="{Binding SearchCriteria.FromDate,Mode=TwoWay}"></DatePicker>
+                <Label  Style="{StaticResource MainFrame.Label.00}" Margin="5,2,5,2" Content="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right"></Label>
+                <DatePicker Style="{StaticResource MainFrame.DatePicker}" Grid.Row="2" Grid.Column="5" Margin="0,1,0,1" SelectedDate="{Binding SearchCriteria.ToDate,Mode=TwoWay}"></DatePicker>
+                <Button Name="btnSearch" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.ColumnSpan="5" Grid.Row="3" HorizontalAlignment="Center" Width="100" Style="{StaticResource MainFrame.Button}" Margin="0,1,0,1" 
+                        Visibility="{Binding mSearch, Converter={StaticResource BooleanToVisibility} }" ></Button>
+            </Grid>
+        </Border>
+        <DataGrid x:Name="GrdTran" Grid.Row="1" AutoGenerateColumns="False" HeadersVisibility="All" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch"  ItemsSource="{Binding PatientTransactionList,Mode=TwoWay}" ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}"
+                      cal:Message.Attach="[Event LoadingRow] = [Action dataGrid1_LoadingRow($source, $eventArgs)]">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{Binding T3376_G1_MaGDich, Source={StaticResource eHCMSResources}}" Binding="{Binding TransactionID,Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{Binding T0836_G1_TenBN, Source={StaticResource eHCMSResources}}" Binding="{Binding PatientRegistration.FullName,Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" Binding="{Binding PatientRegistration.PatientCode,Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{Binding S0635_G1_SoDK, Source={StaticResource eHCMSResources}}" Binding="{Binding PtRegistrationID,Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{Binding T3332_G1_MaDK, Source={StaticResource eHCMSResources}}" Binding="{Binding PtRegistrationCode,Mode=OneWay}"/>
+
+                <DataGridTextColumn Header="{Binding N0049_G1_NgBatDau, Source={StaticResource eHCMSResources}}" Binding="{Binding TransactionBeginDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"/>
+
+                <DataGridTextColumn Header="{Binding N0081_G1_NgKetThuc, Source={StaticResource eHCMSResources}}" Binding="{Binding TransactionEndDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"/>
+
+                <DataGridTemplateColumn x:Name="colSupplierID"  Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="lnkTransactionID" cal:Message.Attach="[Event Click] = [Action lnkTransactionID_Click($source, $eventArgs)]" CommandParameter="{Binding TransactionID}"  ToolTipService.ToolTip="Click here for preview" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.HyperlinkButton.02}">
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn x:Name="colPrint"  Header="">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="lnkPrint" cal:Message.Attach="[Event Click] = [Action lnkPrint_Click($source, $eventArgs)]"  CommandParameter="{Binding TransactionID}"  ToolTipService.ToolTip="Click here for Print" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.HyperlinkButton.02}">
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <controls:DataPager Grid.Row="2"  Source="{Binding PatientTransactionList,Mode=TwoWay}" />
+    </Grid>
+</UserControl>

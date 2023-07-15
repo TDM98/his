@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="aEMR.Registration.Views.CharityOrganizationView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:cal="http://www.caliburnproject.org"
+                mc:Ignorable="d" 
+                xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"	
+                xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                d:DesignHeight="300" d:DesignWidth="520"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <commonconverters:EnumConverter x:Key="EnumConverterObj" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <commonconverters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility"/>
+        <DataTemplate x:Key="ColDelTemplate">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Button cal:Message.Attach="[Event Click] = [Action lnkDelete_Click($source, $eventArgs)]" 
+                        ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Top" 
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Opacity="1" Width="16" Height="16"/>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Height="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <TextBlock Text="{Binding G1422_G1_ToChuc, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black" FontWeight="Normal"/>
+                    <TextBox Text="{Binding CharityOrganization.CharityOrgName, Mode=TwoWay}" Height="25" Margin="5,0,0,0" TextAlignment="Left" HorizontalAlignment="Left" VerticalAlignment="Center" Width="300"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1" HorizontalAlignment="Left">
+                    <Button Name="btnAdd" Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Margin="5,1" Width="75"/>
+                    <Button Name="btnEdit" Content="{Binding S0739_G1_Sua, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Margin="5,1" Width="75"/>
+                </StackPanel>
+                <DataGrid  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                            Style="{StaticResource MainFrame.DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True" MinHeight="150" Margin="1" Grid.Row="2"
+                            ItemsSource="{Binding ObsCharityOrganization}" SelectedItem="{Binding selectedCharityOrganization, Mode=TwoWay}"
+                            cal:Message.Attach="[Event SelectionChanged]=[Action CharityOrganizationSelectionChanged($source,$eventArgs)]">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn CellTemplate="{StaticResource ColDelTemplate}"/>
+                        <DataGridTextColumn MinWidth="300" Header="{Binding G1422_G1_ToChuc, Source={StaticResource eHCMSResources}}" Binding="{Binding CharityOrgName}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,219 @@
+﻿<UserControl x:Class="aEMR.Registration.Views.RegistrationLeftMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:vsm="clr-namespace:System.Windows;assembly=WPFToolkit"
+    xmlns:layoutToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit"
+             xmlns:cal="http://www.caliburnproject.org" mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+
+    <!--ItemContainerStyle = "{StaticResource AccordionHeaderStyle}"-->
+    <!--ItemsSource="{Binding LeftMenuItems,Mode=OneWay}"-->
+    <Grid x:Name="LayoutRoot" SizeChanged="LayoutRoot_SizeChanged" MinHeight="250">
+        <layoutToolkit:Accordion x:Name="mnuLeft" 
+                           HorizontalAlignment="Stretch"
+                           Margin="2,2,2,2"
+                           MinWidth ="185" BorderThickness="0"
+                              
+                           
+                           HorizontalContentAlignment="Stretch"
+                           VerticalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <layoutToolkit:Accordion.Items>
+                <layoutToolkit:AccordionItem Header="{Binding T3719_G1_Mau20NgTru, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                         Visibility="{Binding mNgoaiTru,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                       Background="White">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding K2863_G1_DKDV, Source={StaticResource eHCMSResources}}" Name="RegisterCmd" 
+                                             Visibility="{Binding mRegister,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding N0183_G1_NhanBenhBaoHiem, Source={StaticResource eHCMSResources}}" Name="ReceivePatientCmd" 
+                                             Visibility="{Binding mReceivePatient,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding G1308_G1_TinhTien, Source={StaticResource eHCMSResources}}" Name="ProcessPaymentCmd" 
+                                             Visibility="{Binding mProcessPayment,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding N0274_G1_NTXNhanLaiBH, Source={StaticResource eHCMSResources}}" Name="ReCalcHiCmd_NgTr"
+                                             Visibility="Collapsed"/>
+                            <Button Content="{Binding K1071_G1_BCThuTien, Source={StaticResource eHCMSResources}}" Name="RegistrationSummaryCmd" />
+                            <Button Content="{Binding G2370_G1_XNhanBHYT, Source={StaticResource eHCMSResources}}" Name="ConfirmHIBenefitCmd" />
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                    
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding T3713_G1_NoiTru, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding mNoiTru,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                       Background="White">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding N0187_G1_NhanBenhNT, Source={StaticResource eHCMSResources}}" Name="ReceiveInPatientCmd" 
+                                             Visibility="{Binding mReceiveInPatient,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                             cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]" />                            
+                            
+                            <!--HPT: Thêm đường dẫn cho nhận bệnh vãng lai và nhận bệnh tiền giải phẫu (27/08/2015)-->
+                            <Button Content="{Binding N0189_G1_NhanBenhVL, Source={StaticResource eHCMSResources}}" Name="ReceiveInPatient_Casual_Cmd" 
+                                             Visibility="{Binding mReceiveInPatient,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                             cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]" />
+
+                            <Button Content="{Binding N0186_G1_NhanBenhKTC, Source={StaticResource eHCMSResources}}" Name="ReceiveInPatient_PreOp_Cmd" 
+                                             Visibility="{Binding mReceiveInPatient,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                             cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]" />
+
+                            <Button Content="{Binding N0188_G1_NhanBenhNTBH, Source={StaticResource eHCMSResources}}" Name="ReceiveInPatient_WithHI_Cmd" 
+                                             Visibility="{Binding mReceiveInPatient_HI,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }" 
+                                             cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]"/>
+
+                            <Button Content="{Binding G2377_G1_XNhanLaiBHYT, Source={StaticResource eHCMSResources}}" Name="ReConfirmHI_ForInPtCmd" 
+                                             Visibility="{Binding mReCalcHiCmd,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }" 
+                                             cal:Message.Attach="[Event Click]=[Action Proc_ReceiveInPatient_Cmd($source)]" />
+                            <!--HPT : Thêm đường dẫn xác nhận BHYT cho Bệnh nhân Vãng Lai và Tiền Giải Phẫu-->
+
+                            <Button Content="{Binding N0221_G1_NhapVien, Source={StaticResource eHCMSResources}}" Name="InPatientAdmissionCmd"
+                                             Visibility="{Binding mInPatientAdmission,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding Q0449_G1_QuanLyBNNoiTru, Source={StaticResource eHCMSResources}}" Name="ManageInPatientAdmissionCmd"
+                                             Visibility="{Binding mInPatientAdmissionManage,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding G1292_G1_TinhLaiBillVPhi, Source={StaticResource eHCMSResources}}" Name="ReCalcHi_Cmd"                                             
+                                            Visibility="{Binding mReCalcBillingInvoice,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                             cal:Message.Attach="[Event Click]=[Action ReCalcHiCmd($source)]"/>
+                            <Button Content="{Binding T0785_G1_TaoBillVienPhi, Source={StaticResource eHCMSResources}}" Name="InPtRegisterCmd" 
+                                             Visibility="{Binding mInPatientRegister,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                             cal:Message.Attach="[Event Click]=[Action InPatientRegisterCmd($source)]" />
+
+                            <Button Content="{Binding T0786_G1_TaoBillVienPhiKTC, Source={StaticResource eHCMSResources}}" Name="InPtRegister_HighTechServiceCmd" 
+                                             Visibility="{Binding mHighTechBillingInvoice,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                             cal:Message.Attach="[Event Click]=[Action InPtRegister_HighTechServiceCmd($source)]" />
+
+                            <Button Content="{Binding G0736_G1_ThuTienTU, Source={StaticResource eHCMSResources}}" Name="AdvanceMoneyCmd"
+                                             Visibility="{Binding mAdvanceMoney,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding G0737_G1_ThuTienTUBill, Source={StaticResource eHCMSResources}}" Name="InPtProcessPaymentCmd" 
+                                             Visibility="{Binding mInPatientProcessPayment,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                                cal:Message.Attach="[Event Click]=[Action InPatientProcessPaymentCmd($source)]"/>
+
+                            <Button Content="{Binding T0787_G1_TaoBillVienPhiTV, Source={StaticResource eHCMSResources}}" Name="InPatientRegisterCmd_TV" 
+                                             Visibility="{Binding mInPatientRegister_TV,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K3169_G1_DNghiTUTV, Source={StaticResource eHCMSResources}}" Name="SuggestAdvanceMoneyCmd_TV"
+                                             Visibility="{Binding mSuggestAdvanceMoney_TV,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K3172_G1_DNghiTToanTV, Source={StaticResource eHCMSResources}}" Name="SuggestPaymentCmd_TV"
+                                             Visibility="{Binding mSuggestPayment_TV,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding G0128_G1_TToan, Source={StaticResource eHCMSResources}}" Name="InPatientPaymentCmd"
+                                             Visibility="{Binding mInPatientPayment,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding Q0499_G1_QuyetToanTV, Source={StaticResource eHCMSResources}}" Name="InPatientSettlementCmd_TV" 
+                                             Visibility="{Binding mInPatientSettlement_TV,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <!--KMx: Đóng link Mẫu 02 cũ vì không có tính DVKTC (17/06/2016 09:50)-->
+                            <Button Content="{Binding Z0047_G1_Mau02, Source={StaticResource eHCMSResources}}" Name="Temp02NoiTruCmd"
+                                             Visibility="Collapsed" />
+
+                            <Button Content="{Binding Z0007_G1_Mau02New, Source={StaticResource eHCMSResources}}" Name="Temp02NoiTruNewCmd"
+                                             Visibility="{Binding mTemp02,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }" />
+
+                            <Button Content="{Binding T0793_G1_TaoMau02, Source={StaticResource eHCMSResources}}" Name="CreateRptForm02NoiTruCmd" 
+                                             Visibility="{Binding mTemp02,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }" />
+
+                            <Button Content="{Binding Q0498_G1_QuyetToan, Source={StaticResource eHCMSResources}}" Name="InPatientSettlementCmd" 
+                                             Visibility="{Binding mInPatientSettlement,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K2282_G1_ChKhoa, Source={StaticResource eHCMSResources}}" Name="DeptTranferCmd"
+                                             Visibility="{Binding mChuyenKhoa,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding G2904_G1_XVRV, Source={StaticResource eHCMSResources}}" Name="DischargeCmd"
+                                             Visibility="{Binding mDischarge,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding G2905_G1_XVRVBs, Source={StaticResource eHCMSResources}}" Name="DischargeCmd_BS"
+                                             Visibility="{Binding mDischarge_BS,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K3167_G1_DNghiTU, Source={StaticResource eHCMSResources}}" Name="SuggestAdvanceMoneyCmd"
+                                             Visibility="{Binding mSuggestAdvanceMoney,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K3170_G1_DNghiTToan, Source={StaticResource eHCMSResources}}" Name="SuggestPaymentCmd"
+                                             Visibility="{Binding mSuggestPayment,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K1055_G1_BCBNChuaDongTU, Source={StaticResource eHCMSResources}}" Name="ReportInPatientNotPayCashAdvanceCmd" 
+                                             Visibility="{Binding mRptNotPayCashAdvance,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K1077_G1_BCThuTienTU, Source={StaticResource eHCMSResources}}" Name="ReportAdvanceMoneyCmd"
+                                             Visibility="{Binding mReportAdvanceMoney,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K1078_G1_BCThuTienTUBill, Source={StaticResource eHCMSResources}}" Name="ReportAdvanceMoneyForBillCmd"
+                                             Visibility="{Binding mReportAdvanceMoneyForBill,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K1070_G1_BCTToan, Source={StaticResource eHCMSResources}}" Name="ReportRepayAdvanceMoneyCmd"
+                                             Visibility="{Binding mReportRepayAdvanceMoney,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K1069_G1_BCQToan, Source={StaticResource eHCMSResources}}" Name="ReportPatientSettlementCmd"
+                                             Visibility="{Binding mReportPatientSettlement,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K1075_G1_BCThuTienBanLe, Source={StaticResource eHCMSResources}}" Name="ReportOutwardMedDeptInflowCmd"
+                                             Visibility="{Binding mReportOutwardMedDeptInflow,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K1065_G1_BCNXKhoa, Source={StaticResource eHCMSResources}}" Name="ReportInPatientImportExportDepartmentCmd" 
+                                             Visibility="{Binding mRptInPtImportExportDept,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+
+                            <Button Content="{Binding K1057_G1_BCBNDangDTri, Source={StaticResource eHCMSResources}}" Name="ReportPatientAreTreatedCmd" 
+                                             Visibility="{Binding mRptPtAreTreated,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding K1056_G1_BCBNConNoVPhi, Source={StaticResource eHCMSResources}}" Name="ReportInPatientDischargeNotPayAllBillCmd"
+                                             Visibility="{Binding mRptNotPayCashAdvance,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                        </StackPanel>
+                        
+                    </layoutToolkit:AccordionItem.Content>
+
+                </layoutToolkit:AccordionItem>
+
+                <layoutToolkit:AccordionItem Header="{Binding K1052_G1_BCTKe, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Visibility="{Binding mBaoCao,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"
+                                       Background="White">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding K1552_G1_CLSSo, Source={StaticResource eHCMSResources}}" Name="PCLExamTargetCmd" 
+                                             Visibility="{Binding mBaoCaoCLSSo,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding K2960_G1_DSDKBHYT, Source={StaticResource eHCMSResources}}" Name="DanhSachDKBHYTCmd" 
+                                             Visibility="{Binding mBaoCaoDanhSachDangKyBHYT,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding K1062_G1_BCNhanhKhuKB, Source={StaticResource eHCMSResources}}" Name="ReportQuickConsultationCmd" 
+                                             Visibility="{Binding mBaoCaoNhanhKhuKhamBenh,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding K1044_G1_BKeThuPhiXN, Source={StaticResource eHCMSResources}}" Name="BangKeThuPhiXNTheoNgayCmd" 
+                                             Visibility="{Binding mBaoCaoBangKeThuPhiXN,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding K1043_G1_BKeThuPhiKBVaCDHA, Source={StaticResource eHCMSResources}}" Name="BangKeThuPhiKB_CDHATheoNgayCmd" 
+                                             Visibility="{Binding mBaoCaomBaoCaoBangKeThuPhiXN_HA,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <!--<HyperlinkButton Content="{Binding P0375_G1_PhNopTien, Source={StaticResource eHCMSResources}}" Name="PhieuNopTienCmd" 
+                                             Visibility="{Binding mBaoCaoPhieuNopTien,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>-->
+                            <Button Content="{Binding G1519_G1_THopDThuPK, Source={StaticResource eHCMSResources}}" Name="TongHopDoanhThuPKCmd" 
+                                             Visibility="{Binding mBaoCaoTongHopDoanhThuPK,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding T2513_G1_KiemToan, Source={StaticResource eHCMSResources}}" Name="KiemToanCmd" 
+                                             Visibility="{Binding mKiemToan,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding K1071_G1_BCThuTien, Source={StaticResource eHCMSResources}}" Name="ReportPaymentReceiptCmd" Visibility="Collapsed"
+                                            /> <!--Visibility="{Binding mReportPaymentReceipt,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"-->
+                            <Button Content="{Binding G1523_G1_TKet, Source={StaticResource eHCMSResources}}" Name="RegSummaryCmd" 
+                                             Visibility="{Binding mRegSummary,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>                            
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+                <layoutToolkit:AccordionItem Header="{Binding G0735_G1_ThuTienKhac, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Background="White" Visibility="{Binding mAdvanceMoney,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding P0377_G1_PhThuTienKhacTV, Source={StaticResource eHCMSResources}}" Name="GenericPaymentCmd"
+                                             Visibility="{Binding mAdvanceMoney,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                            <Button Content="{Binding K1076_G1_BCThuTienKhac, Source={StaticResource eHCMSResources}}" Name="ReportGenericPaymentCmd"
+                                             Visibility="{Binding mAdvanceMoney,Converter={StaticResource BooleanToVisibility},Mode=TwoWay }"/>
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+                </layoutToolkit:AccordionItem>
+            </layoutToolkit:Accordion.Items>
+        </layoutToolkit:Accordion>
+    </Grid>
+</UserControl>

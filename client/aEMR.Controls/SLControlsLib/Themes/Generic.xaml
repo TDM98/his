@@ -1,0 +1,533 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/client/2007"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:controls="clr-namespace:aEMR.Controls"
+                    xmlns:System_Windows_Controls_Primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls"
+                    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+                    xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit">
+
+
+    <Style TargetType="controls:OutstandingListBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:OutstandingListBox">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Border Height="Auto"
+                                Background="Green"
+                                Padding="5,20,5,5">
+                            <StackPanel Background="Green">
+                                <TextBlock Text="{TemplateBinding HeaderText}"
+                                           FontSize="18"></TextBlock>
+                                <TextBlock Text="{TemplateBinding HeaderDescription}"></TextBlock>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="2"
+                                Grid.Row="1">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          BorderThickness="0"
+                                          Padding="5,5,5,0">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                        <Border Height="Auto"
+                                Background="LightBlue"
+                                Padding="5,5,5,5"
+                                Grid.Row="2">
+                            <StackPanel Background="LightBlue">
+                                <TextBlock Text="Waiting: 10"
+                                           FontWeight="Bold"></TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="controls:HeaderSlidingTabControl">
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1"
+                                     StartPoint="0.5,0">
+                    <GradientStop Color="#FFFFFFFF"
+                                  Offset="0" />
+                    <GradientStop Color="#FFFEFEFE"
+                                  Offset="1" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1"
+                                     StartPoint="0.5,0">
+                    <GradientStop Color="#FFA3AEB9"
+                                  Offset="0" />
+                    <GradientStop Color="#FF8399A9"
+                                  Offset="0.375" />
+                    <GradientStop Color="#FF718597"
+                                  Offset="0.375" />
+                    <GradientStop Color="#FF617584"
+                                  Offset="1" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderThickness"
+                Value="1" />
+        <Setter Property="Padding"
+                Value="5" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Stretch" />
+        <Setter Property="VerticalContentAlignment"
+                Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:HeaderSlidingTabControl">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity"
+                                                                       Storyboard.TargetName="DisabledVisualTop">
+                                            <SplineDoubleKeyFrame KeyTime="0"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                                       Storyboard.TargetName="DisabledVisualBottom">
+                                            <SplineDoubleKeyFrame KeyTime="0"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                                       Storyboard.TargetName="DisabledVisualLeft">
+                                            <SplineDoubleKeyFrame KeyTime="0"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                                       Storyboard.TargetName="DisabledVisualRight">
+                                            <SplineDoubleKeyFrame KeyTime="0"
+                                                                  Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="TemplateTop"
+                              Visibility="Collapsed">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <RepeatButton Content="&lt;"
+                                          x:Name="ScrollLeftButton"
+                                          Style="{TemplateBinding ScrollLeftButtonStyle}" />
+                            <ScrollViewer x:Name="TabScrollViewerTop"
+                                          Grid.Column="1"
+                                          IsTabStop="False"
+                                          Padding="0,0,0,0"
+                                          BorderThickness="0"
+                                          VerticalScrollBarVisibility="Disabled"
+                                          HorizontalScrollBarVisibility="Hidden">
+                                <System_Windows_Controls_Primitives:TabPanel x:Name="TabPanelTop"
+                                                                             Margin="0,0,0,0"
+                                                                             Canvas.ZIndex="1">
+
+                                </System_Windows_Controls_Primitives:TabPanel>
+                            </ScrollViewer>
+                            <RepeatButton Content="&gt;"
+                                          x:Name="ScrollRightButton"
+                                          Style="{TemplateBinding ScrollRightButtonStyle}"
+                                          Grid.Column="2" />
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0"
+                                    Background="{TemplateBinding Background}"
+                                    Padding="20,5,20,5"
+                                    Margin="0,0,0,0"
+                                    CornerRadius="0,0,0,0"
+                                    MinWidth="10"
+                                    MinHeight="10"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="3">
+                                <ContentPresenter x:Name="ContentTop"
+                                                  Cursor="{TemplateBinding Cursor}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                  Margin="{TemplateBinding Margin}"
+                                                  VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="controls:VerticalScrollPanel">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:VerticalScrollPanel">
+                    <Grid HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <RepeatButton x:Name="ScrollTopButton"
+                                      Height="10"
+                                      Width="{TemplateBinding Width}"
+                                      HorizontalAlignment="Stretch"
+                                      Margin="0,0,0,0"
+                                      BorderThickness="0">
+                            <RepeatButton.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Height="Auto"  Source="/eHCMSControlsLibrary;component/Themes/Images/arrow_up.png" 
+                                           />
+                                </StackPanel>
+                                
+                            </RepeatButton.Content>
+                        </RepeatButton>
+
+                            <ScrollViewer x:Name="MainScrollView"
+                                      Grid.Row="1"
+                                      Width="{TemplateBinding Width}"
+                                      VerticalScrollBarVisibility="Hidden"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      BorderThickness="0"
+                                      VerticalAlignment="Stretch"
+                                      Margin="0,0,0,0"
+                                      Padding="0,0,0,0">
+                            <StackPanel x:Name="MainPanel"
+                                        Margin="0,0,0,0" VerticalAlignment="Stretch"> <!--Background="Green"-->
+                                <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" VerticalAlignment="Stretch"
+                                                  Content="{TemplateBinding Content}"></ContentPresenter>
+                            </StackPanel>
+                        </ScrollViewer>
+                        <StackPanel  Grid.Row="2">
+                        	<RepeatButton x:Name="ScrollDownButton"
+                                
+                        		Height="10"
+                        		Width="{TemplateBinding Width}"
+                        		HorizontalAlignment="Stretch"
+                        		Margin="0,0,0,0"
+                        		BorderThickness="0">
+                                <RepeatButton.Content>
+                                    <Image Height="Auto"
+                                           Source="/eHCMSControlsLibrary;component/Themes/Images/arrow_down.png" />
+                                </RepeatButton.Content>
+                                </RepeatButton>
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="controls:AccordionMenu">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:AccordionMenu">
+                    <toolkit:Accordion x:Name="BaseAccordion"
+                                       ItemsSource="{TemplateBinding ItemsSource}"
+                                       Height="{TemplateBinding Height}"
+                                       Width="{TemplateBinding Width}">
+
+
+                        <toolkit:Accordion.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock x:Name="lblHeaderText"
+                                               HorizontalAlignment="Stretch"
+                                               VerticalAlignment="Stretch"
+                                               Text="{Binding FullName}"></TextBlock>
+
+                                    <TextBlock x:Name="lblTest"
+                                               Text="Hello">
+
+                                    </TextBlock>
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </toolkit:Accordion.ItemTemplate>
+                        <toolkit:Accordion.ContentTemplate>
+                            <DataTemplate>
+                                <ListBox ItemsSource="{Binding MenuItems}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <HyperlinkButton Content="{Binding HeaderText}">
+                                            </HyperlinkButton>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DataTemplate>
+                        </toolkit:Accordion.ContentTemplate>
+
+                    </toolkit:Accordion>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="controls:CustomNotificator">
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="Background"
+                Value="#FFEFEFEA" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:CustomNotificator">
+                    <Border BorderBrush="Black"
+                            BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="7" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Rectangle Grid.Row="0">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint="0.5,1"
+                                                         StartPoint="0.5,0">
+                                        <GradientStop Color="#FFB9B9CC" />
+                                        <GradientStop Color="#FF9191AB"
+                                                      Offset="1" />
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+
+                            <Grid Grid.Row="1">
+                                <Grid.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1"
+                                                         StartPoint="0.5,0">
+                                        <GradientStop Color="#FFEDEDF5"
+                                                      Offset="0" />
+                                        <GradientStop Color="#FFC4C3D7"
+                                                      Offset="1" />
+                                    </LinearGradientBrush>
+                                </Grid.Background>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="20" />
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="closeButton"
+                                        Grid.Column="2"
+                                        VerticalAlignment="Top"
+                                        Margin="1, 3"
+                                        Width="16"
+                                        Height="13">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Image Source="Images/x.png" />
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                                <StackPanel Grid.Column="1"
+                                            Margin="5, 7">
+                                    <TextBlock Text="{TemplateBinding Header}"
+                                               FontFamily="Verdana"
+                                               FontWeight="Bold"
+                                               FontSize="11" />
+                                    <TextBlock Text="{TemplateBinding Text}"
+                                               FontFamily="Verdana"
+                                               FontSize="11"
+                                               TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Custom toggle button template -->
+    <Style x:Name="ComboToggleButton"
+           TargetType="ToggleButton">
+        <Setter Property="Foreground"
+                Value="#FF333333" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="Background"
+                Value="#FF1F3B53" />
+        <Setter Property="Padding"
+                Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid>
+                        <Rectangle Fill="Transparent" />
+                        <ContentPresenter x:Name="contentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Custom control template used for the IntelliSense sample -->
+    <Style TargetType="controls:AutoCompleteComboBox">
+
+        <Setter Property="MinimumPopulateDelay"
+                Value="1" />
+
+        <!-- ComboBox should not perform text completion by default -->
+        <Setter Property="IsTextCompletionEnabled"
+                Value="False" />
+
+        <!-- The minimum prefix length should be 0 for combo box scenarios -->
+        <Setter Property="MinimumPrefixLength"
+                Value="0" />
+
+
+        <!-- Regular template values -->
+        <Setter Property="Background"
+                Value="#FF1F3B53" />
+        <Setter Property="IsTabStop"
+                Value="False" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Left" />
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1"
+                                     StartPoint="0.5,0">
+                    <GradientStop Color="#FFA3AEB9"
+                                  Offset="0" />
+                    <GradientStop Color="#FF8399A9"
+                                  Offset="0.375" />
+                    <GradientStop Color="#FF718597"
+                                  Offset="0.375" />
+                    <GradientStop Color="#FF617584"
+                                  Offset="1" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:AutoCompleteComboBox">
+                    <Grid Margin="{TemplateBinding Padding}">
+                        <TextBox IsTabStop="True"
+                                 x:Name="Text"
+                                 Style="{TemplateBinding TextBoxStyle}"
+                                 Margin="0" />
+                        <ToggleButton x:Name="DropDownToggle"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Style="{StaticResource ComboToggleButton}"
+                                      Margin="0"
+                                      HorizontalContentAlignment="Center"
+                                      Background="{TemplateBinding Background}"
+                                      BorderThickness="0"
+                                      Height="16"
+                                      Width="16">
+                            <!--Click="DropDownToggle_Click"-->
+
+                            <ToggleButton.Content>
+                                <Path x:Name="BtnArrow"
+                                      Height="4"
+                                      Width="8"
+                                      Stretch="Uniform"
+                                      Data="F1 M 301.14,-189.041L 311.57,-189.041L 306.355,-182.942L 301.14,-189.041 Z "
+                                      Margin="0,0,6,0"
+                                      HorizontalAlignment="Right">
+                                    <Path.Fill>
+                                        <SolidColorBrush x:Name="BtnArrowColor"
+                                                         Color="#FF333333" />
+                                    </Path.Fill>
+                                </Path>
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                        <Popup x:Name="Popup">
+                            <Border x:Name="PopupBorder"
+                                    HorizontalAlignment="Stretch"
+                                    Opacity="1.0"
+                                    BorderThickness="0"
+                                    CornerRadius="3">
+                                <Border.RenderTransform>
+                                    <TranslateTransform X="2"
+                                                        Y="2" />
+                                </Border.RenderTransform>
+                                <Border.Background>
+                                    <SolidColorBrush Color="#11000000" />
+                                </Border.Background>
+                                <Border HorizontalAlignment="Stretch"
+                                        BorderThickness="0"
+                                        CornerRadius="3">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#11000000" />
+                                    </Border.Background>
+                                    <Border.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform />
+                                            <SkewTransform />
+                                            <RotateTransform />
+                                            <TranslateTransform X="-1"
+                                                                Y="-1" />
+                                        </TransformGroup>
+                                    </Border.RenderTransform>
+                                    <Border HorizontalAlignment="Stretch"
+                                            Opacity="1.0"
+                                            Padding="2"
+                                            BorderThickness="2"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            CornerRadius="3">
+                                        <Border.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform />
+                                                <SkewTransform />
+                                                <RotateTransform />
+                                                <TranslateTransform X="-2"
+                                                                    Y="-2" />
+                                            </TransformGroup>
+                                        </Border.RenderTransform>
+                                        <Border.Background>
+                                            <LinearGradientBrush EndPoint="0.5,1"
+                                                                 StartPoint="0.5,0">
+                                                <GradientStop Color="#FFDDDDDD"
+                                                              Offset="0" />
+                                                <GradientStop Color="#AADDDDDD"
+                                                              Offset="1" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                        <ListBox x:Name="Selector"
+                                                 Height="200"
+                                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                 ItemTemplate="{TemplateBinding ItemTemplate}" />
+                                    </Border>
+                                </Border>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,391 @@
+﻿<UserControl    x:Class="aEMR.ClinicManagement.Views.ConsultationRoomStaffView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"   
+                xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignWidth="1000">
+    <UserControl.Resources>
+	    <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility}}">
+                <Button x:Name="lnkDelete" 
+                                 cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($source)]"
+                                 ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+       
+        <DataTemplate x:Key="DTTimeTarget">
+            <TextBlock Text="{Binding TargetDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"                       
+                       />
+        </DataTemplate>
+        <DataTemplate x:Key="DTDatePicker">
+            <customcontrols:AxDatePicker Style="{StaticResource MainFrame.DatePicker}" 
+                    SelectedDate="{Binding TargetDate, Mode=TwoWay,StringFormat='dd/MM/yyyy'}"
+                    Height="22" Width="150" 
+                    IsEnabled="{Binding isEdit}"  />
+            <!--Visibility="{Binding isEdit,Converter={StaticResource BooleanToVisibility} }"-->
+
+        </DataTemplate>
+        <DataTemplate x:Key="DTtxtNumber">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBox Text="{Binding TargetNumberOfCases, Mode=TwoWay}" HorizontalAlignment="Center" Margin="0" Padding="0" VerticalAlignment="Center"
+                         IsEnabled="{Binding isEdit,Mode=TwoWay}" Width="150" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+            <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="270" />
+                <ColumnDefinition Width="192*" />
+                <ColumnDefinition Width="200" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>        
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="105" />
+                <RowDefinition Height="455" />
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Text="{Binding Q0476_G1_QuanLyPgKham, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB" Grid.ColumnSpan="4" Grid.Column="0"  />
+            <Border Grid.Row="1"  Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" >
+                <!--DataContext="{Binding selectedConsultTimeSeg,Mode=TwoWay}"-->
+                <Grid Height="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        
+                        <ColumnDefinition  />
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="22"/>
+                        <RowDefinition  Height="25"/>
+                        <RowDefinition Height="22" />
+                        <RowDefinition  Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Label Content="{Binding T2222_G1_Khoa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding P0391_G1_PgKham, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding K1437_G1_CaKham, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding N0074_G1_NgHTai, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    
+                    <TextBlock Grid.Column="1"  Grid.Row="0" Name="Khoa" Text="{Binding CurRefDepartmentsTree.Parent.NodeText}"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}"  />
+                    <TextBlock Grid.Column="1"  Grid.Row="1" Name="Phong" Text="{Binding CurRefDepartmentsTree.NodeText}"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}"  />
+                    <customcontrols:AxComboBox Name="cboTimeSegment"  
+                                               cal:Message.Attach="[Event SelectionChanged]=[Action cboTimeSegment_SelectionChanged($source, $eventArgs)]"
+                                               
+                                               ItemsSource="{Binding lstConsultationTimeSegments}" Width="120" Grid.Row="2" Grid.Column="1"
+                                               VerticalAlignment="Bottom"
+                                                   DisplayMemberPath="SegmentName"
+                                                   SelectedValuePath="ConsultationTimeSegmentID"
+                                                   SelectedItemEx="{Binding selectedConsultationRoomStaffAllocations.ConsultationTimeSegments,Mode=TwoWay}"
+                                               Margin="10,0,10,1" />                    
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding curDate}" Width="110"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}"  />
+                </Grid>
+            </Border>
+            <Border Grid.Row="1"  Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="2" >
+                <!--DataContext="{Binding selectedConsultTimeSeg,Mode=TwoWay}"-->
+                <Grid Height="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="119" />                        
+                        <ColumnDefinition Width="143*" />
+                        
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="22"/>
+                        <RowDefinition  Height="25"/>
+                        <RowDefinition Height="22" />
+                        <RowDefinition  Height="25"/>
+                        <RowDefinition Height="6*" />
+                    </Grid.RowDefinitions>
+                    <!--<Label Height="18" HorizontalAlignment="Left" Name="lblResult" VerticalAlignment="Top" Content="{Binding G0436_G1_TGianKham, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />-->
+                    <Label Content="{Binding N0046_G1_NgApDung, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding S0657_G1_SLggBenhNhan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Grid.Row="2" Grid.ColumnSpan="2"  Content="{Binding N0101_G1_NgPhanBoNhVien, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Left" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}"  />
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding selectedConsultationRoomTarget.TargetDate}" Width="110"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}"  />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding selectedConsultationRoomTarget.TargetNumberOfCases}" Width="110"
+                            MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}"  />
+                    
+                    <DatePicker Name="dtTargetDayStaff" VerticalAlignment="Center" Width="110" Grid.Row="3" Grid.Column="0"
+                                SelectedDate="{Binding selectedConsultationRoomStaffAllocations.AllocationDate,Mode=TwoWay}" Margin="0" Height="22" Style="{StaticResource MainFrame.DatePicker}" />
+                    <!--<Button x:Name="butSave" Grid.Row="2" Grid.Column="1"  Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Height="20" Style="{StaticResource MainFrame.Button}" Width="80" Margin="32,21,32,6" 
+                            Visibility="{Binding bQuanAdd,Converter={StaticResource BooleanToVisibility} }"/>-->
+                </Grid>
+                </Border>
+            <!--<Label Grid.Row="0" Height="18" HorizontalAlignment="Left" Name="lblResult" VerticalAlignment="Top" Content="{Binding K3060_G1_DSRole, Source={StaticResource eHCMSResources}}" Style="{StaticResource Label.Heading.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />-->
+            <ContentControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Name="RoomTree">
+                
+            </ContentControl>
+            
+            <Border Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                >
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="5" Height="5"/>
+                        <RowDefinition MinHeight="40" Height="22"/>
+                        <RowDefinition MinHeight="30" Height="22"/>
+                        <RowDefinition MinHeight="25" Height="22"/>
+                        <RowDefinition />
+                        
+                    </Grid.RowDefinitions>
+                    
+                    <!--<Label Content="{Binding T2791_G1_LoaiNhVien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />-->
+                    <!--cal:Message.Attach="[Event Loaded]=[Action cboStaffCategory_Loaded($source, $eventArgs)]"-->
+                    <StackPanel Grid.Row="1" Grid.RowSpan="2" Orientation="Vertical"  >
+                            <TextBlock Grid.Row="0" Height="30" HorizontalAlignment="Center"  VerticalAlignment="Center" Text="{Binding K0728_G1_ChonNhVienVaKeoTha, Source={StaticResource eHCMSResources}}" 
+                                   TextWrapping="Wrap"  Foreground="#CC0033"  />
+                            <RadioButton IsChecked="True" Content="{Binding K0961_G1_BSi, Source={StaticResource eHCMSResources}}" Height="16"  Name="radBacSi"  Style="{StaticResource MainFrame.RadioButton}" GroupName="gOption" Margin="40,5,0,0" 
+                                    cal:Message.Attach="[Event Click]=[Action radBacSi_Click($source,$eventArgs)]"/>
+                        <RadioButton IsChecked="False" Content="{Binding P0394_G1_PhuTa, Source={StaticResource eHCMSResources}}" Height="16"  Name="radTroLy"  Style="{StaticResource MainFrame.RadioButton}" GroupName="gOption" Margin="40,1,0,0" 
+                                    cal:Message.Attach="[Event Click]=[Action radTroLy_Click($source,$eventArgs)]"/>
+                        
+                        </StackPanel>
+                    <customcontrols:AxComboBox Name="cboStaffCategory"  Grid.Column="2" Grid.Row="3" Height="22" VerticalAlignment="Center" 
+                                    ItemsSource="{Binding allRefStaffCategory, Mode=OneWay}" Width="150"
+                                    Style="{StaticResource MainFrame.ComboBox}"
+                                    SelectedItemEx="{Binding SelectedRefStaffCategory,Mode=TwoWay}"                                          
+                                    DisplayMemberPath="StaffCatgDescription" SelectedValuePath="StaffCatgID"                                           
+                                        />
+                    <!--cal:Message.Attach="[Event Loaded]=[Action Snapshots_Loaded($source,$eventArgs)]"-->
+                    <ScrollViewer Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <!--<ListBox x:Name="ListStaff" 
+                                 ItemsSource="{Binding allStaff}" 
+                                 SelectedItem="{Binding SelectedStaff,Mode=TwoWay}"
+                         >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel x:Name="ImageStaff"  HorizontalAlignment="Center"
+                                            cal:Message.Attach="[Event Loaded]=[Action ImageStaff_Loaded($source,$eventArgs)]">
+                                        <Image Source="/eHCMSCal;component/Assets/Images/doctor.png" Height="40" Width="40" Opacity="1" />
+                                        <TextBlock Text="{Binding FullName}" />
+                                        <StackPanel.RenderTransform>
+                                            <TranslateTransform x:Name="RecImageTranslateTransform" X="0" Y="0"/>
+                                        </StackPanel.RenderTransform>
+                                    </StackPanel>                                            
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>-->
+                            <customcontrols:ReadOnlyDataGrid  Name="grdListStaff"  Grid.Row="1"
+                                                              CanUserAddRows="False"
+                                            AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                            ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                            Style="{StaticResource MainFrame.DataGridStyle}"
+                                            ItemsSource="{Binding allStaff,Mode=OneWay}" 
+                                            SelectedItem="{Binding SelectedStaff,Mode=TwoWay}"
+                                            cal:Message.Attach="[Event DblClick]=[Action grdListStaffDoubleClick($source)]"
+                                    >
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn IsReadOnly="True" 
+                                                Binding="{Binding  FullName, Mode=TwoWay}" CanUserReorder="True" 
+                                                CanUserResize="True" CanUserSort="True"  Width="200"  
+                                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}" />                                    
+                                </DataGrid.Columns>
+
+                            </customcontrols:ReadOnlyDataGrid>
+                        </ScrollViewer>
+
+                </Grid>
+
+                
+            </Border>
+            <Border Grid.Row="2" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                    Grid.Column="1" Grid.ColumnSpan="2" >
+                <Grid  x:Name="LayoutRoot" cal:Message.Attach="[Event Loaded]=[Action LayoutRoot_OnLoaded($source,$eventArgs)]
+                           ;[Event SizeChanged]=[Action LayoutRoot_SizeChanged($source,$eventArgs)]"
+                           ShowGridLines="False"
+                          >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <ScrollViewer  Width="Auto"   HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <ListBox 
+                                        x:Name="StaffGrid"   cal:Message.Attach="[Event Loaded]=[Action StaffGrid_Loaded($source,$eventArgs)]"                                                                  
+                                        ItemsSource="{Binding tempAllStaff}" 
+                                        SelectedItem="{Binding SelectedStaffGrid,Mode=TwoWay}"
+                             >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel x:Name="ImageStaffGrid" 
+                                                cal:Message.Attach="[Event Loaded]=[Action ImageStaffGrid_Loaded($source,$eventArgs)]">
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/doctor.png" Height="40" Width="40" Opacity="1" />
+                                        <TextBlock Text="{Binding FullName}" />
+                                        
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel >
+                                <ItemsPanelTemplate >
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </ScrollViewer>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" >
+                        <Button Name="butReset"  Content="{Binding R0516_G1_Reset, Source={StaticResource eHCMSResources}}" Width="80" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,6,0,0" 
+                                />
+                        <Button Name="butLuu"  Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Width="80" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5,6,0,0"
+                                />
+                            <!--Visibility="{Binding bStaffAdd,Converter={StaticResource BooleanToVisibility} }"-->
+                        </StackPanel>
+                        <Grid ShowGridLines="False" Grid.Row="2" 
+                          >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="150"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid Height="Auto" Width="Auto" Grid.Row="0"
+                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="25" Height="28*"/>
+                                    <RowDefinition MinHeight="120" Height="581*" />
+                                    <RowDefinition MinHeight="34" Height="38*"  />
+
+                                </Grid.RowDefinitions>
+                                <Label Height="25" HorizontalAlignment="Left"  VerticalAlignment="Center" 
+                                           Content="{Binding K3009_G1_DSNhVienTrucHTaiPK, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" FontWeight="Bold"  Foreground="#3595CB" Margin="5,4,0,4" />
+                          
+                            <DataGrid   Grid.Row="1"
+                                            AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                            CanUserResizeColumns="True"
+                                            CanUserAddRows="False"
+                                            ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                             ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                            Style="{StaticResource MainFrame.DataGridStyle}"
+                                            ItemsSource="{Binding curAllConsulRoomStaffAlloc,Mode=TwoWay}"
+                                            IsReadOnly="True"
+                                    >
+                                    <DataGrid.Columns>
+                                    
+                                    <DataGridTextColumn Header="{Binding K1437_G1_CaKham, Source={StaticResource eHCMSResources}}" IsReadOnly="True" 
+                                                Binding="{Binding  ConsultationTimeSegments.SegmentName , Mode=TwoWay}" CanUserReorder="True" 
+                                                CanUserResize="True" CanUserSort="True"  MinWidth="50" Width="80"  
+                                                        ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+                                               
+
+                                    <DataGridTextColumn Header="{Binding N0100_G1_NgPhanBo, Source={StaticResource eHCMSResources}}" Width="110" CanUserReorder="True"
+                                                       Binding="{Binding AllocationDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}"/>
+
+                                    <!--<DataGridTextColumn Header="{Binding N0074_G1_NgHTai, Source={StaticResource eHCMSResources}}" Width="140" CanUserReorder="True"
+                                                      Binding="{Binding StartTime, Mode=TwoWay}"  />-->
+                                    <DataGridTextColumn Header="{Binding N0194_G1_NhVien, Source={StaticResource eHCMSResources}}" Width="250" CanUserReorder="True"     
+                                                            Binding="{Binding StaffList, Mode=TwoWay}"/>
+
+                                    <DataGridTextColumn Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" Width="130" CanUserReorder="False"
+                                                      Binding="{Binding Status, Mode=TwoWay}"/>
+
+                                </DataGrid.Columns>
+
+                                </DataGrid>
+
+                            </Grid>
+
+                            <Grid Height="Auto" Width="Auto" Grid.Row="2"
+                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="30" Height="25"/>
+                                    <RowDefinition MinHeight="120" Height="158*" />
+                                    <RowDefinition MinHeight="34" Height="34*"  />
+
+                                </Grid.RowDefinitions>
+                                
+                                <StackPanel Grid.Row="0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="left" Margin="10,0,0,5">
+                                    <Label Height="25" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                           Content="{Binding K3029_G1_DSPhBoTheoCaKham, StringFormat='{}{0}:  ', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" FontWeight="Bold"  Foreground="#3595CB" Margin="0,0,0,0" />
+                                    <customcontrols:AxComboBox Name="cboTimeSegment1"  
+                                               ItemsSource="{Binding lstConsultationTimeSegments}" Width="120" Grid.Row="2" Grid.Column="1"
+                                               VerticalAlignment="Bottom"
+                                                   DisplayMemberPath="SegmentName"
+                                                   SelectedValuePath="ConsultationTimeSegmentID"       
+                                        SelectedItemEx="{Binding selectedConsultTimeSeg,Mode=TwoWay}"
+                                               Margin="10,0,10,1" />
+                                    <Button Name="butGetAll"  Content="{Binding G2470_G1_XemTCa, Source={StaticResource eHCMSResources}}" Width="80" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="5,6,0,0"/>
+                                </StackPanel>
+                            
+                            <customcontrols:ReadOnlyDataGrid  Name="grdListTarget"  Grid.Row="1"
+                                                        CanUserAddRows="False"
+                                                        AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                                                  CanUserResizeColumns="True"
+                                                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                        Style="{StaticResource MainFrame.DataGridStyle}"
+                                                        ItemsSource="{Binding tempConsRoomStaffAlloc,Mode=TwoWay}" 
+                                                        SelectedItem="{Binding selectedTempConsultRoomStaffAlloc,Mode=TwoWay}"
+                                                        cal:Message.Attach="  [Event LoadingRow]=[Action grdListTarget_LoadingRow($source,$eventArgs)]                                    
+                                                                            ; [Event DblClick]=[Action DoubleClick($eventArgs)]"
+                                    >
+                                    <DataGrid.Columns>
+
+                                        <DataGridTemplateColumn CellEditingTemplate="{StaticResource TemplateDeleteRecord}" />
+                                    <DataGridTextColumn Header="{Binding K1437_G1_CaKham, Source={StaticResource eHCMSResources}}" IsReadOnly="True" CanUserReorder="True"
+                                                Binding="{Binding  ConsultationTimeSegments.SegmentName , Mode=TwoWay}" 
+                                                CanUserResize="True" CanUserSort="True"  MinWidth="50" Width="80"  
+                                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                                    <DataGridTextColumn Header="{Binding N0100_G1_NgPhanBo, Source={StaticResource eHCMSResources}}" Width="110" CanUserReorder="True"
+                                                       Binding="{Binding AllocationDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}"/>
+
+                                    <!--<DataGridTextColumn Header="{Binding N0074_G1_NgHTai, Source={StaticResource eHCMSResources}}" Width="140" CanUserReorder="True"
+                                                      Binding="{Binding StartTime, Mode=TwoWay}"  />-->
+                                    <DataGridTextColumn Header="{Binding N0194_G1_NhVien, Source={StaticResource eHCMSResources}}" Width="250"   CanUserReorder="True"                                    
+                                                            Binding="{Binding StaffList, Mode=TwoWay}"/>
+
+                                    <!--<DataGridTextColumn Header="{Binding N0074_G1_NgHTai, Source={StaticResource eHCMSResources}}" Width="140" CanUserReorder="True"
+                                                      Binding="{Binding StartTime Mode=TwoWay}"  />-->                                        
+                                    </DataGrid.Columns>
+
+                                </customcontrols:ReadOnlyDataGrid>                                
+                            </Grid>
+
+                        </Grid>
+                        <Canvas>
+                        <StackPanel Name="ChildRec" Visibility="Collapsed" Orientation="Vertical" HorizontalAlignment="Center" 
+                                        cal:Message.Attach="[Event Loaded]=[Action ChildRec_OnLoaded($source,$eventArgs)]" >
+                            <Image Source="/aEMR.CommonViews;component/Assets/Images/doctor.png" Height="40" Width="40" Opacity="1" 
+                                      
+                                       />
+                            <TextBlock Text="{Binding FullName}"/>
+                            <StackPanel.RenderTransform >
+                                <TranslateTransform x:Name="RecTranslateTransform" X="0" Y="0"/>
+                            </StackPanel.RenderTransform>
+                        </StackPanel>
+                    </Canvas>
+                </Grid>
+                    
+                
+
+            </Border>
+        </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Border>
+</UserControl>

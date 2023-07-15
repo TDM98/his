@@ -1,0 +1,124 @@
+﻿<UserControl x:Class="aEMR.Appointment.Views.ServicesBookingScheduleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converters:LongToVisibilityConverter x:Key="LongToVisibilityConverter"/>
+        <Converters:IsEnableConverter x:Key="IsEnableConverter"/>
+    </UserControl.Resources>
+    <toolkit:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.ColumnSpan="8" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="{Binding G0039_G1_Th,Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.Normal.12}"></TextBlock>
+                <ComboBox VerticalAlignment="Center" Style="{StaticResource MainFrame.ComboBox}" Margin="5 0" MinWidth="100" ItemsSource="{Binding MonthCollection,Mode=OneWay}" SelectedItem="{Binding CurrentMonth,Mode=TwoWay}"
+                      cal:Message.Attach="[Event SelectionChanged]=[Action cboMonth_SelectionChanged($source,$eventArgs)]">
+                </ComboBox>
+                <TextBlock VerticalAlignment="Center" Text="{Binding N0033_G1_Nam,Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.Normal.12}"></TextBlock>
+                <ComboBox VerticalAlignment="Center" Style="{StaticResource MainFrame.ComboBox}" Margin="5 0" MinWidth="100" ItemsSource="{Binding YearCollection,Mode=OneWay}"
+                      SelectedItem="{Binding CurrentYear,Mode=TwoWay}">
+                </ComboBox>
+            </StackPanel>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding G0702_G1_Thu2,Source={StaticResource eHCMSResources}}" TextAlignment="Center"></TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding G0704_G1_Thu3,Source={StaticResource eHCMSResources}}" TextAlignment="Center"></TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding G0706_G1_Thu4,Source={StaticResource eHCMSResources}}" TextAlignment="Center"></TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding G0708_G1_Thu5,Source={StaticResource eHCMSResources}}" TextAlignment="Center"></TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="5" Text="{Binding G0710_G1_Thu6,Source={StaticResource eHCMSResources}}" TextAlignment="Center"></TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="6" Text="{Binding G0712_G1_Thu7,Source={StaticResource eHCMSResources}}" TextAlignment="Center"></TextBlock>
+            <TextBlock Grid.Row="1" Grid.Column="7" Text="{Binding K2227_G1_ChuNhat,Source={StaticResource eHCMSResources}}" TextAlignment="Center"></TextBlock>
+            <ScrollViewer Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="7" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding CalendarWeekCollection}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding CalendarDayCollection}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" Columns="7" MinHeight="100"></UniformGrid>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Visibility="{Binding IsHasValue,Converter={StaticResource BooleanToVisibility}}" Cursor="Hand"
+                                              cal:Message.Attach="[Event MouseUp]=[Action CalendarItem_Click($source,$eventArgs)]"
+                                              x:Name="RootCalendar">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                <RowDefinition Height="*"></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0">
+                                                <Border.Style>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="Background" Value="CadetBlue" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                                                <Setter Property="Background" Value="Orange" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding Day}" TextAlignment="Left" Foreground="White" HorizontalAlignment="Left"></TextBlock>
+                                                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" Visibility="{Binding TargetNumberOfCases,Converter={StaticResource LongToVisibilityConverter}}" Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding K0756_G1_CTieu,Source={StaticResource eHCMSResources},StringFormat='{}{0}: '}" TextAlignment="Left" Foreground="White"></TextBlock>
+                                                        <TextBlock Text="{Binding TargetNumberOfCasesRemaining,StringFormat='{}{0}/'}" TextAlignment="Left" Foreground="White"></TextBlock>
+                                                        <TextBlock Text="{Binding TargetNumberOfCases}" TextAlignment="Left" Foreground="White"></TextBlock>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                            <DataGrid Grid.Row="1" IsReadOnly="True" AutoGenerateColumns="False" HeadersVisibility="None"
+                                                      ItemsSource="{Binding StaffWorkingSchedule}"
+                                                      GridLinesVisibility="None"
+                                                      cal:Message.Attach="[Event MouseDoubleClick]=[Action gvScheduleStaffs_DoubleClick($source,$eventArgs)]">
+                                                <DataGrid.Style>
+                                                    <Style TargetType="DataGrid">
+                                                        <Setter Property="Background" Value="White" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ElementName=RootCalendar,Path=DataContext.IsExtendDate}" Value="True">
+                                                                <Setter Property="Background" Value="#E5E8E8" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGrid.Style>
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Width="*" Binding="{Binding DoctorStaff.FullName}"></DataGridTextColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>

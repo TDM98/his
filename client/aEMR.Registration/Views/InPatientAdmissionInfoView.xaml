@@ -1,0 +1,89 @@
+﻿<commonctrl:AxUserControl x:Class="aEMR.Registration.Views.InPatientAdmissionInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" mc:Ignorable="d"
+             
+             xmlns:cal="http://www.caliburnproject.org" d:DesignHeight="550" d:DesignWidth="900" 
+             xmlns:my="clr-namespace:aEMR.CommonUserControls;assembly=aEMR.CommonUserControls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock TextWrapping="Wrap" Text="{Binding N0096_G1_NgNhapVien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                         Style="{StaticResource TextBlock.Heading.04}" 
+                        VerticalAlignment="Center" Margin="0,0,0,0"/>
+        <commonctrl:AxDateTextBox x:Name="txtValidDateFrom"
+                                      IsEnabled="{Binding IsEditing, Mode=OneWay}"
+                                              Text="{Binding CurrentAdmission.AdmissionDate, Mode=TwoWay, NotifyOnValidationError=True, Converter={StaticResource ShortDateConverter}}"
+                                              HorizontalAlignment="Left" Width="150" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" TabIndex="1" />
+
+        <TextBlock TextWrapping="Wrap" Text="{Binding T2793_G1_LoaiNhVien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                         Style="{StaticResource TextBlock.Heading.04}" 
+                        VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0" />
+        <ContentControl Name="AdmissionReasonContent"
+                            IsEnabled="{Binding IsEditing, Mode=OneWay}"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                            Grid.Column="3" Grid.Row="0" TabIndex="2" IsTabStop="False" />
+
+        <TextBlock TextWrapping="Wrap" Text="{Binding T2222_G1_Khoa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                         Style="{StaticResource TextBlock.Heading.04}" 
+                        VerticalAlignment="Center" Margin="0,0,0,0" Grid.Row="1" />
+        <ContentControl Name="DepartmentContent" 
+                            IsEnabled="{Binding IsEditing, Mode=OneWay}"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                            Grid.Column="1" Grid.Row="1" TabIndex="3" />
+
+        <TextBlock TextWrapping="Wrap" Text="{Binding P0385_G1_Pg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                         Style="{StaticResource TextBlock.Heading.04}" 
+                        VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1" />
+
+        <commonctrl:AxComboBox x:Name="Locations" Style="{StaticResource MainFrame.ComboBox}"
+                                   IsEnabled="{Binding IsEditing, Mode=OneWay}"
+                      ItemsSource="{Binding Locations, Mode=OneWay}"
+                      SelectedValuePath="DeptLocationID"
+                      SelectedItemEx="{Binding SelectedLocation,Mode=TwoWay}" Grid.Column="3" Grid.Row="1" 
+                      DisplayMemberPath="Location.LocationName" TabIndex="4" />
+
+
+        <TextBlock TextWrapping="Wrap" Text="Lý do Nhập viện:"
+                         Style="{StaticResource TextBlock.Heading.04}" 
+                        VerticalAlignment="Top" Margin="0,0,0,0" 
+                       
+                       Grid.Row="2"/>
+        <commonctrl:AxMultilineTextBox Height="48" Text="{Binding CurrentAdmission.AdmissionNote,Mode=TwoWay}"
+                                           IsEnabled="{Binding IsEditing, Mode=OneWay}"
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="3" TabIndex="5" />
+        <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Visibility="{Binding ShowButtons, Mode=OneWay,Converter={StaticResource VisibilityConverter}}"
+                        Orientation="Horizontal">
+            <Button x:Name="SaveChangesCmd" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Width="80" Height="22" TabIndex="7" 
+                        Style="{StaticResource MainFrame.Button}"/>
+            <Button x:Name="BeginEditCmd" Content="{Binding S0739_G1_Sua, Source={StaticResource eHCMSResources}}" Width="80" Height="22" TabIndex="8"
+                        Style="{StaticResource MainFrame.Button}"/>
+            <Button x:Name="CanceEditCmd" Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}" Width="80" Height="22" TabIndex="9"
+                        Style="{StaticResource MainFrame.Button}"/>
+        </StackPanel>
+    </Grid>
+</commonctrl:AxUserControl>

@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="aEMR.Common.Views.TotalBillInvoiceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:Converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:localprimitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls.Data"
+             xmlns:cal="http://www.caliburnproject.org" 
+             xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="250"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converter:DecimalConverter x:Key="DecimalConverter"/>
+    </UserControl.Resources>
+    <StackPanel>
+    <Border Style="{StaticResource LightBlueBorderStyleNew}"  Padding="3,3,3,3" Width="250">
+        <Grid x:Name="LayoutRoot" Background="White" HorizontalAlignment="{Binding Path=HorizontalAlignment,ElementName=Me}"
+        VerticalAlignment="{Binding Path=VerticalAlignment,ElementName=Me}" ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="24" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding G1472_G1_TCong, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Grid.Row="0" />
+                <TextBlock Text="{Binding TotalBillInvoice, Mode=OneWay,Converter={StaticResource DecimalConverter}}" HorizontalAlignment="Left" TextAlignment="Right" Grid.Row="0" Grid.Column="1" FontWeight="Bold" Width="110"/>
+                <TextBlock Text="{Binding K1232_G1_BHTra, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Grid.Row="1"/>
+                <TextBlock Text="{Binding TotalHIPayment, Mode=OneWay,Converter={StaticResource DecimalConverter}}" HorizontalAlignment="Left" TextAlignment="Right" Grid.Row="1" Grid.Column="1" FontWeight="Bold" Width="110"/>
+                <TextBlock Text="{Binding K1249_G1_BHTraToiDa, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Grid.Row="2" Height="24" Visibility="{Binding ShowTotalRealHIPayment,Converter={StaticResource BooleanToVisibility}}"/>
+                <TextBlock Text="{Binding TotalRealHIPayment, Mode=OneWay,Converter={StaticResource DecimalConverter}}" Visibility="{Binding ShowTotalRealHIPayment,Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Left" TextAlignment="Right" Grid.Row="2" Grid.Column="1" FontWeight="Bold" Width="110"/>
+                <TextBlock Text="{Binding G1513_G1_TgHoTro, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Grid.Row="3" Height="24" Visibility="{Binding ShowTotalCharitySupportFund,Converter={StaticResource BooleanToVisibility}}"/>
+                <TextBlock Text="{Binding TotalCharitySupportFund, Mode=OneWay,Converter={StaticResource DecimalConverter}}" Visibility="{Binding ShowTotalCharitySupportFund,Converter={StaticResource BooleanToVisibility}}" HorizontalAlignment="Left" TextAlignment="Right" Grid.Row="3" Grid.Column="1" FontWeight="Bold" Width="110"/>
+
+                <TextBlock Text="{Binding K1296_G1_BNTra, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" Foreground="Red" Grid.Row="4"/>
+                <TextBlock Text="{Binding TotalPatientPayment, Mode=OneWay,Converter={StaticResource DecimalConverter}}" HorizontalAlignment="Left" TextAlignment="Right" Grid.Row="4" Grid.Column="1" Foreground="Red" FontWeight="Bold" Width="110"/>
+
+                <TextBlock Text="{Binding I0921_G1_I, Source={StaticResource eHCMSResources}}" Visibility="{Binding ShowErrorMessage,Converter={StaticResource BooleanToVisibility}}" Foreground="Red" Grid.Row="5" Grid.ColumnSpan="2" Margin="0,10,0,10" TextAlignment="Center" />
+        </Grid>
+
+        
+    </Border>
+    <Button Content="{Binding O0303_G1_OK, Source={StaticResource eHCMSResources}}"
+                    Width="75"
+                    x:Name="OKCmd"
+            Margin="0,10,0,10"
+                    Style="{StaticResource MainFrame.Button}" />
+    </StackPanel>
+</UserControl>

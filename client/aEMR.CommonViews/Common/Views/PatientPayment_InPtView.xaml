@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="aEMR.Common.Views.PatientPayment_InPtView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org" mc:Ignorable="d"
+             xmlns:aEMRConverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             d:DesignHeight="300" d:DesignWidth="800"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <aEMRConverters:StatusConverter x:Key="StatusConverter" />
+        <aEMRConverters:PaymentStatusConverter x:Key="PaymentStatusConverter"/>
+        <aEMRConverters:PrintConverter x:Key="PrintConverter"/>
+        <aEMRConverters:DecimalConverter x:Key="DecimalConverter"/>
+        <aEMRConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <DataTemplate x:Key="PrintReceiptTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDetails"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        cal:Message.Attach="[Event Click]=[Action PrintReceiptCmd($datacontext, $eventArgs)]"
+                        ToolTipService.ToolTip="{Binding T1922_G1_InHDNayL, Source={StaticResource eHCMSResources}}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/print-icon.png" Height="13" Width="13" Opacity="1" />
+                </Button>
+                <Button HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        cal:Message.Attach="[Event Click]=[Action DeleteReceiptCmd($datacontext, $eventArgs)]"
+                        ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}"
+                        Margin="5 0 0 0"
+                        Visibility="{Binding ElementName=LayoutRoot,Path=DataContext.IsUserAdmin,Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" HorizontalAlignment="{Binding Path=HorizontalAlignment,ElementName=Me}"
+          VerticalAlignment="{Binding Path=VerticalAlignment,ElementName=Me}">
+        <DataGrid x:Name="gridPayable"
+                  IsReadOnly="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                  Style="{StaticResource MainFrame.DataGridStyle}" HeadersVisibility="All"
+                  ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                  AutoGenerateColumns="False"
+                  RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                  cal:Message.Attach="[Event LoadingRow] = [Action GridInward_LoadingRow($source, $eventArgs)]">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn x:Name="colPrint" CellTemplate="{StaticResource PrintReceiptTemplate}" />
+                <DataGridTextColumn Header="{Binding S0649_G1_SoHDon, Source={StaticResource eHCMSResources}}" Binding="{Binding ReceiptNumber,Mode=OneWay}"
+                                             Width="Auto"/>
+                <DataGridTextColumn Header="{Binding N0045_G1_Ng, Source={StaticResource eHCMSResources}}" Binding="{Binding PaymentDate,Mode=OneWay,StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                                             Width="100"/>
+                <DataGridTextColumn Header="{Binding S0695_G1_SoTien, Source={StaticResource eHCMSResources}}" Binding="{Binding PayAmount,Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                             Width="100"
+                                             ElementStyle="{StaticResource RightAligmentTextBlock}"/>
+                <DataGridTextColumn Header="{Binding K3948_G1_Dv, Source={StaticResource eHCMSResources}}" Binding="{Binding Currency.ObjectValue,Mode=OneWay}"
+                                             Width="40"/>
+                <DataGridTextColumn Header="{Binding P0398_G1_PhuongThucTT, Source={StaticResource eHCMSResources}}" Binding="{Binding PaymentMode.ObjectValue,Mode=OneWay}"
+                                             Width="100"/>
+                <DataGridTextColumn Header="{Binding T2844_G1_LoaiTT, Source={StaticResource eHCMSResources}}" Binding="{Binding PaymentType.ObjectValue,Mode=OneWay}"
+                                             Width="100"/>
+                <DataGridTextColumn Header="{Binding T3157_G1_LyDoChi, Source={StaticResource eHCMSResources}}" Binding="{Binding V_RefundPaymentReasonInPt.ObjectValue,Mode=OneWay}"
+                                             MinWidth="100"/>
+                <DataGridTemplateColumn Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="{Binding IsDeleted,Converter={StaticResource StatusConverter}}" x:Name="hplUpdateNotes" ToolTipService.ToolTip="{Binding Z0057_G1_GChuHuy, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                             cal:Message.Attach="[Event Click]=[Action hplUpdateNotes_Click($datacontext)]">
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding InvoiceID,Mode=OneWay,Converter={StaticResource PaymentStatusConverter}}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding G1183_G1_Ghichu, Source={StaticResource eHCMSResources}}" Binding="{Binding TranPaymtNote,Mode=OneWay}"
+                                              MinWidth="60"/>
+                <DataGridTextColumn Header="{Binding S0625_G1_SoBienLai, Source={StaticResource eHCMSResources}}" Binding="{Binding ManualReceiptNumber,Mode=OneWay}"
+                                              MinWidth="60"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

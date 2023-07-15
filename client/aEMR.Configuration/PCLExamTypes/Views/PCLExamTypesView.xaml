@@ -1,0 +1,428 @@
+﻿<UserControl
+    x:Class="aEMR.Configuration.PCLExamTypes.Views.PCLExamTypesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="550"
+    d:DesignWidth="800"
+    Loaded="UserControl_Loaded"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <toolkit:BusyIndicator
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        BusyContent="{Binding DlgBusyContent}"
+        IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid
+            x:Name="LayoutRoot"
+            Margin="10"
+            Background="White">
+            <Grid x:Name="GridMain">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Foreground="#FF0084FF"
+                    Text="{Binding K3021_G1_DSPCLExamtypes, Source={StaticResource eHCMSResources}}" />
+
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="0,5"
+                    Orientation="Horizontal"
+                    Visibility="{Binding hplAddNewVisible, Mode=TwoWay}">
+                    <Button
+                        Name="hplAddNew"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="Blue"
+                        Style="{StaticResource Mainframe.SiteMapHyperlinkButton}"
+                        ToolTipService.ToolTip="Tạo Mới PCLExamType"
+                        Visibility="{Binding bhplAddNew, Converter={StaticResource BooleanToVisibility}}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="13"
+                                Height="13"
+                                Opacity="1"
+                                Source="/aEMR.CommonViews;component/Assets/Images/page-add-icon2.png" />
+                            <TextBlock Foreground="#FF0084FF" Text="{Binding T0804_G1_TaoMoiPCL, Source={StaticResource eHCMSResources}}" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        Name="BtnExportExcel"
+                        Margin="20,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        cal:Message.Attach="[Event Click]=[Action BtnExportExcel()]"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="#FF0084FF"
+                        Style="{StaticResource MainFrame.HyperlinkButton}"
+                        ToolTipService.ToolTip="{Binding G2849_G1_XuatExcel, Source={StaticResource eHCMSResources}}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="13"
+                                    Height="13"
+                                    Opacity="1"
+                                    Source="/aEMR.CommonViews;component/Assets/Images/ArrowDownSave32x32.png" />
+                                <TextBlock Text="{Binding G2849_G1_XuatExcel, Source={StaticResource eHCMSResources}}" />
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+
+                <Border
+                    Grid.Row="2"
+                    Margin="0,10,0,5"
+                    Background="AliceBlue"
+                    BorderBrush="#C1D2E6"
+                    BorderThickness="1"
+                    CornerRadius="3">
+                    <StackPanel>
+                        <Border
+                            Margin="10,-10,0,0"
+                            HorizontalAlignment="Left"
+                            Background="AliceBlue"
+                            BorderBrush="#6F8AA9"
+                            BorderThickness="1">
+                            <TextBlock
+                                Margin="10,0,10,0"
+                                FontWeight="Bold"
+                                Text="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" />
+                        </Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="170" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="70" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Margin="0,2,5,2"
+                                HorizontalAlignment="Right"
+                                Content="{Binding K2034_G1_ChonLoai2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                FontWeight="Normal" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="0,2,5,2"
+                                HorizontalAlignment="Right"
+                                Content="{Binding K2074_G1_ChonNhom2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                FontWeight="Normal" />
+
+                            <commonctrl:AxComboBox
+                                x:Name="cboV_PCLMainCategory"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,2,5,2"
+                                cal:Message.Attach="[Event SelectionChanged]=[Action cboV_PCLMainCategory_SelectionChanged($this.SelectedItem)]"
+                                DisplayMemberPath="ObjectValue"
+                                FontWeight="Normal"
+                                Foreground="Black"
+                                ItemsSource="{Binding ObjV_PCLMainCategory, Mode=OneWay}"
+                                SelectedItemEx="{Binding ObjV_PCLMainCategory_Selected, Mode=TwoWay}"
+                                SelectedValuePath="LookupID"
+                                Style="{StaticResource MainFrame.ComboBox}" />
+
+                            <commonctrl:AxComboBox
+                                x:Name="cboPCLExamTypeSubCategory"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="0,2,5,2"
+                                cal:Message.Attach="[Event SelectionChanged]=[Action cboPCLExamTypeSubCategory_SelectionChanged($source,$eventArgs)]"
+                                DisplayMemberPath="PCLSubCategoryName"
+                                FontWeight="Normal"
+                                Foreground="Black"
+                                ItemsSource="{Binding ObjPCLExamTypeSubCategory_ByV_PCLMainCategory, Mode=OneWay}"
+                                SelectedItemEx="{Binding ObjPCLExamTypeSubCategory_ByV_PCLMainCategory_Selected, Mode=TwoWay}"
+                                SelectedValuePath="PCLExamTypeSubCategoryID"
+                                Style="{StaticResource MainFrame.ComboBox}" />
+
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="0,2,5,2"
+                                HorizontalAlignment="Right"
+                                Content="{Binding T0887_G1_TenPCLExamType, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                                FontWeight="Normal" />
+                            <TextBox
+                                x:Name="tbSearch"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="0,2,5,2"
+                                cal:Message.Attach="[Event KeyUp] = [Action txtPCLExamTypeName_KeyUp($source, $eventArgs)]"
+                                Text="{Binding SearchCriteria.PCLExamTypeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <Button
+                                x:Name="btFind"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                Width="60"
+                                Height="23"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding bBtnSearch, Converter={StaticResource BooleanToVisibility}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image
+                                        Width="20"
+                                        Height="18"
+                                        VerticalAlignment="Center"
+                                        Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <Border
+                    Grid.Row="3"
+                    Margin="0,10,0,5"
+                    Background="AliceBlue"
+                    BorderBrush="#C1D2E6"
+                    BorderThickness="1"
+                    CornerRadius="3">
+                    <StackPanel>
+                        <Border
+                            Margin="10,-10,0,0"
+                            HorizontalAlignment="Left"
+                            Background="AliceBlue"
+                            BorderBrush="#6F8AA9"
+                            BorderThickness="1">
+                            <TextBlock
+                                Margin="10,0,10,0"
+                                FontWeight="Bold"
+                                Text="{Binding K3014_G1_DSPCLExamType, Source={StaticResource eHCMSResources}}" />
+                        </Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="25" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel
+                                Grid.Row="0"
+                                Margin="0,5"
+                                Orientation="Horizontal">
+                                <Grid Name="GridRecColor">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Rectangle
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Width="15"
+                                        Height="15"
+                                        Margin="0,2,5,2"
+                                        HorizontalAlignment="Right"
+                                        Fill="Green"
+                                        Stroke="Black" />
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="0,2,5,2"
+                                        HorizontalAlignment="Right"
+                                        Content="{Binding T1071_G1_GiaHHanhDangApDung, Source={StaticResource eHCMSResources}}"
+                                        Foreground="Green" />
+
+                                    <Rectangle
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Width="15"
+                                        Height="15"
+                                        Margin="0,2,5,2"
+                                        HorizontalAlignment="Right"
+                                        Fill="Gray"
+                                        Stroke="Black" />
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Margin="0,2,5,2"
+                                        HorizontalAlignment="Right"
+                                        Content="{Binding T1049_G1_GiaHHanhChuaApDung, Source={StaticResource eHCMSResources}}"
+                                        Foreground="Gray" />
+
+                                    <Rectangle
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        Width="15"
+                                        Height="15"
+                                        Margin="0,2,5,2"
+                                        HorizontalAlignment="Right"
+                                        Fill="Black"
+                                        Stroke="Black" />
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="5"
+                                        Margin="0,2,5,2"
+                                        HorizontalAlignment="Right"
+                                        Content="{Binding K2241_G1_ChuaCoGia, Source={StaticResource eHCMSResources}}"
+                                        Foreground="Black" />
+                                </Grid>
+                            </StackPanel>
+
+                            <DataGrid
+                                Name="dtgList"
+                                Grid.Row="1"
+                                Margin="0,5,0,0"
+                                cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)];                                       [Event SelectionChanged]=[Action dtgListSelectionChanged($eventArgs)];                                       [Event LoadingRow]=[Action dtgList_LoadingRow($source,$eventArgs)]"
+                                AutoGenerateColumns="False"
+                                CanUserAddRows="False"
+                                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                HeadersVisibility="All"
+                                HorizontalScrollBarVisibility="Auto"
+                                IsReadOnly="True"
+                                ItemsSource="{Binding ObjPCLExamTypesAndPriceIsActive_Paging, Mode=OneWay}"
+                                Style="{StaticResource MainFrame.DataGridStyle}"
+                                VerticalScrollBarVisibility="Visible">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Button
+                                                        x:Name="hplEdit"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        cal:Message.Attach="[Event Click]=[Action hplEdit_Click($datacontext)];                                                             [Event Loaded]=[Action hplEdit_Loaded($source)]"
+                                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                        ToolTipService.ToolTip="{Binding T1484_G1_HChinh, Source={StaticResource eHCMSResources}}">
+                                                        <Image
+                                                            Width="15"
+                                                            Height="15"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                                                    </Button>
+
+                                                    <Button
+                                                        x:Name="hplDelete"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)];                                                             [Event Loaded]=[Action hplDelete_Loaded($source)]"
+                                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                        ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                                        <Image
+                                                            Width="13"
+                                                            Height="13"
+                                                            Opacity="1"
+                                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                    </Button>
+
+                                                    <!--  KMx: Không cho chỉnh sửa giá ở đây. Nếu không sẽ bị sai. 26/04/2014 (15:32)  -->
+                                                    <!--<Button x:Name="hplListPrice" ToolTipService.ToolTip="{Binding G2422_G1_XemDSGia, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                 cal:Message.Attach="[Event Click]=[Action hplListPrice_Click($datacontext)]
+                                                                 ;[Event Loaded]=[Action hplListPrice_Loaded($source)]">
+
+                                                            <Image Source="/aEMR.CommonViews;component/Assets/Images/US-dollar-icon.png" Height="15" Width="15" Opacity="1" />
+
+                                                    </Button>-->
+
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Binding="{Binding PCLExamTypeCode}" Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding PCLExamTypeName}" Header="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding ObjV_PCLExamTypeUnit.ObjectValue}" Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridCheckBoxColumn Binding="{Binding HIApproved, TargetNullValue=False}" Header="{Binding K1230_G1_BHCTra, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTemplateColumn x:Name="dtgListColNormalPrice" Header="{Binding K3591_G1_DGia, Source={StaticResource eHCMSResources}}">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding ObjPCLExamTypePrice.NormalPrice, StringFormat=N0}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dtgListColPriceForHIPatient" Header="{Binding T0941_G1_GiaChoBNBH, Source={StaticResource eHCMSResources}}">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding ObjPCLExamTypePrice.PriceForHIPatient, StringFormat=N0}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn x:Name="dtgListColHIAllowedPrice" Header="{Binding K1099_G1_BHChoPhep, Source={StaticResource eHCMSResources}}">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding ObjPCLExamTypePrice.HIAllowedPrice, StringFormat=N0}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <!--<DataGridTextColumn Binding="{Binding ObjPCLExamTypePrice.EffectiveDate, StringFormat='dd/MM/yyyy'}" Header="{Binding K0914_G1_ApDungTu, Source={StaticResource eHCMSResources}}"></DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding ObjPCLExamTypePrice.ObjStaffID.FullName}" >
+                                <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                <DataTemplate>
+                                <TextBlock Text="{Binding N0289_G1_NhVienLapGia, Source={StaticResource eHCMSResources}}" />
+                                </DataTemplate>
+                                </Setter.Value>
+                                </Setter>
+                                </Style>
+                                </DataGridTextColumn.HeaderStyle></DataGridTextColumn>-->
+                                    <DataGridCheckBoxColumn Binding="{Binding IsExternalExam}" Header="{Binding N0147_G1_NgoaiVien, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding ObjV_PCLMainCategory.ObjectValue}" Header="{Binding T2669_G1_Loai, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding ObjPCLExamTypeSubCategoryID.PCLSubCategoryName}" Header="{Binding N0239_G1_Nhom, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridCheckBoxColumn Binding="{Binding IsUsed, TargetNullValue=False}" Header="{Binding K2716_G1_ConDung, Source={StaticResource eHCMSResources}}" />
+                                    <DataGridTextColumn Binding="{Binding PCLExamTypeNameEng}" Header="{Binding Z3321_G1_TenTiengAnh, Source={StaticResource eHCMSResources}}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <commonctrl:DataPager
+                                Grid.Row="2"
+                                VerticalAlignment="Bottom"
+                                PageSize="{Binding PageSize}"
+                                Source="{Binding ObjPCLExamTypesAndPriceIsActive_Paging, Mode=OneWay}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <!--</toolkit:BusyIndicator>-->
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>

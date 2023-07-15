@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="aEMR.OutstandingTasks.Views.ClinicRoomTaskView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <converters:OutstandingItemFontWeightConverter x:Key="FontWeightConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="{Binding OutstandingTitle,Mode=TwoWay}" Padding="5,5,0,0" Style="{StaticResource TextBlock.Heading.02}"/>
+        <!--cal:Message.Attach="[Event SelectionChanged]=[Action cboTimeSegment_SelectionChanged($source, $eventArgs)]"-->
+        <customcontrols:AxComboBox Name="cboTimeSegment"  Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,10,0"
+                    ItemsSource="{Binding lstConsultationTimeSegments}" Width="90" 
+                    VerticalAlignment="Bottom" Style="{StaticResource MainFrame.ComboBox}"
+                        DisplayMemberPath="SegmentName"
+                        SelectedValuePath="ConsultationTimeSegmentID"
+                        SelectedItemEx="{Binding curConsultationTimeSegments,Mode=TwoWay}"
+                    />
+        <!--cal:Message.Attach="[Event Click]=[Action RefreshCmd()]"-->
+        <Button x:Name="RefreshBtn" Height="23" Padding="0,5,0,0" Grid.Row="0"
+                         Grid.Column="1"
+                         HorizontalAlignment="Right"
+                         Margin="0,0,5,0"
+                         VerticalAlignment="Center"
+                         Content="{Binding R0510_G1_Refresh, Source={StaticResource eHCMSResources}}"
+                         Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                         Width="Auto" />
+        <Border BorderBrush="#FFC5D9F1" BorderThickness="1" Margin="5,5,5,5" Padding="0,0,0,0"  CornerRadius="5" Grid.Row="1" Grid.ColumnSpan="2">
+            <ListBox x:Name="ClinicRoomList" HorizontalAlignment="Stretch"
+                Background="Transparent"
+                Margin="0,0,0,0"
+                Padding="0,0,0,0"
+                BorderThickness="0"
+                ItemsSource="{Binding lstDeptLocInfo, Mode=TwoWay}"                     
+                SelectedValuePath="ID"                     
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" Width="Auto"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Location.LocationName,Mode=TwoWay,StringFormat='{}{0}:'}"
+                                        HorizontalAlignment="Stretch" Foreground="#009DEE" FontWeight="Bold" Height="22" Margin="5,0,0,0" />
+                                <TextBlock Text="{Binding ChoKham,Mode=TwoWay}" 
+                                        HorizontalAlignment="Stretch" Foreground="#FF0066"
+                                        Height="24" Margin="5,3,5,0" />
+                                <TextBlock Text="{Binding ConsultTimeSeg.SegmentName,Mode=TwoWay}" 
+                                        HorizontalAlignment="Stretch" Foreground="#003333"
+                                        Height="24" Margin="5,3,5,0" />
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+                                <TextBlock Text="{Binding A1182_G1_BS, StringFormat='{}   {0}: ', Source={StaticResource eHCMSResources}}" 
+                                                 HorizontalAlignment="Stretch"
+                                                 Style="{StaticResource TBlock.Content.00}"    
+                                       Foreground="#FF0066"
+                                   FontWeight="{Binding State, Mode=OneWay,Converter={StaticResource FontWeightConverter}}"
+                                                 Height="22" Margin="10,0,5,0" />
+                                <TextBlock Text="{Binding staffName,Mode=TwoWay}" 
+                                                 HorizontalAlignment="Stretch"
+                                                 Style="{StaticResource TBlock.Content.00}"    
+                                       Foreground="#003333" TextWrapping="Wrap"
+                                   FontWeight="{Binding State, Mode=OneWay,Converter={StaticResource FontWeightConverter}}"
+                                         Width="180"   Height="Auto" Margin="5,0,5,0" />
+                                
+                            </StackPanel> 
+                        </StackPanel>
+                                
+                                
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+        <StackPanel Grid.Row="2" Orientation="Horizontal"  Grid.ColumnSpan="2">
+            <TextBlock HorizontalAlignment="Left" Height="22" Margin="5,0,5,0" VerticalAlignment="Center" Style="{StaticResource TBlock.Heading.02}" Text="{Binding G1535_G1_TSo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+            <TextBlock x:Name="txtbTotal"
+                   Height="22" 
+                  VerticalAlignment="Center"
+                    Style="{StaticResource TBlock.Heading.02}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

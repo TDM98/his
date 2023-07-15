@@ -1,0 +1,51 @@
+﻿using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using DevExpress.XtraReports.UI;
+
+namespace eHCMS.ReportLib.RptTransactions
+{
+    public partial class XRptHISSummaryFollowByICD_Bieu14 : DevExpress.XtraReports.UI.XtraReport
+    {
+        public XRptHISSummaryFollowByICD_Bieu14()
+        {
+            InitializeComponent();
+        }
+        private void XRptHISSummaryFollowByICD_BeforePrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            FillData();
+        }
+        private void FillData()
+        {
+            switch (Convert.ToDateTime(this.ToDate.Value).Month)
+            {
+                case 1:
+                case 2:
+                case 3:
+                    lbSubTitle.Text = "(Kỳ hạn báo cáo: 3 tháng)";
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                    lbSubTitle.Text = "(Kỳ hạn báo cáo: 6 tháng)";
+                    break;
+                case 7:
+                case 8:
+                case 9:
+                    lbSubTitle.Text = "(Kỳ hạn báo cáo: 9 tháng)";
+                    break;
+                case 10:
+                case 11:
+                case 12:
+                    lbSubTitle.Text = "(Kỳ hạn báo cáo: 12 tháng)";
+                    break;
+            }
+            DateTime mStartDate = Convert.ToDateTime(this.FromDate.Value);
+            DateTime mEndDate = Convert.ToDateTime(this.ToDate.Value);
+            this.Year.Value = mStartDate.Year;
+            xrTitle.Text = string.Format("TÌNH HÌNH BỆNH TẬT, TỬ VONG TẠI BỆNH VIỆN THEO ICD NĂM {0}", mEndDate.Year);
+            spRptHISSummaryFollowByICD_Bieu14TableAdapter.Fill(dsRptHISSummaryFollowByICD_Bieu141.spRptHISSummaryFollowByICD_Bieu14, mStartDate, mEndDate, false);
+        }
+    }
+}

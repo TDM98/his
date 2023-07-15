@@ -1,0 +1,119 @@
+﻿<UserControl x:Class="aEMR.Common.Views.UCHealthInsuranceInfo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:aEMRCommConv="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"    
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+    d:DesignHeight="300" d:DesignWidth="400"
+    mc:Ignorable="d"> 
+    <UserControl.Resources>
+        <aEMRCommConv:ShortDateConverter x:Key="ShortDateConverter"/>
+        <aEMRCommConv:VisibilityConverter x:Key="VisibilityConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{x:Null}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="24" />            
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350*" />
+            <ColumnDefinition Width="100" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2">
+            <TextBlock x:Name="lblCardType" Text="{Binding HICardType.ObjectValue, Mode=OneWay}" Margin="5,0,0,0"
+               Style="{StaticResource TBlock.Content.02.LeftAlignment}" FontWeight="Medium"/>
+            <TextBlock Text=" - " Style="{StaticResource TBlock.Content.02.LeftAlignment}" FontWeight="Medium"/>
+            <TextBlock x:Name="lblHICardNo" Text="{Binding HICardNo, Mode=OneWay}" 
+               Style="{StaticResource TBlock.Content.02.LeftAlignment}"  Margin="0,0,10,0" FontWeight="Medium"/>
+            <TextBlock Text="     " Style="{StaticResource TBlock.Content.02.LeftAlignment}" FontWeight="Medium"/>
+            <TextBlock x:Name="lblValidDateFrom"
+               Text="{Binding ValidDateFrom, Mode=TwoWay, Converter={StaticResource ShortDateConverter}}" 
+               Style="{StaticResource TBlock.Content.02.LeftAlignment}" FontWeight="Medium"/>
+            <TextBlock Text=" - " Style="{StaticResource TBlock.Content.02.LeftAlignment}" FontWeight="Medium"/>
+
+            <TextBlock x:Name="lblValidDateTo" Style="{StaticResource TBlock.Content.02.LeftAlignment}" 
+               Text="{Binding ValidDateTo, Mode=OneWay, Converter={StaticResource ShortDateConverter}}" FontWeight="Medium"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+            <TextBlock x:Name="lblRegistrationCode" Style="{StaticResource TBlock.Content.02.LeftAlignment}" Margin="5,0,0,0"
+                Text="{Binding RegistrationCode, Mode=OneWay}" FontWeight="Medium"/>
+            <TextBlock Text=" - " Style="{StaticResource TBlock.Content.02.LeftAlignment}" FontWeight="Medium"/>
+            <TextBlock x:Name="lblRegistrationLocation" Style="{StaticResource TBlock.Content.02.LeftAlignment}"
+                Text="{Binding RegistrationLocation, Mode=OneWay}" FontWeight="Medium"/>
+        </StackPanel>
+        <!--<TextBlock x:Name="lblHIPatientBenefit" Style="{StaticResource TBlock.Content.02.LeftAlignment}" Width="150"
+               Text="{Binding HIPatientBenefit, Mode=OneWay,Converter={StaticResource PercentageConverter2}}" Grid.Row="2"
+               Grid.Column="3" FontWeight="Medium"/>-->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+            <CheckBox x:Name="rdoActiveView" IsChecked="{Binding IsActive, Mode=OneWay}" IsEnabled="False" Style="{StaticResource MainFrame.Checkbox.Title1}"
+              VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" />
+            <Grid>
+                <!--<TextBlock Text="{Binding T2502_G1_KichHoat, Source={StaticResource eHCMSResources}}" Grid.Row="3" Grid.Column="2"
+                    Style="{StaticResource TBlock.Heading.02.RightAlignment}" FontWeight="Medium"/>-->
+                <TextBlock Text="{Binding T2502_G1_KichHoat, Source={StaticResource eHCMSResources}}" Style="{StaticResource TBlock.Heading.02.RightAlignment}" Visibility="{Binding IsActiveAndNotDeleted, Converter={StaticResource VisibilityConverter}}" FontWeight="Medium"/>
+                <TextBlock Text="{Binding K2825_G1_DaXoa, Source={StaticResource eHCMSResources}}" Style="{StaticResource TBlock.Heading.02.RightAlignment}" Foreground="Red" Visibility="{Binding MarkAsDeleted,Converter={StaticResource VisibilityConverter}}" FontWeight="Bold"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+    <!--<Grid x:Name="LayoutRoot" Background="{x:Null}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="24" />
+            <RowDefinition Height="24" />
+            <RowDefinition Height="24" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="170" />
+            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="140" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding T2830_G1_LoaiThe, Source={StaticResource eHCMSResources}}" Style="{StaticResource TBlock.Heading.02.RightAlignment}" FontWeight="Medium"/>
+        <TextBlock Text="{Binding T3593_G1_MaThe, Source={StaticResource eHCMSResources}}" Grid.Row="1" Style="{StaticResource TBlock.Heading.02.RightAlignment}" FontWeight="Medium"/>
+        <TextBlock Text="{Binding T2012_G1_KCBBDCode, Source={StaticResource eHCMSResources}}" Grid.Row="2" Style="{StaticResource TBlock.Heading.02.RightAlignment}" FontWeight="Medium"/>
+        <TextBlock Text="{Binding T2011_G1_KCBBD, Source={StaticResource eHCMSResources}}" Grid.Row="3" Style="{StaticResource TBlock.Heading.02.RightAlignment}" FontWeight="Medium"/>
+
+        <TextBlock x:Name="lblCardType" Text="{Binding HICardType.ObjectValue, Mode=OneWay}" Grid.Column="1"
+               Style="{StaticResource TBlock.Content.02.LeftAlignment}" Width="150" FontWeight="Medium"/>
+
+        <TextBlock x:Name="lblHICardNo" Text="{Binding HICardNo, Mode=OneWay}" Grid.Row="1"
+               Style="{StaticResource TBlock.Content.02.LeftAlignment}" Width="150" Grid.Column="1" Margin="0,0,10,0" FontWeight="Medium"/>
+
+        <TextBlock x:Name="lblRegistrationCode" Style="{StaticResource TBlock.Content.02.LeftAlignment}" Width="150"
+               Text="{Binding RegistrationCode, Mode=OneWay}" Grid.Row="2" Grid.Column="1" FontWeight="Medium"/>
+
+        <TextBlock x:Name="lblRegistrationLocation" Style="{StaticResource TBlock.Content.02.LeftAlignment}"
+               Width="150" Text="{Binding RegistrationLocation, Mode=OneWay}" Grid.Row="3" Grid.Column="1" FontWeight="Medium"/>
+
+        <TextBlock Text="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" Grid.Row="0" Grid.Column="2"
+               Style="{StaticResource TBlock.Heading.02.RightAlignment}" FontWeight="Medium"/>
+        <TextBlock Text="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="2"
+               Style="{StaticResource TBlock.Heading.02.RightAlignment}" FontWeight="Medium"/>
+        <TextBlock Text="{Binding Q0496_G1_QuyenLoi, Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="2"
+               Style="{StaticResource TBlock.Heading.02.RightAlignment}" FontWeight="Medium"/>
+        <TextBlock Text="{Binding T2502_G1_KichHoat, Source={StaticResource eHCMSResources}}" Grid.Row="3" Grid.Column="2"
+               Style="{StaticResource TBlock.Heading.02.RightAlignment}" FontWeight="Medium"/>
+
+
+        <TextBlock x:Name="lblValidDateFrom"
+               Text="{Binding ValidDateFrom, Mode=TwoWay, Converter={StaticResource ShortDateConverter}}" Grid.Column="3"
+               Style="{StaticResource TBlock.Content.02.LeftAlignment}" FontWeight="Medium"/>
+
+        <TextBlock x:Name="lblValidDateTo" Style="{StaticResource TBlock.Content.02.LeftAlignment}" Width="150"
+               Text="{Binding ValidDateTo, Mode=OneWay, Converter={StaticResource ShortDateConverter}}" Grid.Row="1" Grid.Column="3" FontWeight="Medium"/>
+
+
+        <TextBlock x:Name="lblHIPatientBenefit" Style="{StaticResource TBlock.Content.02.LeftAlignment}" Width="150"
+               Text="{Binding HIPatientBenefit, Mode=OneWay,Converter={StaticResource PercentageConverter2}}" Grid.Row="2"
+               Grid.Column="3" FontWeight="Medium"/>
+
+        <CheckBox x:Name="rdoActiveView" IsChecked="{Binding IsActive, Mode=OneWay}" IsEnabled="False" Style="{StaticResource MainFrame.Checkbox.Title1}"
+              VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" FontWeight="Medium"/>
+    </Grid>-->
+</UserControl>

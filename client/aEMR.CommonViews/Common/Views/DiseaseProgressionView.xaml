@@ -1,0 +1,135 @@
+﻿<AxControls:AxUserControl
+    x:Class="aEMR.Common.Views.DiseaseProgressionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="900"
+    d:DesignWidth="1050"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <commonconverters:EnumConverter x:Key="EnumConverterObj" />
+        <commonconverters:EnumValueToStringConverter x:Key="EnumValueToStringConverter" />
+        <commonconverters:StringFormatConverter x:Key="StringFormatConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <commonconverters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility" />
+
+    </UserControl.Resources>
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                Grid.ColumnSpan="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                Text="{Binding TitleForm, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" />
+            <Grid
+                x:Name="LayoutRoot"
+                Grid.Row="2"
+                Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+
+                <ListBox
+                    Name="listDiseaseProgression"
+                    Grid.Row="0"
+                    Margin="5,2,0,2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Top"
+                    BorderThickness="0"
+                    ItemContainerStyleSelector="{x:Null}"
+                    ItemsSource="{Binding DiseaseProgression}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                        <HierarchicalDataTemplate>
+                            <StackPanel>
+                                <!--<CheckBox
+                                    Content="{Binding DiseaseProgressionName}"
+                                    IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                    Tag="520" />-->
+                                <TextBlock Style="{StaticResource TextBlock.Heading.04}" Text="{Binding DiseaseProgressionName}" />
+                                <ListBox
+                                    Name="listDiseaseProgressionDetail"
+                                    Grid.Row="1"
+                                    Margin="5,2,0,2"
+                                    BorderThickness="0"
+                                    ItemContainerStyleSelector="{x:Null}"
+                                    ItemsSource="{Binding DiseaseProgressionDetails}"
+                                    SelectionMode="Multiple">
+                                    <!--  Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected, Converter={StaticResource BooleanToVisibility}}"  -->
+                                    <ListBox.ItemTemplate>
+                                        <HierarchicalDataTemplate>
+                                            <!--<CheckBox
+                                                Content="{Binding DiseaseProgressionDetailName}"
+                                                IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                                                Tag="520" />-->
+                                            <CheckBox
+                                                Content="{Binding DiseaseProgressionDetailName}"
+                                                IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                Tag="520" />
+                                        </HierarchicalDataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <!--<StackPanel VerticalAlignment="Top" Orientation="Horizontal" />-->
+                            <!--<WrapPanel Orientation="Horizontal" />-->
+                            <UniformGrid Background="White" Columns="4" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+
+
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="0,5,0,10"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="120"
+                        Margin="5,0,5,0"
+                        cal:Message.Attach="[Event Click]=[Action btnReset_Click]"
+                        Content="Tạo mới"
+                        FontWeight="Bold"
+                        Visibility="Collapsed" />
+                    <Button
+                        x:Name="btnOK"
+                        Width="80"
+                        Margin="5,0,5,0"
+                        Content="{Binding O0303_G1_OK, Source={StaticResource eHCMSResources}}"
+                        FontWeight="Bold" />
+                    <Button
+                        x:Name="btnCancel"
+                        Width="80"
+                        Margin="5,0,5,0"
+                        Content="{Binding T1723_G1_Huy, Source={StaticResource eHCMSResources}}"
+                        FontWeight="Bold" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</AxControls:AxUserControl>

@@ -1,0 +1,43 @@
+﻿<UserControl                        x:Class="aEMR.UserAccountManagement.Views.UCModulesTreeExView"
+                                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                                    xmlns:cal="http://www.caliburnproject.org" 
+                                    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                                    d:DesignHeight="450" d:DesignWidth="550"
+                                    mc:Ignorable="d">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <HierarchicalDataTemplate x:Key="PersonTemplate"  ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding NodeText}" FontSize="12" />
+            </StackPanel>
+        </HierarchicalDataTemplate>
+
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas"  Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid Height="Auto" x:Name="GrdTree" Width="Auto" ShowGridLines="False"  
+              cal:Message.Attach="[Event Loaded]=[Action GrdTree_Loaded($source,$eventArgs)]">            
+            <Grid.RowDefinitions>                
+                <RowDefinition MinHeight="25" Height="30*"/>
+                <RowDefinition MinHeight="120" Height="570*" />
+            </Grid.RowDefinitions>
+            <CheckBox Name="chkMenu" IsEnabled="False" />
+            <TextBlock Grid.Row="0" Height="18" HorizontalAlignment="Left" Name="lblResult" VerticalAlignment="Top" Text="{Binding M0011_G1_ModuleTree, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />
+                        
+            <Border x:Name="brdRightClickZone" Background="BurlyWood"
+                    cal:Message.Attach="[Event Loaded]=[Action brdRightClickZone_Loaded($source,$eventArgs)]">
+                    <TreeView Height="550" Name="treeView"  Width="280" Margin="1"
+                              ItemsSource="{Binding allModulesTree,Mode=TwoWay}" 
+                              ItemTemplate="{StaticResource PersonTemplate}"     
+                              ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                              ScrollViewer.VerticalScrollBarVisibility="Visible"
+                              Style="{StaticResource TreeViewStyle}"
+                              cal:Message.Attach="[Event SelectedItemChanged]=[Action treeView_SelectedItemChanged($source,$eventArgs)]">
+                </TreeView>
+            </Border>           
+        </Grid>
+    </Border>
+</UserControl>

@@ -1,0 +1,372 @@
+﻿<UserControl
+    x:Class="aEMR.Consultation.Views.AdmissionCriterion_PCLResultView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Coverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:aEMR.Consultation.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Coverters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <Coverters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNot" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <!--<Border
+            Grid.Column="0"
+            MaxHeight="470"
+            Margin="2,7,2,2"
+            Style="{StaticResource LightBlueBorderStyle}"
+            Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}">
+            <Grid Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border
+                    Margin="10,-12,0,0"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource LightBlueBorderStyleNo}"
+                    Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Foreground="#FF6F8AA9"
+                        Style="{StaticResource TextBlock.Heading.Group}"
+                        Text="Triệu chứng bắt buộc"
+                        Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}" />
+                </Border>
+                <ListBox
+                    Name="listRequired"
+                    Grid.Row="2"
+                    MaxHeight="120"
+                    Margin="5,2,0,2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    BorderThickness="0"
+                    ItemContainerStyleSelector="{x:Null}"
+                    ItemsSource="{Binding RequiredSymptomList}"
+                    SelectionMode="Multiple">
+                    <ListBox.ItemTemplate>
+                        <HierarchicalDataTemplate>
+                            <CheckBox cal:Message.Attach="[Event Click]=[Action ckbRequiredChecked_Click($source,$datacontext)]" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <DockPanel Width="520">
+        -->
+        <!--<TextBlock Width="30" Text="{Binding AdmissionCriteriaCode}" />-->
+        <!--
+                                    <TextBlock
+                                        Width="490"
+                                        Text="{Binding SymptomCategoryName}"
+                                        TextWrapping="Wrap" />
+                                </DockPanel>
+                            </CheckBox>
+                        </HierarchicalDataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Background="Transparent" Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </Grid>
+        </Border>
+        <Border
+            Grid.Column="1"
+            MaxHeight="470"
+            Margin="2,7,2,2"
+            Style="{StaticResource LightBlueBorderStyle}"
+            Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}">
+            <Grid Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border
+                    Margin="10,-12,0,0"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource LightBlueBorderStyleNo}"
+                    Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Foreground="#FF6F8AA9"
+                        Style="{StaticResource TextBlock.Heading.Group}"
+                        Text="Triệu chứng không bắt buộc"
+                        Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}" />
+                </Border>
+                <ListBox
+                    Name="listNonRequired"
+                    Grid.Row="4"
+                    MaxHeight="280"
+                    Margin="5,2,0,2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    BorderThickness="0"
+                    ItemContainerStyleSelector="{x:Null}"
+                    ItemsSource="{Binding NonRequiredSymptomList}"
+                    SelectionMode="Multiple">
+                    <ListBox.ItemTemplate>
+                        <HierarchicalDataTemplate>
+                            <CheckBox cal:Message.Attach="[Event Click]=[Action ckbNonRequiredChecked_Click($source,$datacontext)]" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <DockPanel Width="520">
+        -->
+        <!--<TextBlock Width="35" Text="{Binding AdmissionCriteriaCode}" />-->
+        <!--
+                                    <TextBlock
+                                        Width="485"
+                                        Text="{Binding SymptomCategoryName}"
+                                        TextWrapping="Wrap" />
+                                </DockPanel>
+                            </CheckBox>
+                        </HierarchicalDataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Background="Transparent" Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </Grid>
+        </Border>-->
+
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Margin="2,7,2,2"
+            Style="{StaticResource LightBlueBorderStyle}"
+            Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}">
+            <Grid Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Border
+                    Margin="10,-12,0,0"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource LightBlueBorderStyleNo}"
+                    Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Foreground="#FF6F8AA9"
+                        Style="{StaticResource TextBlock.Heading.Group}"
+                        Text="Danh sách cận lâm sàng"
+                        Visibility="{Binding IsAdmRequest, Converter={StaticResource BooleanToVisibility}}" />
+                </Border>
+                <AxControls:AxDataGridEx
+                    Name="grdTicketCare"
+                    Grid.ColumnSpan="2"
+                    MaxHeight="300"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    CanUserReorderColumns="True"
+                    CanUserResizeColumns="True"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    HeadersVisibility="All"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding allGroupPCLs, Mode=TwoWay}"
+                    RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Style="{StaticResource MainFrame.DataGridStyle}"
+                    VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            MinWidth="200"
+                            Binding="{Binding GroupPCLName, Mode=OneWay}"
+                            Header="Tên nhóm CLS" />
+                        <DataGridTemplateColumn x:Name="gridDetailsList">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ListBox
+                                        Name="listPCL"
+                                        MaxHeight="280"
+                                        Margin="5,2,0,2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        BorderThickness="0"
+                                        ItemContainerStyleSelector="{x:Null}"
+                                        ItemsSource="{Binding PCLExamTypeItem}"
+                                        SelectionMode="Multiple">
+                                        <ListBox.ItemTemplate>
+                                            <HierarchicalDataTemplate>
+                                                <CheckBox
+                                                    cal:Message.Attach="[Event Checked] = [Action ckbPCL_Checked($source, $eventArgs)];[Event Unchecked] = [Action ckbPCL_Unchecked($source, $eventArgs)]"
+                                                    IsChecked="{Binding IsHaveRequest, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                    IsEnabled="{Binding IsSelected, Converter={StaticResource InverseBoolConverter}}">
+                                                    <DockPanel Width="420">
+                                                        <!--<TextBlock Width="35" Text="{Binding AdmissionCriteriaCode}" />-->
+                                                        <TextBlock
+                                                            Width="418"
+                                                            IsEnabled="{Binding IsSelected}"
+                                                            Text="{Binding PCLExamTypeName}"
+                                                            TextWrapping="Wrap">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                                            <Setter Property="Foreground" Value="Red" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
+                                                    </DockPanel>
+                                                </CheckBox>
+                                            </HierarchicalDataTemplate>
+                                        </ListBox.ItemTemplate>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <!--<StackPanel Background="Transparent" Orientation="Vertical" />-->
+                                                <UniformGrid Background="White" Columns="2" />
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                    </ListBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </AxControls:AxDataGridEx>
+            </Grid>
+        </Border>
+
+        <DockPanel Grid.Row="2" Grid.ColumnSpan="2">
+            <CheckBox
+                Width="15"
+                Height="15"
+                Margin="50,0,0,0"
+                HorizontalAlignment="Left"
+                Content="Đã chỉ định"
+                IsChecked="True"
+                IsEnabled="False" />
+            <TextBlock
+                Margin="5,0,0,0"
+                HorizontalAlignment="Left"
+                Foreground="Black"
+                Style="{StaticResource TextBlock.Heading.04}"
+                Text="Đã chỉ định" />
+            <CheckBox
+                Width="15"
+                Height="15"
+                Margin="50,0,0,0"
+                HorizontalAlignment="Left"
+                IsChecked="False"
+                IsEnabled="False" />
+            <TextBlock
+                Margin="5,0,0,0"
+                HorizontalAlignment="Left"
+                Foreground="Black"
+                Style="{StaticResource TextBlock.Heading.04}"
+                Text="Chưa chỉ định" />
+            <StackPanel Margin="200,0,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+                <RadioButton
+                    Name="gOption0"
+                    Height="16"
+                    Margin="0,0,15,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action gOption0_Click($source,$eventArgs)]"
+                    Content="{Binding T1516_G1_Hinh, Source={StaticResource eHCMSResources}}"
+                    GroupName="gOption"
+                    IsChecked="True"
+                    Style="{StaticResource MainFrame.RadioButton}" />
+                <RadioButton
+                    Name="gOption1"
+                    Height="16"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action gOption1_Click($source,$eventArgs)]"
+                    Content="{Binding T0769_G1_TaiLieu, Source={StaticResource eHCMSResources}}"
+                    GroupName="gOption"
+                    IsChecked="False"
+                    Style="{StaticResource MainFrame.RadioButton}" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Rectangle
+                    Width="15"
+                    Height="15"
+                    Margin="50,0,0,0"
+                    HorizontalAlignment="Right"
+                    Fill="Red"
+                    Stroke="Black" />
+                <TextBlock
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Right"
+                    Foreground="Red"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="Đã có kết quả" />
+                <Rectangle
+                    Width="15"
+                    Height="15"
+                    Margin="50,0,0,0"
+                    HorizontalAlignment="Right"
+                    Fill="Black"
+                    Stroke="Black" />
+                <TextBlock
+                    Margin="5,0,50,0"
+                    HorizontalAlignment="Right"
+                    Foreground="Black"
+                    Style="{StaticResource TextBlock.Heading.04}"
+                    Text="Chưa có kết quả" />
+            </StackPanel>
+        </DockPanel>
+        <StackPanel
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Margin="2,1"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnChoseFile"
+                Width="100"
+                Height="22"
+                Margin="2,1"
+                Content="Chọn file"
+                Style="{StaticResource MainFrame.Button}" />
+            <Button
+                x:Name="btnSave"
+                Width="100"
+                Height="22"
+                Margin="2,1"
+                Content="Lưu"
+                Style="{StaticResource MainFrame.Button}" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>

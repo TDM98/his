@@ -1,0 +1,97 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.PCLExamAccordingICDView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="1200"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!--<TextBlock
+            Height="22"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.Header.01}"
+            Text="Các cận lâm sàng cần chỉ định và đánh giá lại trên bệnh nhân" />-->
+        <TextBlock
+            Height="22"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.Header.01}"
+            Text="GỢI Ý DỊCH VỤ/CẬN LÂM SÀNG" />
+        <TextBlock
+            Height="22"
+            Margin="5,0,5,0"
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="Khuyến cáo các Dịch vụ kỹ thuật (dịch vụ, xét nghiệm, CĐHA) tầm soát biến chứng ĐTĐ, THA mỗi 3-6-12 tháng" />
+        <commonctrl:ReadOnlyDataGrid
+            Grid.Row="2"
+            Margin="0,5,0,0"
+            AutoGenerateColumns="False"
+            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+            HeadersVisibility="All"
+            HorizontalScrollBarVisibility="Auto"
+            IsReadOnly="True"
+            ItemsSource="{Binding ListPCLExamAccordingICD}"
+            SelectionMode="Single"
+            Style="{StaticResource MainFrame.DataGridStyle}"
+            VerticalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn HeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle.01}">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox
+                                Margin="2,0,0,0"
+                                IsChecked="{Binding Path=DataContext.AllChecked, ElementName=LayoutRoot, Mode=TwoWay}"
+                                IsThreeState="False"
+                                ToolTipService.ToolTip="{Binding K2122_G1_ChonTatCa, Source={StaticResource eHCMSResources}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding PCLExamType.IsActive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding PCLExamType.PCLExamTypeName}" Header="Dịch vụ" />
+                <DataGridTextColumn Binding="{Binding MedicalInstructionDateStr}" Header="Tiền sử" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+            </DataGrid.Columns>
+        </commonctrl:ReadOnlyDataGrid>
+        <StackPanel Grid.Row="3" 
+            Orientation="Horizontal"
+            HorizontalAlignment="Center">
+            <Button
+                x:Name="btChoCLS"
+                Margin="0,3,5,3"
+                Content="Cho cận lâm sàng"
+                Style="{StaticResource MainFrame.Button}" 
+                Height="22"/>
+            <Button
+                x:Name="btCancel"
+                Margin="0,3,5,3"
+                Content="Thoát"
+                Style="{StaticResource MainFrame.Button}" 
+                Height="22"/>
+        </StackPanel>
+    </Grid>
+
+</UserControl>

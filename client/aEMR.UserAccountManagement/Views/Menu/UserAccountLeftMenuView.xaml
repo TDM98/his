@@ -1,0 +1,65 @@
+﻿<UserControl                    x:Class="aEMR.UserAccountManagement.Views.UserAccountLeftMenuView"
+                                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                xmlns:cal="http://www.caliburnproject.org" 
+                                xmlns:layoutToolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Layout.Toolkit"
+                                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                                d:DesignHeight="300" d:DesignWidth="400"
+                                mc:Ignorable="d">
+
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot"  MinHeight="250">
+        <!--ItemContainerStyle ="{StaticResource AccordionHeaderStyle}"-->
+        <layoutToolkit:Accordion x:Name="mnuLeft"
+                           HorizontalAlignment="Stretch"
+                           Margin="2,2,2,2"
+                           MinWidth ="185" BorderThickness="0"
+                           
+                           ItemsSource="{Binding LeftMenuItems,Mode=OneWay}" 
+                           HorizontalContentAlignment="Stretch">
+            <layoutToolkit:Accordion.Items>
+                <layoutToolkit:AccordionItem Header="{Binding Q0417_G1_QLyNguoiDung, Source={StaticResource eHCMSResources}}"
+                                       HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                       Background="White">
+                    <layoutToolkit:AccordionItem.Content>
+                        <StackPanel>
+                            <Button Content="{Binding T0768_G1_TaiKhoanNguoiDung, Source={StaticResource eHCMSResources}}" Name="UserAccountStaffInfoCmd" 
+                                             
+                                              Visibility="{Binding mPtUserInfo,Converter={StaticResource BooleanToVisibility} }"/>
+                            <Button Content="{Binding Q0461_G1_QuanLyDSUser, Source={StaticResource eHCMSResources}}" Name="UserAccountStaffCmd" 
+                                             
+                                              Visibility="{Binding bUserAccountStaffCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                            <Button Content="{Binding Q0460_G1_QuanLyDSPhanQuyen, Source={StaticResource eHCMSResources}}" Name="UserAccountListCmd" 
+                                             
+                                              Visibility="{Binding bUserAccountListCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                            <Button Content="{Binding K1709_G1_CHinhPhQuyen, Source={StaticResource eHCMSResources}}" Name="UserConfigCmd" 
+                                             
+                                              Visibility="{Binding bUserConfigCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                            <Button Content="{Binding T2589_G1_LSuDNhap, Source={StaticResource eHCMSResources}}" Name="LoginHistoryCmd"                                              
+                                              Visibility="{Binding bLoginHistoryCmd,Converter={StaticResource BooleanToVisibility} }"/>
+                            <Button Content="{Binding K1710_G1_CHinhTrNhiem, Source={StaticResource eHCMSResources}}" Name="StaffDeptResponCmd"                              
+                                             Visibility="{Binding bStaffDeptResponCmd,Converter={StaticResource BooleanToVisibility} }"
+                                              />
+                            <Button Content="{Binding K2277_G1_ChungThucCuaBSi, Source={StaticResource eHCMSResources}}" Name="DoctorAuthoCmd"                              
+                                             Visibility="{Binding bDoctorAuthoCmd,Converter={StaticResource BooleanToVisibility} }"
+                                              />
+                            <!--Visibility="{Binding bStaffDeptResponCmd,Converter={StaticResource BooleanToVisibility} }"-->
+                        </StackPanel>
+                    </layoutToolkit:AccordionItem.Content>
+
+                </layoutToolkit:AccordionItem>
+
+            </layoutToolkit:Accordion.Items>
+        </layoutToolkit:Accordion>
+        <StackPanel Name="AAAA">
+
+        </StackPanel>
+    </Grid>
+</UserControl>

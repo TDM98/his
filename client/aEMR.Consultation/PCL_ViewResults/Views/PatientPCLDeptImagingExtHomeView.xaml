@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="aEMR.ConsultantEPrescription.PCL_ViewResults.Views.PatientPCLDeptImagingExtHomeView" 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+           d:DesignWidth="640" d:DesignHeight="480"
+           xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+           xmlns:cal="http://www.caliburnproject.org"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <DataTemplate x:Key="grdImportTPL_lnkView">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="lnkView" ToolTipService.ToolTip="Click here for view" 
+                         Content="{Binding ObjectResult.PCLResultFileName,Mode=TwoWay}" 
+                         cal:Message.Attach="[Event Click]=[Action lnkView_Click($source,$eventArgs)]"></Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="grdImportTPL_lnkDelete">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="lnkDelete" ToolTipService.ToolTip="Click here for delete" cal:Message.Attach="[Event Click]=[Action lnkDelete_Click($source,$eventArgs)]">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Expander Grid.Row="1" Margin="0,0,0,0" VerticalAlignment="Stretch" Foreground="#CC0033" FontWeight="Bold"
+                                ExpandDirection="Down" IsExpanded="False" 
+                                  Header="{Binding UCPatientProfileInfo.CurrentPatient.GeneralInfoString,Mode=OneWay}" 
+                                  Background="#FFDBE5F1" 
+                                RenderTransformOrigin="0,0" Height="Auto"
+                                HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                          Visibility="{Binding IsShowSummaryContent, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition MinWidth="1" Width="1"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ContentControl  x:Name="UCPatientProfileInfo" Grid.Column="0"  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                        <ContentControl x:Name="UCDoctorProfileInfo" Grid.Column="2"   HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                    </Grid>
+                </Expander>
+                <Grid Grid.Row="2">
+                    <TabControl Name="tabCommon" Margin="0,0,0,0"  Style="{StaticResource MainFrame.TabControl}"  cal:Message.Attach="[Event SelectionChanged]=[Action tabCommon_SelectionChanged($source,$eventArgs)]">
+                        <TabItem Header="{Binding T0707_G1_GanKQuaNgoaiVien, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}" 
+                                     cal:Message.Attach="[Event Loaded] = [Action TabWork_Loaded($source, $eventArgs)]">
+                            <ContentControl x:Name="UCPatientPCLRequestExtEdit"  Grid.Column="0" Grid.ColumnSpan="3" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  />
+                        </TabItem>
+
+                        <!--<TabItem Header="{Binding P0363_G1_PhCLSNhVien, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}" Name="TabEdit" cal:Message.Attach="[Event Loaded] = [Action TabEdit_Loaded($source, $eventArgs)]">
+                            <ContentControl x:Name="UCPatientPCLRequestEdit"  Grid.Column="0" Grid.ColumnSpan="3" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"  />
+                        </TabItem>-->
+
+                        <TabItem Header="{Binding K3039_G1_DSPhCLSHANgVien, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}" Name="Tab2">
+                            <ContentControl x:Name="UCPatientPCLRequestList"  Grid.Column="0" Grid.ColumnSpan="3" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </TabItem>
+
+                    </TabControl>
+                </Grid>
+            </Grid>
+        </toolkit:BusyIndicator>
+    </Grid>
+</UserControl>

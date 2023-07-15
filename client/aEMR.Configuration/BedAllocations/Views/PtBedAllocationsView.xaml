@@ -1,0 +1,60 @@
+﻿<UserControl               x:Class="aEMR.Configuration.BedAllocations.Views.PtBedAllocationsView" 
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                           xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                           xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common" 
+                           d:DesignWidth="840" d:DesignHeight="600"
+                           mc:Ignorable="d">
+    <UserControl.Resources>
+	    <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" >
+        <!--Comment BusyIndicator-->
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+            <Grid >
+                <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="90" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="450" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35*"/>
+                    <ColumnDefinition Width="65*"/>
+                </Grid.ColumnDefinitions>
+            <TextBlock HorizontalAlignment="Center" Grid.Row="0" Grid.ColumnSpan="2"
+                       VerticalAlignment="Top" Text="{Binding Q0467_G1_QuanLyGiuongBenh, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" FontSize="18"  Style="{StaticResource TextBlock.Heading.02}"/>
+            <StackPanel Grid.Row="1" Grid.RowSpan="3"  >
+                <ContentControl Name="UCDepartmentTree">
+                    
+                </ContentControl>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                <ContentControl Name="UCRoomInfo">
+
+                </ContentControl>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ContentControl Name="UCRoomEdit">
+
+                </ContentControl>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Grid.RowSpan="2"  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                   >
+                <ContentControl Name="UCBedAllocGrid">
+
+                </ContentControl>
+            </StackPanel>
+
+        </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Grid>
+</UserControl>

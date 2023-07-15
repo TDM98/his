@@ -1,0 +1,51 @@
+﻿<customcontrols:AxUserControl x:Class="aEMR.Common.Views.MinHourDateControlView"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                              xmlns:cal="http://www.caliburnproject.org"
+                              d:DesignHeight="450" d:DesignWidth="800"
+                              xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                              xmlns:Converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converter:ShortDateConverter x:Key="ShortDateConverter" />
+        <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <customcontrols:AxTextBoxFilter Height="22" Width="30" BorderThickness="0,0,0,1" 
+                                            Filter="{Binding IntNumberFilter, Mode=OneWay}"                                            
+                                            TextAlignment="Right"
+                                            Text="{Binding HourPart, Mode=TwoWay}"
+                                            VerticalContentAlignment="Center" 
+                                            IsEnabled="{Binding IsEnableMinHourControl, Mode=TwoWay}" />
+            <!--cal:Message.Attach="[Event LostFocus]=[Action HourPart_LostFocus($source,$eventArgs)]"-->
+
+            <TextBlock Text="{Binding T1209_G1_GioL, Source={StaticResource eHCMSResources}}"
+                       VerticalAlignment="Center" />
+            <customcontrols:AxTextBoxFilter Height="22" Width="30" BorderThickness="0,0,0,1"
+                                            TextAlignment="Right"
+                                            Text="{Binding MinutePart, Mode=TwoWay}"
+                                            Filter="{Binding IntNumberFilter, Mode=OneWay}"
+                                            VerticalContentAlignment="Center" 
+                                            IsEnabled="{Binding IsEnableMinHourControl, Mode=TwoWay}"/>
+            <!--cal:Message.Attach="[Event LostFocus]=[Action MinutePart_LostFocus($source,$eventArgs)]"-->
+
+            <TextBlock Text="{Binding I0937_G1_I, Source={StaticResource eHCMSResources}}"
+                       VerticalAlignment="Center" />
+            <customcontrols:AxDateTextBox Text="{Binding DatePart, Mode=TwoWay, Converter={StaticResource ShortDateConverter}}"
+                                          Height="22" Width="90" BorderThickness="0,0,0,1"
+                                          VerticalContentAlignment="Center" />
+            <!--cal:Message.Attach="[Event DateChanged] = [Action DatePart_DateChanged($source, $eventArgs)]"-->
+
+            <Button x:Name="btnOK"
+                    Content="{Binding K3847_G1_DongY, Source={StaticResource eHCMSResources}}"
+                    Style="{StaticResource MainFrame.Button}" Height="22"
+                    Width="75" Margin="10 0 0 0"
+                    Visibility="{Binding bShowButton, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}" />
+        </StackPanel>
+    </Grid>
+</customcontrols:AxUserControl>

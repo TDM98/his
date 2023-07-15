@@ -1,0 +1,183 @@
+﻿<UserControl    x:Class="aEMR.Configuration.PCLExamTypeExamTestPrint.Views.PCLExamTypeExamTestPrintView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                mc:Ignorable="d"
+                d:DesignHeight="600" d:DesignWidth="800"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>        
+        <commonconverters:IntConverterMin0 x:Key="IntConverterMin0"/>        
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White" Margin="10">
+        <Grid x:Name="GridMain">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <TextBlock Text="{Binding K1702_G1_CHinhInPCLexamtypesExamtest, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" Foreground="#3595CB" FontSize="14" FontWeight="Bold" Margin="0,10,0,0"></TextBlock>
+            </Grid>     
+
+            <Border Grid.Row="1" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                <StackPanel>
+                    <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                    </Border>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>                            
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170"></ColumnDefinition>
+                            <ColumnDefinition Width="300"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding T3185_G1_Ma, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" HorizontalAlignment="Right" Margin="0,2,5,2"></Label>
+                        <TextBox Text="{Binding SearchCriteria.Code,Mode=TwoWay}" Grid.Row="0" Grid.Column="1" x:Name="tbCode" Margin="0,2,5,2"></TextBox>
+                                                
+                        <Label Grid.Row="1" Grid.Column="0" Content="{Binding T0829_G1_Ten, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" HorizontalAlignment="Right" Margin="0,2,5,2"></Label>
+                        <TextBox Text="{Binding SearchCriteria.Name,Mode=TwoWay}" Grid.Row="1" Grid.Column="1" x:Name="tbName" Margin="0,2,5,2"></TextBox>                        
+
+                        <Button HorizontalAlignment="Left" Grid.Row="2" Grid.Column="2" Width="60"
+                                Height="23"
+                                x:Name="btFind">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="20" VerticalAlignment="Center" Height="18" Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png"/>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"/>
+                            </StackPanel>
+                        </Button>
+
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="2" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                <StackPanel>
+                    <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding K2975_G1_DSExamtypeExamtest, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                    </Border>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>                            
+                            <RowDefinition Height="25"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <DataGrid Grid.Row="0" Name="dtgList" 
+                                      IsReadOnly="True"            
+                                  CanUserAddRows="False"
+                      AutoGenerateColumns="False"    
+                      HorizontalScrollBarVisibility="Auto"  
+                      VerticalScrollBarVisibility="Visible"   
+                                      Height="380"
+                      HeadersVisibility="All"
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                      Style="{StaticResource MainFrame.DataGridStyle}" Margin="0,5,0,0"
+                                  ItemsSource="{Binding ObjPCLExamTypeExamTestPrint_GetList_Paging,Mode=OneWay}"
+                                      cal:Message.Attach="[Event LoadingRow]=[Action dtgList_LoadingRow($source,$eventArgs)]">
+                            <DataGrid.Columns>
+
+                                <DataGridTextColumn Header="{Binding T1794_G1_ID, Source={StaticResource eHCMSResources}}" Binding="{Binding ID}"/>
+
+                                <DataGridTemplateColumn Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox MaxLength="50"  Text="{Binding Code,Mode=TwoWay}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+
+                                <DataGridTemplateColumn Header="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox MaxLength="128" Text="{Binding Name,Mode=TwoWay}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+
+                                <DataGridTemplateColumn Header="{Binding T1907_G1_InDam, Source={StaticResource eHCMSResources}}" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsBold,Mode=TwoWay}" HorizontalAlignment="Center"></CheckBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+
+                                <DataGridTemplateColumn Header="{Binding T1952_G1_Indent, Source={StaticResource eHCMSResources}}" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Text="{Binding Indent,Mode=TwoWay, Converter={StaticResource IntConverterMin0}}" TextAlignment="Right"></TextBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T1970_G1_IsDisplay, Source={StaticResource eHCMSResources}}">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsDisplay,Mode=TwoWay}" HorizontalAlignment="Center"></CheckBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="{Binding T2488_G1_KhongKQ, Source={StaticResource eHCMSResources}}" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsNoNeedResult,Mode=TwoWay}" HorizontalAlignment="Center"></CheckBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridCheckBoxColumn Header="{Binding T1974_G1_IsExamType, Source={StaticResource eHCMSResources}}" Binding="{Binding IsPCLExamType}"/>
+
+                                <DataGridCheckBoxColumn Header="{Binding T1972_G1_IsExamTest, Source={StaticResource eHCMSResources}}" Binding="{Binding IsPCLExamTest}"/>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <commonctrl:DataPager Grid.Row="1" VerticalAlignment="Bottom" Source="{Binding PCLExamTypeExamTestPrint_GetList_Paging,Mode=OneWay}" PageSize="{Binding PageSize}"></commonctrl:DataPager>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            
+            <Grid Grid.Row="3">       
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid Name="GridRecColor" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle HorizontalAlignment="Right" Fill="#99AC5D" Grid.Row="0" Grid.Column="0" Height="15" Width="15" Stroke="Black" Margin="0,2,5,2"/>
+                    <Label HorizontalAlignment="Left" Foreground="#88A44F" Grid.Row="0" Grid.Column="1" Content="{Binding P0329_G1_PCLExamType, Source={StaticResource eHCMSResources}}" Margin="0,2,5,2"/>
+
+                </Grid>
+
+                <Button Grid.Column="1" x:Name="btSave" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Width="80" HorizontalAlignment="Left"></Button>                                
+            </Grid>
+
+        </Grid>
+    </Grid>
+</UserControl>

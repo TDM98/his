@@ -1,0 +1,179 @@
+﻿<UserControl                     x:Class="aEMR.ClinicManagement.Views.MedicalFileCheckInHistoryView"
+                                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                 xmlns:cal="http://www.caliburnproject.org"
+                                 xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                                 xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                                 xmlns:DataCtrl="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
+                                 xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                                 d:DesignHeight="300" d:DesignWidth="800"
+                                 mc:Ignorable="d" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:StringFormatConverter x:Key="StringFormatConverter"/>
+        <Converters:NullRefShelfNameConverter x:Key="NullRefShelfNameConverter"/>
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNot"/>
+        <DataTemplate x:Key="gvColumn_lnkDelete">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!--15072018 TTM
+                ViewModel Không có Method nên comt ra.
+                cal:Message.Attach="[Event Click]=[Action lnkDelete_Click($source,$eventArgs)]"-->
+                <Button x:Name="lnkDelete" ToolTipService.ToolTip="Click here for delete" >
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="AutoCompleteTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding FullName}" Style="{StaticResource MainFrame.TextBlock.Auto}" Margin="0" Padding="0" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" HorizontalAlignment="Stretch">
+            <TextBlock FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Text="{Binding TitleForm}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB"/>
+
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding S0648_G1_SoHoSo, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,0,5,0" Style="{StaticResource MainFrame.TextBlock.00}"></TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="2,1" Width="200" HorizontalAlignment="Left" Style="{StaticResource MainFrame.TextBox}" IsTabStop="True" TabIndex="0" Text="{Binding FileCodeNumber,Mode=TwoWay}"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Z1964_G1_NgMuon, Source={StaticResource eHCMSResources}}"
+                       Visibility="{Binding IsCheckIn,Converter={StaticResource BooleanToVisibilityNot}}"
+                       VerticalAlignment="Center" Margin="5,0,5,0" Style="{StaticResource MainFrame.TextBlock.00}"></TextBlock>
+            <AxControls:AxAutoComplete Grid.Row="1" Grid.Column="1" IsTabStop="False" HorizontalAlignment="Left" Margin="2,1,0,1"
+                                       TextBoxStyle="{StaticResource MainFrame.TextBox}" FontWeight="Bold" MinimumPopulateDelay="300" MinimumPrefixLength="0"
+                                       Width="200" Height="22"
+                                       Text="{Binding SelectedStaff.FullName}"
+                                       Visibility="{Binding IsCheckIn,Converter={StaticResource BooleanToVisibilityNot}}"
+                                       ValueMemberBinding="{Binding FullName, Mode=TwoWay}"
+                                       SelectedItem="{Binding SelectedStaff,Mode=TwoWay}"
+                                       ItemTemplate="{StaticResource AutoCompleteTemplate}"
+                                       ItemsSource="{Binding AllStaff,Mode=OneWay}">
+            </AxControls:AxAutoComplete>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,0,5,0" Style="{StaticResource MainFrame.TextBlock.00}"></TextBlock>
+            <AxControls:AxDatePicker x:Name="dtpStartFrom" Margin="5,0,5,0" 
+                SelectedDateFormat="Short"
+                                     SelectedDate="{Binding StartDate, Mode=TwoWay}"
+                                     HorizontalAlignment="Left"
+                                     Height="22"
+                                     Grid.Row="0" Grid.Column="3" TabIndex="2" />
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Margin="5,0,5,0" Style="{StaticResource MainFrame.TextBlock.00}"></TextBlock>
+            <AxControls:AxDatePicker x:Name="dtpEndDate" Margin="5,0,5,0" 
+                SelectedDateFormat="Short"
+                                     SelectedDate="{Binding EndDate, Mode=TwoWay}"
+                                     HorizontalAlignment="Left"
+                                     Height="22"
+                                     Grid.Row="1" Grid.Column="3" TabIndex="2" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Z2039_G1_NguoiXuat, Source={StaticResource eHCMSResources}}"
+                       Visibility="{Binding IsCheckIn,Converter={StaticResource BooleanToVisibilityNot}}"
+                       VerticalAlignment="Center" Margin="5,0,5,0" Style="{StaticResource MainFrame.TextBlock.00}"></TextBlock>
+            <AxControls:AxAutoComplete Grid.Row="2" Grid.Column="1" IsTabStop="False" HorizontalAlignment="Left" Margin="2,1,0,1"
+                                       TextBoxStyle="{StaticResource MainFrame.TextBox}" FontWeight="Bold" MinimumPopulateDelay="300" MinimumPrefixLength="0"
+                                       Width="200" Height="22"
+                                       Text="{Binding SelectedIssueStaff.FullName}"
+                                       Visibility="{Binding IsCheckIn,Converter={StaticResource BooleanToVisibilityNot}}"
+                                       ValueMemberBinding="{Binding FullName, Mode=TwoWay}"
+                                       SelectedItem="{Binding SelectedIssueStaff,Mode=TwoWay}"
+                                       ItemTemplate="{StaticResource AutoCompleteTemplate}"
+                                       ItemsSource="{Binding AllIssueStaff,Mode=OneWay}">
+            </AxControls:AxAutoComplete>
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding G1319_G1_TTrang, Source={StaticResource eHCMSResources}}"
+                       Visibility="{Binding IsCheckIn,Converter={StaticResource BooleanToVisibilityNot}}"
+                       VerticalAlignment="Center" Margin="5,0,5,0" Style="{StaticResource MainFrame.TextBlock.00}"></TextBlock>
+            <ComboBox Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" Width="120" Margin="5,2,0,2" SelectedIndex="0" cal:Message.Attach="[Event Loaded]=[Action cboStatus_Loaded($source,$eventArgs)]">
+                <ComboBoxItem Content="Tất cả" Tag="0"></ComboBoxItem>
+                <ComboBoxItem Content="Chưa được trả" Tag="1"></ComboBoxItem>
+                <ComboBoxItem Content="Đã trả" Tag="2"></ComboBoxItem>
+                <ComboBoxItem Content="Quá hạn trả" Tag="3"></ComboBoxItem>
+                <ComboBoxItem Content="Đến hẹn trả" Tag="4"></ComboBoxItem>
+            </ComboBox>
+            <DataGrid Grid.Row="3" Grid.ColumnSpan="4"
+                                          AutoGenerateColumns="False" 
+                                          Name="gvMedicalFileHistory"
+                                            MinHeight="200"
+                          MaxHeight="400"
+                                          VerticalAlignment="Stretch"
+                                          HorizontalAlignment="Left"
+                                          CanUserAddRows="False"
+                                          HeadersVisibility="All"
+                                          ItemsSource="{Binding AllPatientMedicalFileStorageCheckOut, Mode=OneWay}"
+                                          SelectedItem="{Binding SelectedFileStorage, Mode=TwoWay}"
+                                          HorizontalScrollBarVisibility="Auto"  
+                                          VerticalScrollBarVisibility="Auto"
+                                          cal:Message.Attach="[Event LoadingRow] = [Action gvMedicalFileHistory_LoadingRow($source, $eventArgs)]"
+                                          ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                                          Style="{StaticResource MainFrame.DataGridStyle}" 
+                                          Opacity="5" >
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn x:Name="colRemove" IsReadOnly="True" MaxWidth="20" CellTemplate="{StaticResource gvColumn_lnkDelete}">
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="{Binding S0648_G1_SoHoSo, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding FileCodeNumber}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+
+                    <DataGridTextColumn Header="{Binding T2144_G1_Kho, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding swhlName}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+
+                    <DataGridTextColumn Header="{Binding T2013_G1_Ke, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding RefShelfName, Converter={StaticResource NullRefShelfNameConverter}}" CanUserReorder="True" CanUserResize="True" CanUserSort="True" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+
+                    <DataGridTextColumn Header="{Binding Z1997_G1_Ngan, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding LocName, Converter={StaticResource NullRefShelfNameConverter}}" CanUserReorder="True" CanUserResize="True" CanUserSort="True" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+
+                    <DataGridTextColumn Header="{Binding G1319_G1_TTrang, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding Status}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+
+                    <DataGridTextColumn Header="{Binding Z1965_G1_KhoaMuon, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding DeptName}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+
+                    <DataGridTextColumn Header="{Binding Z1966_G1_PhongMuon, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding LocationName}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+
+                    <DataGridTextColumn Header="{Binding Z1964_G1_NgMuon, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding BorrowBy}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="*" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+
+                    <DataGridTextColumn Header="{Binding Z2041_G1_NgayMuon, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding CheckoutDate, StringFormat=dd/MM/yyyy}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="*" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+
+                    <DataGridTextColumn Header="{Binding N0124_G1_NgTra, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding CheckinDate, StringFormat=dd/MM/yyyy}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="*" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />
+
+                </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel Grid.Row="4" Grid.ColumnSpan="4" Orientation="Horizontal">
+                <AxControls:DataPager x:Name="pagerMedicalFileHis"
+                                    PageSize="{Binding PageSize}"
+                                    HorizontalContentAlignment="Left"
+                                    Source="{Binding AllPatientMedicalFileStorageCheckOut,Mode=OneWay}"
+                                    Margin="0,0,0,0" />
+                <Rectangle HorizontalAlignment="Right" Fill="Red" Grid.Row="0" Grid.Column="0" Height="15" Width="15" Stroke="Black" Margin="50,0,0,0"/>
+                <TextBlock Text="Hồ sơ mượn quá hạn" HorizontalAlignment="Right" Foreground="Red" Grid.Row="0" Grid.Column="1" Margin="5,5,0,0" Style="{StaticResource TextBlock.Heading.04}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 10 0 0" >
+                <Button x:Name="btnSearch" Width="80" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" Margin="0,0,0,10" Style="{StaticResource MainFrame.Button}" />
+                <Button x:Name="btnPrint" Width="80" Content="{Binding G2398_G1_XemIn, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" Margin="10,0,0,10" Style="{StaticResource MainFrame.Button}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

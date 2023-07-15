@@ -1,0 +1,166 @@
+﻿<UserControl    x:Class="aEMR.Configuration.RefMedicalServiceItems_IsPCL.Views.RefMedicalServiceItems_IsPCLView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:controls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignHeight="550" d:DesignWidth="800">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid x:Name="GridMain">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <TextBlock Text="{Binding Q0431_G1_QLGoiDVCLS, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" Foreground="#FF0084FF" FontSize="14" FontWeight="Bold" Margin="0,10,0,0"></TextBlock>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="10,10,0,5">
+                <Button HorizontalAlignment="Left" Name="hplAddNewRefMedicalServiceItemsView" ToolTipService.ToolTip ="Thêm Mới Gói Dịch Vụ Cận Lâm Sàng" FontWeight="Bold" Foreground="#FF0084FF" Style="{StaticResource MainFrame.HyperlinkButton}"
+                                 Visibility="{Binding bhplAddNew,Converter={StaticResource BooleanToVisibility} }">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/aEMR.CommonViews;component/Assets/Images/page-add-icon2.png" Height="13" Width="13" Opacity="1" />
+                            <TextBlock Text="{Binding G0301_G1_ThemMoiGoiDVCLS, Source={StaticResource eHCMSResources}}"></TextBlock>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="2">                                            
+                    <Grid x:Name="GridRight">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                            <StackPanel>
+                                <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                                </Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"></ColumnDefinition>
+                                        <ColumnDefinition Width="400"></ColumnDefinition>
+                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding T3320_G1_MaDV, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" FontWeight="Normal" HorizontalAlignment="Right" Margin="0,2,5,2"/>
+                                    <TextBox MaxLength="15" Grid.Row="0" Grid.Column="1" x:Name="tbMedServiceCode" Text="{Binding SearchCriteria.MedServiceCode,Mode=TwoWay}" Margin="0,2,5,2"></TextBox>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding A1164_G1_TenDV, Source={StaticResource eHCMSResources}}" FontWeight="Normal" HorizontalAlignment="Right" Margin="0,2,5,2"/>
+                                    <TextBox MaxLength="128" x:Name="tbMedServiceName" Text="{Binding SearchCriteria.MedServiceName,Mode=TwoWay}" Grid.Row="1" Grid.Column="1" Margin="0,2,5,2"></TextBox>
+
+                                    <Button x:Name="btSearch" HorizontalAlignment="Left" Grid.Row="1" Height="23" VerticalAlignment="Center"
+                                            Grid.Column="2" Width="60" 
+                                            Visibility="{Binding bbtSearch,Converter={StaticResource BooleanToVisibility} }">
+                                        <StackPanel Orientation="Horizontal">
+                                        <Image Width="20" VerticalAlignment="Center" Height="18" Source="/aEMR.CommonViews;component/Assets/Images/1306555029_find.png"/>
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+
+                        <Border Grid.Row="1" CornerRadius="3" Background="AliceBlue" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                            <StackPanel>
+                                <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="AliceBlue" HorizontalAlignment="Left">
+                                    <TextBlock Text="{Binding K2986_G1_DSGoiDVCLS, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                                </Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>                                        
+                                        <RowDefinition Height="25"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <DataGrid Name="dtgList" Grid.Row="0" 
+                      IsReadOnly="True"
+                      AutoGenerateColumns="False" 
+                      HorizontalScrollBarVisibility="Auto"  
+                      VerticalScrollBarVisibility="Visible"   
+                      HeadersVisibility="All"
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                      Style="{StaticResource MainFrame.DataGridStyle}" Margin="0,2"                              
+                      ItemsSource="{Binding ObjRefMedicalServiceItems_IsPCLByMedServiceID_Paging,Mode=OneWay}">
+                                        <DataGrid.Columns>
+
+                                            <DataGridTemplateColumn x:Name="colTemplate"  Header="">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+
+                                                            <Button x:Name="hplEditService" ToolTipService.ToolTip="Hiệu Chỉnh Dịch Vụ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                                             cal:Message.Attach="[Event Click]=[Action hplEditService_Click($datacontext)]
+                                                                             ;[Event Loaded]=[Action hplEditService_Loaded($source)]">
+                                                                <Button.Content>
+                                                                <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" />
+                                                                </Button.Content>
+                                                            </Button>
+
+                                                            <Button x:Name="hplDeleteService" ToolTipService.ToolTip="Xóa Dịch Vụ" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                                             cal:Message.Attach="[Event Click]=[Action hplDeleteService_Click($datacontext)]
+                                                                             ;[Event Loaded]=[Action hplDeleteService_Loaded($source)]">
+                                                                <Button.Content>
+                                                                <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                                                </Button.Content>
+                                                            </Button>
+
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                        <DataGridTextColumn Header="{Binding T3320_G1_MaDV, Source={StaticResource eHCMSResources}}" Binding="{Binding MedServiceCode}"/>
+
+                                        <DataGridTextColumn Header="{Binding T0844_G1_TenDV, Source={StaticResource eHCMSResources}}" Binding="{Binding MedServiceName}" Width="*"/>
+
+                                        <DataGridTextColumn Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}" Binding="{Binding ObjV_RefMedServiceItemsUnit.ObjectValue}"/>
+
+                                        <DataGridTextColumn Header="{Binding T2707_G1_LoaiDV, Source={StaticResource eHCMSResources}}" Binding="{Binding RefMedicalServiceType.MedicalServiceTypeName}"/>
+
+                                        <DataGridTemplateColumn Header="{Binding K1699_G1_CHinhGoiDVPCL, Source={StaticResource eHCMSResources}}">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <Button Name="hplPCLExamTypeMedServiceDefItems" ToolTipService.ToolTip="Cấu Hình" Foreground="Blue" FontSize="12" HorizontalAlignment="Center" Style="{StaticResource Mainframe.SiteMapHyperlinkButton}" VerticalAlignment="Center"
+                                                                             cal:Message.Attach="[Event Click]=[Action hplPCLExamTypeMedServiceDefItems_Click($datacontext)]">
+                                                                <Button.Content>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Actions-configure-icon.png" Height="13" Width="13" Opacity="1" />
+                                                                        <TextBlock Text="{Binding K1691_G1_CHinh, Source={StaticResource eHCMSResources}}" Foreground="#FF0084FF"></TextBlock>
+                                                                    </StackPanel>
+                                                                </Button.Content>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                <controls:DataPager PageSize="{Binding PageSize}" Grid.Row="1" VerticalAlignment="Bottom"
+                                    Source="{Binding ObjRefMedicalServiceItems_IsPCLByMedServiceID_Paging,Mode=OneWay}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>               
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

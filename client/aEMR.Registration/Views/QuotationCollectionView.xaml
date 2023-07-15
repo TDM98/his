@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="aEMR.Registration.Views.QuotationCollectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400"
+             xmlns:CustomControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+            xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common" >
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:PercentageConverter x:Key="PercentageConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <CustomControls:ReadOnlyDataGrid x:Name="grid"
+                                         AutoGenerateColumns="False"
+                                         ItemsSource="{Binding QuotationCollection,Mode=OneWay}"
+                                         SelectedItem="{Binding SelectedQuotation,Mode=TwoWay}"
+                                         Style="{StaticResource MainFrame.DataGridStyle}"
+                                         ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                         RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                                         HorizontalScrollBarVisibility="Auto"
+                                         VerticalScrollBarVisibility="Auto"
+                                         VerticalContentAlignment="Stretch"
+                                         MinWidth="800" MinHeight="300" Width="Auto"
+                                         MaxHeight="600"
+                                         cal:Message.Attach="[Event DblClick]=[Action gvQuotationCollection_DblClick($datacontext,$eventArgs)]
+                                         ;[Event Loaded]=[Action gvQuotationCollection_Loaded($source,$eventArgs)]">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn x:Name="colDelete"
+                                            IsReadOnly ="True"
+                                            Width="24">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"
+                                             cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext, $eventArgs)]"
+                                             ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                <Button.Content>
+                                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn CustomControls:DataGridColNamingUtil.ColName="clPatientCode" MinWidth="60" 
+                                    Binding="{Binding CurrentPatient.PatientCode,Mode=OneWay}"
+                                    Header="{Binding T3274_G1_MaBN,Source={StaticResource eHCMSResources}}"/>
+                <DataGridTextColumn CustomControls:DataGridColNamingUtil.ColName="clPatientName" MinWidth="60" Binding="{Binding CurrentPatient.FullName,Mode=OneWay}"
+                                    Header="{Binding K1167_G1_BN,Source={StaticResource eHCMSResources}}"/>
+
+
+                <DataGridTextColumn CustomControls:DataGridColNamingUtil.ColName="clHIBenefit" MinWidth="60" Binding="{Binding HIBenefit,Mode=OneWay,Converter={StaticResource PercentageConverter}}"
+                                    Header="{Binding Q0497_G1_QuyenLoiBH,Source={StaticResource eHCMSResources}}"/>
+
+                <DataGridTextColumn MinWidth="60" Binding="{Binding QuotationTitle,Mode=OneWay}"
+                                    Header="{Binding G0936_G1_TieuDe,Source={StaticResource eHCMSResources}}"/>
+
+                <DataGridTextColumn MinWidth="60" Binding="{Binding TotalInvoicePrice,Mode=OneWay,StringFormat='#,#'}"
+                                Header="{Binding G1559_G1_TgTien,Source={StaticResource eHCMSResources}}"/>
+
+                <DataGridTextColumn MinWidth="60" Binding="{Binding TotalHIPayment,Mode=OneWay,StringFormat='#,#'}"
+                                    Header="{Binding K1232_G1_BHTra,Source={StaticResource eHCMSResources}}"/>
+                <DataGridTextColumn MinWidth="60" Binding="{Binding TotalPatientPayment,Mode=OneWay,StringFormat='#,#'}"
+                                    Header="{Binding K1294_G1_BNPhaiTra,Source={StaticResource eHCMSResources}}"/>
+
+                <DataGridTextColumn MinWidth="60" Binding="{Binding FullName,Mode=OneWay}"
+                                    Header="{Binding N0165_G1_NguoiTao,Source={StaticResource eHCMSResources}}"/>
+
+                <DataGridTextColumn MinWidth="60" Binding="{Binding InvDate,Mode=OneWay,StringFormat='dd/MM/yyyy'}"
+                                    Header="{Binding N0111_G1_NgTao,Source={StaticResource eHCMSResources}}"/>
+            </DataGrid.Columns>
+        </CustomControls:ReadOnlyDataGrid>
+    </Grid>
+</UserControl>

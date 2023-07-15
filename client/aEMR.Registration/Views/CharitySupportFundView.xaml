@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="aEMR.Registration.Views.CharitySupportFundView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:cal="http://www.caliburnproject.org"
+                mc:Ignorable="d" 
+                xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"	
+                xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                d:DesignHeight="300" d:DesignWidth="520"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <commonconverters:EnumConverter x:Key="EnumConverterObj" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <commonconverters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility"/>
+        <DataTemplate x:Key="ColDelTemplate">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                <Button cal:Message.Attach="[Event Click] = [Action RemoveSupportFundItemCmd($source, $eventArgs)]" 
+                        ToolTipService.ToolTip="{Binding G2826_G1_XoaQuyHT, Source={StaticResource eHCMSResources}}" 
+                        HorizontalAlignment="Center" VerticalAlignment="Top" 
+                        Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Opacity="1" Width="16" Height="16"/>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ColNameTemplate">
+            <TextBlock Text="{Binding CharityOrgInfo.CharityOrgName}" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColAmountTemplate">
+            <TextBlock Text="{Binding AmountValue,Converter={StaticResource DecimalConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ColPercentTemplate">
+            <TextBlock Text="{Binding PercentValue,Converter={StaticResource DecimalConverter}}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="2"/>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
+        <GroupBox HorizontalAlignment="Stretch" Style="{StaticResource MainFrame.GroupBox}" VerticalAlignment="Stretch"
+                                       Header="{Binding G0667_G1_TTinQuyHT, Source={StaticResource eHCMSResources}}" MaxHeight="300"
+                                       Width="600">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Height="Auto">             
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                        <TextBlock Text="{Binding G1422_G1_ToChuc, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black" FontWeight="Normal"/>
+                        <commonctrl:AxComboBox HorizontalAlignment="Stretch" Style="{StaticResource MainFrame.ComboBox}" SelectedValuePath="CharityOrgID"
+                                                        DisplayMemberPath="CharityOrgName" SelectedItemEx="{Binding SelectedOrganization,Mode=TwoWay}"
+                                                        ItemsSource="{Binding ListOrganization, Mode=OneWay}" Width="200"/>
+                        <Button Name="AddCharityOrganization" Content="..." Style="{StaticResource MainFrame.Button}" Margin="5,0,0,0" Width="35"/>
+                        <CheckBox IsChecked="{Binding IsUsedPercent, Mode=TwoWay}" VerticalAlignment="Center" Foreground="Black" FontWeight="Normal" 
+                                            FlowDirection="RightToLeft"/>
+                        <TextBlock Width="35" Text="{Binding Z0035_G1_PhanTramBang, Source={StaticResource eHCMSResources}}" Margin="3,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black" FontWeight="Normal"/>
+                        <TextBox Text="{Binding CurrentFund.PercentValue, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Margin="0,0,5,0" TextAlignment="Right" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                            Foreground="Black" FontWeight="Normal" MinWidth="35" IsEnabled="{Binding IsUsedPercent}"
+                                            cal:Message.Attach="[Event LostFocus] = [Action CalculateAmountAndPercent]"/>
+                        <TextBlock Text="{Binding G0085_G1_TTien, StringFormat='{}{0}=', Source={StaticResource eHCMSResources}}" Margin="0,0,3,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black" FontWeight="Normal"/>
+                        <TextBox Text="{Binding CurrentFund.AmountValue, Mode=TwoWay, NotifyOnValidationError=True,ValidatesOnExceptions=True, Converter={StaticResource DecimalConverter}}" Margin="0,0,5,0" TextAlignment="Right" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                            Foreground="Black" FontWeight="Normal" Width="120" IsEnabled="{Binding IsUsedAmount}"
+                                            cal:Message.Attach="[Event LostFocus] = [Action CalculateAmountAndPercent]"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="1" HorizontalAlignment="Left">
+                        <!--TMA 10/11/2017-->
+                        <TextBlock Text="{Binding T3154_G1_LyDo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Margin="5,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black" FontWeight="Normal" />
+                        <!--Visibility="{Binding IsReason, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}"-->
+                        <controlslib:AxComboBox Grid.Row="1" Grid.Column="1" Name="cboV_CharityObjectType"                                                    
+                                                    HorizontalAlignment="Stretch" Style="{StaticResource MainFrame.ComboBox}"
+                                                    Width="220"                                                   
+                                                    ItemsSource="{Binding ObjV_CharityObjectType,Mode=OneWay}" 
+                                                    DisplayMemberPath="ObjectValue"
+                                                    SelectedValuePath="LookupID"
+                                                    SelectedValueEx="{Binding CurrentFund.V_CharityObjectType,Mode=TwoWay}"/>
+                        <!--Visibility="{Binding IsReason, Mode=OneWay, Converter={StaticResource BooleanToVisibility}}"-->
+                        <!--TMA 10/11/2017-->
+                        <Button Name="btnAddSupportFundItem" Content="{Binding G0327_G1_ThemQuy, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Margin="5,1" Width="75"/>
+                        <Button Name="btnSaveSupports" Content="{Binding T2937_G1_Luu, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Margin="3,1" Width="75"/>
+                        <Button Name="btnCloseCmd" Content="{Binding K3735_G1_Dong, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Margin="5,1" Width="75"/>
+                    </StackPanel>
+
+                    <ScrollViewer Grid.Row="2" >
+                        <DataGrid  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                                          Style="{StaticResource MainFrame.DataGridStyle}" AutoGenerateColumns="False" IsReadOnly="True" MinHeight="150"
+                                          ItemsSource="{Binding SupportFunds}" Margin="1">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColDelTemplate}"/>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColNameTemplate}" MinWidth="300" Header="{Binding G1422_G1_ToChuc, Source={StaticResource eHCMSResources}}">
+                                   
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColPercentTemplate}" Header="%"/>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource ColAmountTemplate}" MinWidth="100" Header="{Binding G0085_G1_TTien, Source={StaticResource eHCMSResources}}">
+                                 
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                </Grid>  
+            </ScrollViewer>
+        </GroupBox>
+    </Grid>
+</UserControl>

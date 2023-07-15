@@ -1,0 +1,181 @@
+﻿<UserControl
+    x:Class="aEMR.PCLDepartment.Views.ImageCapture_V4View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:WPFMediaKit="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=aEMR.Controls"
+    xmlns:cal="http://www.caliburnproject.org"
+    Width="500"
+    MinHeight="800"
+    MaxHeight="1200">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="300" MaxHeight="500" />
+            <RowDefinition MinHeight="450" MaxHeight="650" />
+            <!--<RowDefinition Height="51*" />-->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Height="22"
+            HorizontalAlignment="Center"
+            FontSize="18"
+            Style="{StaticResource MainFrame.TextBlock.Title}"
+            Text="{Binding G2255_G1_VideoImageCapture, Source={StaticResource eHCMSResources}}" />
+        <!--<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">-->
+        <ListBox
+            x:Name="Snapshots"
+            Grid.Row="1"
+            cal:Message.Attach="[Event Loaded]=[Action Snapshots_Loaded($source,$eventArgs)]             ;[Event SelectionChanged]=[Action Snapshots_SelectionChanged($source,$eventArgs)]             ;[Event MouseDoubleClick]=[Action ViewCapturedImage($source)]"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel
+                        Background="Transparent"
+                        Orientation="Horizontal"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Name="gvImage">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="50" />
+                        </Grid.ColumnDefinitions>
+                        <Image
+                            Grid.Row="0"
+                            Grid.ColumnSpan="3"
+                            Height="100"
+                            Margin="5"
+                            Source="{Binding}"
+                            Stretch="UniformToFill" />
+                        <CheckBox
+                            Name="cbSaveImage"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Content="S"
+                            FlowDirection="LeftToRight"
+                            IsChecked="True" />
+                        <CheckBox
+                            Name="cbRepImage"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Content="R"
+                            FlowDirection="LeftToRight"
+                            IsChecked="False" />
+                        <Button
+                            x:Name="lnkDelete"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event Click]=[Action lnkDeleteUGClick($source,$eventArgs)]"
+                            ToolTipService.ToolTip="Click here for delete">
+                            <Image
+                                Width="13"
+                                Height="13"
+                                Opacity="1"
+                                Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                        </Button>
+                    </Grid>
+
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+        <!--</ScrollViewer>-->
+        <Border Grid.Row="2" Style="{StaticResource LightBlueBorderStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="360" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350*" />
+                    <!--<ColumnDefinition Width="200*" />
+                    <ColumnDefinition Width="200*" />
+                    <ColumnDefinition Width="50*" />-->
+                </Grid.ColumnDefinitions>
+                <ComboBox
+                    x:Name="VideoSources"
+                    Grid.Row="1"
+                    Width="200"
+                    Margin="15,0,0,10"
+                    HorizontalAlignment="Left"
+                    VerticalContentAlignment="Center"
+                    cal:Message.Attach="[Event Loaded]=[Action VideoSourcesCbo_Loaded($source,$eventArgs)]"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding gInputDeviceCollection, Mode=OneWay}"
+                    SelectedIndex="0"
+                    SelectedItem="{Binding CaptureInputDevice, Mode=OneWayToSource}" />
+
+                <Border
+                    Grid.Row="2"
+                    Width="480"
+                    Height="360"
+                    BorderBrush="Brown"
+                    BorderThickness="3"
+                    CornerRadius="8">
+                    <Border.Effect>
+                        <DropShadowEffect
+                            BlurRadius="15"
+                            Direction="0"
+                            ShadowDepth="0"
+                            Color="White" />
+                    </Border.Effect>
+                    <WPFMediaKit:VideoCaptureElement
+                        x:Name="VideoCaptureElemCtrl"
+                        cal:Message.Attach="[Event Loaded]=[Action VideoCaptureElement_Loaded($source,$eventArgs)]                                                                         ;[Event MediaOpened]=[Action VideoCaptureElement_MediaOpened($source,$eventArgs)]"
+                        DesiredPixelHeight="1920"
+                        DesiredPixelWidth="1080"
+                        FPS="30"
+                        LoadedBehavior="Manual"
+                        Stretch="Fill"
+                        UnloadedBehavior="Manual"
+                        VideoCaptureDevice="{Binding gInputDevice, Mode=OneWay}" />
+                </Border>
+
+                <StackPanel
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="StartStopCaptureDev"
+                        Width="80"
+                        Height="35"
+                        Margin="5"
+                        cal:Message.Attach="[Event Loaded]=[Action StartStopCaptureDev_Loaded($source,$eventArgs)]                                 ;[Event Click]=[Action StartStopWebcam_Click($source,$eventArgs)]"
+                        Content="{Binding S0724_G1_StartCamera, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                    <Button
+                        x:Name="CaptureImageBtn"
+                        Width="90"
+                        Height="35"
+                        Margin="5"
+                        cal:Message.Attach="[Event Loaded]=[Action CaptureImageBtn_Loaded($source,$eventArgs)]                                                      ;[Event Click]=[Action CaptureImageBtn_Click($source,$eventArgs)]"
+                        Content="{Binding K1688_G1_CaptureImg, Source={StaticResource eHCMSResources}}"
+                        IsEnabled="False"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+    <!--  LayoutRoot  -->
+</UserControl>

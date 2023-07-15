@@ -1,0 +1,329 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.OutPatientServiceManageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="400"
+    d:DesignWidth="1000"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Converters:CanDeleteIconConverter_V2 x:Key="CanDeleteIconConverter_V2" />
+        <Converters:DecimalConverter x:Key="DecimalConverter" />
+        <Converters:PaidTimeConverter x:Key="PaidTimeConverter" />
+        <Converters:ExamRegStatusConverter x:Key="ExamRegStatusConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:InvoiceItemViewGroupConverter x:Key="ServiceColViewGroupConverter" />
+        <Converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <Converters:ConditionToVisibilityConverter x:Key="ConditionToVisibilityConverter" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <DataTemplate x:Key="RemoveRegServiceButtonTemplate">
+            <Button
+                x:Name="lnkDelete"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action RemoveServiceDetailsCmd($source, $eventArgs)]"
+                IsEnabled="{Binding CanDelete, Mode=OneWay}"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="{Binding G2777_G1_XoaDVNay, Source={StaticResource eHCMSResources}}">
+                <Button.Content>
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="{Binding ExamRegStatus, Mode=OneWay, Converter={StaticResource CanDeleteIconConverter_V2}}" />
+                </Button.Content>
+            </Button>
+
+        </DataTemplate>
+        <!--<Style x:Key="HeaderCheckboxStyle" TargetType="localprimitives:DataGridColumnHeader">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="localprimitives:DataGridColumnHeader">
+                        <Grid x:Name="Root">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Fill).Color" To="#FF448DCA"/>
+                                            <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Fill).(GradientStops)[3].Color" To="#7FFFFFFF"/>
+                                            <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Fill).(GradientStops)[2].Color" To="#CCFFFFFF"/>
+                                            <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Fill).(GradientStops)[1].Color" To="#F2FFFFFF"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Fill).Color" To="#FF448DCA"/>
+                                            <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Fill).(GradientStops)[0].Color" To="#D8FFFFFF"/>
+                                            <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Fill).(GradientStops)[1].Color" To="#C6FFFFFF"/>
+                                            <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Fill).(GradientStops)[2].Color" To="#8CFFFFFF"/>
+                                            <ColorAnimation Duration="0" Storyboard.TargetName="BackgroundGradient" Storyboard.TargetProperty="(Fill).(GradientStops)[3].Color" To="#3FFFFFFF"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SortStates">
+                                    <VisualState x:Name="Unsorted"/>
+                                    <VisualState x:Name="SortAscending"/>
+                                    <VisualState x:Name="SortDescending"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Rectangle x:Name="BackgroundRectangle" Fill="#FF1F3B53" Stretch="Fill" Grid.ColumnSpan="2"/>
+                            <Rectangle x:Name="BackgroundGradient" Stretch="Fill" Grid.ColumnSpan="2">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush EndPoint=".7,1" StartPoint=".7,0">
+                                        <GradientStop Color="#FCFFFFFF" Offset="0.015"/>
+                                        <GradientStop Color="#F7FFFFFF" Offset="0.375"/>
+                                        <GradientStop Color="#E5FFFFFF" Offset="0.6"/>
+                                        <GradientStop Color="#D1FFFFFF" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Rectangle x:Name="VerticalSeparator" Fill="{TemplateBinding SeparatorBrush}" VerticalAlignment="Stretch" Width="1" Visibility="{TemplateBinding SeparatorVisibility}" Grid.Column="1"/>
+                            <CheckBox x:Name="chkSelectAll" Style="{StaticResource MainFrame.Checkbox.Title1}"
+                                      IsChecked="{Binding AllServiceItemsSelected,Mode=TwoWay}" cal:Message.Attach="[Event Click]=[Action ToggleSelectAllRegistrationDetails($source, $eventArgs)]" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
+    </UserControl.Resources>
+    <Grid
+        x:Name="LayoutRoot"
+        Background="White"
+        ShowGridLines="False">
+        <customcontrols:ReadOnlyDataGrid
+            x:Name="gridServices"
+            Width="Auto"
+            MinWidth="850"
+            cal:Message.Attach="[Event DblClick]=[Action gridRegDetails_Click($sender, $eventArgs)]                                          ;[Event CurrentCellChanged]=[Action gridServices_CurrentCellChanged($source, $eventArgs)]"
+            AutoGenerateColumns="False"
+            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+            HeadersVisibility="All"
+            HorizontalScrollBarVisibility="Disabled"
+            IsReadOnly="True"
+            RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Style="{StaticResource MainFrame.DataGridStyle}"
+            VerticalScrollBarVisibility="Disabled">
+            <!--  LayoutUpdated="gridServices_LayoutUpdated"  -->
+            <!--  dong nay cua customcontrols:ReadOnlyDataGrid  -->
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="24" Visibility="Collapsed">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox
+                                x:Name="chk"
+                                HorizontalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                cal:Message.Attach="[Event Click]=[Action ckbIsChecked_Click($source,$datacontext)]"
+                                IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                IsEnabled="{Binding CanCheck, Mode=OneWay}"
+                                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn
+                    x:Name="colDelete"
+                    Width="24"
+                    CellTemplate="{StaticResource RemoveRegServiceButtonTemplate}"
+                    Header="" />
+                <DataGridTemplateColumn Header="{Binding K1209_G1_BH, Source={StaticResource eHCMSResources}}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!--
+                                [Event Checked]=[Action ckbIsCountHI_CheckedChanged($source, $eventArgs)];
+                                [Event Unchecked]=[Action ckbIsCountHI_CheckedChanged($source, $eventArgs)]
+                            -->
+                            <CheckBox cal:Message.Attach="[Event Click]=[Action ckbIsCountHI_Click($source,$datacontext)]" IsChecked="{Binding IsCountHI, Mode=OneWay}" />
+                            <!--  IsEnabled="{Binding ElementName=LayoutRoot, Path=DataContext.EnableForCheckBH, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"  -->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--  [Event Checked]=[Action ckbDiscount_CheckedChanged($source, $eventArgs)];  -->
+                <!--  [Event Unchecked]=[Action ckbDiscount_CheckedChanged($source, $eventArgs)];  -->
+                <DataGridTemplateColumn Header="{Binding Z2343_G1_MienGiam, Source={StaticResource eHCMSResources}}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox cal:Message.Attach="[Event Click]=[Action ckbDiscount_Click($source,$datacontext)]" IsChecked="{Binding IsDiscounted, Mode=OneWay}" />
+                            <!--  IsEnabled="{Binding ElementName=LayoutRoot, Path=DataContext.IsOldList, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"  -->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Width="Auto"
+                    MinWidth="50"
+                    Binding="{Binding V_Ekip.ObjectValue, Mode=OneWay}"
+                    Header="{Binding Z2646_G1_Ekip, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    MinWidth="50"
+                    Binding="{Binding V_EkipIndex.ObjectValue, Mode=OneWay}"
+                    Header="{Binding Z2731_G1_LoaiEkip, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    MinWidth="50"
+                    Binding="{Binding ServiceSeqNumString, Mode=OneWay}"
+                    Header="{Binding K0758_G1_STT, Source={StaticResource eHCMSResources}}" />
+
+                <!--<DataGridTextColumn MinWidth="250" Binding="{Binding MedServiceName,Mode=OneWay}"
+                                    Header="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}" />-->
+                <DataGridTemplateColumn MinWidth="250" Header="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                cal:Message.Attach="[Event Click]=[Action BtnName_Click($source, $eventArgs)]"
+                                Content="{Binding MedServiceName, Mode=OneWay}"
+                                FontWeight="Bold"
+                                Foreground="Blue"
+                                Style="{StaticResource MainFrame.HyperlinkButton}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding DeptLocation.Location.LocationName, Mode=OneWay}"
+                    Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}" />
+
+                <DataGridTextColumn
+                    Width="40"
+                    Binding="{Binding Qty, Mode=OneWay}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding S0583_G1_SLg, Source={StaticResource eHCMSResources}}" />
+
+                <DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding InvoicePrice, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding T0849_G1_Gia, Source={StaticResource eHCMSResources}}" />
+                <customcontrols:AxDataGridTextColumn
+                    Width="80"
+                    customcontrols:DataGridColNamingUtil.ColName="colHiAllowedPrice"
+                    Binding="{Binding MaskedHIAllowedPrice, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding T0895_G1_GiaBH, Source={StaticResource eHCMSResources}}" />
+                <customcontrols:AxDataGridTextColumn
+                    Width="80"
+                    customcontrols:DataGridColNamingUtil.ColName="colPriceDifference"
+                    Binding="{Binding TotalPriceDifference, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding K1803_G1_ChenhLech, Source={StaticResource eHCMSResources}}" />
+                <customcontrols:AxDataGridTextColumn
+                    Width="80"
+                    customcontrols:DataGridColNamingUtil.ColName="colHiPay"
+                    Binding="{Binding TotalHIPayment, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding K1232_G1_BHTra, Source={StaticResource eHCMSResources}}" />
+                <!--<customcontrols:AxDataGridTextColumn Width="80"
+                                                     x:Name="colCoPay"
+                                                     Header="{Binding K3809_G1_DongCT, Source={StaticResource eHCMSResources}}"
+                                                     Binding="{Binding TotalCoPayment, Mode=OneWay,Converter={StaticResource DecimalConverter}}"
+                                                     ElementStyle="{StaticResource RightAligmentTextBlock}" />-->
+
+                <DataGridTextColumn
+                    Width="80"
+                    Binding="{Binding TotalPatientPayment, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding K1296_G1_BNTra, Source={StaticResource eHCMSResources}}" />
+                <DataGridTemplateColumn Width="80" Header="{Binding Z2342_G1_MienGiam, Source={StaticResource eHCMSResources}}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Orientation="Horizontal">
+                                <TextBox
+                                    MinWidth="100"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    cal:Message.Attach="[Event LostFocus]=[Action txtDiscount_LostFocus($source, $eventArgs)]"
+                                    IsEnabled="{Binding IsDiscountChecked}"
+                                    Text="{Binding DiscountAmt, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                                    Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.CanApplyIsOnPriceDiscount, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Button
+                                    HorizontalContentAlignment="Right"
+                                    cal:Message.Attach="[Event Click]=[Action btnDiscount_Click($source, $eventArgs)]"
+                                    Content="{Binding DiscountAmt, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                                    FontWeight="Bold"
+                                    Foreground="Blue"
+                                    Style="{StaticResource MainFrame.HyperlinkButton}"
+                                    Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsShowPrintDiscountButton, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Width="70"
+                    Binding="{Binding ReceiptNumber, Mode=OneWay}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding T1660_G1_HDon, Source={StaticResource eHCMSResources}}" />
+
+                <DataGridTextColumn
+                    Width="50"
+                    Binding="{Binding Mode=OneWay, Converter={StaticResource PaidTimeConverter}}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}" />
+                <DataGridTextColumn
+                    Width="50"
+                    Binding="{Binding ExamRegStatus, Mode=OneWay, Converter={StaticResource ExamRegStatusConverter}}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding RegStaffFullName, Mode=OneWay}"
+                    Header="{Binding N0286_G1_NhVienDK, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding PaidStaffName, Mode=OneWay}"
+                    Header="{Binding N0295_G1_NhVienTinhTien, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding CancelStaffName, Mode=OneWay}"
+                    Header="{Binding N0287_G1_NhVienHuy, Source={StaticResource eHCMSResources}}" />
+
+            </DataGrid.Columns>
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Margin" Value="1,1,1,1" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander
+                                            Background="WhiteSmoke"
+                                            BorderBrush="#FF002255"
+                                            BorderThickness="1"
+                                            Foreground="DarkBlue"
+                                            IsExpanded="True">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <TextBlock
+                                                        Width="300"
+                                                        Margin="5,0,0,0"
+                                                        FontWeight="Bold"
+                                                        Foreground="DarkBlue"
+                                                        Text="{Binding Path=Name}" />
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <Expander.Content>
+                                                <ItemsPresenter />
+                                            </Expander.Content>
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+        </customcontrols:ReadOnlyDataGrid>
+    </Grid>
+</UserControl>

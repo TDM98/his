@@ -1,0 +1,139 @@
+﻿<UserControl    x:Class="aEMR.TransactionManager.Views.TrainingForSubOrgView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="1020">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <!--<tookit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="LayoutRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock x:Name="TitleForm" Text="TitleForm" HorizontalAlignment="Center" 
+                                   Style="{StaticResource TBlock.TitleFormSmall}"  />
+                <!--<TextBlock x:Name="TitleForm" Text="{Binding Z2118_G1_HDCDT , Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" Foreground="#3595CB" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"></TextBlock>-->
+            </Grid>
+            <Grid Grid.Row="1">
+                <ContentControl x:Name="SearchActivity" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+            </Grid>
+            <Border Grid.Row="2" Style="{StaticResource LightBlueBorderStyleNew}" BorderThickness="1">
+                <StackPanel Margin="0,10,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="140"></ColumnDefinition>
+                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="340"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="24"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="30"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding Z2121_G1_TTHDCDT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="2" Style="{StaticResource MainFrame.TextBlock.00}" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Z2120_G1_THD,  StringFormat='{}{0}:' , Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"  Margin="0,5,0,0"></TextBlock>
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TrainingForSubOrg_Current.TrainingName,Mode=TwoWay,NotifyOnValidationError=True}" Style="{StaticResource MainFrame.TextBox}" Margin="4,2,5,2" Height="24" VerticalAlignment="Top" TabIndex="1"></TextBox>
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding N0049_G1_NgBatDau,  StringFormat='{}{0}:' , Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"  Margin="0,8,0,0"></TextBlock>
+                        <DatePicker Style="{StaticResource MainFrame.DatePicker}" Grid.Row="1" Grid.Column="3" Margin="4,2,5,2" SelectedDate="{Binding TrainingForSubOrg_Current.TrainingStartDate,Mode=TwoWay}" TabIndex="2" ></DatePicker>
+                        <StackPanel Grid.Row="1" Grid.Column="4" Orientation="Horizontal">
+                            <TextBlock Text="{Binding N0081_G1_NgKetThuc,  StringFormat='{}{0}:' , Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"  Margin="45,8,0,0"></TextBlock>
+                            <DatePicker  Width="200" Style="{StaticResource MainFrame.DatePicker}" Grid.Row="1" Grid.Column="3" Margin="4,2,5,2" SelectedDate="{Binding TrainingForSubOrg_Current.TrainingEndDate,Mode=TwoWay}" TabIndex="3" ></DatePicker>
+                        </StackPanel>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Z2122_G1_LHD,  StringFormat='{}{0}:' , Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"  Margin="0,5,0,0"></TextBlock>
+                        <AxControls:KeyEnabledComboBox  Grid.Row="2" Grid.Column="1" TabIndex="4" Margin="4,2,5,2" SelectedValueEx="{Binding  TrainingForSubOrg_Current.V_TrainingType, Mode=TwoWay,NotifyOnValidationError=True}" SelectedValuePath="LookupID" DisplayMemberPath="ObjectValue"  ItemsSource="{Binding V_TrainingType}"  Style="{StaticResource MainFrame.ComboBox}" SelectedItem="{Binding SelectedActivityType, Mode=TwoWay}"></AxControls:KeyEnabledComboBox>
+
+                        <StackPanel Grid.Column="4" Grid.Row="2" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button  Name="btnSearch" HorizontalAlignment="Right" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Width="90" Margin="2,0,10,0" IsEnabled="{Binding CanEditAndDelete}"
+                                TabIndex="5"/>
+                            <Button  Name="btnAdd" HorizontalAlignment="Right" Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Button}" Width="90" Margin="2,0,10,0" IsEnabled="{Binding CanAdd}"
+                                TabIndex="6"/>
+
+
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+        <AxControls:ReadOnlyDataGrid Grid.Row="3" Name="dtgList"                      
+                      AutoGenerateColumns="False" 
+                      HorizontalScrollBarVisibility="Visible"  
+                      VerticalScrollBarVisibility="Visible"
+                                              VerticalAlignment="Stretch"
+                                              HorizontalAlignment="Stretch"
+                                              Height="Auto"
+                      HeadersVisibility="All"                      
+                      Margin="0,2" 
+                      ItemsSource="{Binding  TrainingForSubOrg_Paging,Mode=TwoWay}"
+                      cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]">
+                <DataGrid.Columns>
+
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Button
+                                                cal:Message.Attach="[Event Click]=[Action hplEdit_Click($datacontext)]"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                x:Name="hplEdit" ToolTipService.ToolTip="{Binding Binding K1599_G1_CNhat, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Button.Content>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="15" Width="15" Opacity="1" />
+                                        </Button.Content>
+                                    </Button>
+
+                                    <Button
+                                                cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)]"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                x:Name="hplDelete" ToolTipService.ToolTip="{Binding Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Button.Content>
+                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="15" Width="15" Opacity="1" />
+                                        </Button.Content>
+                                    </Button>
+
+
+
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                <DataGridTextColumn  Width="*" Binding="{Binding TrainingName}" Header="{Binding Z2120_G1_THD, Source={StaticResource eHCMSResources}}">
+                       
+                    </DataGridTextColumn>
+                <DataGridTextColumn  Width="250" Binding="{Binding TrainingPerson}" Header="{Binding Z2129_G1_NDH, Source={StaticResource eHCMSResources}}">
+                  
+                    </DataGridTextColumn>
+
+
+
+
+                <DataGridTextColumn  Width="150"  Binding="{Binding TrainingStartDate, StringFormat='dd/MM/yyyy'}" Header="{Binding N0049_G1_NgBatDau, Source={StaticResource eHCMSResources}}">
+                        
+                    </DataGridTextColumn>
+
+                <DataGridTextColumn  Width="250"  Binding="{Binding V_TrainingTypeName }" Header="{Binding Z2122_G1_LHD, Source={StaticResource eHCMSResources}}">
+                      
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </AxControls:ReadOnlyDataGrid>
+        </Grid>
+    <!--</tookit:BusyIndicator>-->
+</UserControl>

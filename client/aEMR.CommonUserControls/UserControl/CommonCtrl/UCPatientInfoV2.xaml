@@ -1,0 +1,140 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" x:Class="aEMR.CommonUserControls.UCPatientInfoV2"
+             
+              mc:Ignorable="d"
+    d:DesignHeight="100" d:DesignWidth="1100"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    <DockPanel x:Name="SPLayout"
+                       LastChildFill="True"
+                       Margin="1"
+                       Background="White">
+        <Border x:Name="BorderCanvas"
+                Width="Auto"
+                Style="{StaticResource LightBlueBorderStyle}"
+                Margin="1,1,1,1">
+            <Grid Height="Auto"
+                  Width="auto"
+                  ShowGridLines="False">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MinWidth="5"
+                                      Width="5" />
+                    <!--0.Full name label-->
+                    <ColumnDefinition MinWidth="150"
+                                      Width="80" />
+                    <!--1.Full name label-->
+                    <ColumnDefinition MinWidth="200"
+                                      Width="374*" />
+                    <!--2.Full name value-->
+                    <ColumnDefinition MinWidth="120"
+                                      Width="120" />
+                    <!--3.Gender lable-->
+                    <!--4.Gender value-->
+                    <ColumnDefinition Width="198" />
+                    <ColumnDefinition Width="104" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="20" />
+                    <!--0.-->
+                    <RowDefinition MinHeight="20" />
+                    <!--2.-->
+                    <RowDefinition MinHeight="20" />
+                    <!--3.-->
+                </Grid.RowDefinitions>
+                <!--Column 1-->
+                <TextBlock Text="{Binding G0525_G1_TTinBN, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Grid.Row="0"
+                           Grid.Column="1"
+                           Style="{StaticResource MainFrame.TextBlock.00}" />
+                <TextBlock Text="{Binding T0829_G1_Ten, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           Style="{StaticResource MainFrame.TextBlock.01}" />
+                <TextBlock Text="{Binding K3354_G1_DChi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Grid.Row="2"
+                           Grid.Column="1"
+                           Style="{StaticResource MainFrame.TextBlock.01}" />
+                <TextBlock Text="{Binding DemographicString, Mode=OneWay}"
+                           Margin="5,0,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           TextWrapping="NoWrap"
+                           Grid.Row="2"
+                           Grid.Column="2"
+                           Style="{StaticResource MainFrame.TextBlock.02}" />
+                
+                <TextBlock Text="{Binding T3230_G1_MaBN, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Grid.Row="1"
+                           Grid.Column="3"
+                           Style="{StaticResource MainFrame.TextBlock.01}" />
+                <TextBlock Text="{Binding PatientCode, Mode=TwoWay}"
+                           x:Name="txtPtCode"
+                           Margin="5,0,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           TextWrapping="NoWrap"
+                           Grid.Row="1"
+                           Grid.Column="4"
+                           Style="{StaticResource MainFrame.TextBlock.02}" />
+                <!--Column 2-->
+                <TextBlock Text="{Binding FullName, Mode=TwoWay}"
+                           x:Name="txtFullName"
+                           Margin="0,0,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           TextWrapping="NoWrap"
+                           Grid.Row="1"
+                           Grid.Column="2"
+                           Style="{StaticResource MainFrame.TextBlock.Title}" />
+                
+
+                <!--Column 3-->
+                <TextBlock Text="{Binding T1223_G1_GTinh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Grid.Row="1"
+                           Grid.Column="4"
+                           Style="{StaticResource MainFrame.TextBlock.01}" />
+
+                <TextBlock Text="{Binding GenderString, Mode=TwoWay}"
+                           x:Name="txtGender"
+                           Margin="5,0,0,0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           TextWrapping="NoWrap"
+                           Grid.Row="1"
+                           Grid.Column="5"
+                           Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                <TextBlock Text="{Binding N0036_G1_NSinh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Grid.Row="2"
+                           Grid.Column="4"
+                           Style="{StaticResource MainFrame.TextBlock.01}" />
+               
+                <TextBlock Text="{Binding DOBText, Mode=OneWay}"
+                           Margin="17,10,0,14"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           TextWrapping="NoWrap"
+                           Grid.Row="2"
+                           Grid.Column="5"
+                           Style="{StaticResource MainFrame.TextBlock.02}" />
+            </Grid>
+        </Border>
+    </DockPanel>
+</UserControl>

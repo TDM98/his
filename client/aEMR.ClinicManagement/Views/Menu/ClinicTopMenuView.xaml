@@ -1,0 +1,112 @@
+﻿<UserControl
+    x:Class="aEMR.ClinicManagement.Views.Menu.ClinicTopMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="50"
+    d:DesignWidth="700"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Converters:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Menu
+            x:Name="ClinicTopMenu"
+            Height="35"
+            Margin="1,1,1,1"
+            VerticalAlignment="Top"
+            BorderBrush="DarkGreen"
+            BorderThickness="2">
+            <MenuItem
+                Width="Auto"
+                Height="32"
+                Background="Aquamarine"
+                FontWeight="ExtraBold"
+                Foreground="DarkBlue"
+                Header="{Binding Q0476_G1_QuanLyPgKham, Source={StaticResource eHCMSResources}}"
+                Visibility="{Binding bParentClinicManager, Converter={StaticResource VisibilityConverter}, Mode=TwoWay}">
+                <MenuItem
+                    x:Name="ClinicCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Q0476_G1_QuanLyPgKham, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding bResourcesMedListCmd, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ClinicTargetCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Q0453_G1_QuanLyChiTieuPK, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding bResourcesMedListCmd, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ClinicTimeCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Q0451_G1_QuanLyCaKham, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding bResourcesOffListCmd, Converter={StaticResource BooleanToVisibility}, Mode=TwoWay}" />
+                <MenuItem
+                    x:Name="ConsultCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding P0391_G1_PgKham, Source={StaticResource eHCMSResources}}" />
+                <MenuItem
+                    x:Name="WorkingScheduleCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="{Binding Z2803_G1_LichLamViec, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding bClinicManager, Converter={StaticResource BooleanToVisibility}}" />
+                <MenuItem
+                    x:Name="OvertimeWorkingScheduleCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="Lịch làm việc ngoài giờ"
+                    Visibility="{Binding bOvertimeClinicManager, Converter={StaticResource BooleanToVisibility}}" />
+                <MenuItem
+                    x:Name="ReportOvertimeWorkingScheduleCmd"
+                    Background="Aquamarine"
+                    Foreground="DarkBlue"
+                    Header="Báo cáo giờ làm thêm của Bác sĩ"
+                    Visibility="{Binding bOvertimeClinicManager, Converter={StaticResource BooleanToVisibility}}" />
+            </MenuItem>
+
+            <!--<MenuItem Height="32" Width="Auto" Header="{Binding Z1968_G1_QLyHS, Source={StaticResource eHCMSResources}}" Margin="3,0,0,0" Foreground="DarkBlue" FontWeight="ExtraBold" Background="Aquamarine"
+                      Visibility="{Binding bFileManager,Converter={StaticResource VisibilityConverter},Mode=TwoWay}">
+
+                <MenuItem Header="{Binding Z1968_G1_QLyHS, Source={StaticResource eHCMSResources}}" x:Name="FileManCmd"
+                                             Foreground="DarkBlue" Background="Aquamarine"  />
+
+                <MenuItem Header="{Binding Z1969_G1_QLyKe, Source={StaticResource eHCMSResources}}" x:Name="ShelfManCmd"
+                                             Foreground="DarkBlue" Background="Aquamarine" />
+
+                <MenuItem Header="{Binding Z1999_G1_DatHSoVaoKe, Source={StaticResource eHCMSResources}}" x:Name="FileInportCmd"
+                                             Foreground="DarkBlue" Background="Aquamarine" />
+
+                <MenuItem Header="{Binding Z1994_G1_NhapHSo, Source={StaticResource eHCMSResources}}" x:Name="FileCheckInCmd"
+                                             Foreground="DarkBlue" Background="Aquamarine" />
+
+                <MenuItem Header="{Binding Z1995_G1_XuatHSo, Source={StaticResource eHCMSResources}}" x:Name="FileCheckOutCmd"
+                                             Foreground="DarkBlue" Background="Aquamarine"  />
+                <MenuItem Header="{Binding Z1989_XuatHSTuDK, Source={StaticResource eHCMSResources}}" x:Name="FileCheckInFromRegCmd"
+                                             Foreground="DarkBlue" Background="Aquamarine" />
+
+                <MenuItem Header="{Binding Z1988_InMaHS, Source={StaticResource eHCMSResources}}" x:Name="FileCodePrintCmd"
+                                             Foreground="DarkBlue" Background="Aquamarine"
+                                             Visibility= "Collapsed"/>
+
+                <MenuItem Header="{Binding Z2042_G1_LSGNHoSo, Source={StaticResource eHCMSResources}}" x:Name="FileCodeHistoryCmd"
+                                            Foreground="DarkBlue" Background="Aquamarine"/>
+                <MenuItem Header="{Binding Z3114_G1_OutFileManager, Source={StaticResource eHCMSResources}}" x:Name="OutFileManCmd"
+                                            Foreground="DarkBlue" Background="Aquamarine"/>
+
+            </MenuItem>-->
+
+        </Menu>
+    </Grid>
+
+</UserControl>

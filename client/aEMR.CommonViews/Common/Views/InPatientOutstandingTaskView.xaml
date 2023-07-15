@@ -1,0 +1,370 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.InPatientOutstandingTaskView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    MaxWidth="300"
+    MaxHeight="10000"
+    d:DesignHeight="1000"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility" />
+    </UserControl.Resources>
+    <TabControl SelectedIndex="{Binding TabItemSelectedIndex}" Style="{StaticResource MainFrame.TabControl}">
+        <TabItem Header="{Binding Z2832_G1_DSBenhNhan, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}">
+            <Grid Margin="8" Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="160" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Foreground="#6F8AB2"
+                            Style="{StaticResource TextBlock.Heading.02}"
+                            Text="Khoa" />
+                        <ContentControl
+                            Name="DepartmentContent"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Margin="5,2,5,2"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            IsEnabled="{Binding IsEnableDepartmentContent, Mode=OneWay}" />
+                        <Button
+                            Grid.Column="2"
+                            Width="55"
+                            Height="22"
+                            Margin="5,2,5,2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event Click]=[Action hplRefresh]"
+                            Content="{Binding R0510_G1_Refresh, Source={StaticResource eHCMSResources}}"
+                            FontSize="12"
+                            Style="{StaticResource MainFrame.HyperlinkButton.01}" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="Bold"
+                            Foreground="#6F8AB2"
+                            Style="{StaticResource TextBlock.Heading.02}"
+                            Text="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" />
+
+                        <commonctrl:AxTextBox
+                            x:Name="txtSearchName"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="5,2,5,2"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event Loaded]=[Action txtSearchName_Loaded($source,$eventArgs)]                                                          ;[Event KeyUp]=[Action txtSearchName_KeyUp($source,$eventArgs)]"
+                            IsEnabled="{Binding IsEnableSearch, Mode=OneWay}"
+                            TextAlignment="Left" />
+
+                        <Button
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Width="55"
+                            Height="22"
+                            Margin="5,2,5,2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event Click]=[Action hplSearch]"
+                            Content="{Binding Z2345_G1_Loc, Source={StaticResource eHCMSResources}}"
+                            FontSize="12"
+                            IsEnabled="{Binding IsEnableSearch, Mode=OneWay}"
+                            Style="{StaticResource MainFrame.HyperlinkButton.01}" />
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="700" />
+                            <RowDefinition Height="30" />
+                        </Grid.RowDefinitions>
+                        <TabControl
+                            cal:Message.Attach="[Event Loaded] = [Action TCRegistrationInfo_Loaded($source, $eventArgs)]"
+                            SelectedIndex="{Binding TabItemSelectedIndex}"
+                            Style="{StaticResource MainFrame.TabControl}">
+                            <TabItem
+                                Header="{Binding Z2832_G1_DSBenhNhan, Source={StaticResource eHCMSResources}}"
+                                IsSelected="{Binding IsShowListInPatientSelected}"
+                                Style="{StaticResource MainFrame.TabItem}"
+                                Visibility="{Binding IsShowListInPatient, Converter={StaticResource BooleanToVisibility}}">
+                                <commonctrl:ReadOnlyDataGrid
+                                    Grid.Row="0"
+                                    Height="auto"
+                                    cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"
+                                    AutoGenerateColumns="False"
+                                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding InPatientList, Mode=OneWay}"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <DataGrid.Style>
+                                        <Style BasedOn="{StaticResource MainFrame.DataGridStyle}" TargetType="DataGrid">
+                                            <Setter Property="RowStyle">
+                                                <Setter.Value>
+                                                    <Style BasedOn="{StaticResource MainFrame.DataGridRowStyle.Normal}" TargetType="DataGridRow">
+                                                        <Setter Property="Background" Value="White" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=ConfimedForPreAndDischarge}" Value="True">
+                                                                <Setter Property="Background" Value="#85C1E9" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Path=IsSevereIllness}" Value="True">
+                                                                <Setter Property="Background" Value="#e55353" />
+                                                                <Setter Property="Foreground" Value="#ffffff" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </DataGrid.Style>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding STT}" Header="{Binding K0758_G1_STT, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding PatientRegistration.Patient.PatientCode}" Header="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding PatientRegistration.Patient.FullName}" Header="{Binding T0834_G1_TenBenhNhan, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding DeptLocation.Location.LocationName}" Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}" />
+                                    </DataGrid.Columns>
+                                </commonctrl:ReadOnlyDataGrid>
+                            </TabItem>
+
+                            <TabItem
+                                Header="DS BN kiểm duyệt hồ sơ"
+                                IsSelected="{Binding IsShowListInPatientReturnRecordSelected}"
+                                Style="{StaticResource MainFrame.TabItem}"
+                                Visibility="{Binding IsShowListInPatientReturnRecord, Converter={StaticResource BooleanToVisibility}}">
+                                <commonctrl:ReadOnlyDataGrid
+                                    Grid.Row="0"
+                                    Height="auto"
+                                    cal:Message.Attach="[Event DblClick]=[Action DoubleClickInPatientReturnRecord($eventArgs)]"
+                                    AutoGenerateColumns="False"
+                                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding InPatientListReturnRecords, Mode=OneWay}"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <DataGrid.Style>
+                                        <Style BasedOn="{StaticResource MainFrame.DataGridStyle}" TargetType="DataGrid">
+                                            <Setter Property="RowStyle">
+                                                <Setter.Value>
+                                                    <Style BasedOn="{StaticResource MainFrame.DataGridRowStyle.Normal}" TargetType="DataGridRow">
+                                                        <Setter Property="Background" Value="White" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=PatientRegistration.V_CheckMedicalFilesStatus}" Value="85601">
+                                                                <Setter Property="Background" Value="#85C1E9" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Path=PatientRegistration.DLSReject}" Value="true">
+                                                                <Setter Property="Background" Value="#85C1E9" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Path=PatientRegistration.V_CheckMedicalFilesStatus}" Value="85602">
+                                                                <Setter Property="Background" Value="#FF0000" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Path=PatientRegistration.V_CheckMedicalFilesStatus}" Value="85603">
+                                                                <Setter Property="Background" Value="#FFFFFF" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Path=PatientRegistration.V_CheckMedicalFilesStatus}" Value="85604">
+                                                                <Setter Property="Background" Value="#FFA200" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </DataGrid.Style>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding STT}" Header="{Binding K0758_G1_STT, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding PatientRegistration.Patient.PatientCode}" Header="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding PatientRegistration.Patient.FullName}" Header="{Binding T0834_G1_TenBenhNhan, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding DeptLocation.Location.LocationName}" Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}" />
+                                    </DataGrid.Columns>
+                                </commonctrl:ReadOnlyDataGrid>
+                            </TabItem>
+
+                            <TabItem
+                                Header="{Binding Z2917_G1_DSBNDTNgoaiTru, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.TabItem}"
+                                Visibility="{Binding IsShowListOutPatientList, Converter={StaticResource BooleanToVisibility}}">
+                                <commonctrl:ReadOnlyDataGrid
+                                    Grid.Row="0"
+                                    Height="auto"
+                                    cal:Message.Attach="[Event DblClick]=[Action DoubleClickForOutPatientList($eventArgs)]"
+                                    AutoGenerateColumns="False"
+                                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding OutPatientList, Mode=OneWay}"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                    Style="{StaticResource MainFrame.DataGridStyle}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding PatientRegistration.Patient.PatientCode}" Header="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding PatientRegistration.Patient.FullName}" Header="{Binding T0834_G1_TenBenhNhan, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding DeptLocation.Location.LocationName}" Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}" />
+                                    </DataGrid.Columns>
+                                </commonctrl:ReadOnlyDataGrid>
+                            </TabItem>
+
+                            <TabItem
+                                Header="Danh sách BN tạm ứng"
+                                IsSelected="{Binding IsShowListPatientCashAdvance}"
+                                Style="{StaticResource MainFrame.TabItem}"
+                                Visibility="{Binding IsShowListPatientCashAdvance, Converter={StaticResource BooleanToVisibility}}">
+                                <commonctrl:ReadOnlyDataGrid
+                                    Grid.Row="0"
+                                    Height="auto"
+                                    cal:Message.Attach="[Event DblClick]=[Action DoubleClickForAdvancePatientList($eventArgs)]"
+                                    AutoGenerateColumns="False"
+                                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                    IsReadOnly="True"
+                                    ItemsSource="{Binding InPatientList, Mode=OneWay}"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                    <DataGrid.Style>
+                                        <Style BasedOn="{StaticResource MainFrame.DataGridStyle}" TargetType="DataGrid">
+                                            <Setter Property="RowStyle">
+                                                <Setter.Value>
+                                                    <Style BasedOn="{StaticResource MainFrame.DataGridRowStyle.Normal}" TargetType="DataGridRow">
+                                                        <Setter Property="Background" Value="White" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=IsNeedCashAdvance}" Value="True">
+                                                                <Setter Property="Background" Value="#ffaea3" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </DataGrid.Style>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding STT}" Header="{Binding K0758_G1_STT, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding PatientRegistration.Patient.PatientCode}" Header="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding PatientRegistration.Patient.FullName}" Header="{Binding T0834_G1_TenBenhNhan, Source={StaticResource eHCMSResources}}" />
+                                        <DataGridTextColumn Binding="{Binding DeptLocation.Location.LocationName}" Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}" />
+                                    </DataGrid.Columns>
+                                </commonctrl:ReadOnlyDataGrid>
+                            </TabItem>
+                        </TabControl>
+                        <StackPanel
+                            Grid.Row="2"
+                            Orientation="Horizontal"
+                            Visibility="{Binding IsShowListInPatientReturnRecord, Converter={StaticResource BooleanToNotVisibility}}">
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Z2935_G1_CoToaThuocXVHoacGiayXV, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <Border
+                                Width="100"
+                                Height="20"
+                                Background="#85C1E9" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="2"
+                            Orientation="Horizontal"
+                            Visibility="{Binding IsShowListInPatientReturnRecordSelected, Converter={StaticResource BooleanToVisibility}}">
+                            <Border
+                                Width="60"
+                                Height="20"
+                                Margin="0,0,5,0"
+                                Background="#85C1E9"
+                                BorderBrush="Gainsboro"
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="Đã gửi" />
+                            </Border>
+                            <Border
+                                Width="65"
+                                Height="20"
+                                Margin="0,0,5,0"
+                                Background="#FFFFFF"
+                                BorderBrush="Gainsboro"
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="Đã duyệt" />
+                            </Border>
+                            <Border
+                                Width="75"
+                                Height="20"
+                                Margin="0,0,5,0"
+                                Background="#FF0000"
+                                BorderBrush="Gainsboro"
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="Bị trả hồ sơ" />
+                            </Border>
+                            <Border
+                                Width="65"
+                                Height="20"
+                                Background="#FFA200"
+                                BorderBrush="Gainsboro"
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="Gửi lần 2" />
+                            </Border>
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Row="2"
+                            Orientation="Horizontal"
+                            Visibility="{Binding IsShowListInPatientSelected, Converter={StaticResource BooleanToVisibility}}">
+                            <!--<TextBlock VerticalAlignment="Center" Text="{Binding Z2935_G1_CoToaThuocXVHoacGiayXV, Source={StaticResource eHCMSResources}, StringFormat='{}{0}: '}" />
+                            <Border
+                                Width="100"
+                                Height="20"
+                                Background="#85C1E9" />-->
+                            <Border
+                                Height="20"
+                                Padding="3,0,3,0"
+                                Background="#85C1E9"
+                                BorderBrush="Gainsboro"
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z2935_G1_CoToaThuocXVHoacGiayXV, Source={StaticResource eHCMSResources}, StringFormat='{}{0}'}" />
+                            </Border>
+                            <Border
+                                Height="20"
+                                Padding="3,0,3,0"
+                                Background="#e55353"
+                                BorderBrush="Gainsboro"
+                                BorderThickness="1">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="#ffffff"
+                                    Text="Bệnh nặng theo dõi" />
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>

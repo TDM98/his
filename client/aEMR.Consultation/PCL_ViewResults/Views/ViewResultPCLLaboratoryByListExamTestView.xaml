@@ -1,0 +1,155 @@
+﻿<commonctrl:AxUserControl x:Class="aEMR.ConsultantEPrescription.Views.ViewResultPCLLaboratoryByListExamTestView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                          xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+                          mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="600" 
+                          xmlns:datactrl="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
+             xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Background="White" Margin="8">
+        <toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <!--<TextBlock  x:Name="TitleForm" HorizontalAlignment="Center"  VerticalAlignment="Center" Text="{Binding G2444_G1_XemKQuaXNhanTheoSoPh, Source={StaticResource eHCMSResources}}" 
+            Style="{StaticResource MainFrame.TextBlock.Header.01}"/>-->
+                <Grid Grid.Row="0" Margin="2,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" Style="{StaticResource LightBlueBorderStyle}" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Margin="2,1" Text="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"  />
+                            <TextBox  Grid.Row="0" Grid.Column="1" Margin="2,1" Width="100"  Style="{StaticResource MainFrame.TextBox}" Text="{Binding SearchCriteria.FindName,Mode=TwoWay}" TabIndex="10" cal:Message.Attach="[Event KeyUp]=[Action Search_Name($source,$eventArgs)]"/>
+                            <Button x:Name="btSearch" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Style="{StaticResource MainFrame.Button}" Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" Width="60"  Margin="2" TabIndex="11"/>
+                        </Grid>
+                    </Border>
+
+                    <commonctrl:ReadOnlyDataGrid AutoGenerateColumns="False" Grid.Row="1" 
+                                                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                                 IsReadOnly="True"  MaxHeight="250"            
+                                                 ItemsSource="{Binding ObjPCLExamTestItems,Mode=OneWay}"
+                              cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                              Style="{StaticResource MainFrame.DataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLExamTestItemCode}"/>
+                            <DataGridTextColumn Header="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLExamTestItemName}"/>
+                            <DataGridTextColumn Header="{Binding K3709_G1_DViTinh, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLExamTestItemUnit}"/>
+                        </DataGrid.Columns>
+                    </commonctrl:ReadOnlyDataGrid>
+                    <commonctrl:DataPager Grid.Row="2" VerticalAlignment="Bottom"  Source="{Binding ObjPCLExamTestItems,Mode=OneWay}"></commonctrl:DataPager>
+
+                    <Border Margin="2" Grid.Row="3" Style="{StaticResource LightBlueBorderStyle}">
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"  />
+                            <DatePicker Grid.Row="0" Grid.Column="1" Name="dpFromdate" Margin="0,2,0,2" Style="{StaticResource MainFrame.DatePicker}" SelectedDate="{Binding FromDate,Mode=TwoWay}" TabIndex="0"></DatePicker>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0"  Text="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource TextBlock.Heading.04}"  />
+                            <DatePicker Grid.Row="1" Grid.Column="1" Name="dpToDate" Margin="0,2,0,2" Style="{StaticResource MainFrame.DatePicker}" SelectedDate="{Binding ToDate,Mode=TwoWay}" TabIndex="1"></DatePicker>
+                        </Grid>
+                    </Border>
+                    <commonctrl:ReadOnlyDataGrid AutoGenerateColumns="False" Grid.Row="4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                                 IsReadOnly="True"     MaxHeight="180"         
+                                                 ItemsSource="{Binding ObjPCLExamTestItemSelectedLst,Mode=OneWay}"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                              Style="{StaticResource MainFrame.DataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="Auto" >
+                                <DataGridTemplateColumn.HeaderStyle>
+                                    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <CheckBox IsThreeState="False" Margin="2,0,-13,0" IsChecked="{Binding Path=DataContext.AllChecked, ElementName=LayoutRoot, Mode=TwoWay}" ToolTipService.ToolTip="{Binding K2122_G1_ChonTatCa, Source={StaticResource eHCMSResources}}"/>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </DataGridTemplateColumn.HeaderStyle>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Checked, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="{Binding T3185_G1_Ma, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLExamTestItemCode}"/>
+                            <DataGridTextColumn Header="{Binding T0829_G1_Ten, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLExamTestItemName}"/>
+                            <DataGridTextColumn Header="{Binding K3709_G1_DViTinh, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLExamTestItemUnit}"/>
+                        </DataGrid.Columns>
+                    </commonctrl:ReadOnlyDataGrid>
+
+                    <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="{Binding G2802_G1_XoaLuaChon, Source={StaticResource eHCMSResources}}" Name="btnClear" Margin="2,1" Style="{StaticResource MainFrame.Button}"></Button>
+                        <Button Content="{Binding G2447_G1_XemKQua, Source={StaticResource eHCMSResources}}" Name="btnViewResults" Margin="2,1" Style="{StaticResource MainFrame.Button}"></Button>
+                    </StackPanel>
+
+                    <!--column 1:hien thi ket qua-->
+                    <Grid Grid.Column="1" Grid.RowSpan="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <DataGrid  Name="PendingClientsGrid" 
+                                  cal:Message.Attach="[Event Loaded]=[Action PendingClientsGrid_Loaded($source,$eventArgs)]"
+                                   IsReadOnly="True"                      
+                      AutoGenerateColumns="False" 
+                      HorizontalScrollBarVisibility="Auto"  
+                      VerticalScrollBarVisibility="Visible"   
+                      HeadersVisibility="All"       
+                        RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                              RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}" 
+                              Style="{StaticResource MainFrame.DataGridStyle}"
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                      Margin="2,1"></DataGrid>
+                        <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button Name="PrevClick" Content="{Binding P0404_G1_Prev, Source={StaticResource eHCMSResources}}" Margin="2,1" IsEnabled="{Binding IsEnablePrev}" Style="{StaticResource MainFrame.HyperlinkButton.02}"></Button>
+                            <Button Name="NextClick" Content="{Binding N0041_G1_Next, Source={StaticResource eHCMSResources}}" Margin="2,1" IsEnabled="{Binding IsEnableNext}" Style="{StaticResource MainFrame.HyperlinkButton.02}"></Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </toolkit:BusyIndicator>
+    </Grid>
+</commonctrl:AxUserControl>

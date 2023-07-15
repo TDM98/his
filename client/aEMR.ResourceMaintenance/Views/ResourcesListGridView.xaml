@@ -1,0 +1,367 @@
+﻿<customcontrols:AxUserControl
+    x:Class="aEMR.ResourceMaintenance.Views.ResourcesListGridView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="690"
+    d:DesignWidth="848"
+    mc:Ignorable="d">
+    <customcontrols:AxUserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <DataTemplate x:Key="DTchkIsLocatable">
+            <CheckBox
+                Name="chkIsLocatable"
+                HorizontalAlignment="Center"
+                IsChecked="{Binding IsLocatable, Mode=TwoWay}"
+                IsEnabled="False" />
+        </DataTemplate>
+        <DataTemplate x:Key="DTchkOnHIApprovedList">
+            <CheckBox
+                Name="chkOnHIApprovedList"
+                HorizontalAlignment="Center"
+                IsChecked="{Binding OnHIApprovedList, Mode=TwoWay}"
+                IsEnabled="False" />
+        </DataTemplate>
+        <DataTemplate x:Key="DTchkWarrantyTime">
+            <CheckBox
+                Name="chkWarrantyTime"
+                HorizontalAlignment="Center"
+                IsChecked="{Binding WarrantyTime, Mode=TwoWay}"
+                IsEnabled="False" />
+        </DataTemplate>
+    </customcontrols:AxUserControl.Resources>
+    <Border
+        x:Name="BorderCanvas"
+        Width="Auto"
+        Margin="1,1,1,1"
+        VerticalAlignment="Stretch"
+        ScrollViewer.VerticalScrollBarVisibility="Auto"
+        Style="{StaticResource LightBlueBorderStyle}">
+        <Grid
+            Width="Auto"
+            Height="Auto"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ShowGridLines="False">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" MinHeight="24" />
+                <RowDefinition Height="90" MinHeight="24" />
+                <RowDefinition Height="2" MinHeight="5" />
+                <RowDefinition Height="0.664*" MinHeight="120" />
+                <RowDefinition Height="40" MinHeight="24" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Name="lblAdmission"
+                Grid.Row="0"
+                Grid.Column="0"
+                Height="18"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Foreground="#FFE2206F"
+                Style="{StaticResource TextBlock.Heading.02}"
+                Text="{Binding Q0479_G1_QuanLyVatTu, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" />
+            <GroupBox
+                Name="grpSearch"
+                Grid.Row="1"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Header="{Binding G1232_G1_TimKiemVTTheo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.GroupBox}">
+                <Grid
+                    Width="Auto"
+                    Height="Auto"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ShowGridLines="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.10*" MinWidth="50" />
+                        <ColumnDefinition Width="0.23*" MinWidth="50" />
+                        <ColumnDefinition Width="0.10*" MinWidth="50" />
+                        <ColumnDefinition Width="0.23*" MinWidth="50" />
+                        <ColumnDefinition Width="0.12*" MinWidth="50" />
+                        <ColumnDefinition Width="0.23*" MinWidth="50" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50*" MinHeight="24" />
+                        <RowDefinition Height="50*" MinHeight="24" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Height="18"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding N0239_G1_Nhom, StringFormat='{}{0}:  ', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Height="18"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="Loại:  " />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="4"
+                        Height="18"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding Z3314_G1_KhoaSuDung, StringFormat='{}{0}:  ', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Height="18"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T0829_G1_Ten, StringFormat='{}{0}:  ', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Height="18"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding Z3309_G1_Model, StringFormat='{}{0}:  ', Source={StaticResource eHCMSResources}}" />
+
+                    <ComboBox
+                        x:Name="cboGroupID"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Height="24"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="GroupName"
+                        ItemsSource="{Binding refResourceGroup, Mode=OneWay}"
+                        SelectedItem="{Binding selectedResourceGroup, Mode=TwoWay}"
+                        SelectedValuePath="RscrGroupID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <!--  DataContext="{StaticResource KResourcesManageVM}"  -->
+                    <ComboBox
+                        x:Name="cboTypeID"
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Height="24"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="MedicalServiceTypeName"
+                        ItemsSource="{Binding refResourceType, Mode=TwoWay}"
+                        SelectedItem="{Binding selectedResourceType, Mode=TwoWay}"
+                        SelectedValuePath="MedicalServiceTypeID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <!--<ComboBox
+                        x:Name="cboSuplierID"
+                        Grid.Row="0"
+                        Grid.Column="6"
+                        Height="24"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="SupplierName"
+                        ItemsSource="{Binding refSuplier, Mode=OneWay}"
+                        SelectedItem="{Binding selectedSupplier, Mode=TwoWay}"
+                        SelectedValuePath="SupplierID"
+                        Style="{StaticResource MainFrame.ComboBox}" />-->
+                    <ComboBox
+                        Grid.Row="0"
+                        Grid.Column="6"
+                        Height="24"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="DeptName"
+                        ItemsSource="{Binding RefDepartmentCollection, Mode=OneWay}"
+                        SelectedItem="{Binding selectedDepartment, Mode=TwoWay}"
+                        SelectedValuePath="DeptID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <TextBox
+                        Name="RscrName"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        cal:Message.Attach="[Event KeyUp]=[Action RscrName_KeyUp($eventArgs)]"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        TextWrapping="NoWrap" />
+                    <TextBox
+                        Name="RscrBrand"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        cal:Message.Attach="[Event KeyUp]=[Action RscrBrand_KeyUp($eventArgs)]"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        TextWrapping="NoWrap" />
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="5"
+                        Orientation="Horizontal">
+                        <RadioButton
+                            Name="OnlyChoice"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{Binding G2055_G1_TungTuyChon, Source={StaticResource eHCMSResources}}"
+                            GroupName="gFilter"
+                            IsChecked="True"
+                            Style="{StaticResource MainFrame.RadioButton}" />
+                        <RadioButton
+                            Name="MultiChoice"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{Binding K1969_G1_ChonHet, Source={StaticResource eHCMSResources}}"
+                            GroupName="gFilter"
+                            Style="{StaticResource MainFrame.RadioButton}" />
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+            <Button
+                Name="hpkNewresource"
+                Width="121"
+                Height="24"
+                Margin="688,0,30,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{Binding T0809_G1_TaoMoiVatTu, Source={StaticResource eHCMSResources}}"
+                FontSize="12"
+                FontWeight="Bold"
+                Foreground="Red"
+                IsEnabled="True"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                Visibility="{Binding bhpkNewresource, Converter={StaticResource BooleanToVisibility}}"
+                d:LayoutOverrides="HorizontalAlignment" />
+
+            <Button
+                Name="BtnExportExcel"
+                Width="121"
+                Height="24"
+                Margin="950,0,30,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{Binding G2849_G1_XuatExcel, Source={StaticResource eHCMSResources}}"
+                FontSize="12"
+                FontWeight="Bold"
+                Foreground="Red"
+                IsEnabled="True"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                d:LayoutOverrides="HorizontalAlignment" />
+
+            <GroupBox
+                Name="grpResult"
+                Grid.Row="3"
+                Grid.Column="0"
+                Header="{Binding K3096_G1_DSVT, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.GroupBox}">
+                <customcontrols:ReadOnlyDataGrid
+                    Name="grdResources"
+                    MinHeight="300"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"
+                    AutoGenerateColumns="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    ItemsSource="{Binding AllResources, Mode=OneWay}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Style="{StaticResource MainFrame.DataGridStyle}"
+                    ToolTipService.ToolTip="Double click vào từng dòng để chỉnh sửa vật tư!">
+                    <!--  ▼====#001 20180529 TTM: Thêm mới cột mã vật tư  -->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            Width="SizeToCells"
+                            MinWidth="50"
+                            Binding="{Binding STT, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding K0758_G1_STT, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <!--  ▲====#001  -->
+                        <DataGridTextColumn
+                            Width="SizeToCells"
+                            MinWidth="300"
+                            Binding="{Binding HisItemName, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding Z3313_G1_TenThietBiBV, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="SizeToCells"
+                            MinWidth="100"
+                            Binding="{Binding ResourceCode, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding Z3309_G1_Model, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="SizeToCells"
+                            MinWidth="300"
+                            Binding="{Binding ManufacturerStr, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding T1408_G1_HgSX, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="SizeToCells"
+                            MinWidth="200"
+                            Binding="{Binding HIRepResourceCode, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding Z2241_G1_MaMay, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="SizeToCells"
+                            MinWidth="200"
+                            Binding="{Binding V_RscrStatus.ObjectValue, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding G1348_G1_TTrangTBi, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="SizeToCells"
+                            MinWidth="200"
+                            Binding="{Binding ItemNameEng, Mode=TwoWay}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="{Binding Z3321_G1_TenTiengAnh, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+
+                    </DataGrid.Columns>
+                    <!--  DoubleClick="DataGridDoubleClickBehavior_DoubleClick"  -->
+
+                </customcontrols:ReadOnlyDataGrid>
+
+            </GroupBox>
+            <customcontrols:DataPager
+                Grid.Row="4"
+                Height="22"
+                Margin="1,0,0,0"
+                VerticalAlignment="Center"
+                PageSize="{Binding PageSize}"
+                Source="{Binding AllResources, Mode=TwoWay}" />
+
+        </Grid>
+
+
+
+    </Border>
+</customcontrols:AxUserControl>

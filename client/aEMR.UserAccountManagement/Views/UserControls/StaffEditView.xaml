@@ -1,0 +1,752 @@
+﻿<UserControl
+    x:Class="aEMR.UserAccountManagement.Views.StaffEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="580"
+    d:DesignWidth="900"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    x:Name="lnkDelete"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($source,$eventArgs)]"
+                    ToolTipService.ToolTip="Click here for delete">
+                    <Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1"
+                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border
+        x:Name="BorderCanvas"
+        Width="Auto"
+        Margin="1,1,1,1"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        ScrollViewer.VerticalScrollBarVisibility="Auto"
+        Style="{StaticResource LightBlueBorderStyle}">
+        <Grid
+            Width="Auto"
+            Height="Auto"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" MinHeight="25" />
+                <RowDefinition Height="Auto" MinHeight="80" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Name="lblResult"
+                Grid.Column="1"
+                Margin="66,1,66,11"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="18"
+                Foreground="#3595CB"
+                Style="{StaticResource TextBlock.Heading.02}"
+                Text="{Binding K1887_G1_ChSuaStaff, Source={StaticResource eHCMSResources}}" />
+            <Border
+                Grid.Row="1"
+                Width="Auto"
+                Margin="1,1,1,1"
+                VerticalAlignment="Stretch"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Style="{StaticResource LightBlueBorderStyle}">
+                <Grid
+                    Height="Auto"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ShowGridLines="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="40" MinHeight="25" />
+                        <RowDefinition Height="40*" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+                        <RowDefinition Height="30" MinHeight="25" />
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="9" />
+                        <ColumnDefinition Width="291*" />
+                        <ColumnDefinition Width="14" />
+                        <ColumnDefinition Width="128" />
+                        <ColumnDefinition Width="11" />
+                        <ColumnDefinition Width="284*" />
+                        <ColumnDefinition Width="15" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding K2732_G1_Country, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding K3315_G1_DeptLocation, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding S0720_G1_StaffCategory, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding K2285_G1_CityProvince, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <customcontrols:AxComboBox
+                        Name="cboCountry"
+                        Grid.Row="4"
+                        Grid.Column="3"
+                        Height="22"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="CountryName"
+                        ItemsSource="{Binding allRefCountry, Mode=OneWay}"
+                        SelectedItemEx="{Binding curStaff.RefCountry, Mode=TwoWay}"
+                        SelectedValuePath="CountryID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <customcontrols:AxComboBox
+                        Name="cboDeptLocation"
+                        Grid.Row="4"
+                        Grid.Column="7"
+                        Height="22"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="DeptName"
+                        ItemsSource="{Binding allRefDepartment, Mode=OneWay}"
+                        SelectedItemEx="{Binding curStaff.RefDepartment, Mode=TwoWay}"
+                        SelectedValuePath="DeptID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <customcontrols:AxComboBox
+                        Name="cboStaffCategory"
+                        Grid.Row="5"
+                        Grid.Column="3"
+                        Height="22"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="StaffCatgDescription"
+                        ItemsSource="{Binding allRefStaffCategory, Mode=OneWay}"
+                        SelectedItemEx="{Binding curStaff.RefStaffCategory, Mode=TwoWay}"
+                        SelectedValuePath="StaffCatgID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <customcontrols:AxComboBox
+                        Name="cboCityProvine"
+                        Grid.Row="5"
+                        Grid.Column="7"
+                        Height="22"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="CityProvinceName"
+                        ItemsSource="{Binding allCitiesProvince, Mode=OneWay}"
+                        SelectedItemEx="{Binding curStaff.CitiesProvince, Mode=TwoWay}"
+                        SelectedValuePath="CityProvinceID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T0671_G1_FirstName, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding M0001_G1_MidName, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T2554_G1_LastName, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T0679_G1_FullName, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding K3566_G1_DOB, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <!--<TextBlock Text="{Binding S0557_G1_Sex, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="3" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}" Margin="0,0,74,0" />-->
+                    <StackPanel
+                        Grid.Row="6"
+                        Grid.Column="3"
+                        Margin="146,0,15,0"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Style="{StaticResource TextBlock.Heading.02}"
+                            Text="{Binding S0557_G1_Sex, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                        <RadioButton
+                            Name="Male"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Content="{Binding K0785_G1_1Nam, Source={StaticResource eHCMSResources}}"
+                            GroupName="grpSex"
+                            IsChecked="{Binding curStaff.Sex, Mode=TwoWay}" />
+                        <RadioButton
+                            Name="Female"
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Content="{Binding K0816_G1_2Nu, Source={StaticResource eHCMSResources}}"
+                            GroupName="grpSex"
+                            IsChecked="True" />
+                    </StackPanel>
+                    <TextBlock
+                        Grid.Row="9"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding K1267_G1_BirthPlace2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="8"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T1800_G1_IDNumber, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="8"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                        Margin="0,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding P0400_G1_PlaceOfIssue, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="10"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding S0730_G1_StreetAddress, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="10"
+                        Grid.Column="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding S0745_G1_Surburn, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="9"
+                        Grid.Column="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding S0725_G1_State, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="7"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                        Margin="0,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding P0361_G1_PhoneNumber, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="7"
+                        Grid.Column="7"
+                        Margin="0,7,155,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding M0009_G1_MobiNum, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="7"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T0020_G1_Email, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T0043_G1_EmployDate, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="3"
+                        Margin="0,7,64,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T2584_G1_LeftDate, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="8"
+                        Grid.Column="7"
+                        Margin="0,7,140,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding R0514_G1_Relegion, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        Margin="35,12,74,12"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T3696_G1_MaritalStatus, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <customcontrols:AxComboBox
+                        Name="cboMaritalStatus"
+                        Grid.Row="6"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="3"
+                        Width="185"
+                        Height="22"
+                        Margin="60,9,178,9"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="ObjectValue"
+                        ItemsSource="{Binding allMaritalStatus, Mode=OneWay}"
+                        SelectedItemEx="{Binding curStaff.MaritalStatus, Mode=TwoWay}"
+                        SelectedValuePath="LookupID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="7"
+                        Margin="0,0,126,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T0082_G1_Ethnic2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="12"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="3"
+                        Margin="0,7,199,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding K0893_G1_AccNumber2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="12"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding K1047_G1_BankName2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+
+
+                    <TextBlock
+                        Grid.Column="5"
+                        Margin="0,7,0,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T1816_G1_Img, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="7"
+                        Margin="0,7,188,7"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding K2736_G1_CreateDate, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBox
+                        Name="FirstName"
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        cal:Message.Attach="[Event TextChanged]=[Action txtUserNameKeyUp()]                                                               ;[Event LostFocus]=[Action txtUserNameLostFocus()]"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SFirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox
+                        Name="MidleName"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        cal:Message.Attach="[Event TextChanged]=[Action txtUserNameKeyUp()]                                                               ;[Event LostFocus]=[Action txtUserNameLostFocus()]"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SMiddleName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox
+                        Name="LastName"
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        cal:Message.Attach="[Event TextChanged]=[Action txtUserNameKeyUp()]                                                               ;[Event LostFocus]=[Action txtUserNameLostFocus()]"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SLastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox
+                        Name="FullName"
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        cal:Message.Attach="[Event TextChanged]=[Action txtUserNameKeyUp()]                                                               ;[Event LostFocus]=[Action txtUserNameLostFocus()]"
+                        FontWeight="Bold"
+                        IsReadOnly="True"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.FullName, Mode=TwoWay}" />
+                    <DatePicker
+                        Name="DOB"
+                        Grid.Row="6"
+                        Grid.Column="3"
+                        Margin="0,0,152,0"
+                        VerticalAlignment="Center"
+                        SelectedDate="{Binding SearchCriteria.ToDate, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.DatePicker}"
+                        Text="{Binding curStaff.SDOB, Mode=TwoWay}" />
+                    <TextBox
+                        Name="BirthPlace"
+                        Grid.Row="9"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        Margin="0,4,70,4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SBirthPlace, Mode=TwoWay}" />
+                    <TextBox
+                        Name="IDNumber"
+                        Grid.Row="8"
+                        Grid.Column="3"
+                        Margin="0,4,85,4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SIDNumber, Mode=TwoWay}" />
+                    <TextBox
+                        Name="PlaceOfIssue"
+                        Grid.Row="8"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="3"
+                        Width="183"
+                        Margin="18,4,222,4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SPlaceOfIssue, Mode=TwoWay}" />
+                    <TextBox
+                        Name="StreetAddress"
+                        Grid.Row="10"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        Margin="0,4,70,4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SStreetAddress, Mode=TwoWay}" />
+                    <TextBox
+                        Name="State"
+                        Grid.Row="9"
+                        Grid.Column="7"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SState, Mode=TwoWay}" />
+                    <TextBox
+                        Name="Surburn"
+                        Grid.Row="10"
+                        Grid.Column="7"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SSurburb, Mode=TwoWay}" />
+                    <TextBox
+                        Name="PhoneNumber"
+                        Grid.Row="7"
+                        Grid.Column="5"
+                        Grid.ColumnSpan="3"
+                        Width="137"
+                        Margin="19,4,267,4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SPhoneNumber, Mode=TwoWay}" />
+                    <TextBox
+                        Name="MobilePhoneNumber"
+                        Grid.Row="7"
+                        Grid.Column="7"
+                        Width="141"
+                        Margin="142,4,1,4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SMobiPhoneNumber, Mode=TwoWay}" />
+                    <TextBox
+                        Name="Email"
+                        Grid.Row="7"
+                        Grid.Column="3"
+                        Margin="0,9,85,9"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SEmailAddress, Mode=TwoWay}" />
+                    <DatePicker
+                        Name="EmployDate"
+                        Grid.Row="11"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Margin="8,0,135,0"
+                        VerticalAlignment="Center"
+                        SelectedDate="{Binding SearchCriteria.ToDate, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.DatePicker}"
+                        Text="{Binding curStaff.SEmployDate, Mode=TwoWay}" />
+                    <DatePicker
+                        Name="LeftDate"
+                        Grid.Row="11"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        Margin="229,0,29,0"
+                        VerticalAlignment="Center"
+                        SelectedDate="{Binding SearchCriteria.ToDate, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.DatePicker}"
+                        Text="{Binding curStaff.SLeftDate, Mode=TwoWay}" />
+                    <TextBox
+                        Name="Relegion"
+                        Grid.Row="8"
+                        Grid.Column="7"
+                        Margin="155,3,0,3"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}" />
+                    <customcontrols:AxComboBox
+                        Name="cboRelegion"
+                        Grid.Row="8"
+                        Grid.Column="7"
+                        Height="22"
+                        Margin="155,4,0,4"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="ObjectValue"
+                        ItemsSource="{Binding allReligion, Mode=OneWay}"
+                        SelectedItemEx="{Binding curStaff.Religion, Mode=TwoWay}"
+                        SelectedValuePath="LookupID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <customcontrols:AxComboBox
+                        Name="cboEthnic"
+                        Grid.Row="6"
+                        Grid.Column="7"
+                        Height="22"
+                        Margin="164,9,0,9"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="ObjectValue"
+                        ItemsSource="{Binding allEthnics, Mode=OneWay}"
+                        SelectedItemEx="{Binding curStaff.Ethnic, Mode=TwoWay}"
+                        SelectedValuePath="LookupID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <TextBox
+                        Name="AccountNumber"
+                        Grid.Row="12"
+                        Grid.Column="7"
+                        Width="197"
+                        Margin="87,4,0,4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SAccountNumber, Mode=TwoWay}" />
+                    <customcontrols:AxComboBox
+                        Name="cboBankName"
+                        Grid.Row="12"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="3"
+                        Height="22"
+                        Margin="0,4,37,4"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="ObjectValue"
+                        ItemsSource="{Binding allBankName, Mode=OneWay}"
+                        SelectedItemEx="{Binding curStaff.BankName, Mode=TwoWay}"
+                        SelectedValuePath="LookupID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+
+                    <Image
+                        Name="PersonImage"
+                        Grid.RowSpan="4"
+                        Grid.Column="7"
+                        Margin="0,0,144,0"
+                        cal:Message.Attach="[Event Loaded]=[Action PersonImageLoaded($source,$eventArgs)]"
+                        Opacity="1" />
+                    <Button
+                        x:Name="butBrowse"
+                        Grid.Row="3"
+                        Grid.Column="7"
+                        Width="100"
+                        Height="22"
+                        Margin="182,0,0,0"
+                        HorizontalAlignment="Left"
+                        Content="{Binding K1371_G1_BrowseImg3, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                    <!--<TextBox Name="CreateDate" Grid.Column="7" Grid.Row="14" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}"/>-->
+                    <DatePicker
+                        Name="CreateDate"
+                        Grid.Row="11"
+                        Grid.Column="7"
+                        Grid.ColumnSpan="2"
+                        Margin="126,0,14,0"
+                        VerticalAlignment="Center"
+                        SelectedDate="{Binding SearchCriteria.ToDate, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.DatePicker}"
+                        Text="{Binding curStaff.SCreateDate, Mode=TwoWay}" />
+
+                    <TextBlock
+                        Grid.Row="13"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="Số BHXH" />
+                    <TextBox
+                        Name="SocialInsuranceNumber"
+                        Grid.Row="13"
+                        Grid.Column="3"
+                        Width="197"
+                        Margin="0,4,0,4"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SocialInsuranceNumber, Mode=TwoWay}" />
+
+                    <CheckBox
+                        Grid.Row="13"
+                        Grid.Column="3"
+                        Margin="5,0,5,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Content="Tạm ngưng"
+                        FontWeight="Bold"
+                        IsChecked="{Binding curStaff.IsStopUsing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock
+                        Grid.Row="14"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Style="{StaticResource TextBlock.Heading.02}"
+                        Text="{Binding T0044_G1_EmploymentHistory, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBox
+                        Name="EmploymentHistory"
+                        Grid.Row="14"
+                        Grid.RowSpan="2"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="6"
+                        HorizontalAlignment="Stretch"
+                        FontWeight="Bold"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding curStaff.SEmploymentHistory, Mode=TwoWay}" />
+
+                    <StackPanel
+                        Grid.Row="17"
+                        Grid.Column="7"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="butUpdate"
+                            Grid.Row="4"
+                            Width="100"
+                            Height="22"
+                            HorizontalAlignment="Left"
+                            Content="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}"
+                            Style="{StaticResource MainFrame.Button}" />
+                        <Button
+                            x:Name="butExit"
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Width="100"
+                            Height="22"
+                            HorizontalAlignment="Left"
+                            Content="{Binding G0391_G1_Thoat, Source={StaticResource eHCMSResources}}"
+                            Style="{StaticResource MainFrame.Button}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

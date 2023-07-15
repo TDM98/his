@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="aEMR.Common.Views.HospitalAutoCompleteListingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:cal="http://www.caliburnproject.org"
+             xmlns:controllib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:Converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             d:DesignHeight="300" d:DesignWidth="400"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+             mc:Ignorable="d">
+
+  <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <DataTemplate x:Key="AutoCompleteItemTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding HosName, Mode=OneWay}" Width="400"/>
+                    <TextBlock Text="{Binding HosAddress, Mode=OneWay}" Width="250"/>
+                    <TextBlock Text="{Binding CityProvinceName, Mode=OneWay}" Width="100"/>
+                </StackPanel>
+        </DataTemplate>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converter:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility"/>
+        <Converter:VisibilityConverter x:Key="MyVisibilityConverter"/>
+    </UserControl.Resources>
+
+  <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!---->
+        <controllib:AxAutoComplete x:Name="auc1" HorizontalAlignment="Stretch" IsDropDownOpen="True"
+                               Style="{StaticResource AxAutoCompleteMyStyle}"
+                               ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                               IsTextCompletionEnabled="False"
+                               MinWidth="150" MinimumPopulateDelay="300" 
+                               MinimumPrefixLength="0" 
+                               cal:Message.Attach="[Event DropDownClosed]=[Action DropDownClosed($source, $eventArgs)]
+                                   ;[Event Populating]=[Action PopulatingCmd($source, $eventArgs)]
+                                   ;[Event Loaded]=[Action LoadedCmd($source)]"                                
+                               FilterMode="None"
+                               ItemTemplate="{StaticResource AutoCompleteItemTemplate}"
+                               ValueMemberBinding="{Binding HosName, Mode=OneWay}" 
+                               ValueMemberPath="HosName"                                
+                               SelectedItem="{Binding SelectedHospital, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"                               
+                               ItemsSource="{Binding HospitalList}" Height="24" >            
+            </controllib:AxAutoComplete>    
+            <TextBox Text="{Binding SelectedHospital.HICode,Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" Width="50"
+                   Foreground="Red" IsEnabled="{Binding CanEditHiCode, UpdateSourceTrigger=PropertyChanged}"  Visibility="{Binding DisplayHiCode,Mode=OneWay,Converter={StaticResource MyVisibilityConverter}}" 
+                      cal:Message.Attach="[Event LostFocus]=[Action HospitalCode_LostFocus]"/>
+            <Button Grid.Column="2" Name="ChangeHICode"
+                HorizontalAlignment="Center" IsTabStop="False"
+                VerticalAlignment="Center"
+                ToolTipService.ToolTip="{Binding K3581_G1_DoiMaBV, Source={StaticResource eHCMSResources}}" Visibility="Collapsed">
+                <Image Source="/aEMR.CommonViews;component/Assets/Images/refresh16.png"  Height="18"  Width="20"
+                        Opacity="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Button>
+    </Grid>
+</UserControl>

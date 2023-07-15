@@ -1,0 +1,76 @@
+﻿<UserControl        x:Class="aEMR.StoreDept.Requests.Views.CheckStatusRequestInvoiceOutStandingTaskView"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                    xmlns:cal="http://www.caliburnproject.org" 
+                    mc:Ignorable="d"
+                    d:DesignHeight="420" d:DesignWidth="300"
+                    MaxWidth="300" MaxHeight="10000"
+                    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility"/>
+    </UserControl.Resources>
+    <ScrollViewer CanContentScroll="True">
+        <Grid Background="White" Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="160"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5, 2, 5, 2" VerticalAlignment="Center" HorizontalAlignment="Right" TextWrapping="Wrap" 
+                               Text="{Binding T2209_G1_KhoYC, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}" />
+                    <commonctrl:AxComboBox Grid.Row="0" Grid.Column="1" Name="cbxStoreRequest" Margin="3" Style="{StaticResource MainFrame.ComboBox}"
+                                           DisplayMemberPath="swhlName" SelectedValuePath="StoreID"
+                                           ItemsSource="{Binding StoreCbxStaff}"
+                                           SelectedItem="{Binding SelectedStoreCbxStaff,Mode=TwoWay}"
+                                           cal:Message.Attach="[Event Loaded] = [Action cbxStoreRequest_Loaded($source, $eventArgs)]"/>
+
+                    <Button  Style="{StaticResource MainFrame.HyperlinkButton.01}" Width="55"
+                                 HorizontalAlignment="Right" Grid.Column="2" Content="{Binding R0510_G1_Refresh, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" FontSize="12" 
+                                Name="btnFindRequest"/>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1" Margin="2,2,2,0" Visibility="{Binding vGrid, Converter={StaticResource BooleanToVisibility} }" >
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                </Grid.RowDefinitions>
+                <commonctrl:ReadOnlyDataGrid 
+                                    AutoGenerateColumns="False"  Margin="0" Name="dataGrid1" ItemsSource="{Binding RequestDruglist}" 
+                                  ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}" IsReadOnly="True"
+                                  cal:Message.Attach="[Event DblClick]=[Action dataGrid1_DblClick($source,$eventArgs)]">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="colFaxNumber01" Header="{Binding T3423_G1_MaPh, Source={StaticResource eHCMSResources}}" Binding="{Binding ReqNumCode}"/>
+
+                        <DataGridTextColumn x:Name="colFaxNumber" Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}" Binding="{Binding ReqDate,StringFormat='dd/MM/yyyy HH:mm:ss'}"/>
+
+                        <DataGridTextColumn x:Name="colMiddleName" Header="{Binding N0157_G1_NguoiLapPh, Source={StaticResource eHCMSResources}}" Binding="{Binding SelectedStaff.FullName}"/>
+
+                        <DataGridCheckBoxColumn Header="{Binding K2797_G1_DaDuyetPh, Source={StaticResource eHCMSResources}}"  Binding="{Binding IsApproved,TargetNullValue=False}"/>
+
+                        <DataGridTextColumn  Header="{Binding N0064_G1_NgDuyet, Source={StaticResource eHCMSResources}}" Binding="{Binding ApprovedDate,StringFormat='dd/MM/yyyy'}"/>
+
+                        <DataGridCheckBoxColumn  Header="{Binding K2828_G1_DaXuaTh, Source={StaticResource eHCMSResources}}" Binding="{Binding DaNhanHang}"/>
+                    </DataGrid.Columns>
+
+                </commonctrl:ReadOnlyDataGrid>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

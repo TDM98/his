@@ -1,0 +1,166 @@
+﻿<UserControl
+    x:Class="aEMR.Registration.Views.ChangeDeptView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:my="clr-namespace:aEMR.CommonUserControls;assembly=aEMR.CommonUserControls"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="550"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Converters:StringFormatConverter x:Key="StringFormatConverter" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+            <Grid d:LayoutOverrides="Height">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="300" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                    Text="{Binding K3163_G1_DNghiChKhoa, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" />
+                <Border Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="45" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Row="1"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource TextBlock.Heading.04}"
+                            Text="{Binding G1931_G1_TuKhoa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                        <ContentControl
+                            Name="StartDepartmentContent"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" />
+                        <!--<TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding OriginalDeptLocation.RefDepartment.DeptName,Mode=OneWay}"
+                               HorizontalAlignment="Stretch" Style="{StaticResource TextBlock.Heading.04}" />-->
+                        <!--<TextBlock Grid.Row="2" Text="{Binding P0385_G1_Pg, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding OriginalDeptLocation.Location.LocationName,Mode=OneWay}"
+                               Style="{StaticResource TextBlock.Heading.04}" HorizontalAlignment="Stretch" />-->
+
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+
+                            <RowDefinition Height="45" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="65" />
+                            <ColumnDefinition Width="10" />
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="20" />
+                        </Grid.ColumnDefinitions>
+                        <!--<TextBlock Grid.Row="1" Text="{Binding T2669_G1_Loai, StringFormat='{}{0}:',Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right"/>
+                    <commonctrl:AxComboBox x:Name="cboInPatientDeptStatus"
+                      ItemsSource="{Binding InPatientDeptStatusList, Mode=OneWay}"
+                      SelectedValuePath="LookupID"
+                                           Style="{StaticResource MainFrame.ComboBox}"
+                      SelectedItemEx="{Binding SelectedInPatientDeptStatus,Mode=TwoWay}" Grid.Column="2" Grid.Row="1"
+                      DisplayMemberPath="ObjectValue"/>-->
+
+
+                        <TextBlock
+                            Grid.Row="1"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource TextBlock.Heading.04}"
+                            Text="{Binding K3191_G1_DenKhoa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                        <ContentControl
+                            Name="DestinationDepartmentContent"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch" />
+
+                        <TextBlock
+                            Grid.Row="2"
+                            HorizontalAlignment="Right"
+                            Text="{Binding P0385_G1_Pg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                            Visibility="Collapsed" />
+                        <commonctrl:AxComboBox
+                            x:Name="Locations"
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            DisplayMemberPath="Location.LocationName"
+                            ItemsSource="{Binding Locations, Mode=OneWay}"
+                            SelectedItemEx="{Binding SelectedLocation, Mode=TwoWay}"
+                            SelectedValuePath="DeptLocationID"
+                            Style="{StaticResource MainFrame.ComboBox}"
+                            Visibility="Collapsed" />
+
+                    </Grid>
+                </Border>
+                <CheckBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Content="Bệnh diễn tiến"
+                    IsChecked="{Binding IsProgressive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Visibility="{Binding ShowProgressive, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <StackPanel
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="ConfirmDiagnosisTreatmentCmd"
+                        MinWidth="100"
+                        Content="{Binding Z2894_G1_XacNhanChanDoan, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}"
+                        Visibility="{Binding UseOnlyDailyDiagnosis, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    <Button
+                        x:Name="ChangeDeptCmd"
+                        Width="100"
+                        Margin="10,0,0,0"
+                        Content="{Binding G0739_G1_THien, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                    <Button
+                        x:Name="CancelCmd"
+                        Width="80"
+                        Margin="10,0,50,0"
+                        Content="{Binding G0391_G1_Thoat, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Grid>
+        </xctk:BusyIndicator>
+    </Grid>
+</UserControl>

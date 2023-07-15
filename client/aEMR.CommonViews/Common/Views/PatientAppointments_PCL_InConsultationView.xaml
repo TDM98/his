@@ -1,0 +1,45 @@
+﻿<UserControl    x:Class="aEMR.Common.Views.PatientAppointments_PCL_InConsultationView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:my="clr-namespace:aEMR.CommonUserControls;assembly=aEMR.CommonUserControls"
+                xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:cal="http://www.caliburnproject.org" 
+                mc:Ignorable="d"
+                d:DesignHeight="300" d:DesignWidth="600"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:CheckIfNotNullConverter x:Key="MyCheckIfNotNullConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" Visibility="{Binding mQuanLyHenBenh,Converter={StaticResource BooleanToVisibility} }">
+        <StackPanel>
+            <TextBlock x:Name="TitleForm" Text="{Binding T1464_G1_HenCLS, Source={StaticResource eHCMSResources}}" Grid.ColumnSpan="2"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       Style="{StaticResource MainFrame.TextBlock.Header.01}" 
+                                />
+            
+            <!--<Border x:Name="groupAppointmentDetails"
+                        Style="{StaticResource LightBlueBorderStyleNew}">
+
+                <ContentControl Name="SearchRegistrationContent" HorizontalContentAlignment="Stretch"
+                              VerticalContentAlignment="Stretch" />
+            </Border>-->
+            
+            <my:UCPatientInfoV3 DataContext="{Binding CurrentPatient, Mode=OneWay}"/>
+
+            <ContentControl x:Name="AppointmentListingContent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+
+            <StackPanel HorizontalAlignment="Left">
+                <Button x:Name="CreateNewAppointmentCmd"
+                            Content="{Binding G0296_G1_ThemMoiCuocHen, Source={StaticResource eHCMSResources}}"
+                            Width="130"
+                            IsEnabled="{Binding CurrentPatient,Mode =OneWay, Converter={StaticResource MyCheckIfNotNullConverter}}"
+                            Style="{StaticResource MainFrame.Button}" />
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

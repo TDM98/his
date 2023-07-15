@@ -1,0 +1,155 @@
+﻿<UserControl    x:Class="aEMR.StoreDept.Views.Modify_ReqQtyView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                mc:Ignorable="d"
+                d:DesignHeight="440" d:DesignWidth="800">
+
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <converter:DecimalConverter3 x:Key="DecimalConverter3"/>
+        <DataTemplate x:Key="AutoCompleteTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock  Text="{Binding Code}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+                <TextBlock  Text=" - " Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+                <TextBlock  Text="{Binding BrandName}" Style="{StaticResource MainFrame.TextBlock.01}" Margin="0" Padding="0" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="PresQtyCellTemplate">
+            <StackPanel>
+                <TextBlock Name="txtPresQty" Text="{Binding PrescribedQty,Mode=OneWay,Converter={StaticResource DecimalConverter3}}" Margin="1,0,1,0" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="PresQtyCellEditTemplete">
+            <StackPanel>
+                <AxControls:AxTextBox Name="txtPresQtyEdit" Text="{Binding PrescribedQty, Mode=TwoWay,Converter={StaticResource DecimalConverter3}, UpdateSourceTrigger=PropertyChanged}"  Margin="0" Padding="0" VerticalAlignment="Center" TextAlignment="Right" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="QtyCellTemplate">
+            <StackPanel>
+                <TextBlock Name="txtDrugName" Text="{Binding ReqQty,Mode=OneWay,Converter={StaticResource DecimalConverter3}}" Margin="1,0,1,0" Padding="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="QtyCellEditTemplete">
+            <StackPanel>
+                <AxControls:AxTextBox Name="txtDrugName" Text="{Binding ReqQty,Mode=TwoWay,Converter={StaticResource DecimalConverter3}, UpdateSourceTrigger=PropertyChanged}"  Margin="0" Padding="0" VerticalAlignment="Center" TextAlignment="Right" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="CollnkDelete">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <Button x:Name="lnkDelete"  cal:Message.Attach="[Event Click]=[Action lnkDelete_Click($source,$eventArgs)]"  ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="LayoutRoot" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width= "800"></ColumnDefinition>            
+            </Grid.ColumnDefinitions>
+
+            <!--Chi tiết phiếu yêu cầu-->
+            <Border Margin="2" Grid.Column="1"  Grid.Row="2" Style="{StaticResource LightBlueBorderStyle}"  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <AxControls:AxGrid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel HorizontalAlignment="Stretch" Grid.Row="0"
+                            Margin="0">
+                        <Grid HorizontalAlignment="Stretch"
+                          Margin="0,0,0,0"
+                          d:LayoutOverrides="Height">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                        </Grid>
+                    </StackPanel>
+                    <!-- ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"  -->
+                    <!-- Mode = TwoWay cho phép thay đổi dữ liệu từ hai chiều-->
+                    <AxControls:AxDataGridNy x:Name="grdReqOutwardDetails" Grid.Row="3"  HeadersVisibility="All" AutoGenerateColumns="False" ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                      Style="{StaticResource MainFrame.DataGridStyle.OneColor}"                       
+                      ItemsSource="{Binding RequestDrug.ReqOutwardDetails,Mode=TwoWay}" SelectedItem="{Binding RequestDrug.ReqOutwardDetails,Mode=OneWay}"
+                               cal:Message.Attach="[Event LoadingRow]=[Action grdReqOutwardDetails_LoadingRow($source,$eventArgs)]
+                                                 ;[Event CellEditEnding]=[Action grdReqOutwardDetails_CellEditEnding($source,$eventArgs)]
+                                                 ;[Event RowEditEnding]=[Action grdReqOutwardDetails_RowEditEnding($source,$eventArgs)]"
+                                             Height="450" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                                             VerticalAlignment="Stretch" Margin="0,1,0,1" >  <!--IsEnabled="{Binding RequestDrug.CanSave}" >-->
+                       
+                        <!--<DataGrid.RowGroupHeaderStyles>
+                            <Style TargetType="DataGridRowGroupHeader">
+                                <Setter Property="PropertyNameVisibility" Value="Collapsed" />
+                                <Setter Property="Background" Value="#FFC7C7D1" />
+                                <Setter Property="Foreground" Value="#FF444D58" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Height" Value="25"/>
+                                <Setter Property="SublevelIndent" Value="0" />
+                            </Style>
+                            <Style TargetType="DataGridRowGroupHeader">
+                                <Setter Property="Background" Value="#FFA8B5BE" />
+                            </Style>
+                        </DataGrid.RowGroupHeaderStyles>-->
+                        
+                        <DataGrid.Columns>
+                        <DataGridTextColumn Header="{Binding T3379_G1_MaHg, Source={StaticResource eHCMSResources}}" CanUserResize="True" CanUserReorder="True" CanUserSort="True" Width="80" Binding="{Binding RefGenericDrugDetail.Code}" IsReadOnly="True" CellStyle="{StaticResource CellStyleReadOnly}">
+                         
+                            </DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding T0854_G1_TenHg, Source={StaticResource eHCMSResources}}" CanUserResize="True" CanUserReorder="True" CanUserSort="True" Width="250" Binding="{Binding RefGenericDrugDetail.BrandName}" IsReadOnly="True" CellStyle="{StaticResource CellStyleReadOnly}">
+                          
+                            </DataGridTextColumn>
+                        <DataGridTemplateColumn Header="{Binding S0614_G1_SLgCD, Source={StaticResource eHCMSResources}}" CanUserResize="True" CanUserReorder="True" CanUserSort="True" Width="60" CellTemplate="{StaticResource PresQtyCellTemplate}" CellEditingTemplate="{StaticResource PresQtyCellEditTemplete}" CellStyle="{StaticResource CellStyleVerticalAlignCenter}">
+                            
+                            </DataGridTemplateColumn>
+                            <!--Cần biding số lượng tồn kho-->
+                        <DataGridTextColumn Header="{Binding G1461_G1_TKho, Source={StaticResource eHCMSResources}}" CanUserResize="True" CanUserReorder="True" CanUserSort="True" Width="250" Binding="{Binding RemainingQty,Converter={StaticResource DecimalConverter3}}" IsReadOnly="True" CellStyle="{StaticResource CellStyleReadOnly}">
+                           
+                            </DataGridTextColumn>
+                        <DataGridTemplateColumn Header="{Binding S0621_G1_SLg_YC, Source={StaticResource eHCMSResources}}"  CanUserResize="True" CanUserReorder="True" CanUserSort="True" Width="60" CellTemplate="{StaticResource QtyCellTemplate}" CellEditingTemplate="{StaticResource QtyCellEditTemplete}" CellStyle="{StaticResource CellStyleVerticalAlignCenter}">
+                            
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </AxControls:AxDataGridNy>
+                </AxControls:AxGrid>
+            </Border>
+            <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <!--KMx:Đang sửa-->
+                <Button x:Name ="btnAutoModify" Content="{Binding K3496_G1_DChinhTuDong, Source={StaticResource eHCMSResources}}" Margin="2,1,2,1" 
+                        Style="{StaticResource MainFrame.Button}" Width="120" 
+                        />
+                
+                <Button Name="btnSave" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Margin="2,1,2,1" Style="{StaticResource MainFrame.Button}" Width="75" IsEnabled="{Binding RequestDrug.CanSave}"
+                        Visibility="{Binding mPhieuYeuCau_Them,Converter={StaticResource BooleanToVisibility} }"/>
+
+                <Button x:Name="btnExit" Content="{Binding G0391_G1_Thoat, Source={StaticResource eHCMSResources}}" Height="20" Style="{StaticResource MainFrame.Button}"  Width="80"  />
+
+            </StackPanel>
+        </Grid>
+    <!--</toolkit:BusyIndicator>-->
+</UserControl>

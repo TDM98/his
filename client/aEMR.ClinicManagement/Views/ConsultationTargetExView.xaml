@@ -1,0 +1,704 @@
+﻿<UserControl    x:Class="aEMR.ClinicManagement.Views.ConsultationTargetExView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"   
+                xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignWidth="1000">
+    <UserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <!--<BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" 
+                >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="748*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="530" />
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Text="{Binding Q0453_G1_QuanLyChiTieuPK, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB" Grid.Column="0" Grid.ColumnSpan="2" />
+            <Border Grid.Row="1"  Width="Auto" Style="{StaticResource LightBlueBorderStyle}"  ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" >
+                <!--DataContext="{Binding selectedConsultTimeSeg,Mode=TwoWay}"-->
+                <Grid Height="30">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+
+                        <ColumnDefinition Width="198*" />
+                        <ColumnDefinition Width="149*" />
+                        <ColumnDefinition Width="228*" />
+                        <ColumnDefinition Width="61*" />
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="4*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+
+
+                    </Grid.RowDefinitions>
+                    <Label Content="{Binding T2222_G1_Khoa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+                    <Label Content="{Binding P0391_G1_PgKham, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="2" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}"  />
+
+                    <TextBlock Grid.Column="1" Name="Khoa" Text="{Binding CurRefDepartmentsTree.Parent.NodeText}"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}"  />
+                    <TextBlock Grid.Column="3"  Grid.Row="0" Name="Phong" Text="{Binding CurRefDepartmentsTree.NodeText}"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                </Grid>
+            </Border>
+            <ContentControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Name="RoomTree">
+
+            </ContentControl>
+
+
+            <Border Grid.Row="2" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                    Grid.Column="1" Margin="0,0,2,0">
+                <Grid  x:Name="LayoutRoot" ShowGridLines="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Expander Margin="0,0,0,0" Grid.Row="0" Grid.Column="1"
+                                VerticalAlignment="Stretch"
+                                ExpandDirection="Down"
+                                Name="expDatChiTieu"
+                                cal:Message.Attach="[Event Loaded]=[Action expDatChiTieu_Loaded($source)];
+                                          [Event Expanded]=[Action expDatChiTieu_Expanded($source)]"                                  
+                                  FlowDirection="LeftToRight"
+                                IsExpanded="True"
+                                Header="{Binding K3102_G1_DatCTieuHTaiPK, Source={StaticResource eHCMSResources}}"
+                                DockPanel.Dock="Left"
+                                Background="#FFDBE5F1"
+                                RenderTransformOrigin="0,0"
+                                Height="auto"
+                                Visibility="{Binding ShowRegisteredServices,Mode=OneWay,Converter={StaticResource VisibilityConverter}}">
+                        <Border  Width="Auto" Style="{StaticResource LightBlueBorderStyle}"  ScrollViewer.VerticalScrollBarVisibility="Auto"  >
+                            <Grid Grid.Row="0" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="30" Height="30"/>
+                                    <RowDefinition  />
+                                    <RowDefinition  Height="40"  />
+
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <!--<Label Grid.Row="0" Height="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="{Binding K1856_G1_CTieuHTaiChoPK, Source={StaticResource eHCMSResources}}" 
+                                           Style="{StaticResource MainFrame.Label.02}" FontWeight="Bold"  Foreground="#3595CB" Margin="10,0,0,0"  />-->
+                                    <Label Content="{Binding N0045_G1_Ng, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.Label.00}" Margin="40,0,0,0" />
+                                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding curDate}" Width="110"
+                               MinHeight="22" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBlock.02}" Margin="5,0,0,0"/>
+                                </StackPanel>
+                                <customcontrols:AxDataGrid  
+                                                        x:Name="Grid1"
+                                                        Grid.Row="1"
+                                                        AutoGenerateColumns="False" 
+                                                        CanUserAddRows="False"
+                                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                        Style="{StaticResource MainFrame.DataGridStyle}"
+                                                        
+                                                        ItemsSource="{Binding allConsultationRoomTarget,Mode=TwoWay}"
+                                                        SelectedItem ="{Binding selectedConsultationRoomTarget,Mode=TwoWay}"
+                                                        Height="320"
+                                             >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="{Binding K1437_G1_CaKham, Source={StaticResource eHCMSResources}}" IsReadOnly="True" 
+                                        Binding="{Binding  ConsultationTimeSegments.SegmentName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" 
+                                        CanUserSort="True"  MinWidth="50"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+
+                                        <DataGridTemplateColumn Header="{Binding T1157_G1_GTriMacDinh, Source={StaticResource eHCMSResources}}" Width="220" CanUserReorder="True">
+                                            <!--15072018 TTM
+                                        Toàn bộ <DataGridTemplateColumn.CellEditingTemplate> trong view đổi thành
+                                        <DataGridTemplateColumn.CellTemplate>-->
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                            Text="{Binding S0536_G1_SLggBNhan, Source={StaticResource eHCMSResources}}" Width="100"
+                                                            Style="{StaticResource MainFrame.TextBlock.01}" />
+                                                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,0,0"  Width="30"
+                                                            Text="{Binding DefaultTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                            Style="{StaticResource MainFrame.TextBox}" />
+                                                            <Button Content="{Binding S0556_G1_Setasdefault, Source={StaticResource eHCMSResources}}"
+                                                             cal:Message.Attach="[Event Click]=[Action lnkDefaultTargetClick($source)]"
+                                                                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                             HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            </Button>
+                                                        </StackPanel>
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                            Text="{Binding S0538_G1_SLggToiDa, Source={StaticResource eHCMSResources}}" Width="100"
+                                                            Style="{StaticResource MainFrame.TextBlock.02}" />
+                                                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,0,0" Width="30"
+                                                                        Text="{Binding DefaultMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                            Style="{StaticResource MainFrame.TextBox}" />
+                                                            <Button Content="{Binding S0556_G1_Setasdefault, Source={StaticResource eHCMSResources}}"
+                                                             cal:Message.Attach="[Event Click]=[Action lnkDefaultMaxClick($source)]"
+                                                                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                             HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            </Button>
+                                                        </StackPanel>
+
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                        Text="{Binding S0624_G1_SoBatDau, Source={StaticResource eHCMSResources}}" Width="100"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+                                                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,0,0" Width="30"
+                                                                    Text="{Binding DefaultStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+                                                            <Button Content="{Binding S0556_G1_Setasdefault, Source={StaticResource eHCMSResources}}"
+                                                            cal:Message.Attach="[Event Click]=[Action lnkDefaultStartSequenceNumberClick($source)]"
+                                                                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            </Button>
+                                                        </StackPanel>
+
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                        Text="{Binding S0651_G1_SoKetThuc, Source={StaticResource eHCMSResources}}" Width="100"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+                                                            <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5,0,0,0" Width="30"
+                                                                    Text="{Binding DefaultEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+                                                            <Button Content="{Binding S0556_G1_Setasdefault, Source={StaticResource eHCMSResources}}"
+                                                            cal:Message.Attach="[Event Click]=[Action lnkDefaultEndSequenceNumberClick($source)]"
+                                                                    Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                            </Button>
+                                                        </StackPanel>
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="{Binding T0752_G1_THai, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding MondayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding MondayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding MondayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding MondayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0749_G1_TBa, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding TuesdayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding TuesdayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding TuesdayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding TuesdayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0757_G1_TTu, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding WednesdayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding WednesdayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding WednesdayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding WednesdayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0753_G1_TNam, Source={StaticResource eHCMSResources}}"  Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding ThursdayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding ThursdayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding ThursdayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding ThursdayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0754_G1_TSau, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding FridayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding FridayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding FridayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding FridayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0750_G1_TBay, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding SaturdayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SaturdayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SaturdayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SaturdayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding K2227_G1_ChuNhat, Source={StaticResource eHCMSResources}}" Width="80" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding SundayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SundayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SundayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                        <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SundayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBox}" />
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+
+                                </customcontrols:AxDataGrid>
+                                <StackPanel Grid.Row="3" HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <Button x:Name="butUpdate" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding K1599_G1_CNhat, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="80" />
+                                    <Button x:Name="butReset" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding R0516_G1_Reset, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="80" Margin="10,0,0,0"/>
+                                </StackPanel>
+
+
+                            </Grid>
+                        </Border>
+                    </Expander>
+                    <Expander Margin="0,0,0,0" Grid.Row="1" Grid.Column="1"
+                                VerticalAlignment="Stretch"
+                                ExpandDirection="Down"
+                                Name="expXemChiTieu"
+                                          cal:Message.Attach="[Event Loaded]=[Action expXemChiTieu_Loaded($source)];
+                                          [Event Expanded]=[Action expXemChiTieu_Expanded($source)]"                                  
+                                  FlowDirection="LeftToRight"
+                                IsExpanded="False"
+                                Header="{Binding G2455_G1_XemLSuPBoCTieuChoPK, Source={StaticResource eHCMSResources}}"
+                                DockPanel.Dock="Left"
+                                Background="#FFDBE5F1"
+                                RenderTransformOrigin="0,0"
+                                Height="auto"
+                                Visibility="{Binding ShowRegisteredServices,Mode=OneWay,Converter={StaticResource VisibilityConverter}}">
+                        <Border Grid.Row="2"  Width="Auto" Style="{StaticResource LightBlueBorderStyle}"  ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" >
+                            <Grid Width="Auto" Grid.Row="2"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="25" Height="25"/>
+                                    <RowDefinition  Height="30"  />
+                                    <RowDefinition  />
+                                </Grid.RowDefinitions>
+                                <!--<Label Grid.Row="0" Height="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Content="{Binding G2455_G1_XemLSuPBoCTieuChoPK, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" FontWeight="Bold"  Foreground="#3595CB"  />-->
+                                <StackPanel Grid.Row="1"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="left" Margin="45,0,0,5">
+                                    <Label Height="18" HorizontalAlignment="Center" VerticalAlignment="Bottom" 
+                                           Content="{Binding G2481_G1_XemTheoCaKham, StringFormat='{}{0}:  ', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.Label.02}" FontWeight="Bold"  Foreground="#3595CB" />
+                                    <customcontrols:AxComboBox Name="cboTimeSegment1"  
+                                               ItemsSource="{Binding lstConsultationTimeSegments}" Width="120" Grid.Row="2" Grid.Column="1"
+                                               VerticalAlignment="Bottom"
+                                                   DisplayMemberPath="SegmentName"
+                                                   SelectedValuePath="ConsultationTimeSegmentID"       
+                                        SelectedItemEx="{Binding selectedConsultTimeSeg,Mode=TwoWay}"
+                                               Margin="5,0,10,1" />
+                                    <Button Name="butGetAll"  Content="{Binding G2470_G1_XemTCa, Source={StaticResource eHCMSResources}}" Width="80" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="10,0,0,0"/>
+                                </StackPanel>
+                                <customcontrols:AxDataGrid  Grid.Row="2"
+                                                        CanUserAddRows="False"
+                                                        AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                        Style="{StaticResource MainFrame.DataGridStyle}"
+                                                        ItemsSource="{Binding AllHisConsultationRoomTarget,Mode=TwoWay}" 
+                                                        cal:Message.Attach="[Event LoadingRow]=[Action grdListTarget_LoadingRow($source,$eventArgs)]"
+                                                        Height="400"
+                                             >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="{Binding K1437_G1_CaKham, Source={StaticResource eHCMSResources}}" IsReadOnly="True" 
+                                        Binding="{Binding  ConsultationTimeSegments.SegmentName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" 
+                                        CanUserSort="True"  MinWidth="50"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                                            />
+
+                                        <DataGridTemplateColumn Header="{Binding T1155_G1_GTri, Source={StaticResource eHCMSResources}}" Width="110" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                            Text="{Binding S0536_G1_SLggBNhan, Source={StaticResource eHCMSResources},UpdateSourceTrigger=LostFocus}" Width="100"
+                                                            Style="{StaticResource MainFrame.TextBlock.02}" />
+                                                        </StackPanel>
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                            Text="{Binding S0538_G1_SLggToiDa, Source={StaticResource eHCMSResources},UpdateSourceTrigger=LostFocus}" Width="100"
+                                                            Style="{StaticResource MainFrame.TextBlock.02}" />
+                                                        </StackPanel>
+
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                        Text="{Binding S0624_G1_SoBatDau, Source={StaticResource eHCMSResources},UpdateSourceTrigger=LostFocus}" Width="100"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+                                                        </StackPanel>
+
+
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                        Text="{Binding S0651_G1_SoKetThuc, Source={StaticResource eHCMSResources},UpdateSourceTrigger=LostFocus}" Width="100"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+                                                        </StackPanel>
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="{Binding T0752_G1_THai, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding MondayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding MondayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding MondayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding MondayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0749_G1_TBa, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding TuesdayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding TuesdayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding TuesdayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding TuesdayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0757_G1_TTu, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding WednesdayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding WednesdayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding WednesdayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding WednesdayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0753_G1_TNam, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding ThursdayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding ThursdayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding ThursdayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding ThursdayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0754_G1_TSau, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding FridayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding FridayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding FridayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding FridayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding T0750_G1_TBay, Source={StaticResource eHCMSResources}}" Width="60" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding SaturdayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SaturdayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SaturdayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SaturdayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="{Binding K2227_G1_ChuNhat, Source={StaticResource eHCMSResources}}" Width="80" CanUserReorder="True">
+
+                                            <DataGridTemplateColumn.CellTemplate >
+                                                <DataTemplate >
+                                                    <StackPanel Orientation="Vertical">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30" 
+                                                        Text="{Binding SundayTargetNumberOfCases,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SundayMaxNumConsultationAllowed,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SundayStartSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Width="30"                                                           
+                                                        Text="{Binding SundayEndSequenceNumber,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"
+                                                        Style="{StaticResource MainFrame.TextBlock.02}" />
+
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+
+                                </customcontrols:AxDataGrid>
+                            </Grid>
+                        </Border>
+                    </Expander>
+                </Grid>
+
+
+
+
+            </Border>
+        </Grid>
+        <!--</BusyIndicator>-->
+    </Border>
+</UserControl>

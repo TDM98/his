@@ -1,0 +1,525 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.InPatientBillingInvoiceDetailsListingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="300"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <Converters:EnumValueToStringConverter x:Key="EnumValueToStringConverter" />
+        <Converters:DecimalConverter x:Key="DecimalConverter" />
+        <Converters:DecimalConverter3 x:Key="DecimalConverter3" />
+        <Converters:ShortDateConverter x:Key="ShortDateConverter" />
+        <Converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <Converters:LongToNotBooleanConverter2 x:Key="LongToNotBooleanConverter2" />
+        <DataTemplate x:Key="RemoveItemButtonTemplate">
+            <!--<HyperlinkButton x:Name="lnkDelete"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext,$eventArgs)]"
+                             IsEnabled="{Binding CanDelete, Mode=OneWay}"
+                             ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">-->
+            <Button
+                x:Name="lnkDelete"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($datacontext,$eventArgs)]"
+                IsEnabled="{Binding CanDelete, Mode=OneWay}"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                <!--  KMx: Luôn luôn hiện icon delete (09/01/2016 11:10)  -->
+                <!--<Image Source="{Binding CanDelete, Mode=OneWay, Converter={StaticResource CanDeleteIconConverter}}" Height="13"
+                            Width="13" Opacity="1" />-->
+                <Image
+                    Width="13"
+                    Height="13"
+                    Opacity="1"
+                    Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="CanHIApplied">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <CheckBox
+                    cal:Message.Attach="[Event Checked]=[Action HiApplied_Checked($datacontext,$eventArgs)];                           [Event Unchecked]=[Action HiApplied_UnChecked($datacontext,$eventArgs)]"
+                    IsChecked="{Binding HiApplied, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="{Binding CanDelete, Mode=OneWay}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="SelectInPackageTemplate">
+            <CheckBox
+                cal:Message.Attach="[Event Click]=[Action chkInPackage_Click($source,$datacontext)]"
+                IsChecked="{Binding IsInPackage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+        </DataTemplate>
+        <DataTemplate x:Key="SelectCountHITemplate">
+            <CheckBox
+                cal:Message.Attach="[Event Click]=[Action chkCountHI_Click($source,$datacontext)]"
+                IsChecked="{Binding IsCountHI, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding IsCountPatientCOVID, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"
+                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+        </DataTemplate>
+        <DataTemplate x:Key="SelectCountPatientTemplate">
+            <CheckBox
+                cal:Message.Attach="[Event Click]=[Action chkCountPatient_Click($source,$datacontext)]"
+                IsChecked="{Binding IsCountPatient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=DataContext.IsEnableCountPatient, ElementName=LayoutRoot, Mode=OneWay}"
+                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+        </DataTemplate>
+        <DataTemplate x:Key="SelectCountPatientCOVIDTemplate">
+            <CheckBox
+                cal:Message.Attach="[Event Click]=[Action chkCountPatientCOVID_Click($source,$datacontext)]"
+                IsChecked="{Binding IsCountPatientCOVID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding ElementName=LayoutRoot, Path=DataContext.mCheckCovid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+        </DataTemplate>
+        <DataTemplate x:Key="DoctorStaffCellEditTemplate">
+            <AxControls:AxAutoComplete
+                cal:Message.Attach="[Event Populating]=[Action AutoDoctor_Populating($source,$eventArgs)];                                        [Event Loaded]=[Action AutoDoctor_Loaded($source,$eventArgs)];                                        [Event DropDownClosed]=[Action AutoDoctor_DropDownClosed($source,$eventArgs)]"
+                BorderThickness="0"
+                FilterMode="None"
+                IsEnabled="{Binding IntPtDiagDrInstructionID, Converter={StaticResource LongToNotBooleanConverter2}}"
+                ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                MinimumPopulateDelay="300"
+                Style="{StaticResource AxAutoCompleteMyStyle}"
+                Text="{Binding DoctorStaff.FullName}"
+                ValueMemberBinding="{Binding FullName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <AxControls:AxAutoComplete.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock
+                                Margin="0"
+                                Padding="0"
+                                Style="{StaticResource MainFrame.TextBlock.Auto}"
+                                Text="{Binding FullName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </AxControls:AxAutoComplete.ItemTemplate>
+            </AxControls:AxAutoComplete>
+        </DataTemplate>
+        <DataTemplate x:Key="DoctorStaffCellTemplate">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Margin="2,0,0,0" Text="{Binding DoctorStaff.FullName}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="MedicalInstructionDateCellEditTemplate">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!--<DatePicker SelectedDate="{Binding MedicalInstructionDate, TargetNullValue=Null, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+                <Button
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action EditMedicalInstructionDate($datacontext,$eventArgs)]"
+                    IsEnabled="{Binding IsNotBedService, Mode=OneWay}"
+                    Style="{StaticResource MainFrame.HyperlinkButton.02}">
+                    <TextBlock Text="{Binding MedicalInstructionDate, StringFormat='dd/MM/yyyy HH:mm', TargetNullValue=Null, Mode=TwoWay}" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="MedicalInstructionDateCellTemplate">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" Text="{Binding MedicalInstructionDate, StringFormat='dd/MM/yyyy HH:mm'}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ResultDateCellEditTemplate">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding IntPtDiagDrInstructionID, Converter={StaticResource LongToNotBooleanConverter2}}">
+                <!--<DatePicker SelectedDate="{Binding ResultDate, TargetNullValue=Null, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+                <Button
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action EditResultDate($datacontext,$eventArgs)]"
+                    IsEnabled="{Binding IsNotBedService, Mode=OneWay}"
+                    Style="{StaticResource MainFrame.HyperlinkButton.02}">
+                    <TextBlock Text="{Binding ResultDate, StringFormat='dd/MM/yyyy HH:mm', TargetNullValue=Null, Mode=TwoWay}" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="ResultDateCellTemplate">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" Text="{Binding ResultDate, StringFormat='dd/MM/yyyy HH:mm'}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="SelectCountSETemplate">
+            <CheckBox
+                cal:Message.Attach="[Event Click]=[Action chkCountSE_Click($source,$datacontext)]"
+                IsChecked="{Binding IsCountSE, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding IsCountPatientCOVID, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"
+                Style="{StaticResource MainFrame.Checkbox.Title1}" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <toolkit:BusyIndicator BusyContent="{Binding K2887_G1_DangXuLy, Source={StaticResource eHCMSResources}}" IsBusy="{Binding IsLoading, Mode=OneWay}">
+        <Grid x:Name="LayoutRoot">
+
+            <StackPanel>
+                <StackPanel Margin="0,0,0,5" Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Title1}"
+                        Text="{Binding N0111_G1_NgTao, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                    <AxControls:AxDateTextBox
+                        Width="90"
+                        Height="22"
+                        BorderThickness="0,0,0,1"
+                        IsEnabled="{Binding CanEditDate, Mode=OneWay}"
+                        Text="{Binding BillingInvoice.InvDate, Mode=TwoWay, Converter={StaticResource ShortDateConverter}}" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Title1}"
+                        Text="{Binding T2686_G1_Loaibill, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                    <ContentControl
+                        x:Name="BillingTypeContent"
+                        Width="150"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        IsEnabled="{Binding CanEditBillingType, Mode=OneWay}" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Title1}"
+                        Text="{Binding K1264_G1_BillTu2, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                    <DatePicker
+                        IsEnabled="{Binding BillingInvoice.CanEditPeriodOfTime, Mode=OneWay}"
+                        SelectedDate="{Binding BillingInvoice.BillFromDate, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.DatePicker}" />
+
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Title1}"
+                        Text="{Binding K3184_G1_Den, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                    <DatePicker
+                        IsEnabled="{Binding BillingInvoice.CanEditPeriodOfTime, Mode=OneWay}"
+                        SelectedDate="{Binding BillingInvoice.BillToDate, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.DatePicker}" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Title1}"
+                        Text="{Binding G1691_G1_TThai, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Title1_Highlight}"
+                        Text="{Binding BillingInvoice.V_InPatientBillingInvStatus, Mode=OneWay, Converter={StaticResource EnumValueToStringConverter}}" />
+
+                    <Button
+                        x:Name="TinhTienCmd"
+                        Width="75"
+                        Content="{Binding G1308_G1_TinhTien, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Title1}"
+                        Text="Trần TTVTYT: " />
+                    <TextBox
+                        VerticalContentAlignment="Center"
+                        Width="100"
+                        Height="23"
+                        IsReadOnly="True"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding PaymentCeilingForTechService, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
+                </StackPanel>
+                <AxControls:ReadOnlyDataGrid
+                    x:Name="grid"
+                    Width="Auto"
+                    Height="500"
+                    VerticalContentAlignment="Stretch"
+                    cal:Message.Attach="[Event Loaded]=[Action grid_Loaded($source,$eventArgs)];                                              [Event CellEditEnding]=[Action CellEditEnding($source,$eventArgs)];                                              [Event BeginningEdit]=[Action BeginningEdit($source,$eventArgs)];                                              [Event DblClick]=[Action gridRegDetails_DbClick($source,$eventArgs)]"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle.01}"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="{Binding CanEditOnGrid, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"
+                    ItemsSource="{Binding AllRegistrationItems, Mode=OneWay}"
+                    LoadingRow="grid_LoadingRow"
+                    RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                    SelectedItem="{Binding SelectedRegistrationItem, Mode=TwoWay}"
+                    Style="{StaticResource MainFrame.DataGridStyle}"
+                    VerticalScrollBarVisibility="Auto">
+                    <!--  KMx: Sử dụng event LoadingRow của .NET sẽ tốt hơn của Caliburn. Vì nếu view này là pop-up thì sẽ không nhận event LoadingRow của Caliburn (16/01/2015 16:49).  -->
+                    <DataGrid.Resources>
+                        <AxControls:BindingProxy x:Key="proxy" Data="{Binding}" />
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn
+                            x:Name="colDelete"
+                            Width="24"
+                            CellTemplate="{StaticResource RemoveItemButtonTemplate}"
+                            Header=""
+                            IsReadOnly="True" />
+                        <!--<DataGridTemplateColumn x:Name="colBH"
+                                            Header="{Binding G1279_G1_TinhBH, Source={StaticResource eHCMSResources}}"
+                                              IsReadOnly ="True"
+                                            Width="Auto" CellTemplate="{StaticResource CanHIApplied}" />-->
+                        <DataGridTemplateColumn
+                            x:Name="colIsInPackage"
+                            CellTemplate="{StaticResource SelectInPackageTemplate}"
+                            Header="colIsInPackage"
+                            IsReadOnly="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock HorizontalAlignment="Center" Text="{Binding G1795_G1_TrongGoi, Source={StaticResource eHCMSResources}}" />
+                                        <CheckBox
+                                            HorizontalAlignment="Center"
+                                            IsChecked="{Binding Path=DataContext.CheckAllInPackage, ElementName=LayoutRoot, Mode=TwoWay}"
+                                            IsThreeState="False"
+                                            ToolTipService.ToolTip="{Binding K2151_G1_ChonTatCaTrongGoi, Source={StaticResource eHCMSResources}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            x:Name="colCountSE"
+                            CellTemplate="{StaticResource SelectCountSETemplate}"
+                            IsReadOnly="True"
+                            Visibility="{Binding Data.IsEnableCountSE, Source={StaticResource proxy}, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Z3261_G1_TinhDV, Source={StaticResource eHCMSResources}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            x:Name="colCountHI"
+                            CellTemplate="{StaticResource SelectCountHITemplate}"
+                            IsReadOnly="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding G1279_G1_TinhBH, Source={StaticResource eHCMSResources}}" />
+                                        <CheckBox
+                                            HorizontalAlignment="Center"
+                                            IsChecked="{Binding Path=DataContext.CheckAllCountHI, ElementName=LayoutRoot, Mode=TwoWay}"
+                                            IsThreeState="False"
+                                            ToolTipService.ToolTip="{Binding G1281_G1_TinhBHTCa, Source={StaticResource eHCMSResources}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            x:Name="colCountPtient"
+                            CellTemplate="{StaticResource SelectCountPatientTemplate}"
+                            IsReadOnly="True">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding G1283_G1_TinhBn, Source={StaticResource eHCMSResources}}" />
+                                        <CheckBox
+                                            HorizontalAlignment="Center"
+                                            IsChecked="{Binding Path=DataContext.CheckAllCountPatient, ElementName=LayoutRoot, Mode=TwoWay}"
+                                            IsEnabled="{Binding Path=DataContext.IsEnableCountPatient, ElementName=LayoutRoot, Mode=OneWay}"
+                                            IsThreeState="False"
+                                            ToolTipService.ToolTip="{Binding G1284_G1_TinhBnTCa, Source={StaticResource eHCMSResources}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            x:Name="colCountPtientCOVID"
+                            CellTemplate="{StaticResource SelectCountPatientCOVIDTemplate}"
+                            IsReadOnly="True"
+                            Visibility="{Binding Data.IsShowPatientCOVID, Source={StaticResource proxy}}">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="COVID" />
+                                        <CheckBox
+                                            HorizontalAlignment="Center"
+                                            IsChecked="{Binding Path=DataContext.CheckAllCountCOVID, ElementName=LayoutRoot, Mode=TwoWay}"
+                                            IsEnabled="{Binding ElementName=LayoutRoot, Path=DataContext.mCheckCovid, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                            IsThreeState="False"
+                                            ToolTipService.ToolTip="{Binding G1284_G1_TinhBnTCa, Source={StaticResource eHCMSResources}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="{Binding Z2343_G1_MienGiam, Source={StaticResource eHCMSResources}}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <!--
+                                        [Event Checked]=[Action ckbDiscount_CheckedChanged($source,$eventArgs)];
+                                        [Event Unchecked]=[Action ckbDiscount_CheckedChanged($source,$eventArgs)]
+                                    -->
+                                    <CheckBox
+                                        cal:Message.Attach="[Event Click]=[Action ckbDiscount_Click($source,$datacontext)]"
+                                        IsChecked="{Binding IsDiscounted, Mode=OneWay}"
+                                        IsEnabled="{Binding ElementName=LayoutRoot, Path=DataContext.CanEditOnGrid, Mode=OneWay}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn
+                            Width="Auto"
+                            Binding="{Binding ChargeableItemCode, Mode=OneWay}"
+                            Header="{Binding K2569_G1_Code, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="Auto"
+                            Binding="{Binding ChargeableItemName, Mode=OneWay}"
+                            Header="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            x:Name="colMedProductType"
+                            Width="Auto"
+                            Binding="{Binding MedProductType, Mode=OneWay, Converter={StaticResource EnumValueToStringConverter}}"
+                            Header="{Binding T2669_G1_Loai, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="40"
+                            AxControls:DataGridColNamingUtil.ColName="colQty"
+                            Binding="{Binding Qty, Mode=TwoWay, UpdateSourceTrigger=LostFocus, Converter={StaticResource DecimalConverter3}}"
+                            Header="{Binding S0583_G1_SLg, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <!--<DataGridTextColumn x:Name="colQtyReturn" Binding="{Binding QtyReturn, Mode=OneWay}"
+                                        Header="{Binding G1645_G1_Tra, Source={StaticResource eHCMSResources}}"
+                                            IsReadOnly ="True"
+                                        Width="40" />-->
+                        <DataGridTextColumn
+                            x:Name="colInvoicePrice"
+                            Width="80"
+                            AxControls:DataGridColNamingUtil.ColName="colInvoicePrice"
+                            Binding="{Binding InvoicePrice, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                            ElementStyle="{StaticResource RightAligmentTextBlock}"
+                            Header="{Binding T0849_G1_Gia, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            x:Name="colHIAllowedPrice"
+                            Width="80"
+                            AxControls:DataGridColNamingUtil.ColName="colHIAllowedPrice"
+                            Binding="{Binding HIAllowedPrice, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                            ElementStyle="{StaticResource RightAligmentTextBlock}"
+                            Header="{Binding T0895_G1_GiaBH, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <!--<DataGridTextColumn Width="80"
+                                        Header="{Binding K1803_G1_ChenhLech, Source={StaticResource eHCMSResources}}"
+                                        Binding="{Binding TotalPriceDifference, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                                        ElementStyle="{StaticResource RightAligmentTextBlock}" />
+                        <DataGridTextColumn Width="80"
+
+                                        Binding="{Binding TotalCoPayment, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                                        ElementStyle="{StaticResource RightAligmentTextBlock}" >
+                            <DataGridTextColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding K3809_G1_DongCT, Source={StaticResource eHCMSResources}}" />
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGridTextColumn.HeaderStyle>
+                        </DataGridTextColumn>-->
+                        <DataGridTextColumn
+                            Width="80"
+                            Binding="{Binding TotalPatientPayment, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                            ElementStyle="{StaticResource RightAligmentTextBlock}"
+                            Header="{Binding K1296_G1_BNTra, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="80"
+                            Binding="{Binding TotalHIPayment, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                            ElementStyle="{StaticResource RightAligmentTextBlock}"
+                            Header="{Binding K1232_G1_BHTra, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="80"
+                            Binding="{Binding OtherAmt, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                            ElementStyle="{StaticResource RightAligmentTextBlock}"
+                            Header="Nhà nước trả"
+                            IsReadOnly="True"
+                            Visibility="{Binding Data.IsShowPatientCOVID, Source={StaticResource proxy}}" />
+                        <DataGridTextColumn
+                            x:Name="colCreatedDate"
+                            Binding="{Binding CreatedDate, Mode=OneWay, Converter={StaticResource ShortDateConverter}}"
+                            Header="{Binding N0105_G1_NgSD, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="60"
+                            Binding="{Binding DeptLocation.Location.LocationName, Mode=OneWay}"
+                            Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            Width="Auto"
+                            Binding="{Binding DrugInvoice.SelectedStorage.swhlName, Mode=OneWay}"
+                            Header="{Binding T2144_G1_Kho, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="Auto"
+                            Binding="{Binding InvoiceID, Mode=OneWay}"
+                            Header="{Binding T3584_G1_MaPX, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            AxControls:DataGridColNamingUtil.ColName="colDoctorStaff"
+                            CellEditingTemplate="{StaticResource DoctorStaffCellEditTemplate}"
+                            CellTemplate="{StaticResource DoctorStaffCellTemplate}"
+                            Header="{Binding K1377_G1_BSiCDinh, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            AxControls:DataGridColNamingUtil.ColName="colMedicalInstructionDate"
+                            CellEditingTemplate="{StaticResource MedicalInstructionDateCellEditTemplate}"
+                            CellTemplate="{StaticResource MedicalInstructionDateCellTemplate}"
+                            Header="{Binding N0133_G1_NgYLenh, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTemplateColumn
+                            Width="Auto"
+                            AxControls:DataGridColNamingUtil.ColName="colResultDate"
+                            CellEditingTemplate="{StaticResource ResultDateCellEditTemplate}"
+                            CellTemplate="{StaticResource ResultDateCellTemplate}"
+                            Header="{Binding N0080_G1_NgKetQua, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTemplateColumn Width="80" Header="{Binding Z2342_G1_MienGiam, Source={StaticResource eHCMSResources}}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        Orientation="Horizontal">
+                                        <TextBox
+                                            MinWidth="100"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            cal:Message.Attach="[Event LostFocus]=[Action txtDiscount_LostFocus($source,$eventArgs)]"
+                                            IsEnabled="{Binding IsDiscountChecked}"
+                                            Text="{Binding DiscountAmt, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                                            Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.CanApplyIsOnPriceDiscount, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                        <Button
+                                            HorizontalContentAlignment="Right"
+                                            cal:Message.Attach="[Event Click]=[Action btnDiscount_Click($source,$eventArgs)]"
+                                            Content="{Binding DiscountAmt, Mode=OneWay, Converter={StaticResource DecimalConverter}}"
+                                            FontWeight="Bold"
+                                            Foreground="Blue"
+                                            Style="{StaticResource MainFrame.HyperlinkButton}"
+                                            Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsShowPrintDiscountButton, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn
+                            Width="Auto"
+                            Binding="{Binding V_Ekip.ObjectValue, Mode=OneWay}"
+                            Header="{Binding Z2646_G1_Ekip, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            Width="Auto"
+                            Binding="{Binding V_EkipIndex.ObjectValue, Mode=OneWay}"
+                            Header="{Binding Z2731_G1_LoaiEkip, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                    </DataGrid.Columns>
+                </AxControls:ReadOnlyDataGrid>
+            </StackPanel>
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>

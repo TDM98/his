@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="aEMR.Common.Views.PatientsInTreatmentListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:cal="http://www.caliburnproject.org" 
+             mc:Ignorable="d"
+    d:DesignHeight="420" d:DesignWidth="300"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToNotVisibility"/>
+        <HierarchicalDataTemplate x:Key="TreeTemplate"  ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="13" Margin="0,0,3,0" VerticalAlignment="Center" HorizontalAlignment="Center" Source="{Binding ImgIcon}"/>
+                <TextBlock FontSize="13" Text="{Binding NodeText}"/>
+            </StackPanel>
+        </HierarchicalDataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0">
+            <Border Width="Auto" Style="{StaticResource LightBlueBorderStyleSmall}">
+                <ContentControl Name="UCOutPatientRegistrationOST"  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Visibility="{Binding vUCOutPatientRegistrationOST, Converter={StaticResource BooleanToVisibility}}"/>
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Row="0">
+            <Border Width="Auto" Style="{StaticResource LightBlueBorderStyleSmall}">
+                <ContentControl Name="UCInPatientRegistrationOST"  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                  Visibility="{Binding vUCInPatientRegistrationOST, Converter={StaticResource BooleanToVisibility}}"/>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>

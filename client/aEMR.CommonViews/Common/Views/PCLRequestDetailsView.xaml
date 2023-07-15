@@ -1,0 +1,177 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.PCLRequestDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="600"
+    d:DesignWidth="900"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <commonconverters:IntConverterMin1 x:Key="IntConverterMin1" />
+        <commonconverters:DecimalConverter x:Key="DecimalConverter" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot">
+
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ControlsLibrary:ReadOnlyDataGrid
+                Name="dtgList"
+                Grid.Row="0"
+                MinHeight="150"
+                MaxHeight="150"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserReorderColumns="True"
+                CanUserResizeColumns="True"
+                CanUserSortColumns="True"
+                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                HeadersVisibility="All"
+                IsEnabled="{Binding IsEnableListPCL, Mode=OneWay}"
+                ItemsSource="{Binding MaskedDetailList, Mode=OneWay}"
+                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Style="{StaticResource MainFrame.DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Button
+                                        x:Name="hplDelete"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action hplDelete_Click($datacontext)]"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                        ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                                        <Image
+                                            Width="13"
+                                            Height="13"
+                                            Opacity="1"
+                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding K1209_G1_BH, Source={StaticResource eHCMSResources}}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    cal:Message.Attach="[Event Checked]=[Action ckbIsCountHI_CheckedChanged($source, $eventArgs)];                                       [Event Unchecked]=[Action ckbIsCountHI_CheckedChanged($source, $eventArgs)]"
+                                    IsChecked="{Binding IsCountHI, Mode=OneWay}"
+                                    IsEnabled="{Binding ElementName=LayoutRoot, Path=DataContext.IsOldList, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn
+                        Width="Auto"
+                        MinWidth="150"
+                        Binding="{Binding PCLExamType.PCLExamTypeName}"
+                        Header="{Binding T2860_G1_LoaiXN, Source={StaticResource eHCMSResources}}"
+                        IsReadOnly="True" />
+                    <DataGridTemplateColumn Header="{Binding S0583_G1_SLg, Source={StaticResource eHCMSResources}}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    x:Name="tbQty"
+                                    Text="{Binding NumberOfTest, Mode=TwoWay, Converter={StaticResource IntConverterMin1}}"
+                                    TextAlignment="Right" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding T1003_G1_GiaDV, Source={StaticResource eHCMSResources}}" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox
+                                    Width="60"
+                                    Background="#F0F0F0"
+                                    IsReadOnly="True"
+                                    Text="{Binding InvoicePrice, Mode=TwoWay, Converter={StaticResource DecimalConverter}}"
+                                    TextAlignment="Right" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding T0895_G1_GiaBH, Source={StaticResource eHCMSResources}}" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox
+                                    Width="60"
+                                    Background="#F0F0F0"
+                                    IsReadOnly="True"
+                                    Text="{Binding PCLExamType.HIAllowedPrice, Mode=TwoWay, Converter={StaticResource DecimalConverter}}"
+                                    TextAlignment="Right" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{Binding P0385_G1_Pg, Source={StaticResource eHCMSResources}}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding DeptLocation.Location.LocationName}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </ControlsLibrary:ReadOnlyDataGrid>
+            <Label
+                Grid.Row="1"
+                Padding="0,5,0,5"
+                Content="{Binding P0362_G1_PhCDinhCuaDK, Source={StaticResource eHCMSResources}}"
+                Foreground="DarkCyan"
+                Style="{StaticResource MainFrame.Label.00}" />
+            <ControlsLibrary:ReadOnlyDataGrid
+                Name="dtgPCLList"
+                Grid.Row="2"
+                MinHeight="150"
+                MaxHeight="150"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                cal:Message.Attach="[Event DblClick]=[Action dtgListDetails_DblClick($sender, $eventArgs)]"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserReorderColumns="True"
+                CanUserResizeColumns="True"
+                CanUserSortColumns="True"
+                ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                HeadersVisibility="All"
+                ItemsSource="{Binding ObjPatientPCLRequest_ByRegistrationID, Mode=OneWay}"
+                RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Style="{StaticResource MainFrame.DataGridStyle}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        MinWidth="50"
+                        Binding="{Binding PCLRequestNumID, Mode=OneWay}"
+                        Header="{Binding P0360_G1_Ph, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTextColumn Binding="{Binding DoctorIDName, Mode=OneWay}" Header="{Binding N0151_G1_NguoiCDinh, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTextColumn Binding="{Binding V_PCLRequestStatusName, Mode=OneWay}" Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" />
+                    <DataGridTextColumn Binding="{Binding PaidTime, Mode=OneWay, StringFormat='dd/MM/yyyy HH:mm:ss'}" Header="{Binding N0117_G1_NgThanhToan, Source={StaticResource eHCMSResources}}" />
+                </DataGrid.Columns>
+            </ControlsLibrary:ReadOnlyDataGrid>
+
+
+        </Grid>
+    </Grid>
+</UserControl>

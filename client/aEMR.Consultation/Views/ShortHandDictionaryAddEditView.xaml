@@ -1,0 +1,150 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.ShortHandDictionaryAddEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="500"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+        <Grid x:Name="GridMain" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                x:Name="TitleForm"
+                Grid.Row="0"
+                Margin="5,5,0,5"
+                FontSize="14"
+                FontWeight="Bold"
+                Foreground="#FF0084FF"
+                Text="Title" />
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Row="6"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Từ viết tắt" />
+                <TextBox
+                    x:Name="tbDiseaseNameVN_ICD"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    Text="{Binding ObjShortHandDictionary_Current.ShortHandDictionaryKey, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                <Label
+                    Grid.Row="7"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Content="Giá trị" />
+                <TextBox
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Height="75"
+                    Margin="0,2,5,2"
+                    VerticalAlignment="Top"
+                    AcceptsReturn="True"
+                    FontWeight="Normal"
+                    Foreground="Black"
+                    HorizontalScrollBarVisibility="Auto"
+                    Text="{Binding ObjShortHandDictionary_Current.ShortHandDictionaryValue, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                    VerticalScrollBarVisibility="Visible" />
+                <!--<Label
+                    Grid.Row="8"
+                    Margin="0,2,5,2"
+                    HorizontalAlignment="Right"
+                    Content="Đang dùng" />-->
+                <!--<CheckBox
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Margin="0,2,5,2"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding ObjShortHandDictionary_Current.IsActive, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />-->
+                <StackPanel
+                    Grid.Row="13"
+                    Grid.Column="1"
+                    Margin="0,0,0,30"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="btSave"
+                        Width="80"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="18"
+                                VerticalAlignment="Center"
+                                Source="/aEMR.CommonViews;component/Assets/Images/saveanddown24x24border.png" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        x:Name="btClose"
+                        Width="80"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Left">
+                        <StackPanel Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Height="18"
+                                VerticalAlignment="Center"
+                                Source="/aEMR.CommonViews;component/Assets/Images/Button-exit-icon.png" />
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+
+                <!--<controlslib:ValidationSummary MaxHeight="1" Grid.Row="4" Grid.ColumnSpan="2"  x:Name="ValidationSummary1" Margin="0,10,0,0"></controlslib:ValidationSummary>-->
+
+            </Grid>
+
+        </Grid>
+        <!--</toolkit:BusyIndicator>-->
+    </Grid>
+</UserControl>
+

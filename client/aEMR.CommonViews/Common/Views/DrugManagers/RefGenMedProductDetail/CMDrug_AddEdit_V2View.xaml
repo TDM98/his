@@ -1,0 +1,1616 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.CMDrug_AddEdit_V2View"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="800"
+    d:DesignWidth="1150"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converter:DecimalConverter x:Key="DecimalConverter" />
+        <converter:PercentageConverterHpt1 x:Key="PercentageConverterHpt1" />
+        <DataTemplate x:Key="LinkTemplate">
+            <Button
+                x:Name="lnkDelete"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action btnDeleteCC_Click($source,$eventArgs)]"
+                CommandParameter="{Binding SupplierID}"
+                ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                <Image
+                    Width="13"
+                    Height="13"
+                    Opacity="1"
+                    Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="SupplierNameTemplete">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock
+                    Name="txtDrugName"
+                    Margin="0"
+                    Padding="0"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text="{Binding SelectedSupplier.SupplierName}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="SupplierCodeTemplate">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock
+                    Name="txtSupplierCode"
+                    Margin="0"
+                    Padding="0"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text="{Binding SelectedSupplier.SupplierCode}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="AutoSupplierTemplete">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <AxControls:AxAutoComplete
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="2,1"
+                    cal:Message.Attach="[Event Loaded] = [Action acbDrug_Loaded($source, $eventArgs)];                                                                     [Event Populating] = [Action Supplier_Populating($source, $eventArgs)]"
+                    FilterMode="None"
+                    FontWeight="Bold"
+                    IsDropDownOpen="True"
+                    IsTabStop="False"
+                    ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                    MinimumPopulateDelay="300"
+                    MinimumPrefixLength="0"
+                    SelectedItem="{Binding SelectedSupplier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource AxAutoCompleteMyStyle}"
+                    TextBoxStyle="{StaticResource MainFrame.TextBox}"
+                    ValueMemberBinding="{Binding SupplierName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <AxControls:AxAutoComplete.ItemTemplate>
+                        <DataTemplate>
+                            <!--  ItemsSource="{Binding ElementName=LayoutRoot,Path=DataContext.Suppliers}"  -->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Width="160"
+                                    Margin="0,0,10,0"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                                    Text="{Binding SupplierCode}" />
+                                <TextBlock
+                                    Margin="0"
+                                    Padding="0"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                                    Text="{Binding SupplierName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </AxControls:AxAutoComplete.ItemTemplate>
+                </AxControls:AxAutoComplete>
+                <!--<AxControls:KeyEnabledComboBox Name="acbDrug" SelectedValuePath="SupplierID" Style="{StaticResource MainFrame.ComboBox}"
+                                               DisplayMemberPath="SupplierName" SelectedItemEx="{Binding SelectedSupplier,Mode=TwoWay}" MinWidth="150" MaxWidth="220"
+                                      cal:Message.Attach="[Event Loaded] = [Action acbDrug_Loaded($source, $eventArgs)]"    />-->
+                <Button
+                    Grid.Column="1"
+                    cal:Message.Attach="[Event Click] = [Action Supplier_Click($source, $eventArgs)]"
+                    Content="..."
+                    Style="{StaticResource MainFrame.Button}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="UnitPriceCellEditTemplate">
+
+            <AxControls:AxTextBox
+                Name="txtDrugName"
+                Height="22"
+                Style="{StaticResource MainFrame.TextBox.Grid}"
+                Text="{Binding UnitPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DecimalConverter}}"
+                TextAlignment="Right" />
+
+        </DataTemplate>
+        <DataTemplate x:Key="UnitPriceCellTemplate">
+            <TextBlock
+                Name="txtDrugName"
+                HorizontalAlignment="Right"
+                Text="{Binding UnitPrice, Converter={StaticResource DecimalConverter}}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PackagePriceCellEditTemplate">
+            <AxControls:AxTextBox
+                Name="txtDrugName"
+                Height="22"
+                Style="{StaticResource MainFrame.TextBox.Grid}"
+                Text="{Binding PackagePrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DecimalConverter}}"
+                TextAlignment="Right" />
+        </DataTemplate>
+        <DataTemplate x:Key="PackagePriceCellTemplate">
+            <TextBlock
+                Name="txtDrugName"
+                HorizontalAlignment="Right"
+                Text="{Binding PackagePrice, Converter={StaticResource DecimalConverter}}" />
+        </DataTemplate>
+        <DataTemplate x:Key="VATCellEditTemplate">
+
+            <AxControls:AxTextBox
+                Name="txtDrugName"
+                Height="22"
+                Style="{StaticResource MainFrame.TextBox.Grid}"
+                Text="{Binding VAT, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource DecimalConverter}}"
+                TextAlignment="Right" />
+
+        </DataTemplate>
+        <DataTemplate x:Key="VATCellTemplate">
+            <TextBlock
+                Name="txtDrugName"
+                HorizontalAlignment="Right"
+                Text="{Binding VAT, Converter={StaticResource DecimalConverter}}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsProcessing, Mode=OneWay}"
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+    <!--<toolkit:BusyIndicator.BusyContent>
+            <TextBlock Text="{Binding Path=StatusText, Mode=OneWay}"
+                           FontSize="14"
+                           FontWeight="Bold" />
+        </toolkit:BusyIndicator.BusyContent>-->
+
+    <ScrollViewer
+        MaxWidth="1150"
+        MaxHeight="650"
+        VerticalScrollBarVisibility="Auto">
+        <Grid
+            x:Name="LayoutRoot"
+            MinHeight="680"
+            MaxHeight="2000"
+            Background="White">
+            <Grid x:Name="GridMain">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <TextBlock
+                        x:Name="TitleForm"
+                        Margin="0,10,0,15"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.Header.01}"
+                        Text="TitleForm" />
+                </Grid>
+                <Grid Grid.Row="1">
+                    <AxControls:AxGrid x:Name="GridItemDetail" Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MaxWidth="1150" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <GroupBox
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Header="{Binding G0691_G1_TTinThuoc, Source={StaticResource eHCMSResources}}"
+                            Style="{StaticResource MainFrame.GroupBox}">
+                            <Border Padding="5,5,5,5" Style="{StaticResource LightBlueBorderStyleNew}">
+                                <Grid VerticalAlignment="Top">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110" />
+                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="250" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T3310_G1_MaBoYTe, Source={StaticResource eHCMSResources}}" />
+                                    <TextBox
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="1"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.HIProductCode5084, Mode=TwoWay, NotifyOnValidationError=True}" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T3649_G1_MaThuoc, Source={StaticResource eHCMSResources}}" />
+                                    <TextBox
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        IsReadOnly="{Binding IsReadOnlyCode, Mode=OneWay}"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="2"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.Code, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T0907_G1_TenThuongMai, Source={StaticResource eHCMSResources}}" />
+                                    <TextBox
+                                        Name="tbx_BrandName"
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="3"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.BrandName, Mode=TwoWay, NotifyOnValidationError=True}" />
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="3"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T0857_G1_TenHoatChat, Source={StaticResource eHCMSResources}}" />
+
+                                    <!--<TextBox Name="tbx_GenericName" Grid.Row="3" Grid.Column="1"  Margin="4,2,5,2" Text="{Binding ObjRefGenMedProductDetails_Current.GenericName,Mode=TwoWay,NotifyOnValidationError=True}" Style="{StaticResource MainFrame.TextBox}" TabIndex="4" />-->
+                                    <AxControls:AxAutoComplete
+                                        Grid.Row="3"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        cal:Message.Attach="[Event Loaded] = [Action Auto_RefGeneric_Loaded($source, $eventArgs)];                                                             [Event DropDownClosed] = [Action RefGeneric_DropDownClosed($source, $eventArgs)];                                                             [Event Populating] = [Action RefGeneric_Populating($source, $eventArgs)]"
+                                        FilterMode="None"
+                                        FontWeight="Bold"
+                                        IsDropDownOpen="True"
+                                        ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                        MinimumPrefixLength="0"
+                                        Style="{StaticResource AxAutoCompleteMyStyle}"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.GenericName}"
+                                        TextBoxStyle="{StaticResource MainFrame.TextBox}"
+                                        ValueMemberBinding="{Binding FaName, Mode=TwoWay}">
+                                        <AxControls:AxAutoComplete.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding FaName}" />
+                                            </DataTemplate>
+                                        </AxControls:AxAutoComplete.ItemTemplate>
+                                    </AxControls:AxAutoComplete>
+                                    <TextBlock
+                                        Grid.Row="3"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="4"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="Tên Th.phẩm(Ax)" />
+
+                                    <TextBox
+                                        Name="tbx_ReportBrandName"
+                                        Grid.Row="4"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="5"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.ReportBrandName, Mode=TwoWay, NotifyOnValidationError=True}" />
+                                    <TextBlock
+                                        Grid.Row="4"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="5"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T1316_G1_HLg, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="5"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="6"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.Content, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
+
+                                    <TextBlock
+                                        Grid.Row="6"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K3524_G1_DispenseVolume, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="6"
+                                        Grid.Column="1"
+                                        Width="125"
+                                        Margin="4,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="7"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.DispenseVolume, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
+                                        TextAlignment="Right" />
+                                    <TextBlock
+                                        Grid.Row="6"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="7"
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K3709_G1_DViTinh, Source={StaticResource eHCMSResources}}" />
+
+                                    <AxControls:KeyEnabledComboBox
+                                        Name="cbx_Unit"
+                                        Grid.Row="7"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        DisplayMemberPath="UnitName"
+                                        ItemsSource="{Binding Units}"
+                                        SelectedItemEx="{Binding ObjRefGenMedProductDetails_Current.SelectedUnit, Mode=TwoWay, NotifyOnValidationError=True}"
+                                        SelectedValuePath="UnitID"
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                        TabIndex="8" />
+                                    <TextBlock
+                                        Grid.Row="7"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="8"
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K3685_G1_DViDung, Source={StaticResource eHCMSResources}}" />
+
+                                    <AxControls:KeyEnabledComboBox
+                                        Grid.Row="8"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        DisplayMemberPath="UnitName"
+                                        ItemsSource="{Binding Units}"
+                                        SelectedItemEx="{Binding ObjRefGenMedProductDetails_Current.SelectedUnitUse, Mode=TwoWay, NotifyOnValidationError=True}"
+                                        SelectedValuePath="UnitID"
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                        TabIndex="9" />
+                                    <TextBlock
+                                        Grid.Row="8"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <!--  KMx: Không thấy sử dụng, để chật màn hình và rối mắt (29/08/2015 17:30)  -->
+                                    <!--<TextBlock Grid.Row="8" Style="{StaticResource TextBlock.Heading.04}"  Text="{Binding T2602_G1_LieuDung, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" />
+
+                                        <TextBox Grid.Row="8" Grid.Column="1" Name="tbx_Dosage" Margin="4,2,5,2" Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.Dosage,Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" TabIndex="9" />-->
+
+                                    <TextBlock
+                                        Grid.Row="9"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K3937_G1_DuongDung, Source={StaticResource eHCMSResources}}" />
+
+                                    <!--<TextBox Grid.Row="8" Grid.Column="1" Margin="4,2,5,2" Name="tbx_RouteOfAdministration" Text="{Binding ObjRefGenMedProductDetails_Current.RouteOfAdministration,Mode=TwoWay,NotifyOnValidationError=True}" Style="{StaticResource MainFrame.TextBox}" TabIndex="9" />-->
+                                    <AxControls:AxAutoComplete
+                                        Grid.Row="9"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        cal:Message.Attach="[Event Loaded] = [Action auRouteOfAdministration_Loaded($source, $eventArgs)];                                                                                     [Event Populating] = [Action auRouteOfAdministration_Populating($source, $eventArgs)];                                                                                     [Event SelectionChanged] = [Action auRouteOfAdministration_SelectionChanged($source, $eventArgs)]"
+                                        FilterMode="None"
+                                        FontWeight="Bold"
+                                        IsDropDownOpen="True"
+                                        IsTabStop="False"
+                                        ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                        MinimumPrefixLength="0"
+                                        Style="{StaticResource AxAutoCompleteMyStyle}"
+                                        TabIndex="10"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RouteOfAdministration.ObjectValue}"
+                                        TextBoxStyle="{StaticResource MainFrame.TextBox}"
+                                        ValueMemberBinding="{Binding ObjectValue, Mode=TwoWay}">
+                                        <!--  SelectedItem="{Binding ObjRefGenMedProductDetails_Current.RouteOfAdministration,UpdateSourceTrigger=PropertyChanged}"  -->
+                                        <!--  20180706 TBL: Anh Tuan keu bo ra, neu co chuyen gi thi quay lai  -->
+                                        <AxControls:AxAutoComplete.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ObjectValue}" />
+                                            </DataTemplate>
+                                        </AxControls:AxAutoComplete.ItemTemplate>
+                                    </AxControls:AxAutoComplete>
+                                    <TextBlock
+                                        Grid.Row="9"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="10"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K1503_G1_CachDung, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="tbx_Administration"
+                                        Grid.Row="10"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="11"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.Administration, Mode=TwoWay, NotifyOnValidationError=True}" />
+                                    <TextBlock
+                                        Grid.Row="10"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="11"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K2844_G1_DangBaoChe, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="11"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="12"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.DosageForm, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="12"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K2885_G1_DangTrinhBay, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="12"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="13"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.DrugForm, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="13"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding Q0420_G1_QCDongGoi, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="cbx_unitpackaging"
+                                        Grid.Row="13"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="14"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.Packaging, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="2"
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding S0668_G1_SLggQC, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Width="125"
+                                        Margin="4,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        cal:Message.Attach="[Event LostFocus] = [Action TextBox_LostFocus($source, $eventArgs)]"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="15"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.UnitPackaging, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
+                                        TextAlignment="Right" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding S0551_G1_SĐK_GPNK, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="1"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="16"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.Visa, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T1408_G1_HgSX, Source={StaticResource eHCMSResources}}" />
+
+                                    <AxControls:AxAutoComplete
+                                        Grid.Row="2"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        cal:Message.Attach="[Event Loaded] = [Action Auto_PharmaCompany_Loaded($source, $eventArgs)];                                                                 [Event Populating] = [Action Auto_PharmaCompany_Populating($source, $eventArgs)];                                                                 [Event DropDownClosed] = [Action HangSX_DropDownClosed($source, $eventArgs)]"
+                                        FilterMode="None"
+                                        FontWeight="Bold"
+                                        IsDropDownOpen="True"
+                                        IsTabStop="False"
+                                        ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                        MinimumPrefixLength="0"
+                                        Style="{StaticResource AxAutoCompleteMyStyle}"
+                                        TabIndex="17"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.PharmaceuticalCompany.PCOName}"
+                                        TextBoxStyle="{StaticResource MainFrame.TextBox}"
+                                        ValueMemberBinding="{Binding PCOName, Mode=TwoWay}">
+                                        <!--  SelectedItem="{Binding ObjRefGenMedProductDetails_Current.PharmaceuticalCompany,NotifyOnValidationError=True}"  -->
+                                        <!--  20180706 TBL: Anh Tuan keu bo ra, neu co chuyen gi thi quay lai  -->
+                                        <AxControls:AxAutoComplete.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding PCOName}" />
+                                            </DataTemplate>
+                                        </AxControls:AxAutoComplete.ItemTemplate>
+                                    </AxControls:AxAutoComplete>
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="3"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding Q0484_G1_QuocGia, Source={StaticResource eHCMSResources}}" />
+
+                                    <AxControls:AxAutoComplete
+                                        Grid.Row="3"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        cal:Message.Attach="[Event Loaded] = [Action Auto_PharmaCountry_Loaded($source, $eventArgs)];                                                                 [Event Populating] = [Action Auto_PharmaCountry_Populating($source, $eventArgs)];                                                                 [Event DropDownClosed] = [Action Country_DropDownClosed($source, $eventArgs)]"
+                                        FilterMode="None"
+                                        FontWeight="Bold"
+                                        IsDropDownOpen="True"
+                                        IsTabStop="False"
+                                        ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                        MinimumPrefixLength="0"
+                                        Style="{StaticResource AxAutoCompleteMyStyle}"
+                                        TabIndex="18"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.SelectedCountry.CountryName}"
+                                        TextBoxStyle="{StaticResource MainFrame.TextBox}"
+                                        ValueMemberBinding="{Binding CountryName, Mode=TwoWay}">
+                                        <!--  SelectedItem="{Binding ObjRefGenMedProductDetails_Current.SelectedCountry,UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError=True}"  -->
+                                        <!--  20180706 TBL: Anh Tuan keu bo ra, neu co chuyen gi thi quay lai  -->
+                                        <AxControls:AxAutoComplete.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding CountryName}" />
+                                            </DataTemplate>
+                                        </AxControls:AxAutoComplete.ItemTemplate>
+                                    </AxControls:AxAutoComplete>
+                                    <TextBlock
+                                        Grid.Row="3"
+                                        Grid.Column="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="4"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding N0248_G1_NhomThuoc, Source={StaticResource eHCMSResources}}" />
+
+                                    <AxControls:AxAutoComplete
+                                        Grid.Row="4"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        cal:Message.Attach="[Event Loaded] = [Action Auto_DrugClass_Loaded($source, $eventArgs)];                                                                 [Event Populating] = [Action Auto_DrugClass_Populating($source, $eventArgs)];                                                                 [Event DropDownClosed] = [Action NhomThuoc_DropDownClosed($source, $eventArgs)]"
+                                        FilterMode="None"
+                                        FontWeight="Bold"
+                                        IsDropDownOpen="True"
+                                        IsTabStop="False"
+                                        ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                        MinimumPrefixLength="0"
+                                        Style="{StaticResource AxAutoCompleteMyStyle}"
+                                        TabIndex="19"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.SelectedDrugClass.FaName}"
+                                        TextBoxStyle="{StaticResource MainFrame.TextBox}"
+                                        ValueMemberBinding="{Binding FaName, Mode=TwoWay}">
+                                        <!--  SelectedItem="{Binding ObjRefGenMedProductDetails_Current.SelectedDrugClass,UpdateSourceTrigger=PropertyChanged}"  -->
+                                        <!--  20180706 TBL: Anh Tuan keu bo ra, neu co chuyen gi thi quay lai  -->
+                                        <AxControls:AxAutoComplete.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding FaName}" />
+                                            </DataTemplate>
+                                        </AxControls:AxAutoComplete.ItemTemplate>
+                                    </AxControls:AxAutoComplete>
+                                    <TextBlock
+                                        Grid.Row="4"
+                                        Grid.Column="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="5"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding N0253_G1_NhomThuocVidal, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="tbx_ActiveIngredient"
+                                        Grid.Row="5"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="20"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.VidalGroup, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="6"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding P0345_G1_PhanLoai1, Source={StaticResource eHCMSResources}}" />
+
+                                    <AxControls:KeyEnabledComboBox
+                                        Grid.Row="6"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        DisplayMemberPath="CategoryNameAndCategoryDescription"
+                                        ItemsSource="{Binding RefGenericDrugCategory_1s}"
+                                        SelectedValueEx="{Binding ObjRefGenMedProductDetails_Current.RefGenDrugCatID_1, Mode=TwoWay, NotifyOnValidationError=True}"
+                                        SelectedValuePath="RefGenDrugCatID_1"
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                        TabIndex="21" />
+
+                                    <TextBlock
+                                        Grid.Row="7"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding P0346_G1_PhanLoai2, Source={StaticResource eHCMSResources}}" />
+
+                                    <AxControls:KeyEnabledComboBox
+                                        Grid.Row="7"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        DisplayMemberPath="CategoryName"
+                                        ItemsSource="{Binding RefGenericDrugCategory_2s}"
+                                        SelectedValueEx="{Binding ObjRefGenMedProductDetails_Current.RefGenDrugCatID_2, Mode=TwoWay, NotifyOnValidationError=True}"
+                                        SelectedValuePath="RefGenDrugCatID_2"
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                        TabIndex="22" />
+
+
+                                    <!--  KMx: Theo phụ lục hợp đồng: Không sử dụng Nhóm thuốc ATC, chỉ dùng nhóm thuốc TT40 (29/08/2015 17:06)  -->
+                                    <!--<TextBlock  Grid.Row="6" Grid.Column="2" Style="{StaticResource TextBlock.Heading.04}"    Text="{Binding N0249_G1_NhomThuocATC, Source={StaticResource eHCMSResources}}"  HorizontalAlignment="Right" />
+
+                                        <TextBox Grid.Row="6" Grid.Column="3" Margin="4,2,5,2" Name="tbx_Composition" Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.ATCGroup,Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" TabIndex="21" />-->
+
+                                    <TextBlock
+                                        Grid.Row="8"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T1705_G1_HSAnToan, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="8"
+                                        Grid.Column="3"
+                                        Width="125"
+                                        Margin="4,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="23"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.FactorSafety, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
+                                        TextAlignment="Right" />
+
+                                    <TextBlock
+                                        Grid.Row="9"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T1714_G1_HSNhan, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="cbx_HeSoNhan"
+                                        Grid.Row="9"
+                                        Grid.Column="3"
+                                        Width="125"
+                                        Margin="4,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="24"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.NumberOfEstimatedMonths_F, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
+                                        TextAlignment="Right" />
+
+                                    <TextBlock
+                                        Grid.Row="10"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T1753_G1_HuyTruocHan, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="tbx_BeforeExprire"
+                                        Grid.Row="10"
+                                        Grid.Column="3"
+                                        Width="125"
+                                        Margin="4,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="25"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.AdvTimeBeforeExpire, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
+                                        TextAlignment="Right" />
+
+                                    <TextBlock
+                                        Grid.Row="11"
+                                        Grid.Column="2"
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding S0678_G1_SoNgRaToaToiDa, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="11"
+                                        Grid.Column="3"
+                                        Width="125"
+                                        Margin="4,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="26"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.MaxDayPrescribed, Mode=TwoWay, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
+                                        TextAlignment="Right" />
+
+                                    <TextBlock
+                                        Grid.Row="12"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K1810_G1_CDinh, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="tbx_Indication"
+                                        Grid.Row="12"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="27"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.Indication, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="13"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K1576_G1_CBao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="tbx_Precaution"
+                                        Grid.Row="13"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        AcceptsReturn="True"
+                                        HorizontalScrollBarVisibility="Auto"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="28"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.Precaution_Warn, Mode=TwoWay}"
+                                        VerticalScrollBarVisibility="Visible" />
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T0764_G1_TacDungPhu, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="tbx_SideEffect"
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="5"
+                                        Margin="4,2,5,2"
+                                        AcceptsReturn="True"
+                                        HorizontalScrollBarVisibility="Auto"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="29"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.SideEffects, Mode=TwoWay}"
+                                        VerticalScrollBarVisibility="Visible" />
+
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding G2074_G1_TuongTacThuoc, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="tbx_Interation"
+                                        Grid.Row="2"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="5"
+                                        Margin="4,2,5,2"
+                                        AcceptsReturn="True"
+                                        HorizontalScrollBarVisibility="Auto"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="30"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.Interaction, Mode=TwoWay}"
+                                        VerticalScrollBarVisibility="Visible" />
+
+                                    <TextBlock
+                                        Grid.Row="4"
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding M0008_G1_MoTa, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Name="tbx_Description"
+                                        Grid.Row="4"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="5"
+                                        Margin="4,2,5,2"
+                                        AcceptsReturn="True"
+                                        HorizontalScrollBarVisibility="Auto"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="31"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.Description, Mode=TwoWay}"
+                                        VerticalScrollBarVisibility="Visible" />
+
+                                    <TextBlock
+                                        Grid.Row="6"
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T2216_G1_KhoKe, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="6"
+                                        Grid.Column="5"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="32"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.ShelfName, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="7"
+                                        Grid.Column="4"
+                                        Margin="2,2,3,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T1219_G1_GHanSLgXuat, Source={StaticResource eHCMSResources}}" />
+                                    <CheckBox
+                                        Name="chkWatchOutQty"
+                                        Grid.Row="7"
+                                        Grid.Column="5"
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Loaded] = [Action chkWatchOutQty_Loaded($source, $eventArgs)];                                                                     [Event Unchecked] = [Action chkWatchOutQty_UnCheck($source, $eventArgs)]"
+                                        Content=""
+                                        IsChecked="{Binding ObjRefGenMedProductDetails_Current.IsWatchOutQty, Mode=TwoWay}"
+                                        IsThreeState="False"
+                                        Style="{StaticResource MainFrame.Checkbox}"
+                                        TabIndex="33" />
+
+                                    <Border
+                                        x:Name="GroupShow"
+                                        Grid.Row="8"
+                                        Grid.RowSpan="3"
+                                        Grid.Column="5"
+                                        Margin="2"
+                                        Background="White"
+                                        Style="{StaticResource LightBlueBorderStyle}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                                <RowDefinition />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="30,5,0,5"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding S0586_G1_SLgCBaoMucDo1, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                                            <TextBox
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Width="60"
+                                                Margin="2,1,2,1"
+                                                VerticalAlignment="Bottom"
+                                                cal:Message.Attach="[Event LostFocus] = [Action txtRemainWarningLevel1_LostFocus($source, $eventArgs)]"
+                                                IsEnabled="{Binding ObjRefGenMedProductDetails_Current.IsWatchOutQty, Mode=OneWay}"
+                                                Style="{StaticResource MainFrame.TextBox}"
+                                                TabIndex="34"
+                                                Text="{Binding ObjRefGenMedProductDetails_Current.RemainWarningLevel1, Mode=TwoWay}"
+                                                TextAlignment="Right" />
+
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="30,5,0,5"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding S0587_G1_SLgCBaoMucDo2, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                                            <TextBox
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Width="60"
+                                                Margin="2,1,2,1"
+                                                VerticalAlignment="Center"
+                                                cal:Message.Attach="[Event LostFocus] = [Action txtRemainWarningLevel2_LostFocus($source, $eventArgs)]"
+                                                IsEnabled="{Binding ObjRefGenMedProductDetails_Current.IsWatchOutQty, Mode=OneWay}"
+                                                Style="{StaticResource MainFrame.TextBox}"
+                                                TabIndex="35"
+                                                Text="{Binding ObjRefGenMedProductDetails_Current.RemainWarningLevel2, Mode=TwoWay}"
+                                                TextAlignment="Right" />
+
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Margin="30,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource TextBlock.Heading.04}"
+                                                Text="{Binding S0598_G1_SLgGioiHan, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+
+                                            <TextBox
+                                                Grid.Row="2"
+                                                Grid.Column="1"
+                                                Width="60"
+                                                Margin="2,1,2,1"
+                                                VerticalAlignment="Center"
+                                                cal:Message.Attach="[Event LostFocus] = [Action txtLimitedOutQty_LostFocus($source, $eventArgs)]"
+                                                IsEnabled="{Binding ObjRefGenMedProductDetails_Current.IsWatchOutQty, Mode=OneWay}"
+                                                Style="{StaticResource MainFrame.TextBox}"
+                                                TabIndex="36"
+                                                Text="{Binding ObjRefGenMedProductDetails_Current.LimitedOutQty, Mode=TwoWay}"
+                                                TextAlignment="Right" />
+
+                                        </Grid>
+                                    </Border>
+
+                                    <StackPanel
+                                        Grid.Row="11"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="2"
+                                        Orientation="Horizontal">
+                                        <CheckBox
+                                            Margin="42,2,5,2"
+                                            HorizontalAlignment="Left"
+                                            Content="{Binding Z0049_G1_CanHoiChan, Source={StaticResource eHCMSResources}}"
+                                            FlowDirection="RightToLeft"
+                                            FontFamily="Portable User Interface"
+                                            FontSize="10.667"
+                                            Foreground="#FF344868"
+                                            IsChecked="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.IsConsult, TargetNullValue=False, Mode=TwoWay}"
+                                            IsThreeState="False"
+                                            Style="{StaticResource MainFrame.Checkbox.Title1}"
+                                            TabIndex="37" />
+
+                                        <CheckBox
+                                            Margin="105,2,5,2"
+                                            HorizontalAlignment="Left"
+                                            Content="{Binding K1128_G1_BaoQuanLanh, Source={StaticResource eHCMSResources}}"
+                                            FlowDirection="RightToLeft"
+                                            FontFamily="Portable User Interface"
+                                            FontSize="10.667"
+                                            Foreground="#FF344868"
+                                            IsChecked="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.KeepRefrigerated, TargetNullValue=False, Mode=TwoWay}"
+                                            IsThreeState="False"
+                                            Style="{StaticResource MainFrame.Checkbox.Title1}"
+                                            TabIndex="38" />
+                                    </StackPanel>
+
+                                    <StackPanel
+                                        Grid.Row="12"
+                                        Grid.Column="4"
+                                        Grid.ColumnSpan="2"
+                                        Orientation="Horizontal">
+                                        <CheckBox
+                                            Margin="57,2,5,2"
+                                            HorizontalAlignment="Left"
+                                            Content="{Binding T1428_G1_HgTang, Source={StaticResource eHCMSResources}}"
+                                            FlowDirection="RightToLeft"
+                                            FontFamily="Portable User Interface"
+                                            FontSize="10.667"
+                                            Foreground="#FF344868"
+                                            IsChecked="{Binding ObjRefGenMedProductDetails_Current.IsDonatedGoods, Mode=TwoWay}"
+                                            IsThreeState="False"
+                                            Style="{StaticResource MainFrame.Checkbox.Title1}"
+                                            TabIndex="39" />
+
+                                        <CheckBox
+                                            Margin="134,2,5,2"
+                                            HorizontalAlignment="Left"
+                                            Content="{Binding K2716_G1_ConDung, Source={StaticResource eHCMSResources}}"
+                                            FlowDirection="RightToLeft"
+                                            FontFamily="Portable User Interface"
+                                            FontSize="10.667"
+                                            Foreground="Red"
+                                            IsChecked="{Binding ObjRefGenMedProductDetails_Current.IsActive, TargetNullValue=False, Mode=TwoWay}"
+                                            IsThreeState="False"
+                                            Style="{StaticResource MainFrame.Checkbox.Title1}"
+                                            TabIndex="40"
+                                            Visibility="{Binding IsEdit, Converter={StaticResource BooleanToVisibility}}" />
+                                    </StackPanel>
+                                    <TextBlock
+                                        Grid.Row="14"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding Z2194_G1_DungTich, Source={StaticResource eHCMSResources}}" />
+                                    <TextBox
+                                        x:Name="txt_Volume"
+                                        Grid.Row="14"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="14"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.Volume, Mode=TwoWay}" />
+                                </Grid>
+                            </Border>
+                        </GroupBox>
+
+                        <GroupBox
+                            Grid.Row="1"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Header="{Binding G0549_G1_TTinBHYT, Source={StaticResource eHCMSResources}}"
+                            Style="{StaticResource MainFrame.GroupBox}">
+                            <Border Padding="5,5,5,5" Style="{StaticResource LightBlueBorderStyleNew}">
+                                <Grid VerticalAlignment="Top">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="110" />
+                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="120" />
+                                        <ColumnDefinition Width="250" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                        <RowDefinition Height="28" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        Foreground="Red"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding G0849_G1_ThuocBHYT, Source={StaticResource eHCMSResources}}" />
+
+                                    <CheckBox
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        IsChecked="{Binding ObjRefGenMedProductDetails_Current.InsuranceCover, TargetNullValue=False, Mode=TwoWay}"
+                                        IsThreeState="False"
+                                        Style="{StaticResource MainFrame.Checkbox.Title1}"
+                                        TabIndex="41" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding N0241_G1_NhomBH, Source={StaticResource eHCMSResources}}" />
+
+                                    <AxControls:AxAutoComplete
+                                        Name="AutoDrug_Text"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        cal:Message.Attach="[Event Loaded] = [Action Auto_HIGroup_Loaded($source, $eventArgs)];                                                                 [Event Populating] = [Action Auto_HIGroup_Populating($source, $eventArgs)];                                                                 [Event DropDownClosed] = [Action AutoDrug_Text_DropDownClosed($source, $eventArgs)]"
+                                        FilterMode="None"
+                                        FontWeight="Bold"
+                                        IsDropDownOpen="True"
+                                        IsTabStop="False"
+                                        ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                        MinimumPrefixLength="0"
+                                        Style="{StaticResource AxAutoCompleteMyStyle}"
+                                        TabIndex="42"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.CurrentRefGenDrugBHYT_Category.CategoryName}"
+                                        TextBoxStyle="{StaticResource MainFrame.TextBox}"
+                                        ValueMemberBinding="{Binding CategoryName, Mode=TwoWay}">
+                                        <!--  SelectedItem="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.CurrentRefGenDrugBHYT_Category}"  -->
+                                        <!--  20180706 TBL: Anh Tuan keu bo ra, neu co chuyen gi thi quay lai  -->
+                                        <AxControls:AxAutoComplete.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding DrugOrderNoAndCategoryName}" />
+                                            </DataTemplate>
+                                        </AxControls:AxAutoComplete.ItemTemplate>
+                                    </AxControls:AxAutoComplete>
+
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Margin="5,0,0,0"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="HICode(Ax)" />
+
+                                    <TextBox
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="43"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.HICode, Mode=TwoWay}" />
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding N0246_G1_NhomTCKTTCCN, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="44"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.TCKTAndTCCNGroup, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding P0347_G1_PhanLoaiMau20, Source={StaticResource eHCMSResources}}" />
+
+                                    <AxControls:KeyEnabledComboBox
+                                        Grid.Row="1"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        DisplayMemberPath="ObjectValue"
+                                        ItemsSource="{Binding GroupTypeForReport20}"
+                                        SelectedValueEx="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.V_GroupTypeForReport20, Mode=TwoWay}"
+                                        SelectedValuePath="LookupID"
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                        TabIndex="45" />
+
+                                    <TextBox
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="44"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.TCKTAndTCCNGroup, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="Tỷ lệ thanh toán(%)" />
+
+                                    <TextBox
+                                        Grid.Row="2"
+                                        Grid.Column="3"
+                                        Height="24"
+                                        Margin="4,2,5,0"
+                                        VerticalAlignment="Top"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="44"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.TLThanhToan, TargetNullValue=0, StringFormat=P, Converter={StaticResource PercentageConverterHpt1}, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="3"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding G0132_G1_TToanToiDa, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="3"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        HorizontalContentAlignment="Right"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="49"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.MaxHIPay, Mode=TwoWay, Converter={StaticResource DecimalConverter}, NotifyOnValidationError=True}"
+                                        TextAlignment="Left" />
+
+                                    <TextBox
+                                        Name="tbx_BiddingHospital"
+                                        Grid.Column="5"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="46"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.BiddingHospital, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding S0687_G1_SOQDSTT, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="1"
+                                        Grid.Column="5"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="47"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.BidDecisionNumAndOrdinalNum, Mode=TwoWay}" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="5"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+                                        Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding N0076_G1_NgHieuLuc, Source={StaticResource eHCMSResources}}" />
+
+                                    <TextBox
+                                        Grid.Row="2"
+                                        Grid.Column="5"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="48"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.BidEffectiveDate, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="3"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding Z2109_G1_DotThau, Source={StaticResource eHCMSResources}}" />
+                                    <Button
+                                        Name="btnBidName"
+                                        Grid.Row="3"
+                                        Grid.Column="1"
+                                        Margin="10,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontWeight="Bold"
+                                        Foreground="#FF0084FF"
+                                        Style="{StaticResource MainFrame.HyperlinkButton}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding ObjRefGenMedProductDetails_Current.BidName, Mode=OneWay}" />
+                                        </StackPanel>
+                                    </Button>
+                                    <!--  KMx: Theo chị Cúc phòng phân tích thì hiện tại không cần sử dụng "Tỷ lệ thanh toán" (31/08/2015 15:27)  -->
+                                    <!--<TextBlock Grid.Row="1" Grid.Column="4" Style="{StaticResource TextBlock.Heading.04}" Text="{Binding G2094_G1_TyLeTToan, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" />
+
+                                        <TextBox Grid.Row="1" Grid.Column="5" Margin="4,2,5,2" HorizontalAlignment="Left" Width="125" Text="{Binding ObjRefGenMedProductDetails_Current.HIPaymentPercent, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}" TextAlignment="Right" TabIndex="44" />-->
+
+                                    <!--  KMx: Đã có "Nhóm thuốc" rồi, không cần "Nhóm thuốc TT40", vì 2 cái này là 1 (29/08/2015 17:05)  -->
+                                    <!--<TextBlock Grid.Row="2" Grid.Column="4" Style="{StaticResource TextBlock.Heading.04}" Text="{Binding N0252_G1_NhomThuocTT40, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" />
+
+                                        <TextBox Grid.Row="2" Grid.Column="5" Margin="4,2,5,2" Text="{Binding ObjRefGenMedProductDetails_Current.RefGenMedDrugDetails.TT40Group, Mode=TwoWay}" Style="{StaticResource MainFrame.TextBox}"  TabIndex="45" />-->
+                                    <TextBlock
+                                        Grid.Row="4"
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding Z2111_G1_ThongTinThau, Source={StaticResource eHCMSResources}}" />
+                                    <TextBox
+                                        Grid.Row="4"
+                                        Grid.Column="1"
+                                        Margin="4,2,5,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="50"
+                                        Text="{Binding ObjRefGenMedProductDetails_Current.BidCode, Mode=TwoWay}" />
+                                    <TextBlock
+                                        Grid.Row="4"
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding N0241_G1_NhomBH, Source={StaticResource eHCMSResources}}" />
+                                    <AxControls:KeyEnabledComboBox
+                                        Grid.Row="4"
+                                        Grid.Column="3"
+                                        Margin="4,2,5,2"
+                                        DisplayMemberPath="HITypeName"
+                                        ItemsSource="{Binding HITransactionTypeCollection}"
+                                        SelectedValueEx="{Binding ObjRefGenMedProductDetails_Current.HITTypeID, Mode=TwoWay}"
+                                        SelectedValuePath="HITTypeID"
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                        TabIndex="51" />
+                                    <TextBlock
+                                        Grid.Row="4"
+                                        Grid.Column="4"
+                                        HorizontalAlignment="Right"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding Z2162_G1_PhamVi, Source={StaticResource eHCMSResources}}" />
+                                    <AxControls:KeyEnabledComboBox
+                                        Grid.Row="4"
+                                        Grid.Column="5"
+                                        Margin="4,2,5,2"
+                                        DisplayMemberPath="ObjectValue"
+                                        ItemsSource="{Binding ProductScopeCollection}"
+                                        SelectedValueEx="{Binding ObjRefGenMedProductDetails_Current.V_ProductScope, Mode=TwoWay}"
+                                        SelectedValuePath="LookupID"
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                        TabIndex="52" />
+                                </Grid>
+                            </Border>
+                        </GroupBox>
+
+                        <Border
+                            Grid.Row="2"
+                            Margin="5,10,0,0"
+                            HorizontalAlignment="Stretch"
+                            Style="{StaticResource LightBlueBorderStyle}">
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Border
+                                    Margin="10,-12,0,0"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource LightBlueBorderStyleNo}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            FontWeight="Bold"
+                                            Foreground="#FFFF0066"
+                                            Style="{StaticResource TextBlock.Heading.Group}"
+                                            Text="{Binding K3002_G1_DSNCC, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                                        <TextBlock
+                                            FontWeight="Bold"
+                                            Foreground="#FFFF0066"
+                                            Style="{StaticResource TextBlock.Heading.Group}"
+                                            Text="{Binding K0637_G1_GiaNhapGanNhat, StringFormat='{}({0} : ', Source={StaticResource eHCMSResources}}" />
+                                        <TextBlock
+                                            FontWeight="Bold"
+                                            Foreground="Black"
+                                            Style="{StaticResource TextBlock.Heading.Group}"
+                                            Text="{Binding ObjRefGenMedProductDetails_Current.InBuyingPrice, Converter={StaticResource DecimalConverter}}" />
+                                        <TextBlock
+                                            FontWeight="Bold"
+                                            Foreground="#FFFF0066"
+                                            Style="{StaticResource TextBlock.Heading.Group}"
+                                            Text="{Binding Z0027_G1_DauNgoacPhai, Source={StaticResource eHCMSResources}}" />
+                                    </StackPanel>
+                                </Border>
+                                <AxControls:AxDataGridNy
+                                    x:Name="GridSuppliers"
+                                    Grid.Row="1"
+                                    MaxWidth="1150"
+                                    Margin="2"
+                                    HorizontalAlignment="Stretch"
+                                    cal:Message.Attach="[Event CellEditEnding] = [Action GridSuppliers_CellEditEnding($source, $eventArgs)]                                                          ;[Event Loaded] = [Action GridSuppliers_Loaded($source, $eventArgs)]                                                           ;[Event PreparingCellForEdit] = [Action GridSuppliers_PreparingCellForEdit($source, $eventArgs)]"
+                                    AutoGenerateColumns="False"
+                                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyleWrap}"
+                                    HeadersVisibility="All"
+                                    HorizontalScrollBarVisibility="Auto"
+                                    ItemsSource="{Binding ObjRefGenMedProductDetails_Current.SupplierGenMedProducts, Mode=TwoWay}"
+                                    RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                                    SelectedItem="{Binding CurrentSupplierGenMedProduct, Mode=TwoWay}"
+                                    Style="{StaticResource MainFrame.DataGridStyle}"
+                                    VerticalScrollBarVisibility="Auto">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn CellTemplate="{StaticResource LinkTemplate}" IsReadOnly="True" />
+                                        <DataGridTemplateColumn
+                                            MinWidth="400"
+                                            AxControls:DataGridColNamingUtil.ColName="colSupplierName"
+                                            CellEditingTemplate="{StaticResource AutoSupplierTemplete}"
+                                            CellTemplate="{StaticResource SupplierNameTemplete}"
+                                            Header="{Binding T0874_G1_TenNCC, Source={StaticResource eHCMSResources}}" />
+
+                                        <DataGridTemplateColumn
+                                            MinWidth="200"
+                                            AxControls:DataGridColNamingUtil.ColName="colSupplierCode"
+                                            CellTemplate="{StaticResource SupplierCodeTemplate}"
+                                            Header="{Binding T0911_G1_TenVietTat, Source={StaticResource eHCMSResources}}" />
+
+                                        <DataGridCheckBoxColumn
+                                            Width="60"
+                                            AxControls:DataGridColNamingUtil.ColName="colMainSupplier"
+                                            Binding="{Binding IsMain, Mode=TwoWay}"
+                                            Header="{Binding K1714_G1_CcChinh, Source={StaticResource eHCMSResources}}" />
+
+                                        <DataGridTemplateColumn
+                                            Width="150"
+                                            AxControls:DataGridColNamingUtil.ColName="colUnitPrice"
+                                            CellEditingTemplate="{StaticResource UnitPriceCellEditTemplate}"
+                                            CellTemplate="{StaticResource UnitPriceCellTemplate}"
+                                            Header="{Binding T1102_G1_GiaLe, Source={StaticResource eHCMSResources}}" />
+
+                                        <DataGridTemplateColumn
+                                            Width="150"
+                                            AxControls:DataGridColNamingUtil.ColName="colPackagePrice"
+                                            CellEditingTemplate="{StaticResource PackagePriceCellEditTemplate}"
+                                            CellTemplate="{StaticResource PackagePriceCellTemplate}"
+                                            Header="{Binding T1004_G1_GiaDG, Source={StaticResource eHCMSResources}}" />
+
+                                        <DataGridTemplateColumn
+                                            AxControls:DataGridColNamingUtil.ColName="colVAT"
+                                            CellEditingTemplate="{StaticResource VATCellEditTemplate}"
+                                            CellTemplate="{StaticResource VATCellTemplate}"
+                                            Header="{Binding G2183_G1_VATx, Source={StaticResource eHCMSResources}}" />
+
+                                    </DataGrid.Columns>
+                                </AxControls:AxDataGridNy>
+                            </Grid>
+                        </Border>
+                    </AxControls:AxGrid>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <StackPanel
+                        Grid.Row="3"
+                        Margin="0,5,0,0"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Visibility="{Binding CanEdit, Converter={StaticResource BooleanToVisibility}}">
+
+                        <!--  ▼====: #003  -->
+                        <Button
+                            x:Name="btAddNewFromOldValue"
+                            Width="160"
+                            Margin="0,2,1,2"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource MainFrame.Button}"
+                            Visibility="{Binding HasOldValue, Converter={StaticResource BooleanToVisibility}}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="18"
+                                    VerticalAlignment="Center"
+                                    Source="/aEMR.CommonViews;component/Assets/Images/add.png" />
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z2136_G1_TaoMoiDuaTrenCu, Source={StaticResource eHCMSResources}}" />
+                            </StackPanel>
+                        </Button>
+                        <!--  ▲====: #003  -->
+
+                        <Button
+                            x:Name="btClear"
+                            Width="80"
+                            Margin="2,2,1,2"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource MainFrame.Button}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="18"
+                                    VerticalAlignment="Center"
+                                    Source="/aEMR.CommonViews;component/Assets/Images/clear.png" />
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            x:Name="btSave"
+                            Width="80"
+                            Margin="2,2,1,2"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource MainFrame.Button}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="18"
+                                    VerticalAlignment="Center"
+                                    Source="/aEMR.CommonViews;component/Assets/Images/saveanddown24x24border.png" />
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            x:Name="btClose"
+                            Width="80"
+                            Margin="2,2,1,2"
+                            HorizontalAlignment="Left"
+                            Style="{StaticResource MainFrame.Button}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="18"
+                                    VerticalAlignment="Center"
+                                    Source="/aEMR.CommonViews;component/Assets/Images/Button-exit-icon.png" />
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <!--<AxControls:ValidationSummary Grid.Row="4" MaxHeight="70" x:Name="ValidationSummary1" Style="{StaticResource MainFrame.ValidationSummary}"  cal:Message.Attach="[Event Loaded]=[Action ValidationSummary1_Loaded($source,$eventArgs)]"></AxControls:ValidationSummary>-->
+                </Grid>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+    <!--</toolkit:BusyIndicator>-->
+</UserControl>

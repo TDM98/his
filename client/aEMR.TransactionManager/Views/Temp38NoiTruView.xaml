@@ -1,0 +1,94 @@
+﻿<UserControl    x:Class="aEMR.TransactionManager.Views.Temp38NoiTruView"
+                xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org" 
+                xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignWidth="640" d:DesignHeight="300">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid Height="Auto" HorizontalAlignment="Stretch" Background="White" ShowGridLines="False" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <!--<RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>-->
+        </Grid.RowDefinitions>
+        <Border Padding="5,0,5,0"
+                                BorderThickness="1"
+                                Height="30"
+                                MinWidth="500"
+                                HorizontalAlignment="Stretch"
+                                Style="{StaticResource LightBlueBorderStyle}">
+            <StackPanel Orientation="Horizontal" >
+                <ContentControl Name="SearchRegistrationContent" HorizontalContentAlignment="Stretch"  VerticalContentAlignment="Stretch"  />
+            </StackPanel>
+        </Border>
+        <StackPanel HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Grid.Row="1">
+            <ContentControl Name="PatientSummaryInfoContent" HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+        </StackPanel>
+
+        <Border Style="{StaticResource LightBlueBorderStyle}" Grid.Row="2" Margin="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <!--TTM 14072018
+                Comment Header="{Binding G0458_G1_ThSoBC, Source={StaticResource eHCMSResources}}" vi chua lam cho xo doc dc-->
+                <Expander x:Name="LeftExpander"  Margin="0,0,0,0" Width="Auto" ExpandDirection="Left" MinWidth="10" IsExpanded="True"   Background="#FFDBE5F1" RenderTransformOrigin="0,0" DockPanel.Dock="Right" >
+                    <Border Style="{StaticResource LightBlueBorderStyle}" Margin="2"  >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="70" Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition MinWidth="150"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+
+                            <Label  Style="{StaticResource MainFrame.Label.00}" Margin="5,2,5,2" Content="{Binding G1933_G1_TuNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="0" HorizontalAlignment="Right" Visibility="{Binding ViewByDate, Mode=OneWay,Converter={StaticResource BooleanToVisibility}}"></Label>
+                            <DatePicker Style="{StaticResource MainFrame.DatePicker}" Grid.Row="0" Grid.Column="1" Margin="0,1,0,1" SelectedDate="{Binding FromDate,Mode=TwoWay}" Visibility="{Binding ViewByDate, Mode=OneWay,Converter={StaticResource BooleanToVisibility}}"></DatePicker>
+                            <Label  Style="{StaticResource MainFrame.Label.00}" Margin="5,2,5,2" Content="{Binding K3192_G1_DenNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="1" HorizontalAlignment="Right" Visibility="{Binding ViewByDate, Mode=OneWay,Converter={StaticResource BooleanToVisibility}}"></Label>
+                            <DatePicker Style="{StaticResource MainFrame.DatePicker}" Grid.Row="1" Grid.Column="1" Margin="0,1,0,1" SelectedDate="{Binding ToDate,Mode=TwoWay}" Visibility="{Binding ViewByDate, Mode=OneWay,Converter={StaticResource BooleanToVisibility}}"></DatePicker>
+
+                            <TextBlock TextWrapping="Wrap" Text="{Binding T2222_G1_Khoa, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="2"
+                                     Style="{StaticResource TextBlock.Heading.03}" 
+                                    VerticalAlignment="Center" Margin="5,2,5,2" HorizontalAlignment="Right" />
+                            <ContentControl Name="DepartmentContent"  Grid.Column="1" Grid.Row="2"
+                                        HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+
+
+                            <CheckBox Content="{Binding G2483_G1_XemTheoNg, Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="3" Margin="5,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" IsChecked="{Binding ViewByDate,Mode=TwoWay}" Style="{StaticResource MainFrame.Checkbox.Title1}" />
+
+                            <Button Name="btnPreview" Content="{Binding Z0011_G1_Mau02, Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Width="100" Style="{StaticResource MainFrame.Button}" Margin="5,5,0,0"></Button>
+                            <Button Name="btnBillingInvoices" Content="{Binding G2407_G1_XemBill, Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Width="100" Style="{StaticResource MainFrame.Button}" Margin="5,5,0,0"></Button>
+
+                        </Grid>
+                    </Border>
+                </Expander>
+                
+                <dxp:DocumentPreviewControl
+                    Grid.Column="1" Height="875" Width="Auto"
+                    DocumentSource="{Binding ReportModel,Mode=OneWay}" AutoShowParametersPanel="False" />                
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

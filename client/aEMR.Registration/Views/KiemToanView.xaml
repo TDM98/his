@@ -1,0 +1,640 @@
+﻿<UserControl x:Class="aEMR.Registration.Views.KiemToanView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+             
+             xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:my="clr-namespace:aEMR.CommonUserControls;assembly=aEMR.CommonUserControls"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:commonconverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common" mc:Ignorable="d"
+             d:DesignHeight="850" d:DesignWidth="900"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>        
+        <DataTemplate x:Key="DTlnkTest" >
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkTest" 
+                                 
+                                 cal:Message.Attach="[Event Click]=[Action lnkTest_Click($source,$eventArgs)]
+                                 "
+                                 ToolTipService.ToolTip="{Binding K3813_G1_DongDK, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                    Foreground="#FF0066"
+                                                    >
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/cadenas.png" Width="15" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="DTlnkView" >
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkView" IsEnabled="{Binding isCancel}"  
+                                 
+                                 cal:Message.Attach="[Event Click]=[Action lnkView_Click($source,$eventArgs)]
+                                 "
+                                 ToolTipService.ToolTip="{Binding G2485_G1_XemTTinDK, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                    Foreground="#FF0066"
+                                                    >
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Document-icon.png" Width="15" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DTlnkChiTiet" >
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="DTlnkChiTiet" IsEnabled="{Binding isCancel}"  
+                                 
+                                 cal:Message.Attach="[Event Click]=[Action lnkChiTiet_Click($source,$eventArgs)]"
+                                 ToolTipService.ToolTip="{Binding T1906_G1_InCTietTToanL, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                    Foreground="#FF0066" Content="{Binding T1903_G1_InCTiet, Source={StaticResource eHCMSResources}}"
+                                                    >
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="CDTRegistrationStatus">
+            <TextBlock Text="{Binding RegistrationStatus,Mode=TwoWay}" VerticalAlignment="Center" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="EDTcboRegistrationStatus">
+            <commonctrl:AxComboBox x:Name="cboRegistrationStatus" VerticalAlignment="Center"
+                     cal:Message.Attach="[Event Loaded]=[Action cboRegistrationStatus_Loaded($source)]
+                    ;[Event SelectionChanged]=[Action cboRegistrationStatus_SelectionChanged($source,$eventArgs)]"
+                                   Style="{StaticResource MainFrame.ComboBox}"
+                                   SelectedItemEx="{Binding RegistrationStatus,Mode=TwoWay}"
+                                          />
+        </DataTemplate>
+        <!--SelectedItemEx="{Binding RegistrationStatus,Mode=TwoWay}"-->
+        <!--DisplayMemberPath="RegistrationStatus" SelectedValuePath="{Binding RegistrationStatus,Converter={StaticResource RegStatusEnumConverter}}"-->
+
+
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+
+    <Grid d:LayoutOverrides="Height">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="20" />
+        <RowDefinition Height="320" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" MinHeight="30" />
+      </Grid.RowDefinitions>
+            
+            <Border Padding="5,0,5,0" BorderThickness="1" Grid.Row="1" VerticalAlignment="Stretch" MinWidth="550" 
+                    Visibility="{Binding mKiemToan_Xem,Converter={StaticResource BooleanToVisibility} }"
+                  HorizontalAlignment="Stretch" Style="{StaticResource LightBlueBorderStyle}">
+                <toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">
+                <Grid Margin="2" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    
+                        <StackPanel>
+                            <Border x:Name="groupGeneralInfo" Style="{StaticResource LightBlueBorderStyleNew}" Margin="0,0,0,0">
+                                <StackPanel>
+                                    <Grid Margin="0,5,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="24" />
+                                            <RowDefinition Height="24" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="209" />
+                                        <ColumnDefinition Width="311" />
+                                    </Grid.ColumnDefinitions>
+                                        <TextBlock Margin="0" TextWrapping="Wrap" Text="{Binding K1167_G1_BN, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.04}"
+                                                            Grid.Row="0" VerticalAlignment="Center" />
+                                        <commonctrl:AxSearchPatientTextBox x:Name="txtName"
+                                                               Width="300"
+                                                               HorizontalAlignment="Left"
+                                                               Text="{Binding SearchCriteria.PatientNameString, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                               HICardNumber="{Binding SearchCriteria.HICard, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                               FullName="{Binding SearchCriteria.FullName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                               PatientCode="{Binding SearchCriteria.PatientCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"
+                                                               Style="{StaticResource MainFrame.TextBox}"
+                                                               Grid.Row="0"
+                                                               Grid.ColumnSpan="3"
+                                                               Grid.Column="1"
+                                                               Margin="0"
+                                                               Height="22"
+                                                               VerticalAlignment="Center"
+                                                               TabIndex="1" />
+                                        <TextBlock VerticalAlignment="Center"
+                                       Grid.Row="1"
+                                       Grid.Column="0"
+                                       Style="{StaticResource TextBlock.Heading.04}"
+                                       Text="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" />
+                                        <commonctrl:AxDatePicker x:Name="dtpDateFrom"
+                                                         SelectedDateFormat="Short"
+                                                         SelectedDate="{Binding SearchCriteria.FromDate, Mode=TwoWay}"
+                                                         HorizontalAlignment="Left"
+                                                         Height="22"
+                                                         Grid.Row="1"
+                                                         Grid.Column="1"
+                                                         TabIndex="2" />
+                                        <TextBlock VerticalAlignment="Center" Margin="20,0,0,0" Grid.Row="1" Grid.Column="2" 
+                                            Style="{StaticResource TextBlock.Heading.04}" Text="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" />
+                                        <commonctrl:AxDatePicker x:Name="dtpDateTo"
+                                                         SelectedDateFormat="Short"
+                                                         SelectedDate="{Binding SearchCriteria.ToDate, Mode=TwoWay}"
+                                                         HorizontalAlignment="Left"
+                                                         Grid.Row="1"
+                                                         Grid.Column="3"
+                                                         Height="22"
+                                                         TabIndex="3" />
+                                        <!--<TextBlock VerticalAlignment="Center"Grid.Row="0" Grid.Column="4"Margin="20,0,0,0"
+                                            Style="{StaticResource TextBlock.Heading.04}" Text="{Binding K2853_G1_DKBoi, Source={StaticResource eHCMSResources}}" />
+                                        <commonctrl:KeyEnabledComboBox x:Name="cboStaff" HorizontalAlignment="Left" Width="300"
+                                                               SelectedValueEx="{Binding SearchCriteria.StaffID, Mode=TwoWay}"
+                                                               ItemsSource="{Binding Staffs,Mode=OneWay}"
+                                                               DisplayMemberPath="FullName"
+                                                               SelectedValuePath="StaffID"
+                                                               Style="{StaticResource MainFrame.ComboBox}"
+                                                               Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="3" Height="22"
+                                                               MinWidth="200" VerticalAlignment="Center" TabIndex="4" />
+                                        <TextBlock VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" Margin="20,0,0,0"
+                                            Style="{StaticResource TextBlock.Heading.04}" Text="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" />
+                                        <commonctrl:KeyEnabledComboBox x:Name="cboStatus" HorizontalAlignment="Left"
+                                                               Width="300" SelectedValueEx="{Binding SearchCriteria.RegStatus, Mode=TwoWay}"
+                                                               DisplayMemberPath="ObjectValue"
+                                                               SelectedValuePath="LookupID"
+                                                               ItemsSource="{Binding RegStatusList,Mode=OneWay}"
+                                                               Style="{StaticResource MainFrame.ComboBox}"
+                                                               Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3"
+                                                               Height="22" MinWidth="200" VerticalAlignment="Center" TabIndex="5" />-->
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Right" Grid.RowSpan="2"
+                                                Grid.Column="5" Margin="0,0,11,0">
+                                            <Button x:Name="SearchCmd"
+                                                Width="80" HorizontalAlignment="Left"
+                                                Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}" 
+                                                TabIndex="6" Style="{StaticResource MainFrame.Button}"
+                                                Command="{Binding SearchCommand}" />
+                                            <Button x:Name="ResetFilterCmd" Width="80"
+                                                HorizontalAlignment="Left" Margin="0,5,5,0"
+                                                    Content="{Binding G2803_G1_XoaNhapLai, Source={StaticResource eHCMSResources}}"
+                                                TabIndex="7" Style="{StaticResource MainFrame.Button}"
+                                                Command="{Binding ResetFilterCommand}" />
+                                        </StackPanel>
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Grid.RowSpan="2"
+                                                Grid.Column="5" Margin="10,0,11,0" VerticalAlignment="Center" >
+                                            <RadioButton Content="{Binding T3719_G1_Mau20NgTru, Source={StaticResource eHCMSResources}}" GroupName="RegisType" 
+                                                  IsChecked="True" >
+                                            </RadioButton>
+                                            <RadioButton Content="{Binding T3713_G1_NoiTru, Source={StaticResource eHCMSResources}}" Margin="0,5,0,0" GroupName="RegisType"
+                                                  IsChecked="{Binding isNoiTru,Mode=TwoWay}">
+                                            </RadioButton>
+
+                                        </StackPanel>
+                                    <!--<TextBlock Grid.Column="6" Grid.Row="0"  Grid.RowSpan="2" TextWrapping="Wrap"  Text="{Binding I0925_G1_I, StringFormat='{}{0}.', Source={StaticResource eHCMSResources}}" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Left" Height="40"  Foreground="#FF0066" />-->
+
+                                    <!--<ComboBox Grid.Row="1" Grid.Column="6" Width="100" 
+                                                      x:Name="RegStatus" Height="25" ItemsSource="{Binding allRegistrationStatus}" />-->
+                                </Grid>
+                                </StackPanel>
+                            </Border>
+                            <DataGrid x:Name="gridRegistrations" 
+                                             Height="220" Width="Auto"
+                                             ItemsSource="{Binding Registrations,Mode=OneWay}"
+                                             SelectedItem="{Binding SelectedRegistration,Mode=TwoWay}"
+                                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+					                        ScrollViewer.VerticalScrollBarVisibility="Auto"  
+                                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                          ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                   Style="{StaticResource MainFrame.DataGridStyle}"
+                                          AutoGenerateColumns="false"   
+                                          cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]
+                                                         ;[Event LoadingRow]=[Action gridRegistrations_LoadingRow($source,$eventArgs)]"
+                                            >
+                                <DataGrid.Columns>
+                                <DataGridTemplateColumn x:Name="lnkTest" CellTemplate="{StaticResource DTlnkTest}"  Header="" />
+                                <DataGridTemplateColumn x:Name="lnkView" CellTemplate="{StaticResource DTlnkView}"  Header="" />
+                                    <DataGridTemplateColumn x:Name="lnkChiTiet" Width="60"  CellTemplate="{StaticResource DTlnkChiTiet}"  Header="" />
+                                    <DataGridTextColumn x:Name="colPatientName" IsReadOnly="True"
+                                                     Binding="{Binding Patient.FullName,Mode=OneWay}"
+                                                     Width="*"
+                                                     MinWidth="150"
+                                                     >
+                                    <DataGridTextColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                    <DataTemplate>
+                                    <TextBlock Text="{Binding T1584_G1_HoTenBN2, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                    </Setter.Value>
+                                    </Setter>
+                                    </Style>
+                                    </DataGridTextColumn.HeaderStyle></DataGridTextColumn>
+                                    <DataGridTextColumn IsReadOnly="True"
+                                                     Binding="{Binding Patient.PatientCode,Mode=OneWay}"
+                                                     Width="*" MinWidth="80"
+                                                     >
+                                    <DataGridTextColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                    <DataTemplate>
+                                    <TextBlock Text="{Binding T3274_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                    </Setter.Value>
+                                    </Setter>
+                                    </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                    </DataGridTextColumn>
+
+                                    <DataGridTextColumn Binding="{Binding Patient.DOBText,Mode=OneWay}"
+                                                     IsReadOnly="True"
+                                                     Width="*"
+                                                     MinWidth="80"
+                                                     >
+                                    <DataGridTextColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                    <DataTemplate>
+                                    <TextBlock Text="{Binding N0107_G1_NgSinh, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                    </Setter.Value>
+                                    </Setter>
+                                    </Style>
+                                    </DataGridTextColumn.HeaderStyle></DataGridTextColumn>
+
+
+                                    <DataGridTextColumn Binding="{Binding Patient.PatientStreetAddress,Mode=OneWay}"
+                                                     Width="*" IsReadOnly="True"
+                                                     MinWidth="150"
+                                                     >
+                                    <DataGridTextColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                    <DataTemplate>
+                                    <TextBlock Text="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                    </Setter.Value>
+                                    </Setter>
+                                    </Style>
+                                    </DataGridTextColumn.HeaderStyle></DataGridTextColumn>
+
+                                    <DataGridTextColumn x:Name="colDate"
+                                                     Binding="{Binding ExamDate,StringFormat='dd/MM/yyyy HH:MM:ss'}"
+                                                     Width="Auto" IsReadOnly="True"
+                                                     MinWidth="150"
+                                                     >
+                                    <DataGridTextColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                    <DataTemplate>
+                                    <TextBlock Text="{Binding N0054_G1_NgDK, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                    </Setter.Value>
+                                    </Setter>
+                                    </Style>
+                                    </DataGridTextColumn.HeaderStyle></DataGridTextColumn>
+
+                                    <DataGridTextColumn x:Name="colStaff" IsReadOnly="True"
+                                                     Binding="{Binding StaffName,Mode=OneWay}"
+                                                     Width="*"
+                                                     MinWidth="150"
+                                                     >
+                                    <DataGridTextColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                    <DataTemplate>
+                                    <TextBlock Text="{Binding K2853_G1_DKBoi, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                    </Setter.Value>
+                                    </Setter>
+                                    </Style>
+                                    </DataGridTextColumn.HeaderStyle></DataGridTextColumn>
+                                    
+                                    <DataGridTemplateColumn  Width="SizeToCells" MinWidth="100"
+                                                                 IsReadOnly="False"                                                                     
+                                                    CellEditingTemplate="{StaticResource EDTcboRegistrationStatus}"
+                                                     CellTemplate="{StaticResource CDTRegistrationStatus}"
+                                                     >
+                                    <DataGridTemplateColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                    <DataTemplate>
+                                    <TextBlock Text="{Binding G1766_G1_TThaiDK, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                    </Setter.Value>
+                                    </Setter>
+                                    </Style>
+                                    </DataGridTemplateColumn.HeaderStyle>                                    
+                                </DataGridTemplateColumn>
+                                    <DataGridTextColumn x:Name="PaymentStatus" IsReadOnly="True"
+                                                     Binding="{Binding RegistrationPaymentStatus,Mode=OneWay}"
+                                                     MinWidth="120"
+                                                      >
+                                    <DataGridTextColumn.HeaderStyle>
+                                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                    <Setter Property="ContentTemplate">
+                                    <Setter.Value>
+                                    <DataTemplate>
+                                    <TextBlock Text="{Binding P0324_G1_PaymentStatus, Source={StaticResource eHCMSResources}}" />
+                                    </DataTemplate>
+                                    </Setter.Value>
+                                    </Setter>
+                                    </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                    </DataGridTextColumn> 
+                            </DataGrid.Columns>
+                            
+                                
+                        </DataGrid>
+                            
+                        </StackPanel>
+
+                        <commonctrl:DataPager x:Name="pagerGridRegistrations" Grid.Row="2" 
+                                    PageSize="{Binding PageSize}"
+                                    HorizontalContentAlignment="Left"
+                                    HorizontalAlignment="Left"       
+                                    Source="{Binding Registrations,Mode=OneWay}"  Width="210" />
+                    <StackPanel Grid.Row="2" Orientation="Horizontal"  Width="297" Margin="350,0,0,0">
+                        <!--<Button x:Name="SavePageCmd"
+                                                Width="80" HorizontalAlignment="Left"
+                                                Content="{Binding S0548_G1_SavePage, Source={StaticResource eHCMSResources}}" Margin="0,0,5,0"
+                            ToolTipService.ToolTip="{Binding S0547_G1_SaveOnlyThisPage, Source={StaticResource eHCMSResources}}"
+                                                TabIndex="6" Style="{StaticResource MainFrame.Button}"
+                                                Command="{Binding SearchCommand}" />-->
+                        <Button x:Name="ResetPageCmd"  ToolTipService.ToolTip="{Binding R0520_G1_ResetThisPage, Source={StaticResource eHCMSResources}}"
+                                                Width="100" HorizontalAlignment="Left"
+                                                Content="{Binding R0520_G1_ResetThisPage, Source={StaticResource eHCMSResources}}" Margin="0,0,5,0"
+                                                TabIndex="6" Style="{StaticResource MainFrame.Button01}"
+                                                Command="{Binding SearchCommand}" />
+                            <Button x:Name="ResetAllCmd"  ToolTipService.ToolTip="{Binding R0517_G1_ResetAllPage, Source={StaticResource eHCMSResources}}"
+                                                Width="100" HorizontalAlignment="Left"
+                                                Content="{Binding R0517_G1_ResetAllPage, Source={StaticResource eHCMSResources}}" Margin="0,0,5,0"
+                                                TabIndex="6" Style="{StaticResource MainFrame.Button}"
+                                                Command="{Binding SearchCommand}" />
+                            <Button x:Name="SaveAll" ToolTipService.ToolTip="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                                                Width="80" HorizontalAlignment="Left"
+                                                Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Margin="0,0,5,0"
+                                                TabIndex="6" Style="{StaticResource MainFrame.Button}"
+                                                Command="{Binding SearchCommand}" IsEnabled="False" />
+                    </StackPanel>
+                            
+                    
+                </Grid>
+                </toolkit:BusyIndicator>
+            </Border>
+            
+             <DockPanel HorizontalAlignment="Stretch" Grid.Row="2" LastChildFill="True">
+                <toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding TranLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">
+                    <GroupBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource MainFrame.GroupBox}"
+                           Header="{Binding R0513_G1_RegistrationInformation, Source={StaticResource eHCMSResources}}" Foreground="#CC0033" Margin="0,5,0,0" DockPanel.Dock="Top">
+                <Grid>
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition Height="270" />
+                            <RowDefinition Height="22" />
+                            <RowDefinition MinHeight="100" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="1" Text="{Binding G1768_G1_TransactionList, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Stretch" Height="22"  Foreground="Green" Style="{StaticResource MainFrame.TextBlock.01}" Margin="10,4,0,4" />
+                        <TextBlock Grid.Row="3" Text="{Binding P0323_G1_PaymentList, Source={StaticResource eHCMSResources}}" FontWeight="Bold" HorizontalAlignment="Stretch" Height="22"   Foreground="Green" Style="{StaticResource MainFrame.TextBlock.01}" Margin="10,4,0,4" />
+                        <Border Margin="1,1,1,1" Style="{StaticResource LightBlueBorderStyleNew}">
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition Width="60*" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="5" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="164*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="{Binding R0512_G1_RegistrationID, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}" />
+                                <TextBlock Grid.Column="2" Text="{Binding viewRegistration.PtRegistrationID,Mode=TwoWay}"  VerticalAlignment="Center"
+                                           HorizontalAlignment="Stretch" Height="22"  FontWeight="Bold" Foreground="DarkRed" Style="{StaticResource MainFrame.TextBlock.02}"  />
+                            <Label Grid.Column="3" Content="{Binding P0320_G1_PatientName, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}" />
+                                <TextBlock Grid.Column="5" Text="{Binding viewRegistration.Patient.FullName,Mode=TwoWay}"  HorizontalAlignment="Stretch" 
+                                           VerticalAlignment="Center" Height="22"  FontWeight="Bold" Foreground="DarkRed" Style="{StaticResource MainFrame.TextBlock.02}"  />
+                            <Label Grid.Column="6" Content="{Binding T0640_G1_ExamDate, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}" />
+                                    <TextBlock Grid.Column="8" Text="{Binding viewRegistration.ExamDate,StringFormat='dd/MM/yyyy',Mode=TwoWay}"  HorizontalAlignment="Stretch"
+                                           VerticalAlignment="Center" Height="22"  FontWeight="Bold" Foreground="DarkRed" Style="{StaticResource MainFrame.TextBlock.02}"  />
+                            <Label Grid.Column="9" Content="{Binding R0511_G1_RegisteredBy, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center"  Style="{StaticResource MainFrame.Label.00}" />
+                                <TextBlock Grid.Column="11" Text="{Binding viewRegistration.StaffName,Mode=TwoWay}"  HorizontalAlignment="Stretch" 
+                                           VerticalAlignment="Center" Height="22"  FontWeight="Bold" Foreground="DarkRed" Style="{StaticResource MainFrame.TextBlock.02}"  />
+                            </Grid>
+                        </Border>
+                        
+                        <TabControl x:Name="tabPatientInfo" Grid.Row="2" Width="Auto" IsTabStop="False"
+                            Height="auto" VerticalAlignment="Top" HorizontalAlignment="Left" IsEnabled="{Binding CanRegister, Mode=OneWay}"
+                            Style="{StaticResource MainFrame.TabControl}" >
+                            <TabItem x:Name="tabitemService" Header="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}">
+                                                                                                                                    <StackPanel>
+                                <DataGrid  Name="grdPayment"  Grid.Row="1" 
+                                              AutoGenerateColumns="False" HorizontalAlignment="Stretch" 
+                                               VerticalAlignment="Stretch" 
+                                               Height="230"
+					                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                               ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                   Style="{StaticResource MainFrame.DataGridStyle}"
+					                        ItemsSource="{Binding curPatientTransactionDetail,Mode=TwoWay}"
+                                            SelectedItem="{Binding SelectedPatientTransactionDetail,Mode=TwoWay}"
+                                            
+                                            >
+                                    <DataGrid.Columns>
+                                            
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  TransactionID , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding T1794_G1_ID, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  TransactionType , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding T2842_G1_LoaiTransaction, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  FullName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding T0844_G1_TenDV, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  TransactionDate , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding G1769_G1_Transactiondate, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  Amount , Mode=TwoWay, StringFormat=N0}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding K0909_G1_Amount, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  PriceDifference , Mode=TwoWay, StringFormat=N0}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding P0406_G1_PriceDifference, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  AmountCoPay , Mode=TwoWay, StringFormat=N0}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding K0911_G1_Amountcopay, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  HealthInsuranceRebate , Mode=TwoWay, StringFormat=N0}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding T1453_G1_HealthInsuranceRebate, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  PatientPayment, Mode=TwoWay, StringFormat=N0}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding K1199_G1_BNTra, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTextColumn  IsReadOnly="True" Binding="{Binding  PatientCode, Mode=OneWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                                        <DataGridTextColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+                                        <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                        <DataTemplate>
+                                        <TextBlock Text="{Binding T3220_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                        </DataTemplate>
+                                        </Setter.Value>
+                                        </Setter>
+                                        </Style>
+                                        </DataGridTextColumn.HeaderStyle>
+                                        </DataGridTextColumn>
+
+                                        </DataGrid.Columns>
+                                </DataGrid>
+
+                            </StackPanel>
+                            </TabItem>
+                            <!--<TabItem x:Name="tabPayment" Header="{Binding P0323_G1_PaymentList, Source={StaticResource eHCMSResources}}">
+                                
+                            </TabItem>-->
+                       
+                    </TabControl>
+                        <StackPanel Grid.Row="4" >
+                            <ContentControl Name="PaymentContent" HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="Stretch" />
+                        </StackPanel>
+                    </Grid>
+                            <!--<Border BorderBrush="#FF5E5E5E" BorderThickness="1"
+                      Style="{StaticResource LightBlueBorderStyleNew}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="250"/>                                
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Text="{Binding T2625_G1_ListtransactionsDetail, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Foreground="#CC3333" HorizontalAlignment="Left" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.02}" Margin="12,7,0,7" />
+                                
+                        </Grid>
+                    </Border>-->
+                </GroupBox>
+                </toolkit:BusyIndicator>
+            </DockPanel>
+      
+    </Grid>
+  </Grid>
+</UserControl>

@@ -1,0 +1,419 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.CommonSelectIntravenousView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AutoBoxTK="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:IntConverter x:Key="MyIntConverter" />
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+
+        <DataTemplate x:Key="CollnkDelete">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="lnkDelete"
+                    cal:Message.Attach="[Event Click] = [Action lnkDelete_Click($source, $eventArgs)]"
+                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                    <Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1"
+                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DrugCodeTemplete">
+            <TextBlock
+                Name="txtDrugName"
+                Margin="0"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Style="{StaticResource MainFrame.TextBlock.Auto}"
+                Text="{Binding RefGenericDrugDetail.Code}" />
+        </DataTemplate>
+        <DataTemplate x:Key="DrugCodeEditTemplete">
+            <AxControls:AxTextBox
+                Name="txtDrugCode"
+                Height="22"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                cal:Message.Attach="[Event LostFocus] = [Action txtDrugCode_LostFocus($source, $eventArgs)]"
+                Style="{StaticResource MainFrame.TextBox.Grid}"
+                Text="{Binding RefGenericDrugDetail.Code}"
+                TextAlignment="Left" />
+        </DataTemplate>
+        <DataTemplate x:Key="DrugNameTemplete">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock
+                    Name="txtDrugName"
+                    Margin="0"
+                    Padding="0"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource MainFrame.TextBlock.Auto}"
+                    Text="{Binding RefGenericDrugDetail.BrandName}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="AutoDrugTemplete">
+            <AxControls:AxAutoComplete
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                cal:Message.Attach="[Event Populating] = [Action cboDrugName_Populating($source, $eventArgs)]                                        ;[Event DropDownClosed] = [Action cboDrugName_DropDownClosed($source, $eventArgs)]"
+                BorderThickness="0"
+                FilterMode="None"
+                MinimumPopulateDelay="300"
+                Style="{StaticResource AxAutoCompleteMyStyle}"
+                Text="{Binding RefGenericDrugDetail.BrandName}"
+                TextBoxStyle="{StaticResource TextBoxStyleAuotoOnGrid}"
+                ToolTipService.ToolTip="Press F2 to edit"
+                ValueMemberBinding="{Binding BrandName, Mode=OneWay}">
+                <AutoBoxTK:AutoCompleteBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                Margin="0"
+                                Padding="0"
+                                Style="{StaticResource MainFrame.TextBlock.Auto}"
+                                Text="{Binding Code}" />
+                            <TextBlock
+                                Margin="0"
+                                Padding="0"
+                                Style="{StaticResource MainFrame.TextBlock.Auto}"
+                                Text=" - " />
+                            <TextBlock
+                                Margin="0"
+                                Padding="0"
+                                Style="{StaticResource MainFrame.TextBlock.Auto}"
+                                Text="{Binding BrandName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </AutoBoxTK:AutoCompleteBox.ItemTemplate>
+            </AxControls:AxAutoComplete>
+        </DataTemplate>
+
+        <DataTemplate x:Key="QtyCellEditTemplate">
+            <StackPanel>
+                <AxControls:AxTextBox
+                    Name="txtDrugName"
+                    Height="22"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    cal:Message.Attach="[Event LostFocus] = [Action txtQty_LostFocus($source, $eventArgs)]"
+                    Style="{StaticResource MainFrame.TextBox.Grid}"
+                    Text="{Binding PrescribedQty, Mode=TwoWay, Converter={StaticResource MyIntConverter}}"
+                    TextAlignment="Right" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="QtyCellTemplate">
+            <TextBlock
+                Name="txtDrugName"
+                Margin="0"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Text="{Binding PrescribedQty, Converter={StaticResource MyIntConverter}}" />
+        </DataTemplate>
+
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <!--<ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>-->
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border
+                Margin="1"
+                Padding="3,3,15,3"
+                BorderBrush="#FF5E5E5E"
+                BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="{Binding K1377_G1_BSiCDinh, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"
+                        TextWrapping="Wrap" />
+
+                    <ContentControl
+                        x:Name="aucHoldConsultDoctor"
+                        Grid.Column="1"
+                        Margin="1,3,1,3"
+                        HorizontalContentAlignment="Stretch" />
+
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="Giãn cách: "
+                        TextWrapping="Wrap" />
+                    <TextBox
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Margin="1,2,1,2"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding ObjIntravenous.TimeInterval, Mode=TwoWay}" />
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="{Binding N0133_G1_NgYLenh, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"
+                        TextWrapping="Wrap" />
+                    <DatePicker
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="1,2,1,2"
+                        IsHitTestVisible="False"
+                        SelectedDate="{Binding MedicalInstructionDate, TargetNullValue=null, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.DatePicker}" />
+
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="Bắt đầu: "
+                        TextWrapping="Wrap" />
+                    <ContentControl
+                        x:Name="StartDateContent"
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Height="24"
+                        Margin="2,2,2,2"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+
+                    <TextBlock
+                        Grid.Row="2"
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="Loại truyền: "
+                        TextWrapping="Wrap" />
+                    <AxControls:AxComboBox
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Height="22"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="ObjectValue"
+                        ItemsSource="{Binding InfusionTypeList, Mode=OneWay}"
+                        SelectedIndex="1"
+                        SelectedItemEx="{Binding ObjIntravenous.V_InfusionType, TargetNullValue=null, Mode=TwoWay}"
+                        SelectedValuePath="LookupID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="Tốc độ: "
+                        TextWrapping="Wrap" />
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Margin="1,2,1,2"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding ObjIntravenous.FlowRate, Mode=TwoWay}" />
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="Số lần: "
+                        TextWrapping="Wrap" />
+                    <TextBox
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Margin="1,2,1,2"
+                        Style="{StaticResource MainFrame.TextBox}"
+                        Text="{Binding ObjIntravenous.NumOfTimes, Mode=TwoWay}" />
+
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="Định lượng: "
+                        TextWrapping="Wrap" />
+                    <AxControls:AxComboBox
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Height="22"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="ObjectValue"
+                        ItemsSource="{Binding TimeIntervalUnitList, Mode=OneWay}"
+                        SelectedIndex="1"
+                        SelectedItemEx="{Binding ObjIntravenous.V_TimeIntervalUnit, TargetNullValue=null, Mode=TwoWay}"
+                        SelectedValuePath="LookupID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="Kết thúc: "
+                        TextWrapping="Wrap" />
+                    <ContentControl
+                        x:Name="StopDateContent"
+                        Grid.Row="4"
+                        Grid.Column="3"
+                        Height="24"
+                        Margin="2,2,2,2"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+
+                    <TextBlock
+                        Grid.Row="3"
+                        Margin="10,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MainFrame.TextBlock.00}"
+                        Text="Số lần: "
+                        TextWrapping="Wrap" />
+                    <AxControls:AxComboBox
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Height="22"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="ObjectValue"
+                        ItemsSource="{Binding InfusionProcessTypeList, Mode=OneWay}"
+                        SelectedIndex="1"
+                        SelectedItemEx="{Binding ObjIntravenous.V_InfusionProcessType, TargetNullValue=null, Mode=TwoWay}"
+                        SelectedValuePath="LookupID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <Button
+                        x:Name="btnAddIntravenous"
+                        Grid.Row="5"
+                        Grid.Column="3"
+                        MaxWidth="100"
+                        Content="Thêm" />
+                </Grid>
+            </Border>
+
+            <Border
+                Grid.RowSpan="2"
+                Grid.Column="1"
+                Margin="1"
+                Padding="5,3,3,3"
+                BorderBrush="#FF5E5E5E"
+                BorderThickness="0">
+                <AxControls:AxDataGridNy
+                    x:Name="GridSuppliers"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    MinHeight="100"
+                    Margin="2"
+                    cal:Message.Attach="[Event BeginningEdit]=[Action grdReqOutwardDetails_BeginningEdit($source,$eventArgs)]"
+                    AutoGenerateColumns="False"
+                    CanUserSortColumns="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyleWrap}"
+                    HorizontalScrollBarVisibility="Auto"
+                    ItemsSource="{Binding ReqOutwardDrugClinicDeptPatientList, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedReqOutwardDrugClinicDeptPatient, Mode=TwoWay}"
+                    Style="{StaticResource MainFrame.DataGridStyle.OneColor}"
+                    VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn
+                            Width="40"
+                            CellTemplate="{StaticResource CollnkDelete}"
+                            IsReadOnly="True" />
+                        <DataGridTemplateColumn
+                            x:Name="colCode"
+                            Width="Auto"
+                            CellEditingTemplate="{StaticResource DrugCodeEditTemplete}"
+                            CellTemplate="{StaticResource DrugCodeTemplete}"
+                            Header="{Binding K2569_G1_Code, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="False" />
+                        <DataGridTemplateColumn
+                            x:Name="colBrandName"
+                            MinWidth="150"
+                            CellEditingTemplate="{StaticResource AutoDrugTemplete}"
+                            CellStyle="{StaticResource CellStyleReadOnlyLeft}"
+                            CellTemplate="{StaticResource DrugNameTemplete}"
+                            Header="{Binding T0854_G1_TenHg, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            Width="Auto"
+                            Binding="{Binding RefGenericDrugDetail.SelectedUnit.UnitName}"
+                            CanUserReorder="True"
+                            CanUserResize="True"
+                            CanUserSort="True"
+                            CellStyle="{StaticResource CellStyleReadOnly}"
+                            Header="{Binding K3966_G1_Dvt, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTemplateColumn
+                            x:Name="colQty"
+                            Width="60"
+                            CellEditingTemplate="{StaticResource QtyCellEditTemplate}"
+                            CellTemplate="{StaticResource QtyCellTemplate}"
+                            Header="{Binding S0600_G1_SLgLe, Source={StaticResource eHCMSResources}}" />
+                    </DataGrid.Columns>
+                </AxControls:AxDataGridNy>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

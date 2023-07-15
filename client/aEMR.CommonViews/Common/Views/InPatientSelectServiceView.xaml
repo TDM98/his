@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="aEMR.Common.Views.InPatientSelectServiceView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controllib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    d:DesignHeight="300" d:DesignWidth="400"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    mc:Ignorable="d"> 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Stretch"
+          x:Name="LayoutRoot"
+          VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="22" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="22" />
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding T2707_G1_LoaiDV, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                   Style="{StaticResource TBlock.Heading.03}"
+                   Margin="0,5,0,0"
+                   VerticalAlignment="Top" />
+        <controllib:AxComboBox Grid.Row="1"
+                               HorizontalAlignment="Stretch"
+                               Style="{StaticResource MainFrame.ComboBox}"
+                               SelectedValuePath="MedicalServiceTypeID"
+                               DisplayMemberPath="MedicalServiceTypeName"
+                               SelectedItemEx="{Binding MedServiceType,Mode=TwoWay}"
+                               ItemsSource="{Binding ServiceTypes, Mode=OneWay}" />
+        <TextBlock Text="{Binding K3421_G1_DV, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                   Margin="0,5,0,0"
+                   Style="{StaticResource TBlock.Heading.03}"
+                   Grid.Row="2" />
+        <controllib:KeySearchableComboBox x:Name="cboSelectedService"
+                               HorizontalAlignment="Stretch"
+                               SelectedItem="{Binding MedServiceItem, Mode=TwoWay}"
+                               ItemSourceEx="{Binding MedicalServiceItems, Mode=OneWay}"
+                               Style="{StaticResource MainFrame.ComboBox}"
+                               Grid.Row="3" />
+    </Grid>
+</UserControl>

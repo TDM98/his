@@ -1,0 +1,103 @@
+﻿<UserControl    x:Class="aEMR.Common.Views.VideoDiagnosticExplorerView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"    
+                mc:Ignorable="d"       
+                Width="800" Height="500"
+                xmlns:cal="http://www.caliburnproject.org"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <DockPanel x:Name="SPLayout" LastChildFill="True" Margin="0,10,0,0"
+               Background="Transparent" VerticalAlignment="Stretch"
+               ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="gridCanvas" HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch" Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="26" />
+                <RowDefinition Height="120" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Canvas x:Name="mainCanvas" Background="LightGray" 
+                        cal:Message.Attach="[Event Loaded]=[Action mainCanvas_Loaded($source,$eventArgs)]">
+                    <Canvas.Resources>
+                        <Storyboard x:Key="StoryBoardScale">
+                            <DoubleAnimation x:Name="animationScaleX"
+                                             Storyboard.TargetName="Scale"
+                                             Storyboard.TargetProperty="ScaleX"
+                                             By="0.25" Duration="0:0:0.2" />
+                            <DoubleAnimation x:Name="animationScaleY"
+                                             Storyboard.TargetName="Scale"
+                                             Storyboard.TargetProperty="ScaleY"
+                                             By="0.25" Duration="0:0:0.2" />
+                        </Storyboard>
+                    </Canvas.Resources>
+                    <MediaElement Name="mediaPreview" Stretch="Uniform" HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" Cursor="Hand"
+                                  ToolTipService.ToolTip="{Binding K2305_G1_ClkDeChupAnh, Source={StaticResource eHCMSResources}}"
+                                  cal:Message.Attach="[Event Loaded]=[Action mediaPreview_Loaded($source,$eventArgs)];
+                                  [Event MouseLeftButtonDown]=[Action mediaPreview_MouseLeftButtonDown($source,$eventArgs)]">
+                        <MediaElement.RenderTransform>
+                            <ScaleTransform x:Name="Scale" />
+                        </MediaElement.RenderTransform>
+                    </MediaElement>
+                </Canvas>
+            </Grid>
+            <!-- 20181024 TNHX [BM0003222] Hidden list button because when was clicked the program crash-->
+            <Grid Grid.Row="1" x:Name="gridToolBar" HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch" Background="Transparent" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="64" />
+                    <ColumnDefinition Width="64" />
+                    <ColumnDefinition Width="64" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                </Grid.ColumnDefinitions>
+                <Button Name="btPlay" Grid.Row="0" Grid.Column="1"
+                        Content="{Binding P0401_G1_Play, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Center" Width="48" />
+                <Button Name="btPause" Grid.Row="0" Grid.Column="2"
+                        Content="{Binding P0322_G1_Pause, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Center" Width="48" />
+                <Button Name="btMute" Grid.Row="0" Grid.Column="4"
+                        Content="{Binding M0028_G1_Mute, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Center" Width="48" />
+                <Slider x:Name="btVolume" Grid.Row="0" Grid.Column="3"
+                        Height="18" HorizontalAlignment="Stretch" Maximum="100"
+                        cal:Message.Attach="[Event ValueChanged]=[Action btVolume_ValueChanged($source,$eventArgs)]" />
+                <Button Name="btStop" Grid.Row="0" Grid.Column="5"
+                        Content="{Binding S0728_G1_Stop, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Center" Width="48" />
+                <Button Name="btZommIn" Grid.Row="0" Grid.Column="6"
+                        Content="{Binding P0392_G1_PgTo, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Center" Width="63" />
+                <Button Name="btZommOut" Grid.Row="0" Grid.Column="7"
+                        Content="{Binding G0723_G1_ThuNho, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Center" Width="63" />
+                <Button Name="btCaptureImage" Grid.Row="0" Grid.Column="8"
+                        Content="{Binding K2279_G1_ChupAnh, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" HorizontalAlignment="Center" Width="63" />
+                <Button Name="btSaveThumbs" Grid.Column="9"
+                        Content="{Binding T3140_G1_LuuAnh, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}"
+                        Visibility="{Binding ControlVideoVisibility,Converter={StaticResource BooleanToVisibility}}" />
+            </Grid>
+            <ScrollViewer x:Name="scroller" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden"
+                          Height="120" BorderBrush="{x:Null}" Margin="1,0" Grid.Row="2"
+                          cal:Message.Attach="[Event Loaded]=[Action scroller_Loaded($source,$eventArgs)]">
+                <StackPanel x:Name="thumbs" Orientation="Horizontal" Margin="0,0,0,10"
+                            cal:Message.Attach="[Event Loaded]=[Action thumbs_Loaded($source,$eventArgs)]" />
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="aEMR.Common.Views.ImageDisgnosticExplorerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cal="http://www.caliburnproject.org" mc:Ignorable="d"
+    Width="800" Height="500"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <DockPanel x:Name="SPLayout" LastChildFill="True" Margin="0,5,0,5" Background="Transparent" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="gridCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto" MinWidth="100" />
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="gridImg" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                <Canvas x:Name="mainCanvas" Background="LightGray" 
+                        cal:Message.Attach="[Event Loaded]=[Action mainCanvas_Loaded($source,$eventArgs)]">
+                    <Canvas.Resources>
+                        <Storyboard x:Key="StoryBoardScale">
+                            <DoubleAnimation x:Name="animationScaleX"
+                                             Storyboard.TargetName="Scale"
+                                             Storyboard.TargetProperty="ScaleX"
+                                             By="0.25" Duration="0:0:0.2" />
+                            <DoubleAnimation x:Name="animationScaleY"
+                                             Storyboard.TargetName="Scale"
+                                             Storyboard.TargetProperty="ScaleY"
+                                             By="0.25" Duration="0:0:0.2" />
+                        </Storyboard>
+                        <Storyboard x:Key="StoryBoardRotator">
+                            <DoubleAnimation x:Name="animationRotator" Storyboard.TargetName="Rotator"
+                                             Storyboard.TargetProperty="Angle"
+                                             By="90" Duration="0:0:0.2" />
+                        </Storyboard>
+                        <Storyboard x:Key="StoryBoardTranslator">
+                            <DoubleAnimation x:Name="animationTranslateX" Storyboard.TargetName="Translator"
+                                             Storyboard.TargetProperty="X"
+                                             Duration="0:0:0.2" />
+                            <DoubleAnimation x:Name="animationTranslateY" Storyboard.TargetName="Translator"
+                                             Storyboard.TargetProperty="Y"
+                                             Duration="0:0:0.2" />
+                        </Storyboard>
+                    </Canvas.Resources>
+
+
+                    <Image x:Name="imgPreview" Source="{Binding ObjWBitmapImage,Mode=TwoWay}" Stretch="Uniform"
+                           cal:Message.Attach="[Event Loaded]=[Action imgPreview_Loaded($source,$eventArgs)];
+                           [Event MouseLeftButtonDown]=[Action imgPreview_MouseLeftButtonDown($source,$eventArgs)]">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform x:Name="Rotator" />
+                                <ScaleTransform x:Name="Scale" />
+                                <TranslateTransform x:Name="Translator" />
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                </Canvas>
+
+            </Grid>
+            <StackPanel Grid.Column="1" Margin="0,2,3,0" VerticalAlignment="Bottom" Height="140">
+                <Button x:Name="btnOriginal" Content="{Binding G1765_G1_TThaiCu, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" />
+                <Button x:Name="btZoomIn" Content="{Binding P0392_G1_PgTo, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" />
+                <Button x:Name="btZoomOut" Content="{Binding G0723_G1_ThuNho, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" />
+                <Button x:Name="btRotate" Content="{Binding G2831_G1_Xoay, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" />
+                <Button x:Name="btOK" Content="{Binding K3847_G1_DongY, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" />
+                <Button x:Name="btCancel" Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" />
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>

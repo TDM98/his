@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="aEMR.StoreDept.Views.OutwardDrugClinicDeptTemplateSelectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Width="800" Height="580"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:cal="http://www.caliburnproject.org">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Width="Auto"
+                    Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <TextBlock Text="{Binding T2904_G1_LocTheoCode, Source={StaticResource eHCMSResources}}"
+                       VerticalAlignment="Center" Margin="5,1,2,1"
+                       Style="{StaticResource MainFrame.TextBlock.00}" />
+            <TextBox Name="SearchKey" Style="{StaticResource MainFrame.TextBox}"
+                     Height="20" Width="500" Margin="2,1"
+                     cal:Message.Attach="[Event KeyUp] = [Action SearchKey_KeyUp($source, $eventArgs)]" />
+            <Button Name="btnFilter" HorizontalAlignment="Right"
+                    Content="{Binding G0739_G1_THien, Source={StaticResource eHCMSResources}}"
+                    Height="20" Width="75" Margin="2,1"
+                    Style="{StaticResource MainFrame.Button}" />
+        </StackPanel>
+        
+        <DataGrid Grid.Row="1" Grid.ColumnSpan="2" HeadersVisibility="All"
+                  AutoGenerateColumns="False"
+                  Style="{StaticResource MainFrame.DataGridStyle}" 
+                  ItemsSource="{Binding CV_ObjRequestTemplate,Mode=OneWay}"
+                  SelectedItem="{Binding CurrentRequestTemplate,Mode=TwoWay}"
+                  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                  VerticalAlignment="Stretch" Margin="0,1,0,1"
+                  IsReadOnly="True"
+                  cal:Message.Attach="[Event MouseDoubleClick]=[Action gvRequestTemplate_MouseDoubleClick($source,$eventArgs)];
+                  [Event LoadingRow] = [Action GvRequestTemplate_LoadingRow($source, $eventArgs)]">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{Binding T0870_G1_TenMau,Source={StaticResource eHCMSResources}}"
+                                    CanUserResize="True" CanUserReorder="True"
+                                    CanUserSort="True" Width="600"
+                                    Binding="{Binding OutwardDrugClinicDeptTemplateName}" />
+                <DataGridTextColumn Header="{Binding N0165_G1_NguoiTao,Source={StaticResource eHCMSResources}}"
+                                    CanUserResize="True" CanUserReorder="True"
+                                    CanUserSort="True"
+                                    Binding="{Binding CreatedStaff.FullName}" />
+                <!--<DataGridTextColumn Header="{Binding N0111_G1_NgTao,Source={StaticResource eHCMSResources}}"
+                                    CanUserResize="True" CanUserReorder="True"
+                                    CanUserSort="True"
+                                    Binding="{Binding CreateDate,StringFormat='dd/MM/yyyy hh:mm:ss tt'}" />-->                
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

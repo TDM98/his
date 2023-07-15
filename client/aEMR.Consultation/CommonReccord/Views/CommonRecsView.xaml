@@ -1,0 +1,114 @@
+﻿<ControlsLibrary:AxUserControl
+    x:Class="aEMR.ConsultantEPrescription.CommonRecs.Views.CommonRecsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="480"
+    d:DesignWidth="640"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            x:Name="TitleForm"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.Header.01}"
+            Text="{Binding Z0277_G1_TTinTQuat, Source={StaticResource eHCMSResources}}"
+            Visibility="{Binding IsShowSummaryContent, Converter={StaticResource BooleanToVisibility}}" />
+        <ContentControl
+            x:Name="UCPatientPInfo"
+            Grid.Row="1"
+            Grid.Column="0"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            Visibility="{Binding IsShowSummaryContent, Converter={StaticResource BooleanToVisibility}}" />
+        <TabControl
+            Name="tabCommon"
+            Grid.Row="2"
+            Margin="0,0,0,0"
+            cal:Message.Attach="[Event Loaded] = [Action tabCommon_Loaded($source, $eventArgs)]"
+            Style="{StaticResource MainFrame.TabControl}"
+            Visibility="{Binding mTongQuat_XemThongTin, Converter={StaticResource BooleanToVisibility}}">
+            <TabItem
+                Header="{Binding K2275_G1_ChungNgua, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.TabItem}"
+                Visibility="{Binding mTongQuat_XemThongTin, Converter={StaticResource BooleanToVisibility}}">
+                <!--<my:UCCR_Immunizations x:Name="ucCR_Immunizations" />-->
+                <StackPanel>
+                    <ContentControl Name="Immunizations" />
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="{Binding G1347_G1_TTrangTChatDHieuSTon, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.TabItem}"
+                Visibility="Collapsed">
+                <!--  Visibility="{Binding mTongQuat_XemThongTin,Converter={StaticResource BooleanToVisibility}}"  -->
+                <StackPanel>
+                    <ContentControl Name="PhysicalExamination" />
+                </StackPanel>
+
+            </TabItem>
+            <!--<sdk:TabItem Header="Dấu Hiệu Sinh Tồn" Style="{StaticResource MainFrame.TabItem}"
+                         Visibility="{Binding mTongQuat_XemThongTin,Converter={StaticResource BooleanToVisibility}}">
+                <StackPanel>
+                    <ContentControl Name="VitalSigns">
+
+                    </ContentControl>
+                </StackPanel>
+            </sdk:TabItem>-->
+
+            <TabItem
+                Header="{Binding Z0422_G1_DKienSK, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.TabItem}"
+                Visibility="Collapsed">
+                <!--  Visibility="{Binding mTongQuat_XemThongTin,Converter={StaticResource BooleanToVisibility}}"  -->
+                <!--<my:UCCR_MedicalConditions x:Name="ucMedicalConditions"/>-->
+                <StackPanel>
+                    <ContentControl Name="MedicalConditions" />
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="{Binding K0818_G1_2TienSuBenh, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.TabItem}"
+                Visibility="Collapsed">
+                <!--  Visibility="{Binding mTongQuat_XemThongTin,Converter={StaticResource BooleanToVisibility}}"  -->
+                <!--<my:UCCR_MedicalHistory x:Name="ucMedicalHistory"/>-->
+                <StackPanel>
+                    <ContentControl Name="MedicalHistory" />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem
+                Header="{Binding Z0423_G1_TienSuNamVien, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.TabItem}"
+                Visibility="{Binding mTongQuat_XemThongTin, Converter={StaticResource BooleanToVisibility}}">
+                <!--<my:UCCR_HosHistory x:Name="ucCR_HosHistory" />-->
+                <StackPanel>
+                    <ContentControl Name="HosHistory" />
+                </StackPanel>
+            </TabItem>
+            <TabItem
+                Header="{Binding Z0424_G1_TienSuGDinh, Source={StaticResource eHCMSResources}}"
+                Style="{StaticResource MainFrame.TabItem}"
+                Visibility="{Binding mTongQuat_XemThongTin, Converter={StaticResource BooleanToVisibility}}">
+                <!--<my:UCCR_FamilyHistory x:Name="ucCR_FamilyHistory"/>-->
+                <StackPanel>
+                    <ContentControl Name="FamilyHistory" />
+                </StackPanel>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</ControlsLibrary:AxUserControl>

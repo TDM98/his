@@ -1,0 +1,178 @@
+﻿using eHCMSLanguage;
+using System.ComponentModel.Composition;
+using aEMR.ViewContracts;
+using Caliburn.Micro;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls;
+using System;
+using aEMR.Infrastructure;
+using aEMR.Infrastructure.Events;
+using aEMR.ServiceClient;
+using System.Threading;
+using DataEntities;
+using aEMR.Common.Collections;
+using aEMR.Common;
+using Castle.Windsor;
+
+namespace aEMR.Pharmacy.ViewModels
+{
+    [Export(typeof(IEstimationPharmacySearch)), PartCreationPolicy(CreationPolicy.NonShared)]
+    public class EstimationPharmacySearchViewModel : Conductor<object>, IEstimationPharmacySearch
+    {
+        #region Indicator Member
+
+        private bool _IsLoading = false;
+        public bool IsLoading
+        {
+            get { return _IsLoading; }
+            set
+            {
+                if (_IsLoading != value)
+                {
+                    _IsLoading = value;
+                    NotifyOfPropertyChange(() => IsLoading);
+                }
+            }
+        }
+
+        #endregion
+        public long V_MedProductType = 11001;
+        [ImportingConstructor]
+        public EstimationPharmacySearchViewModel(IWindsorContainer container, INavigationService navigationService, IEventAggregator eventArg)
+        {
+            SearchCriteria = new RequestSearchCriteria();
+            PharmacyEstimationForPOList = new PagedSortableCollectionView<PharmacyEstimationForPO>();
+            PharmacyEstimationForPOList.OnRefresh += PharmacyEstimationForPOList_OnRefresh;
+            PharmacyEstimationForPOList.PageSize = Globals.PageSize;
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            SearchCriteria = null;
+            PharmacyEstimationForPOList.Clear();
+            //base.OnDeactivate(close);
+        }
+        void PharmacyEstimationForPOList_OnRefresh(object sender, RefreshEventArgs e)
+        {
+            PharmacyEstimationForPO_Search(PharmacyEstimationForPOList.PageIndex, PharmacyEstimationForPOList.PageSize);
+        }
+        #region Properties member
+        private RequestSearchCriteria _SearchCriteria;
+        public RequestSearchCriteria SearchCriteria
+        {
+            get
+            {
+                return _SearchCriteria;
+            }
+            set
+            {
+                _SearchCriteria = value;
+                NotifyOfPropertyChange(() => SearchCriteria);
+            }
+        }
+
+        private PagedSortableCollectionView<PharmacyEstimationForPO> _PharmacyEstimationForPOList;
+        public PagedSortableCollectionView<PharmacyEstimationForPO> PharmacyEstimationForPOList
+        {
+            get
+            {
+                return _PharmacyEstimationForPOList;
+            }
+            set
+            {
+                if (_PharmacyEstimationForPOList != value)
+                {
+                    _PharmacyEstimationForPOList = value;
+                    NotifyOfPropertyChange("PharmacyEstimationForPOList");
+                }
+            }
+        }
+
+        private bool _IsHIStorage = false;
+        public bool IsHIStorage
+        {
+            get { return _IsHIStorage; }
+            set
+            {
+                if (_IsHIStorage != value)
+                {
+                    _IsHIStorage = value;
+                    NotifyOfPropertyChange(() => IsHIStorage);
+                }
+            }
+        }
+        #endregion
+
+        public void btnSearch(object sender, RoutedEventArgs e)
+        {
+            PharmacyEstimationForPOList.PageIndex = 0;
+            PharmacyEstimationForPO_Search(PharmacyEstimationForPOList.PageIndex, PharmacyEstimationForPOList.PageSize);
+        }
+        private void PharmacyEstimationForPO_Search(int PageIndex, int PageSize)
+        {
+            IsLoading = true;
+           // Globals.EventAggregator.Publish(new BusyEvent { IsBusy = true, Message = eHCMSResources.Z0125_G1_DangXuLi });
+            var t = new Thread(() =>
+            {
+                using (var serviceFactory = new PharmacyEstimattionServiceClient())
+                {
+                    var contract = serviceFactory.ServiceInstance;
+                    contract.BeginPharmacyEstimationForPO_Search(SearchCriteria, V_MedProductType, PageIndex, PageSize, true, IsHIStorage, Globals.DispatchCallback((asyncResult) =>
+                    {
+
+                        try
+                        {
+                            int Total = 0;
+                            var results = contract.EndPharmacyEstimationForPO_Search(out Total, asyncResult);
+                            if (results != null )
+                            {
+                                PharmacyEstimationForPOList.Clear();
+                                PharmacyEstimationForPOList.TotalItemCount = Total;
+                                foreach(PharmacyEstimationForPO p in results)
+                                {
+                                    PharmacyEstimationForPOList.Add(p);
+                                }
+                               
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Globals.ShowMessage(ex.Message, eHCMSResources.T0432_G1_Error);
+                        }
+                        finally
+                        {
+                            IsLoading = false;
+                           // Globals.IsBusy = false;
+                        }
+
+                    }), null);
+
+                }
+
+            });
+
+            t.Start();
+        }
+
+        public void dataGrid1_DblClick(object sender, EventArgs<object> e)
+        {
+            //phat su kien 
+            Globals.EventAggregator.Publish(new PharmacyCloseSearchEstimationEvent { SelectedEstimation = e.Value });
+            TryClose();
+        }
+      
+        public void Search_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if(SearchCriteria !=null)
+                {
+                    SearchCriteria.Code = (sender as TextBox).Text;
+                }
+                PharmacyEstimationForPOList.PageIndex = 0;
+                PharmacyEstimationForPO_Search(PharmacyEstimationForPOList.PageIndex, PharmacyEstimationForPOList.PageSize);
+            }
+        }
+    }
+}

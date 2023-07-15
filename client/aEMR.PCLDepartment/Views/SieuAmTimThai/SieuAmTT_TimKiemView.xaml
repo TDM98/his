@@ -1,0 +1,115 @@
+﻿<UserControl                     x:Class="aEMR.PCLDepartment.Views.SieuAmTT_TimKiemView"
+                                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                 xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                                 xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                                 xmlns:cal="http://www.caliburnproject.org" 
+                                 xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                                 xmlns:AutoBoxTK="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+                                 d:DesignHeight="600" d:DesignWidth="900"
+                                 mc:Ignorable="d">
+  <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <converters:ShortDateConverter x:Key="ShortDateConverter"/>
+    </UserControl.Resources>
+  <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" Width="Auto" Margin="1,1,1,1"
+          ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="10" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="150" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="100" />
+        <RowDefinition Height="20" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="36*" />
+        <ColumnDefinition Width="216*" />
+        <ColumnDefinition Width="11*" />
+        <ColumnDefinition Width="599*" />
+        <ColumnDefinition Width="34*" />
+      </Grid.ColumnDefinitions>
+      <CheckBox Name="AllCheck" Content="{Binding G1260_G1_TimTheoTCa, Source={StaticResource eHCMSResources}}"
+                IsChecked="{Binding curURP_FESearchCriterial.searchAll,Mode=TwoWay}" Grid.Row="1" Grid.Column="1"
+                HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource MainFrame.Checkbox.13}"
+                cal:Message.Attach="[Event Loaded]=[Action AllCheck_Loaded($source,$eventArgs)]
+                      ;[Event Click]=[Action AllCheck_Click($source,$eventArgs)]" />
+      <CheckBox Name="fName" Content="{Binding G1262_G1_TimTheoTen, Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch"
+                VerticalAlignment="Center" Style="{StaticResource MainFrame.Checkbox.13}"
+                cal:Message.Attach="[Event Loaded]=[Action fName_Loaded($source,$eventArgs)]" />
+      <CheckBox Name="fYear" Content="{Binding G1252_G1_TimTheoNSinh, Source={StaticResource eHCMSResources}}" Grid.Row="3" Grid.Column="1"
+                HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource MainFrame.Checkbox.13}"
+                cal:Message.Attach="[Event Loaded]=[Action fYear_Loaded($source,$eventArgs)]" />
+      <CheckBox Name="fAddress" Content="{Binding G1250_G1_TimTheoDChi, Source={StaticResource eHCMSResources}}" Grid.Row="4" Grid.Column="1"
+                HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource MainFrame.Checkbox.13}"
+                cal:Message.Attach="[Event Loaded]=[Action fAddress_Loaded($source,$eventArgs)]" />
+      <CheckBox Name="fPhoneNumber" Content="{Binding G1258_G1_TimTheoSoDThoai, Source={StaticResource eHCMSResources}}" Grid.Row="5" Grid.Column="1"
+                HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource MainFrame.Checkbox.13}"
+                cal:Message.Attach="[Event Loaded]=[Action fPhoneNumber_Loaded($source,$eventArgs)]" />
+      <CheckBox Name="fDate" Content="{Binding Z0110_G1_TimTheoNg, Source={StaticResource eHCMSResources}}" Grid.Row="6" Grid.Column="1"
+                HorizontalAlignment="Stretch" VerticalAlignment="Center" Style="{StaticResource MainFrame.Checkbox.13}"
+                cal:Message.Attach="[Event Loaded]=[Action fDate_Loaded($source,$eventArgs)]" />
+
+      <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding curURP_FESearchCriterial.Name,Mode=TwoWay}"
+               Width="300" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"
+               Style="{StaticResource MainFrame.TextBox}" />
+      <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding curURP_FESearchCriterial.address,Mode=TwoWay}"
+               Width="300" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"
+               Style="{StaticResource MainFrame.TextBox}" />
+      <TextBox Grid.Column="3" Grid.Row="5" Text="{Binding curURP_FESearchCriterial.PhoneNumber,Mode=TwoWay}"
+               Width="300" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold"
+               Style="{StaticResource MainFrame.TextBox}" />
+
+      <TextBox Grid.Column="3" Grid.Row="6" Text="{Binding curURP_FESearchCriterial.Day,Mode=TwoWay}" Width="300"
+               VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" />
+      <!--<ComboBox x:Name="cboLookupSmokeStatus" Width="80"  Height="22" HorizontalAlignment="Left"
+                                    Grid.Column="3" Grid.Row="2"
+                                        ItemsSource="{Binding allBloodType,Mode=OneWay}" 
+                                        SelectedItem="{Binding selectedBloodType,Mode=TwoWay}" 
+                                        DisplayMemberPath="Descript" SelectedValuePath="BloodTypeID"                                      
+                                        Style="{StaticResource MainFrame.ComboBox}"
+                                  />-->
+            <AutoBoxTK:AutoCompleteBox Name="aucboBirth" Grid.Column="3" Grid.Row="3" Width="150" Height="22"
+                           HorizontalAlignment="Left"
+                           cal:Message.Attach="[Event Loaded]=[Action aucboBirth_Loaded($source,$eventArgs)]
+                                 ;[Event Populating]=[Action aucboBirth_Populating($source,$eventArgs)]"
+                           ItemsSource="{Binding allYear}" MinimumPopulateDelay="300"
+                           SelectedItem="{Binding curURP_FESearchCriterial.yearOfBirth}">
+      </AutoBoxTK:AutoCompleteBox>
+
+      <customcontrols:ReadOnlyDataGrid AutoGenerateColumns="False" x:Name="gridAppointments" Grid.Column="1"
+                                       Grid.Row="7" Grid.ColumnSpan="3" ItemsSource="{Binding Appointments,Mode=OneWay}"
+                                       RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                                       RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}"
+                                       SelectedItem="{Binding Path=SelectedAppointment, Mode=TwoWay}"
+                                       cal:Message.Attach="[Event DblClick]=[Action DoubleClick($eventArgs)]"
+                                       ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}">
+        <DataGrid.Columns>
+                    <DataGridTextColumn  Width="150" Header="{Binding N0045_G1_Ng, Source={StaticResource eHCMSResources}}"
+                                  Binding="{Binding ApptDate, Mode=OneWay,Converter={StaticResource ShortDateConverter}}" >
+          
+          </DataGridTextColumn>
+                    <DataGridTextColumn  Width="200" Header="{Binding T1567_G1_HoTen, Source={StaticResource eHCMSResources}}"
+                                  Binding="{Binding Patient.FullName, Mode=OneWay}" >
+          
+          </DataGridTextColumn>
+                    <DataGridTextColumn  Width="250" Header="{Binding K3354_G1_DChi, Source={StaticResource eHCMSResources}}"
+                                  Binding="{Binding ApptStatus.ObjectValue, Mode=OneWay}" >
+
+          </DataGridTextColumn>
+
+
+        </DataGrid.Columns>
+      </customcontrols:ReadOnlyDataGrid>
+    </Grid>
+  </Border>
+
+</UserControl>

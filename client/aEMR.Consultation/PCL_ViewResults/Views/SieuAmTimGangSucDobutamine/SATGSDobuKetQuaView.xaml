@@ -1,0 +1,552 @@
+﻿<UserControl x:Class="aEMR.ConsultantEPrescription.Views.SATGSDobuKetQuaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:cal="http://www.caliburnproject.org"
+             d:DesignWidth="900"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converters:EnumBoolConverter x:Key="EnumBoolConverter" />
+  </UserControl.Resources>
+  <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" Width="Auto" Margin="1,1,1,1"
+          ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <customcontrols:AxGrid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="5" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="25" />
+        <RowDefinition Height="60" />
+        <RowDefinition Height="480" />
+
+        <RowDefinition Height="30" />
+        <RowDefinition Height="15" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="25*" />
+        <ColumnDefinition Width="198*" />
+        <ColumnDefinition Width="141*" />
+        <ColumnDefinition Width="170*" />
+        <ColumnDefinition Width="331*" />
+        <ColumnDefinition Width="31*" />
+      </Grid.ColumnDefinitions>
+      <!--<sdk:ValidationSummary Name="ValidationSummary"
+                             cal:Message.Attach="[Event Loaded]=[Action ValidationSummary_Loaded($source,$eventArgs)]" />-->
+      <TextBlock Text="{Binding G0147_G1_ThayDoiDienTamDo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"
+                 HorizontalAlignment="Left" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" Margin="0,4" />
+      <TextBlock Text="{Binding R0525_G1_RoiLoanNhip, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"
+                 HorizontalAlignment="Left" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" Margin="0,4" />
+      <TextBlock Text="{Binding T0765_G1_TacDungPhu_BC, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center"
+                 HorizontalAlignment="Left" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" Margin="0,4" />
+      <TextBlock Text="{Binding K2708_G1_ConDauThatNguc, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center"
+                 HorizontalAlignment="Right" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" Margin="0,4" />
+      <TextBlock Text="{Binding K1491_G1_TrChungKhac2, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center"
+                 HorizontalAlignment="Left" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+      <TextBlock Text="{Binding K1446_G1_BPhapDTri2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center"
+                 HorizontalAlignment="Left" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" Margin="0,4" />
+
+
+      <TextBlock Text="{Binding S0576_G1_SATimTruocNghiemPhap, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Column="1" Grid.Row="8" VerticalAlignment="top"
+                 TextWrapping="Wrap" HorizontalAlignment="Left" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}"
+                 Grid.RowSpan="2" />
+      <StackPanel Grid.Column="2" Grid.Row="1" Height="22" HorizontalAlignment="Left" Orientation="Horizontal"
+                  VerticalAlignment="Center" Width="120" Margin="0,2">
+        <RadioButton IsEnabled="False" Content="{Binding K2405_G1_Co, Source={StaticResource eHCMSResources}}" GroupName="gThayDoiDTD" Height="16" HorizontalAlignment="Left"
+                     IsChecked="{Binding curURP_FE_StressDobutamineResult.ThayDoiDTD, Mode=OneWay}" Margin="0,0,0,0"
+                     Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" TabIndex="0" />
+        <RadioButton IsEnabled="False" Content="{Binding T2309_G1_Khong, Source={StaticResource eHCMSResources}}" GroupName="gThayDoiDTD" Height="16" HorizontalAlignment="Left"
+                     IsChecked="True" Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center"
+                     TabIndex="1" />
+      </StackPanel>
+      <customcontrols:AxTextBox IsReadOnly="True" Grid.Column="3" Grid.Row="1"
+                                Text="{Binding curURP_FE_StressDobutamineResult.ThayDoiDTDChiTiet,Mode=OneWay}" VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Grid.ColumnSpan="2"
+                                Margin="0,2" TabIndex="2" />
+
+      <StackPanel Grid.Column="2" Grid.Row="2" Height="22" HorizontalAlignment="Left" Orientation="Horizontal"
+                  VerticalAlignment="Center" Width="120" Margin="0,2">
+        <RadioButton IsEnabled="False" Content="{Binding K2405_G1_Co, Source={StaticResource eHCMSResources}}" GroupName="gRoiLoanNhip" Height="16" HorizontalAlignment="Left"
+                     IsChecked="{Binding curURP_FE_StressDobutamineResult.RoiLoanNhip, Mode=OneWay}" Margin="0,0,0,0"
+                     Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" TabIndex="3" />
+        <RadioButton IsEnabled="False" Content="{Binding T2309_G1_Khong, Source={StaticResource eHCMSResources}}" GroupName="gRoiLoanNhip" Height="16" HorizontalAlignment="Left"
+                     IsChecked="True" Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center"
+                     TabIndex="4" />
+      </StackPanel>
+      <customcontrols:AxTextBox IsReadOnly="True" Grid.Column="3" Grid.Row="2"
+                                Text="{Binding curURP_FE_StressDobutamineResult.RoiLoanNhipChiTiet,Mode=OneWay}" VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" Grid.ColumnSpan="2"
+                                Margin="0,2" TabIndex="5" />
+      <StackPanel Grid.Column="3" Grid.Row="3" Height="22" HorizontalAlignment="Left" Orientation="Horizontal"
+                  VerticalAlignment="Center" Margin="0,2" Grid.ColumnSpan="2">
+        <RadioButton IsEnabled="False" Content="{Binding K2405_G1_Co, Source={StaticResource eHCMSResources}}" GroupName="gTDPHayBienChung" Height="16" HorizontalAlignment="Left"
+                     TabIndex="6"
+                     IsChecked="{Binding curURP_FE_StressDobutamineResult.V_ConDauThatNguc, Mode=OneWay
+                    ,Converter={StaticResource EnumBoolConverter}, ConverterParameter=Co}"
+                     Margin="0,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" />
+        <RadioButton IsEnabled="False" Content="{Binding T2309_G1_Khong, Source={StaticResource eHCMSResources}}" GroupName="gTDPHayBienChung" Height="16" HorizontalAlignment="Left"
+                     TabIndex="7"
+                     IsChecked="{Binding curURP_FE_StressDobutamineResult.V_ConDauThatNguc, Mode=OneWay
+                    ,Converter={StaticResource EnumBoolConverter}, ConverterParameter=Khong}"
+                     Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" />
+        <RadioButton IsEnabled="False" Content="{Binding K0820_G1_2NghiNgo, Source={StaticResource eHCMSResources}}" GroupName="gTDPHayBienChung" Height="16" HorizontalAlignment="Left"
+                     TabIndex="8"
+                     IsChecked="{Binding curURP_FE_StressDobutamineResult.V_ConDauThatNguc, Mode=OneWay
+                    ,Converter={StaticResource EnumBoolConverter}, ConverterParameter=NghiNgo}"
+                     Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" />
+      </StackPanel>
+      <TextBox IsReadOnly="True" Grid.Column="2" Grid.Row="4" Height="40"
+                                Text="{Binding curURP_FE_StressDobutamineResult.TrieuChungKhac,Mode=OneWay}" HorizontalScrollBarVisibility="Auto"
+                                Grid.ColumnSpan="3" Grid.RowSpan="2" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TabIndex="9"
+                                VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}"
+                                Margin="0,5" />
+
+      <TextBox IsReadOnly="True" Grid.Column="2" Grid.Row="6" Height="40"
+                                Text="{Binding curURP_FE_StressDobutamineResult.BienPhapDieuTri,Mode=OneWay}" HorizontalScrollBarVisibility="Auto"
+                                Grid.ColumnSpan="3" Grid.RowSpan="2" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" TabIndex="10"
+                                VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}"
+                                Margin="0,5" />
+      <TextBox IsReadOnly="True" Grid.Column="2" Grid.Row="8" Height="80"
+                                Text="{Binding curURP_FE_StressDobutamineResult.KetQuaSieuAmTim,Mode=OneWay}" HorizontalScrollBarVisibility="Auto"
+                                Grid.ColumnSpan="3" VerticalScrollBarVisibility="Visible" TabIndex="12" AcceptsReturn="True" Grid.RowSpan="2"
+                                VerticalAlignment="Center" HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" />
+
+      <Border Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="4" VerticalAlignment="Stretch" Width="Auto"
+              Margin="1" ScrollViewer.VerticalScrollBarVisibility="Auto" Style="{StaticResource LightBlueBorderStyle}">
+        <customcontrols:AxGrid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="152*" />
+            <ColumnDefinition Width="85*" />
+            <ColumnDefinition Width="147*" />
+            <ColumnDefinition Width="152*" />
+            <ColumnDefinition Width="144*" />
+            <ColumnDefinition Width="151*" />
+          </Grid.ColumnDefinitions>
+
+          <TextBlock Text="{Binding G2326_G1_VungCoTim, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                     FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" Grid.ColumnSpan="2" />
+          <TextBlock Text="{Binding G1819_G1_TruocNghiemPhap, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Grid.Column="2" TextWrapping="Wrap"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+          <TextBlock Text="{Binding K3571_G1_DobutamineLieuThap, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Grid.Column="3"
+                     TextWrapping="Wrap" HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+          <TextBlock Text="{Binding K3569_G1_DobutamineLieuCaoAtropine, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Grid.Column="4"
+                     TextWrapping="Wrap" HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+          <TextBlock Text="{Binding T2034_G1_KLuanU, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Grid.Column="5" HorizontalAlignment="Center"
+                     FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+
+
+          <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding G0133_G1_ThanhTruoc, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+          <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding M0020_G1_Mom13, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Right" FontWeight="Bold" Grid.ColumnSpan="2" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding T1273_G1_GiuaMediane8, StringFormat='{}{0}(8):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Right" FontWeight="Bold" Grid.ColumnSpan="2" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding K3154_G1_DayBasale2, StringFormat='{}{0}(2):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Right" FontWeight="Bold" Grid.ColumnSpan="2" Style="{StaticResource TextBlock.Heading.04}" />
+
+
+          <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding G2136_G1_VachLienThat, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+          <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding M0019_G1_Mom16, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding T1253_G1_Giua, StringFormat='{}{0}(12):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding K3134_G1_Day, StringFormat='{}{0}(6):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+
+          <TextBlock Grid.Row="7" Grid.Column="0" Text="{Binding G0063_G1_ThanhDuoi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+          <TextBlock Grid.Row="7" Grid.Column="1" Text="{Binding M0018_G1_Mom15, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="8" Grid.Column="1" Text="{Binding T1253_G1_Giua, StringFormat='{}{0}(11):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding K3134_G1_Day, StringFormat='{}{0}(5):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+
+          <TextBlock Grid.Row="10" Grid.Column="0" Text="{Binding G0081_G1_ThanhSau, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+          <TextBlock Grid.Row="11" Grid.Column="1" Text="{Binding T1253_G1_Giua, StringFormat='{}{0}(10):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="12" Grid.Column="1" Text="{Binding K3134_G1_Day, StringFormat='{}{0}(4):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+
+          <TextBlock Grid.Row="13" Grid.Column="0" Text="{Binding G0059_G1_ThanhBen, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+          <TextBlock Grid.Row="13" Grid.Column="1" Text="{Binding M0017_G1_Mom14, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="14" Grid.Column="1" Text="{Binding T1253_G1_Giua, StringFormat='{}{0}(9):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="15" Grid.Column="1" Text="{Binding K3134_G1_Day, StringFormat='{}{0}(3):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+
+
+          <TextBlock Grid.Row="16" Grid.Column="0" Text="{Binding G1823_G1_TruocVach, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.05}" />
+
+          <TextBlock Grid.Row="16" Grid.Column="1" Text="{Binding T1253_G1_Giua, StringFormat='{}{0}(7):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+          <TextBlock Grid.Row="17" Grid.Column="1" Text="{Binding K3134_G1_Day, StringFormat='{}{0}(1):', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"
+                     HorizontalAlignment="Center" FontWeight="Bold" Style="{StaticResource TextBlock.Heading.04}" />
+
+<customcontrols:AxTextBox IsReadOnly="True" Grid.Column="2" Grid.Row="1"
+                                Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Mom_TNP.ObjectValue,Mode=OneWay}" VerticalAlignment="Center"
+                                HorizontalAlignment="Stretch" FontWeight="Bold" Style="{StaticResource MainFrame.TextBox}" 
+                                Margin="0,2" TabIndex="13"  Width="120"/>
+            
+          <!--<customcontrols:AxTextBox IsReadOnly="True" Grid.Row="1" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="13" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Mom_TNP.ObjectValue,Mode=OneWay}"
+                                     />-->
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="1" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="14" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Mom_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="1" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                   Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="15" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Mom_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="1" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="16" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Mom_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="2" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="17" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Giua_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="2" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="18" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Giua_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="2" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="19" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Giua_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="2" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="20" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Giua_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="3" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="21" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Day_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="3" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="22" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Day_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="3" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="23" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Day_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="3" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="24" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhTruoc_Day_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="4" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="25" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Mom_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="4" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="26" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Mom_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="4" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="27" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Mom_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="4" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="28" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Mom_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="5" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="29" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Giua_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="5" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="30" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Giua_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="5" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="31" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Giua_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="5" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="32" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Giua_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="6" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="33" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Day_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="6" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="34" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Day_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="6" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="35" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Day_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="6" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="36" Text="{Binding curURP_FE_StressDobutamineResult.V_VanhLienThat_Day_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="7" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="37" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Mom_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="7" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="38" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Mom_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="7" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="39" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Mom_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="7" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="40" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Mom_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="8" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="41" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Giua_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="8" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="42" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Giua_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="8" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="43" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Giua_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="8" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="44" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Giua_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="9" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="45" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Day_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="9" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="46" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Day_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="9" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="47" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Day_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="9" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="48" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhDuoi_Day_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+                    
+            
+            
+            
+          <!--<customcontrols:AxTextBox IsReadOnly="True" Grid.Row="10" Grid.Column="2"  Height="20" VerticalAlignment="Center" 
+                                           Width="120"
+                                          Style="{StaticResource MainFrame.TextBox}" TabIndex="49"
+                                          Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Mom_TNP.ObjectValue,Mode=OneWay}"                                          
+                                         />
+                    <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="10" Grid.Column="3"  Height="20" VerticalAlignment="Center" 
+                                           Width="120"
+                                          Style="{StaticResource MainFrame.TextBox}" TabIndex="50"
+                                          Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Mom_DobuLieuThap.ObjectValue,Mode=OneWay}"                                          
+                                         />
+                    <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="10" Grid.Column="4"  Height="20" VerticalAlignment="Center" 
+                                           Width="120"
+                                          Style="{StaticResource MainFrame.TextBox}" TabIndex="51"
+                                          Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Mom_DobuLieuCao.ObjectValue,Mode=OneWay}"                                          
+                                         />
+                    <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="10" Grid.Column="5"  Height="20" VerticalAlignment="Center" 
+                                          Width="120"
+                                          Style="{StaticResource MainFrame.TextBox}" TabIndex="52"
+                                          Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Mom_KetLuan.ObjectValue,Mode=OneWay}"                                          
+                                         />-->
+
+                    
+            
+            
+            
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="11" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="53" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Giua_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="11" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="54" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Giua_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="11" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="55" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Giua_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="11" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="56" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Giua_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="12" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="57" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Day_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="12" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="58" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Day_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="12" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="59" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Day_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="12" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="60" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhSau_Day_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="13" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="61" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Mom_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="13" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="62" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Mom_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="13" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="63" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Mom_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="13" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="64" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Mom_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="14" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="65" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Giua_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="14" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="66" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Giua_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="14" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="67" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Giua_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="14" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="68" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Giua_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="15" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="69" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Day_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="15" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="70" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Day_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="15" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="71" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Day_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="15" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="72" Text="{Binding curURP_FE_StressDobutamineResult.V_ThanhBen_Day_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="16" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="73" Text="{Binding curURP_FE_StressDobutamineResult.V_TruocVach_Giua_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="16" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="74" Text="{Binding curURP_FE_StressDobutamineResult.V_TruocVach_Giua_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="16" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="75" Text="{Binding curURP_FE_StressDobutamineResult.V_TruocVach_Giua_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="16" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="76" Text="{Binding curURP_FE_StressDobutamineResult.V_TruocVach_Giua_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+
+
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="17" Grid.Column="2" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="77" Text="{Binding curURP_FE_StressDobutamineResult.V_TruocVach_Day_TNP.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="17" Grid.Column="3" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="78" Text="{Binding curURP_FE_StressDobutamineResult.V_TruocVach_Day_DobuLieuThap.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="17" Grid.Column="4" Height="20" VerticalAlignment="Center"
+                                      Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="79" Text="{Binding curURP_FE_StressDobutamineResult.V_TruocVach_Day_DobuLieuCao.ObjectValue,Mode=OneWay}"
+                                     />
+          <customcontrols:AxTextBox IsReadOnly="True" Grid.Row="17" Grid.Column="5" Height="20" VerticalAlignment="Center"
+                                     Width="120" Style="{StaticResource MainFrame.TextBox}"
+                                     TabIndex="80" Text="{Binding curURP_FE_StressDobutamineResult.V_TruocVach_Day_KetLuan.ObjectValue,Mode=OneWay}"
+                                     />
+        </customcontrols:AxGrid>
+      </Border>
+      <!--<StackPanel Visibility="{Binding bSave}" Orientation="Horizontal" Grid.Column="4" Grid.Row="11"
+                  VerticalAlignment="Bottom" Width="250" Height="24" HorizontalAlignment="Right">
+        
+        <Button Name="butSave" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Height="22" Width="120"
+                HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Top" Style="{StaticResource MainFrame.Button01}"
+                TabIndex="81" />
+        
+      </StackPanel>-->
+    </customcontrols:AxGrid>
+  </Border>
+
+</UserControl>

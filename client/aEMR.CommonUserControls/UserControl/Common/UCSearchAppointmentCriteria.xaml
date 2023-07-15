@@ -1,0 +1,233 @@
+﻿<customcontrols:AxUserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:customcontrols="clr-namespace:eHCMS.ControlsLibrary;assembly=eHCMSControlsLibrary"
+    x:Class="eHCMS.CommonUserControls.UCSearchAppointmentCriteria"
+    xmlns:cal="http://www.caliburnproject.org"
+    mc:Ignorable="d"
+    d:DesignHeight="100" d:DesignWidth="900" DataContext="{Binding}"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=eHCMSLanguage" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <cal:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot"
+          Margin="0">
+
+        <Border x:Name="groupAppointmentDetails"
+                Style="{StaticResource LightBlueBorderStyleNew}"
+                Margin="0,0,0,0">
+
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock TextWrapping="Wrap"
+                           Text="{Binding Z0278_G1_TimKiemCuocHen, Source={StaticResource eHCMSResources}}"
+                           Foreground="#FF5E5E5E"
+                           Margin="0"
+                           Style="{StaticResource TBlock.Heading.02}" />
+                    <TextBlock x:Name="Title" TextWrapping="Wrap"
+                           Text="{Binding TitleSearchForm,Mode=OneWay}"
+                           Foreground="#FF5E5E5E"
+                           Margin="20,0,0,0" 
+                           Style="{StaticResource TBlock.Heading.02}" />
+                </StackPanel>
+                <Grid Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="70" />
+                        <ColumnDefinition Width="79" />
+                        <ColumnDefinition Width="101" />
+                        <ColumnDefinition Width="71*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock 
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="{Binding G1933_G1_TuNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                               HorizontalAlignment="Right"
+                               Style="{StaticResource TBlock.Heading.03}"
+                               VerticalAlignment="Center" />
+
+                    <customcontrols:AxDatePicker SelectedDate="{Binding SearchCriteria.DateFrom,Mode=TwoWay}"
+                                         SelectedDateFormat="Short"
+                                         Grid.Row="0"
+                        Grid.Column="1"
+                                         Width="100"
+                                         Height="22"
+                                         Style="{StaticResource MainFrame.DatePicker}"
+                                         VerticalAlignment="Center" TabIndex="1"/>
+               
+                    <TextBlock HorizontalAlignment="Right"
+                               Grid.Row="0"
+                        Grid.Column="2"
+                               Text="{Binding K3192_G1_DenNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                               Margin="10,0,0,0"
+                               Style="{StaticResource TBlock.Heading.03}"
+                               VerticalAlignment="Center" />
+                    <customcontrols:AxDatePicker SelectedDate="{Binding SearchCriteria.DateTo,Mode=TwoWay}"
+                                         SelectedDateFormat="Short"
+                                         d:LayoutOverrides="Height"
+                                         Grid.Row="0"
+                        Grid.Column="3"
+                                         Width="100"
+                                         Height="22" TabIndex="2"
+                                         Style="{StaticResource MainFrame.DatePicker}"
+                                         VerticalAlignment="Center" />
+                    <TextBlock HorizontalAlignment="Right"
+                                  Grid.Row="1"
+                        Grid.Column="2"
+                               Text="{Binding G1691_G1_TThai, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                               Margin="10,0,0,0"
+                               Style="{StaticResource TBlock.Heading.03}"
+                               VerticalAlignment="Center" />
+                    <TextBlock HorizontalAlignment="Right"
+                                  Grid.Row="0"
+                        Grid.Column="4"
+                               Text="{Binding P0385_G1_Pg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                               Margin="10,0,0,0"
+                               Style="{StaticResource TBlock.Heading.03}"
+                               VerticalAlignment="Center" />
+                    <TextBlock HorizontalAlignment="Right" Grid.Row="1"
+                               Visibility="{Binding IsStaff,Converter={StaticResource BooleanToVisibility} }"
+                        Grid.Column="4"
+                               Text="{Binding K1425_G1_Ca, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                               Margin="10,0,0,0"
+                               Style="{StaticResource TBlock.Heading.03}"
+                               VerticalAlignment="Center" />
+                    <TextBlock HorizontalAlignment="Right" Grid.Column="6"
+                               Text="{Binding N0194_G1_NhVien, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                               Style="{StaticResource TBlock.Heading.03}"
+                               Visibility="{Binding IsStaff,Converter={StaticResource BooleanToVisibility} }"
+                               VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                    <customcontrols:AxComboBox ItemsSource="{Binding AppointmentStatusList,Mode=OneWay}"
+                                               SelectedValueEx="{Binding SearchCriteria.V_ApptStatus, Mode=TwoWay}"
+                                               DisplayMemberPath="ObjectValue"
+                                               SelectedValuePath="LookupID"
+                                               HorizontalAlignment="Stretch"
+                                               Margin="0,0,0,4"
+                                               Grid.Row="1"
+                                               Grid.Column="3"
+                                               
+                                               Height="22" TabIndex="3"
+                                               Style="{StaticResource MainFrame.ComboBox}"
+                                               VerticalAlignment="Center" cal:Message.Attach="[Event SelectionChanged]=[Action cboStatus_SelectionChanged($source,$eventArgs)]"/>
+                    <customcontrols:AxComboBox SelectedValueEx="{Binding SearchCriteria.DeptLocationID, Mode=TwoWay}"
+                                               DisplayMemberPath="Location.LocationName"
+                                               SelectedValuePath="DeptLocationID"
+                                               ItemsSource="{Binding Locations, Mode=OneWay}" 
+                                                VerticalAlignment="Center"
+                                                SelectedItem="{Binding SelectedLocation,Mode=TwoWay}"
+                                               HorizontalAlignment="Left"
+                                               Grid.Row="0" Grid.Column="5"
+                                               Width="200" Height="22" TabIndex="3"
+                                               Style="{StaticResource MainFrame.ComboBox}"
+                                               IsEnabled="{Binding IsDeptLoc,Mode=OneWay}"
+                                               />
+
+                    <customcontrols:AxComboBox 
+                            Grid.Column="5" Grid.Row="1" Height="22" x:Name="cboSegments"  
+                        Visibility="{Binding IsStaff,Converter={StaticResource BooleanToVisibility} }"                                              
+                                Style="{StaticResource MainFrame.ComboBox}"                                                   
+                                ItemsSource="{Binding AppointmentSegmentsList,Mode=OneWay}"
+                                SelectedValuePath="ConsultationTimeSegmentID"
+                                SelectedValueEx="{Binding SearchCriteria.ConsultationTimeSegmentID,Mode=TwoWay}"
+                                SelectedItemEx="{Binding SelectedSegments, Mode=TwoWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}">
+                        <customcontrols:AxComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding SegmentNameExt, Mode=OneWay}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </customcontrols:AxComboBox.ItemTemplate>
+                    </customcontrols:AxComboBox>
+                    
+                    <customcontrols:AxAutoComplete x:Name="aucHoldConsultDoctor" Grid.Column="7" IsDropDownOpen="True" Grid.ColumnSpan="3"
+                                            MinimumPopulateDelay="300" Width="180" 
+                                        IsEnabled="{Binding IsEnabledAutoComplete}" HorizontalAlignment="Left"
+                                         ValueMemberPath="FullName" Height="22"
+                                         Visibility="{Binding IsStaff,Converter={StaticResource BooleanToVisibility} }"
+                                         cal:Message.Attach="[Event Loaded] = [Action aucHoldConsultDoctor_Loaded($source, $eventArgs)]
+                                                   ;[Event Populating] = [Action aucHoldConsultDoctor_Populating($source, $eventArgs)]
+                                                            ;[Event SelectionChanged] = [Action aucHoldConsultDoctor_SelectionChanged($source, $eventArgs)]" 
+                                        MinimumPrefixLength="0" FilterMode="None" >
+                        <customcontrols:AxAutoComplete.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Name="txtHoldConsultDoctor" Text="{Binding FullName}" Style="{StaticResource MainFrame.TextBlock.Auto}" Margin="0" Padding="0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </customcontrols:AxAutoComplete.ItemTemplate>
+                    </customcontrols:AxAutoComplete>
+
+                    <Button x:Name="btnSearchAppointments"
+                            cal:Message.Attach="[Event Click]=[Action SearchAppointmentsCmd()]"
+                            Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                            HorizontalAlignment="Center"
+                            Width="60" Height="22"
+                            Grid.Row="1"
+                            Grid.Column="6"
+                            TabIndex="4"
+                            Style="{StaticResource MainFrame.Button}"
+                            VerticalAlignment="Center"   />
+
+                    <Button x:Name="btnPrintAppointment"
+                            cal:Message.Attach="[Event Click]=[Action btnPrintAppointment()]"
+                            Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}"
+                            HorizontalAlignment="Center"
+                            Width="60" Height="22"
+                            Grid.Row="1"
+                            Grid.Column="7"
+                            TabIndex="4"
+                            Style="{StaticResource MainFrame.Button}"
+                            VerticalAlignment="Center" />
+                    
+                    <Button x:Name="btnResetAppointment"
+                            Content="{Binding R0516_G1_Reset, Source={StaticResource eHCMSResources}}"
+                            HorizontalAlignment="Center"
+                            Width="60" Height="22"
+                            Grid.Row="1"
+                            Grid.Column="8"
+                            TabIndex="4" cal:Message.Attach="[Event Click]=[Action btnResetAppointment()]"
+                            Style="{StaticResource MainFrame.Button}"
+                            VerticalAlignment="Center" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding K3421_G1_DV, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" VerticalAlignment="Center"></TextBlock>
+                    <customcontrols:AxComboBox Grid.Row="1" Grid.Column="1" Style="{StaticResource MainFrame.ComboBox}"
+                                               Name="cboDichVu" FontWeight="Normal" 
+                                               Foreground="Black" Margin="0,2,0,2" 
+                                               cal:Message.Attach="[Event Loaded] = [Action cboDichVu_Loaded($source, $eventArgs)]
+                                               ;[Event SelectionChanged]=[Action cboDichVu_SelectionChanged($source,$eventArgs)]">
+                        <ComboBoxItem Content="{Binding T0822_G1_TatCa, StringFormat='{}--{0}--', Source={StaticResource eHCMSResources}}" IsSelected="True"  />
+                        <ComboBoxItem Content="{Binding T2119_G1_KB, Source={StaticResource eHCMSResources}}" />
+                        <ComboBoxItem Content="{Binding K1549_G1_CLS, Source={StaticResource eHCMSResources}}" />
+                    </customcontrols:AxComboBox>                    
+                    
+
+                    <!--<TextBlock Grid.Row="1" Grid.Column="4" Text="{Binding P0385_G1_Pg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
+                    <customcontrols:AxComboBox Grid.Row="1" Grid.Column="5" 
+                                               Name="cboPhong" FontWeight="Normal" Foreground="Black" Margin="0,2,0,2"                                                
+                                                ItemsSource="{Binding ObjRefDepartment_SubtractAllChild_ByDeptID,Mode=TwoWay}" 
+                                                DisplayMemberPath="DeptName"
+                                                SelectedValuePath="DeptID"
+                                                SelectedValueEx="{Binding ObjRefDepartments_Current.ParDeptID,Mode=TwoWay}"></customcontrols:AxComboBox>-->
+
+                </Grid>
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+</customcontrols:AxUserControl>
+
+    

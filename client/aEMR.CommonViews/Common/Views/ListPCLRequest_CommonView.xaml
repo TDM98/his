@@ -1,0 +1,173 @@
+﻿<UserControl x:Class="aEMR.Common.Views.ListPCLRequest_CommonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls" 
+             d:DesignHeight="600" d:DesignWidth="900" Loaded="UserControl_Loaded"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             mc:Ignorable="d"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <toolkit:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot" Background="White" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60*"></ColumnDefinition>
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Border Grid.Column="0" CornerRadius="3" Background="#F2F3F4" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                    <StackPanel>
+                        <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="#F2F3F4" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding K3035_G1_DSPh, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                        </Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="25"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <ControlsLibrary:ReadOnlyDataGrid Name="dtgList"
+                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                      Grid.Row="0" 
+                                                          Height="300"
+                                      CanUserReorderColumns="True" 
+                                      CanUserResizeColumns="True" 
+                                      CanUserSortColumns="True"                                      
+                                      IsReadOnly="True"
+                                                          Style="{StaticResource MainFrame.DataGridStyle}"
+                          RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                          RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                                      AutoGenerateColumns="False"                                       
+                                      HorizontalScrollBarVisibility="Auto"  
+                                      VerticalScrollBarVisibility="Visible"   
+                                      HeadersVisibility="All"                      
+                                      Margin="0,2"                                       
+                                      ItemsSource="{Binding ObjPatientPCLRequest_ByPatientID_Paging,Mode=OneWay}"
+                                      SelectedItem="{Binding ObjPatientPCLRequestSelected,Mode=TwoWay}"
+                                      cal:Message.Attach="[Event SelectionChanged]=[Action dtgList_SelectionChanged($source,$eventArgs)]
+                                                          ;[Event DblClick]=[Action DoubleClick($eventArgs)]">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="{Binding P0360_G1_Ph, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLRequestNumID}"  ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+                                    <DataGridTextColumn Header="{Binding N0116_G1_NgTaoPh, Source={StaticResource eHCMSResources}}" Binding="{Binding CreatedDate, StringFormat='dd/MM/yyyy HH:mm:ss tt'}"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+                                    <DataGridTextColumn Header="{Binding T2272_G1_KhoaPhCDinh, Source={StaticResource eHCMSResources}}" Binding="{Binding ReqFromDeptLocIDName}"  ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+                                    <DataGridTextColumn Header="{Binding Z0053_G1_NguoiTaoPhieu, Source={StaticResource eHCMSResources}}" Binding="{Binding StaffIDName}"  ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+                                    <!--<DataGridTextColumn Binding="{Binding StaffIDPhoneNumber}" Header="{Binding S0632_G1_SoDienThoai, Source={StaticResource eHCMSResources}}" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}" />-->
+                                    <DataGridTextColumn Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" Binding="{Binding V_PCLRequestStatusName}"  ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+                                </DataGrid.Columns>
+                            </ControlsLibrary:ReadOnlyDataGrid>
+                            <ControlsLibrary:DataPager PageSize="{Binding PageSize}" Grid.Row="1" VerticalAlignment="Bottom" 
+                               Source="{Binding ObjPatientPCLRequest_ByPatientID_Paging,Mode=TwoWay}">
+                            </ControlsLibrary:DataPager>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Border Grid.Column="0" CornerRadius="3" Background="#F2F3F4" BorderBrush="#C1D2E6" BorderThickness="1" Margin="0,10,0,5">
+                    <StackPanel>
+                        <Border Margin="10,-10,0,0" BorderBrush="#6F8AA9" BorderThickness="1" Background="#F2F3F4" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding K1848_G1_CTietLoaiXN, Source={StaticResource eHCMSResources}}" Margin="10,0,10,0" FontWeight="Bold"></TextBlock>
+                        </Border>
+
+
+                        <DataGrid Grid.Row="0" 
+                                  Height="327"
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                  Name="dtgListDetail"
+                                  IsReadOnly="True"
+                                  AutoGenerateColumns="False"                                       
+                                  HorizontalScrollBarVisibility="Auto"  
+                                  VerticalScrollBarVisibility="Visible"   
+                                  HeadersVisibility="All"                      
+                                  Margin="0,2"     
+                                  ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                                   Style="{StaticResource MainFrame.DataGridStyle}"
+                                  ItemsSource="{Binding ObjPatientPCLRequestDetail_ByPatientPCLReqID,Mode=OneWay}" 
+                                  SelectedItem="{Binding ObjPatientPCLRequestDetailSelected,Mode=TwoWay}">
+                            <!--LoadingRow="dtgListDetail_LoadingRow"-->
+
+                            <!--<DataGrid.RowGroupHeaderStyle>
+                             Style for groups at top level 
+                            <Style TargetType="DataGridRowGroupHeader">
+                                <Setter Property="PropertyNameVisibility" Value="Collapsed" />
+                                <Setter Property="Background" Value="#FFC7C7D1" />
+                                <Setter Property="Foreground" Value="#FF444D58" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Height" Value="25"/>
+                                <Setter Property="SublevelIndent" Value="0" />
+                            </Style>
+                             Style for groups under the top level 
+                            <Style TargetType="DataGridRowGroupHeader">
+                                <Setter Property="Background" Value="#FFA8B5BE" />
+                            </Style>
+                        </DataGrid.RowGroupHeaderStyle>-->
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{Binding T2865_G1_LoaiXN, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLExamType.PCLExamTypeName}" Width="*"/>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+
+                                            <Button x:Name="hplThucHien" 
+                                                             cal:Message.Attach="[Event Click]=[Action hplThucHien_Click()]"
+                                                             ToolTipService.ToolTip="{Binding G0739_G1_THien, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Button.Content>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/SiteMapPath_Next.png" Height="13" Width="13" Opacity="1" />
+                                                        <TextBlock Text="{Binding G0739_G1_THien, Source={StaticResource eHCMSResources}}" Foreground="#FF0084FF" VerticalAlignment="Center"></TextBlock>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+
+                                            <Button x:Name="hplNgungThucHien" ToolTipService.ToolTip="{Binding N0149_G1_Ngung, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Button.Content>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/cannotdelete.png" Height="13" Width="13" Opacity="1" />
+                                                        <TextBlock Text="{Binding N0149_G1_Ngung, Source={StaticResource eHCMSResources}}" Foreground="#FF0084FF" VerticalAlignment="Center" Margin="3,0,0,0"></TextBlock>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <!--<DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="hplKetQua" Content="{Binding G2437_G1_XemKQua, Source={StaticResource eHCMSResources}}" Foreground="#FF0084FF" ToolTipService.ToolTip="{Binding G2437_G1_XemKQua, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>-->
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button x:Name="hplInputKetQua" Foreground="#FF0084FF" ToolTipService.ToolTip="{Binding T2055_G1_KQua, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                         cal:Message.Attach="[Event Click]=[Action hplInputKetQua_Click()]">
+                                                <Button.Content>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="/aEMR.CommonViews;component/Assets/Images/SiteMapPath_Next.png" Height="13" Width="13" Opacity="1" />
+                                                        <TextBlock Text="{Binding T2055_G1_KQua, Source={StaticResource eHCMSResources}}" Foreground="#FF0084FF" VerticalAlignment="Center"></TextBlock>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </toolkit:BusyIndicator>
+</UserControl>

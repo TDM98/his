@@ -1,0 +1,280 @@
+﻿<UserControl
+    x:Class="aEMR.PCLDepartment.Views.AppointmentsLabView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:aEMRConverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="800"
+    d:DesignWidth="1000"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <aEMRConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Margin="0,10,0,5"
+            HorizontalAlignment="Center"
+            FontSize="14"
+            FontWeight="Bold"
+            Foreground="#FF0084FF"
+            Text="QUẢN LÝ DANH SÁCH HẸN" />
+        <TabControl Grid.Row="1">
+            <TabItem Header="Lịch sử">
+                <Grid
+                    x:Name="LayoutHistoryTransaction"
+                    Margin="8"
+                    Background="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Border
+                            Grid.Row="1"
+                            Margin="0,10,0,0"
+                            Background="AliceBlue"
+                            Style="{StaticResource LightBlueBorderStyle}">
+                            <StackPanel>
+                                <Border
+                                    Margin="10,-10,0,0"
+                                    HorizontalAlignment="Left"
+                                    Background="AliceBlue"
+                                    BorderBrush="#6F8AA9"
+                                    BorderThickness="1">
+                                    <TextBlock
+                                        Margin="10,0,10,0"
+                                        FontWeight="Bold"
+                                        Text="{Binding G1174_G1_TimKiem, Source={StaticResource eHCMSResources}}" />
+                                </Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="300" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="300" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="85" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="2,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding G1933_G1_TuNg, Source={StaticResource eHCMSResources}}" />
+                                    <DatePicker
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="0,2,0,2"
+                                        SelectedDate="{Binding SearchCriteriaHistoryTransaction.FromDate, Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.DatePicker}"
+                                        TabIndex="0" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="2,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T3230_G1_MaBN, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                    <TextBox
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="0,2,0,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="2"
+                                        Text="{Binding SearchCriteriaHistoryTransaction.PatientCode, Mode=TwoWay}" />
+                                    <StackPanel
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                        <RadioButton
+                                            Margin="0,2"
+                                            cal:Message.Attach="[Event Checked] = [Action rdtChiso_Checked($source, $eventArgs)]"
+                                            Content="XN Chỉ số"
+                                            GroupName="LabTypeHistory"
+                                            IsChecked="{Binding IsXNChisoCheck, Mode=TwoWay}"
+                                            Style="{StaticResource MainFrame.RadioButton01}" />
+                                        <RadioButton
+                                            Margin="10,2"
+                                            cal:Message.Attach="[Event Checked] = [Action rdtCDHA_Checked($source, $eventArgs)]"
+                                            Content="XN CĐH.Ảnh"
+                                            GroupName="LabTypeHistory"
+                                            Style="{StaticResource MainFrame.RadioButton01}" />
+                                    </StackPanel>
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="3"
+                                        Margin="2,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding K3192_G1_DenNg, Source={StaticResource eHCMSResources}}" />
+                                    <DatePicker
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        Margin="0,2,0,2"
+                                        SelectedDate="{Binding SearchCriteriaHistoryTransaction.ToDate, Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.DatePicker}"
+                                        TabIndex="1" />
+
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Grid.Column="3"
+                                        Margin="2,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding T0834_G1_TenBenhNhan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                    <TextBox
+                                        Grid.Row="1"
+                                        Grid.Column="4"
+                                        Margin="0,2,0,2"
+                                        Style="{StaticResource MainFrame.TextBox}"
+                                        TabIndex="3"
+                                        Text="{Binding SearchCriteriaHistoryTransaction.FullName, Mode=TwoWay}" />
+
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Grid.Column="3"
+                                        Margin="2,0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource TextBlock.Heading.04}"
+                                        Text="{Binding G1691_G1_TThai, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                    <commonctrl:AxComboBox
+                                        Grid.Row="2"
+                                        Grid.Column="4"
+                                        Margin="0,1,0,1"
+                                        DisplayMemberPath="ObjectValue"
+                                        ItemsSource="{Binding TransactionStatusList, Mode=OneWay}"
+                                        SelectedValueEx="{Binding SearchCriteriaHistoryTransaction.V_SendSMSStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        SelectedValuePath="LookupID"
+                                        Style="{StaticResource MainFrame.ComboBox}" />
+                                    <Button
+                                        x:Name="btSearchHistory"
+                                        Grid.Row="2"
+                                        Grid.Column="6"
+                                        Width="80"
+                                        Margin="2"
+                                        HorizontalAlignment="Right"
+                                        Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                                        Style="{StaticResource MainFrame.Button}"
+                                        TabIndex="5" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border
+                            Grid.Row="2"
+                            Margin="0,10,0,0"
+                            Background="AliceBlue"
+                            Style="{StaticResource LightBlueBorderStyle}">
+                            <StackPanel>
+                                <Border
+                                    Margin="10,-10,0,0"
+                                    HorizontalAlignment="Left"
+                                    Background="AliceBlue"
+                                    BorderBrush="#6F8AA9"
+                                    BorderThickness="1">
+                                    <TextBlock
+                                        Margin="10,0,10,0"
+                                        FontWeight="Bold"
+                                        Text="Danh sách" />
+                                </Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="25" />
+                                    </Grid.RowDefinitions>
+                                    <commonctrl:ReadOnlyDataGrid
+                                        Name="dtgListHitory"
+                                        MinHeight="450"
+                                        Margin="5"
+                                        AutoGenerateColumns="False"
+                                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                        IsReadOnly="True"
+                                        ItemsSource="{Binding ListAppointmentsLab, Mode=OneWay}"
+                                        Style="{StaticResource MainFrame.DataGridStyle}">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn>
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button
+                                                            x:Name="hplDelete"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            cal:Message.Attach="[Event Click]=[Action hplDeleteHistory_Click($datacontext)]"
+                                                            Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                                            ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}"
+                                                            Visibility="{Binding ElementName=LayoutHistoryTransaction, Path=DataContext.mXoaKetQua, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                            <Button.Content>
+                                                                <Image
+                                                                    Width="13"
+                                                                    Height="13"
+                                                                    Opacity="1"
+                                                                    Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                                                            </Button.Content>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn
+                                                Binding="{Binding PatientCode}"
+                                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                                Header="{Binding T3230_G1_MaBN, Source={StaticResource eHCMSResources}}" />
+                                            <DataGridTextColumn
+                                                MinWidth="150"
+                                                Binding="{Binding FullName}"
+                                                Header="{Binding T0834_G1_TenBenhNhan, Source={StaticResource eHCMSResources}}" />
+                                            <DataGridTextColumn
+                                                MinWidth="150"
+                                                Binding="{Binding TransactionStatus}"
+                                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                                Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" />
+                                            <DataGridTextColumn
+                                                Width="120"
+                                                Binding="{Binding SendDate, Mode=OneWay, StringFormat='HH:mm dd/MM/yyyy'}"
+                                                Header="Giờ gửi SMS" />
+                                            <DataGridTextColumn Binding="{Binding Patient.PatientCellPhoneNumber}" Header="SĐThận SMS" />
+                                        </DataGrid.Columns>
+                                    </commonctrl:ReadOnlyDataGrid>
+                                    <commonctrl:DataPager
+                                        Grid.Row="1"
+                                        VerticalAlignment="Bottom"
+                                        PageSize="{Binding PageSize}"
+                                        Source="{Binding ListAppointmentsLab, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+
+</UserControl>

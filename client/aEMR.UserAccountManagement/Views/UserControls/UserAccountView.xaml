@@ -1,0 +1,239 @@
+﻿<UserControl    x:Class="aEMR.UserAccountManagement.Views.UserAccountView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"   
+                xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignHeight="550" d:DesignWidth="900">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <DataTemplate x:Key="TemplateDeleteRecord">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"  cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($source,$eventArgs)]" 
+                                 ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="TempEdit">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkEdit"  cal:Message.Attach="[Event Click]=[Action lnkEditClick($source,$eventArgs)]" 
+                                 ToolTipService.ToolTip="Click here for Edit" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="TemplateDeleteRecordUG">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"  cal:Message.Attach="[Event Click]=[Action lnkDeleteUGClick($source,$eventArgs)]" 
+                                 ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Border x:Name="BorderCanvas" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <customcontrols:AxGrid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">            
+            <Grid.RowDefinitions>                
+                <RowDefinition MinHeight="25" Height="50"/>                
+                <RowDefinition MinHeight="80" Height="400*" />
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="18" HorizontalAlignment="Center" Name="lblResult" VerticalAlignment="Center" Text="{Binding Q0474_G1_QuanLyNguoiDung, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB" Grid.Column="1" Margin="66,1,66,11" />
+            <Border Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Grid Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="230" />
+                        <RowDefinition MinHeight="250" Height="280*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="5*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Grid.Row="0" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <Grid Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16" />
+                                    <ColumnDefinition Width="114" />
+                                    <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="108*" />
+                                    <ColumnDefinition Width="138*" />
+                                    <ColumnDefinition Width="28" />
+                                <ColumnDefinition Width="8*" />
+                                    <ColumnDefinition Width="4*" />
+                                </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding G0304_G1_ThemMoiNguoiDung, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB" Grid.ColumnSpan="3" Grid.Column="2" />
+                            <customcontrols:AxComboBox Name="cboStaffCategory"  Grid.Column="3" Grid.Row="1" Height="22" VerticalAlignment="Center" 
+                                    ItemsSource="{Binding allRefStaffCategory, Mode=OneWay}"
+                                    Style="{StaticResource MainFrame.ComboBox}" TabIndex="1"
+                                    SelectedItemEx="{Binding SelectedRefStaffCategory,Mode=TwoWay}"                                          
+                                    DisplayMemberPath="StaffCatgDescription" SelectedValuePath="StaffCatgID" Grid.ColumnSpan="2" />
+                            <customcontrols:AxComboBox Name="cboStaff"  Grid.Column="3" Grid.Row="2" Height="22" VerticalAlignment="Center" 
+                                    ItemsSource="{Binding allStaff, Mode=OneWay}"
+                                    Style="{StaticResource MainFrame.ComboBox}" TabIndex="2"
+                                    SelectedItemEx="{Binding curUserAccount.Staff,Mode=TwoWay}"                                          
+                                    DisplayMemberPath="FullName" SelectedValuePath="StaffID" Grid.ColumnSpan="2" />
+                            <TextBlock Grid.Row="1" Text="{Binding K2121_G1_ChonStaffCategory2, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" Grid.ColumnSpan="2" Margin="0,4"></TextBlock>
+                            <TextBlock Grid.Row="2" Text="{Binding K2119_G1_ChonStaff, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" Grid.Column="1" Margin="0,4"></TextBlock>
+                            <TextBlock Grid.Row="3" Text="{Binding Z0080_G1_TenNguoiDung, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" Grid.Column="1" Margin="0,7"></TextBlock>
+                                    <TextBlock Grid.Row="4" Text="{Binding P0316_G1_Password, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" Grid.Column="1" Margin="0,4"></TextBlock>
+                                    <TextBlock Grid.Row="5" Text="{Binding K2726_G1_ConfirmPassword, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" Grid.ColumnSpan="2" Margin="0,4"></TextBlock>
+                            <TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding Z0045_G1_DauSao, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" />
+                            <TextBlock Grid.Row="4" Grid.Column="5" Text="{Binding Z0045_G1_DauSao, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" />
+                            <TextBlock Grid.Row="5" Grid.Column="5" Text="{Binding Z0045_G1_DauSao, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" />
+                                <TextBox x:Name="txtUserName" Text="{Binding curUserAccount.AccountName,Mode=TwoWay}" TabIndex="3"
+                                     Grid.Row="3"  Grid.Column="3"  HorizontalAlignment="Stretch" Height="22"  TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBox}"  
+                                     cal:Message.Attach="[Event LostFocus]=[Action txtUserNameLostFocus($source)] 
+                                     ;[Event KeyUp]=[Action txtUserNameKeyUp($source,$eventArgs)]" Grid.ColumnSpan="2" />
+                                <PasswordBox  x:Name="txtPassWord" TabIndex="4" Grid.Row="4"  Grid.Column="3" 
+                                              HorizontalAlignment="Stretch" Height="22" Grid.ColumnSpan="2"
+                                              cal:Message.Attach="[Event Loaded] = [Action TxtPassword_Loaded($source, $eventArgs)]" />
+                                <PasswordBox  x:Name="txtConfirm" TabIndex="5" Grid.Row="5"  Grid.Column="3"
+                                              HorizontalAlignment="Stretch" Height="22" Grid.ColumnSpan="2"
+                                              cal:Message.Attach="[Event Loaded] = [Action TxtConfirm_Loaded($source, $eventArgs)]" />
+                                    <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="3" Grid.ColumnSpan="2" >
+                                    <Button x:Name="butSave" Grid.Row="4" HorizontalAlignment="Left" Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="100"
+                                            TabIndex="6"/>
+                                    <Button x:Name="butClear" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" Content="{Binding G2800_G1_XoaLamLai, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="100" 
+                                            TabIndex="7"/>                                        
+                                    </StackPanel>
+                                <customcontrols:AxTextBox x:Name="txtUserAccountName" TabIndex="8"
+                                     Grid.Row="7"  Grid.Column="1"  HorizontalAlignment="Stretch" Height="22"  TextWrapping="NoWrap"  Style="{StaticResource MainFrame.TextBox}"
+                                     cal:Message.Attach="[Event LostFocus]=[Action txtUserAccountNameLostFocus($source)]" Grid.ColumnSpan="3" />
+                                <Button x:Name="butSearch" Grid.Row="7" Grid.Column="4" HorizontalAlignment="Left" Content="{Binding G1267_G1_TimUsr, Source={StaticResource eHCMSResources}}" Height="22" Style="{StaticResource MainFrame.Button}" Width="100" Margin="5"
+                                        TabIndex="9"/>
+                            </Grid>
+                    </Border>
+                    <Border Grid.Column="0" Grid.Row="2" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="25" Height="25*" />
+                                <RowDefinition MinHeight="120" Height="372*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Height="18" HorizontalAlignment="Left"  VerticalAlignment="Center" 
+                                       Text="Danh Sách Người Dùng" Style="{StaticResource TextBlock.Heading.02}" 
+                                       Foreground="#FFE65D0F" Margin="14,0,0,0" />
+                            <DataGrid  Name="grdUser"  Grid.Row="1" Height="300" TabIndex="10" CanUserAddRows="False"
+                                        AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+					                    ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                        ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                        Style="{StaticResource MainFrame.DataGridStyle}"
+					                    ItemsSource="{Binding UserAccounts,Mode=TwoWay}"
+                                        SelectedItem="{Binding SelectedUserAccount,Mode=TwoWay}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn x:Name="colDeleted"  Header="" CellTemplate="{StaticResource TemplateDeleteRecord}"/>
+                                    <DataGridTemplateColumn Header="" CellTemplate="{StaticResource TempEdit}"/>
+                                    <DataGridTextColumn Header="{Binding Z0080_G1_TenNguoiDung, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  AccountName , Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+                                    <DataGridTextColumn Header="{Binding T0897_G1_TenStaff, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding Staff.FullName, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+                                    <!--<DataGridTextColumn Header="{Binding T0046_G1_Enum, Source={StaticResource eHCMSResources}}"  Binding="{Binding eNum, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  />-->
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <!--<StackPanel Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
+
+                                <DataPager  Height="22" HorizontalAlignment="Stretch" Name="dpgResource"  Margin="0,-1,0,0"
+                                     Source="{Binding allUserAccount,Mode=TwoWay}"
+                                    PageSize="10" VerticalAlignment="Center" Style="{StaticResource MainFrame.DataPager}" Visibility="Visible" />                                
+                            </StackPanel>-->
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="2" Grid.Row="0" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <Grid Height="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="102" />
+                                <ColumnDefinition Width="9" />
+                                <ColumnDefinition Width="266" />
+                                <ColumnDefinition Width="46" />
+                                <ColumnDefinition Width="9*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding T1290_G1_Grp, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB" Grid.ColumnSpan="4"  />
+                            <customcontrols:AxComboBox Name="cboGroup"  Grid.Column="2" Grid.Row="1" Height="22" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding allGroup, Mode=OneWay}"
+                                          Style="{StaticResource MainFrame.ComboBox}"
+                                          SelectedItemEx="{Binding SelectedGroup,Mode=TwoWay}"                                          
+                                          DisplayMemberPath="GroupName" SelectedValuePath="GroupID" />
+                            <TextBlock Grid.Row="1" Text="{Binding K1949_G1_ChonGrp, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" />
+                            <!--<TextBlock Grid.Row="2" Text="{Binding K2119_G1_ChonStaff, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}"></TextBlock>-->
+                            <TextBlock Grid.Row="3" Text="{Binding T0853_G1_TenGroup, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" />
+                            <TextBlock Grid.Row="4" Text="{Binding K3318_G1_Desc, StringFormat='{}{0} :', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" />
+                            <TextBlock Grid.Row="3" Grid.Column="2" Height="22" Text="{Binding SelectedGroup.GroupName,Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" />
+                            <TextBlock Grid.Row="4" Grid.Column="2" Height="22" Text="{Binding SelectedGroup.Description,Mode=TwoWay}"  HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold"  Style="{StaticResource TextBlock.Heading.02}" />
+                        </Grid>
+                    </Border>
+                    <Border Grid.Column="2" Grid.Row="2" VerticalAlignment="Stretch" Width="Auto" Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <Grid Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ShowGridLines="False" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="25" Height="25*"/>
+                                <RowDefinition MinHeight="120" Height="372*" />
+                                <RowDefinition MinHeight="24" Height="30"  />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Danh Sách Người Dùng" Style="{StaticResource TextBlock.Heading.02}" Foreground="#FFE65D0F" Margin="14,0,0,0" />
+                            <DataGrid  Name="grdBedAllocations"  Grid.Row="1"
+                                       AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                       ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                       ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                                       Style="{StaticResource MainFrame.DataGridStyle}"
+                                       ItemsSource="{Binding allUserGroup,Mode=TwoWay}"
+                                       SelectedItem="{Binding selectedUserGroup,Mode=TwoWay}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn x:Name="Deleted"  Header="" CellTemplate="{StaticResource TemplateDeleteRecordUG}">
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="{Binding T0898_G1_TenTaiKhoan, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  UserAccount.AccountName, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+                                    <DataGridTextColumn Header="{Binding T0877_G1_TenNguoiDung, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  UserAccount.Staff.FullName, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+                                    <DataGridTextColumn Header="Tên Nhóm" IsReadOnly="True" Binding="{Binding  Group.GroupName, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  />
+                                    <DataGridTextColumn Header="{Binding M0014_G1_MoTaNhom, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding  Group.Description, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="SizeToCells"  ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+                                <customcontrols:DataPager  Height="25" HorizontalContentAlignment="Left"
+                                     Source="{Binding allUserGroupEx,Mode=OneWay}"
+                                    PageSize="10" VerticalAlignment="Center" Style="{StaticResource MainFrame.DataPager}" Visibility="Visible" />
+                                <Button Name="butSaveUserGroup" Content="{Binding S0549_G1_SaveUserGroup, Source={StaticResource eHCMSResources}}" 
+                                        Height="22" Width="100" Margin="60,0,0,0" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" Height="148" Margin="0,65,0,17">
+                            <Button x:Name="btAddChoose" ToolTipService.ToolTip="{Binding eHCMSResources.G0156_G1_Them, Source={StaticResource eHCMSResources}}" Height="40" Width="26">
+                            <Image Source="/aEMR.CommonViews;component/Assets/Images/navigate-right-icon48x48.png" Height="32" Width="32" Opacity="1" HorizontalAlignment="Left" Margin="-5,0,0,0" />
+                        </Button>
+                        <Label Content="" Height="20" />
+                        <Button x:Name="btUndo" Height="40" Width="28" VerticalAlignment="Center"  ToolTipService.ToolTip="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Margin="0,0,0,10">
+                            <Image Source="/aEMR.CommonViews;component/Assets/Images/Undo.png" Opacity="1" Height="40" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            </customcontrols:AxGrid>
+    </Border>
+</UserControl>

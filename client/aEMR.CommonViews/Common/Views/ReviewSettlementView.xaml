@@ -1,0 +1,108 @@
+﻿<UserControl
+    x:Class="aEMR.Common.Views.ReviewSettlementView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <DataTemplate x:Key="PrintSettlementTemplate">
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                <Button
+                    x:Name="lnkPrintSettlement"
+                    Margin="2,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action PrintSettlementCmd($datacontext, $eventArgs)]"
+                    ToolTipService.ToolTip="{Binding T1936_G1_InQToanL, Source={StaticResource eHCMSResources}}">
+                    <Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1"
+                            Source="/aEMR.CommonViews;component/Assets/Images/print-icon.png" />
+                    </Button.Content>
+                </Button>
+                <Button
+                    Margin="0,0,2,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    cal:Message.Attach="[Event Click]=[Action DeleteSettlementCmd($datacontext, $eventArgs, false)]"
+                    ToolTipService.ToolTip="{Binding Z2714_G1_HuyQuyetToan, Source={StaticResource eHCMSResources}}"
+                    Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsUserAdmin, Converter={StaticResource BooleanToVisibility}}">
+                    <Button.Content>
+                        <Image
+                            Width="13"
+                            Height="13"
+                            Opacity="1"
+                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="400" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <DataGrid
+            Name="gridCashAdvanceBill"
+            Height="300"
+            Margin="2,1"
+            VerticalAlignment="Top"
+            AutoGenerateColumns="False"
+            ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+            HorizontalScrollBarVisibility="Auto"
+            IsReadOnly="True"
+            ItemsSource="{Binding PatientSettlementList, Mode=OneWay}"
+            RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+            Style="{StaticResource MainFrame.DataGridStyle}"
+            VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn
+                    x:Name="colPrintSettlement"
+                    Width="Auto"
+                    CellTemplate="{StaticResource PrintSettlementTemplate}" />
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding FinalizedReceiptNum, Mode=OneWay}"
+                    Header="{Binding S0649_G1_SoHDon, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="140"
+                    Binding="{Binding DateFinalize, Mode=OneWay, StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                    Header="{Binding N0102_G1_NgQuyetToan, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="85"
+                    Binding="{Binding TotalHIPayment, Mode=OneWay, StringFormat='#,#.##'}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding K1232_G1_BHTra, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="85"
+                    Binding="{Binding TotalPatientPayment, Mode=OneWay, StringFormat='#,#.##'}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding K1296_G1_BNTra, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="85"
+                    Binding="{Binding TotalSupportFund, Mode=OneWay, StringFormat='#,#.##'}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding Q0490_G1_QuyHT, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="85"
+                    Binding="{Binding TotalInvoicePrice, Mode=OneWay, StringFormat='#,#.##'}"
+                    ElementStyle="{StaticResource RightAligmentTextBlock}"
+                    Header="{Binding G1472_G1_TCong, Source={StaticResource eHCMSResources}}" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding SettlementStaff.FullName, Mode=OneWay}"
+                    Header="{Binding N0194_G1_NhVien, Source={StaticResource eHCMSResources}}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

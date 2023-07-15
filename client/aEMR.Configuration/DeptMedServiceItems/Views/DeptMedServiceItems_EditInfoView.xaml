@@ -1,0 +1,536 @@
+﻿<UserControl
+    x:Class="aEMR.Configuration.DeptMedServiceItems.Views.DeptMedServiceItems_EditInfoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="430"
+    d:DesignWidth="690"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid x:Name="GridRight" Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    x:Name="TitleForm"
+                    Grid.Row="0"
+                    Margin="0,20,0,15"
+                    HorizontalAlignment="Center"
+                    FontSize="14"
+                    FontWeight="ExtraBold"
+                    Foreground="#FF0084FF" />
+
+                <Grid Grid.Row="1">
+                    <Border
+                        Margin="0,10,0,5"
+                        Background="AliceBlue"
+                        BorderBrush="#C1D2E6"
+                        BorderThickness="1"
+                        CornerRadius="3">
+                        <StackPanel>
+                            <Border
+                                Margin="10,-10,0,0"
+                                HorizontalAlignment="Left"
+                                Background="AliceBlue"
+                                BorderBrush="#6F8AA9"
+                                BorderThickness="1">
+                                <TextBlock
+                                    Margin="10,0,10,0"
+                                    FontWeight="Bold"
+                                    Text="{Binding G0589_G1_TTinDV, Source={StaticResource eHCMSResources}}" />
+                            </Border>
+                            <Grid Height="359" Margin="0,5,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="145" />
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="200" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="0,2,5,2"
+                                    HorizontalAlignment="Right"
+                                    Text="{Binding T2707_G1_LoaiDV, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Orientation="Horizontal">
+                                    <controlslib:AxComboBox
+                                        Name="cboMedicalServiceTypesSubTractPCL"
+                                        Width="435"
+                                        Margin="5,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        cal:Message.Attach="[Event Loaded] = [Action cboMedicalServiceTypesSubTractPCL_Loaded($source, $eventArgs)]                                                             ;[Event SelectionChanged] = [Action cboMedicalServiceTypesSubTractPCL_SelectionChanged($source, $eventArgs)]"
+                                        DisplayMemberPath="MedicalServiceTypeName"
+                                        FontWeight="Normal"
+                                        Foreground="Black"
+                                        ItemsSource="{Binding ObjRefMedicalServiceTypes_GetAll, Mode=OneWay}"
+                                        SelectedItem="{Binding SelectedMedicalServiceType, Mode=TwoWay}"
+                                        SelectedValuePath="MedicalServiceTypeID"
+                                        Style="{StaticResource MainFrame.ComboBox}" />
+                                </StackPanel>
+
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Width="420"
+                                    Height="25"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding IsSurgeryTips, Converter={StaticResource BooleanToVisibility}}">
+                                    <RadioButton
+                                        Name="rdbSurgery"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action rdbSurgery_Tips_Item_Click($sour ce,$eventArgs)]"
+                                        Content="{Binding A0040_G1_PhauThuat, Source={StaticResource eHCMSResources}}"
+                                        GroupName="rdbSurgery_Tips_Item"
+                                        IsChecked="{Binding IsSurgeryItem, Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.RadioButton}" />
+                                    <RadioButton
+                                        Name="rdbTips"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action rdbSurgery_Tips_Item_Click($source,$eventArgs)]"
+                                        Content="{Binding K0746_G1_TThuat, Source={StaticResource eHCMSResources}}"
+                                        GroupName="rdbSurgery_Tips_Item"
+                                        IsChecked="{Binding IsTipsItem, Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.RadioButton}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Grid.ColumnSpan="2"
+                                    Width="60"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding T2669_G1_Loai, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                <controlslib:AxComboBox
+                                    Name="cboV_Surgery_Tips_Type"
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    Width="152"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    DisplayMemberPath="ObjectValue"
+                                    ItemsSource="{Binding ObjV_Surgery_Tips_Type, Mode=OneWay}"
+                                    SelectedValueEx="{Binding ObjRefMedicalServiceItem.V_Surgery_Tips_Type, Mode=TwoWay}"
+                                    SelectedValuePath="LookupID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="0,2,5,2"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding T3320_G1_MaDV, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                <StackPanel
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Width="420"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
+                                    <TextBox
+                                        x:Name="tbMaDV"
+                                        Width="190"
+                                        Margin="5,2,10,2"
+                                        HorizontalAlignment="Left"
+                                        Text="{Binding ObjRefMedicalServiceItem.MedServiceCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.Column="2"
+                                    Width="60"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z0264_G1_Ma5084, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    Grid.Row="2"
+                                    Grid.Column="3"
+                                    Width="152"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding ObjRefMedicalServiceItem.HICode5084, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding A1164_G1_TenDV, Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    x:Name="tbTenDV"
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Width="435"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding ObjRefMedicalServiceItem.MedServiceName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding R0350_G1_MaBH, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    Grid.Row="4"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Width="435"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding ObjRefMedicalServiceItem.HICode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                <TextBlock
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z2046_G1_TenBCBHYT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    Grid.Row="5"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Width="435"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding ObjRefMedicalServiceItem.MedServiceName_Ax, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding K3709_G1_DViTinh, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                                <StackPanel
+                                    Grid.Row="6"
+                                    Grid.Column="1"
+                                    Width="420"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
+                                    <controlslib:AxComboBox
+                                        Name="cboV_RefMedServiceItemsUnit"
+                                        Width="190"
+                                        Margin="5,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        DisplayMemberPath="ObjectValue"
+                                        ItemsSource="{Binding ObjV_RefMedServiceItemsUnit, Mode=OneWay}"
+                                        SelectedValueEx="{Binding ObjRefMedicalServiceItem.V_RefMedServiceItemsUnit, Mode=TwoWay}"
+                                        SelectedValuePath="LookupID"
+                                        Style="{StaticResource MainFrame.ComboBox}" />
+                                </StackPanel>
+                                <TextBlock
+                                    Grid.Row="6"
+                                    Grid.Column="2"
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Z2662_G1_TyLeTTBH, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                                <TextBox
+                                    Grid.Row="6"
+                                    Grid.Column="3"
+                                    Width="152"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding ObjRefMedicalServiceItem.HIPayRatio, Mode=TwoWay, TargetNullValue=0, Converter={StaticResource PercentageConverterHpt1}}" />
+                                <TextBlock
+                                    Grid.Row="7"
+                                    Grid.Column="0"
+                                    Margin="0,2,5,2"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding T2749_G1_LoaiDVBH, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" />
+                                <controlslib:AxComboBox
+                                    x:Name="cboHITransactionType_GetListNoParentID"
+                                    Grid.Row="7"
+                                    Grid.Column="1"
+                                    Width="190"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    DisplayMemberPath="HITypeDescription"
+                                    FontWeight="Normal"
+                                    Foreground="Black"
+                                    ItemsSource="{Binding ObjHITransactionType_GetListNoParentID, Mode=OneWay}"
+                                    SelectedValueEx="{Binding ObjRefMedicalServiceItem.HITTypeID, Mode=TwoWay}"
+                                    SelectedValuePath="HITTypeID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+                                <Label
+                                    Grid.Row="7"
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Z2842_G1_ChuyenKhoa, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                                <controlslib:AxComboBox
+                                    x:Name="cboV_SpecialistType"
+                                    Grid.Row="7"
+                                    Grid.Column="3"
+                                    Width="152"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    cal:Message.Attach="[Event Loaded]=[Action cboV_SpecialistType_Loaded($source)]"
+                                    DisplayMemberPath="ObjectValue"
+                                    IsEnabled="{Binding vV_SpecialistType, Mode=OneWay}"
+                                    ItemsSource="{Binding ObjV_SpecialistType, Mode=OneWay}"
+                                    SelectedValueEx="{Binding ObjRefMedicalServiceItem.V_SpecialistType, Mode=TwoWay}"
+                                    SelectedValuePath="LookupID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+                                <Label
+                                    Grid.Row="8"
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Left"
+                                    Content="{Binding Z2999_G1_GianhRieng, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                                <customcontrols:KeyEnabledComboBox
+                                    x:Name="cboGender"
+                                    Grid.Row="8"
+                                    Grid.Column="3"
+                                    Width="152"
+                                    Height="22"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    DisplayMemberPath="Name"
+                                    ItemsSource="{Binding Genders, Mode=OneWay}"
+                                    SelectedValueEx="{Binding ObjRefMedicalServiceItem.GenderType, Mode=TwoWay, NotifyOnValidationError=True}"
+                                    SelectedValuePath="ID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+                                <Label
+                                    Grid.Row="8"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Right"
+                                    Content="{Binding G2082_G1_TuyChonLoaiHen, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}"
+                                    FontWeight="Bold"
+                                    Foreground="DarkRed" />
+                                <controlslib:AxComboBox
+                                    x:Name="cboV_AppointmentType"
+                                    Grid.Row="8"
+                                    Grid.Column="1"
+                                    Width="190"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    DisplayMemberPath="ObjectValue"
+                                    IsEnabled="{Binding cboV_AppointmentTypeIsEnabled, Mode=OneWay}"
+                                    ItemsSource="{Binding ObjV_AppointmentType, Mode=OneWay}"
+                                    SelectedValueEx="{Binding ObjRefMedicalServiceItem.V_AppointmentType, Mode=TwoWay}"
+                                    SelectedValuePath="LookupID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+                                <Label
+                                    Grid.Row="9"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Right"
+                                    Content="{Binding T2752_G1_LoaiGiaDV, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" />
+                                <StackPanel
+                                    Grid.Row="9"
+                                    Grid.Column="1"
+                                    Grid.ColumnSpan="3"
+                                    Height="25"
+                                    Margin="5,0,0,0"
+                                    Orientation="Horizontal">
+                                    <RadioButton
+                                        Name="rdbUnknown_PriceType"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action rdbNewPriceType_Click($source,$eventArgs)]"
+                                        Content="{Binding T2470_G1_KhongCoGia, Source={StaticResource eHCMSResources}}"
+                                        GroupName="rdbNewPriceType"
+                                        IsChecked="{Binding IsUnknown_PriceType, Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.RadioButton}" />
+                                    <RadioButton
+                                        Name="rdbFixed_PriceType"
+                                        Margin="15,0,0,0"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action rdbNewPriceType_Click($source,$eventArgs)]"
+                                        Content="{Binding T0984_G1_GiaCoDinh, Source={StaticResource eHCMSResources}}"
+                                        GroupName="rdbNewPriceType"
+                                        IsChecked="{Binding IsFixed_PriceType, Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.RadioButton}" />
+                                    <RadioButton
+                                        Name="rdbUpdatable_PriceType"
+                                        Margin="21,0,0,0"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action rdbNewPriceType_Click($source,$eventArgs)]"
+                                        Content="{Binding T1145_G1_GiaThayDoi, Source={StaticResource eHCMSResources}}"
+                                        GroupName="rdbNewPriceType"
+                                        IsChecked="{Binding IsUpdatable_PriceType, Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.RadioButton}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="10"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="4"
+                                    Width="Auto"
+                                    Margin="5,5,2,10"
+                                    Orientation="Horizontal">
+                                    <CheckBox
+                                        Margin="5,0,5,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Bottom"
+                                        Content="{Binding Z3229_G1_DMCOVID, StringFormat=':{0}', Source={StaticResource eHCMSResources}}"
+                                        FontWeight="Bold"
+                                        IsChecked="{Binding ObjRefMedicalServiceItem.InCategoryCOVID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <CheckBox
+                                        Margin="20,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        Content="{Binding T1280_G1_GoiDV, Source={StaticResource eHCMSResources}}"
+                                        IsChecked="{Binding ObjRefMedicalServiceItem.IsPackageService, Mode=TwoWay}"
+                                        IsThreeState="False" />
+                                    <CheckBox
+                                        Margin="26,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        Content="{Binding K1230_G1_BHCTra, Source={StaticResource eHCMSResources}}"
+                                        IsChecked="{Binding ObjRefMedicalServiceItem.HIApproved, Mode=TwoWay}"
+                                        IsThreeState="False" />
+                                    <CheckBox
+                                        Margin="20,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        Content="{Binding K2716_G1_ConDung, Source={StaticResource eHCMSResources}}"
+                                        IsChecked="{Binding ObjRefMedicalServiceItem.IsActive, Mode=TwoWay}"
+                                        IsThreeState="False" />
+                                    <CheckBox
+                                        Margin="20,0,0,0"
+                                        HorizontalAlignment="Left"
+                                        Content="{Binding Z2670_G1_KhamSucKhoe, Source={StaticResource eHCMSResources}}"
+                                        IsChecked="{Binding ObjRefMedicalServiceItem.IsMedicalExamination, Mode=TwoWay}"
+                                        IsEnabled="{Binding chk_MedicalExaminationIsEnable, Mode=OneWay}"
+                                        IsThreeState="False" />
+                                </StackPanel>
+
+                                <TextBlock
+                                    Grid.Row="11"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="Phân tuyến DVKT:" />
+                                <controlslib:AxComboBox
+                                    Name="cboV_DVKTPhanTuyen"
+                                    Grid.Row="11"
+                                    Grid.Column="1"
+                                    Width="152"
+                                    Margin="5,2,5,2"
+                                    HorizontalAlignment="Left"
+                                    DisplayMemberPath="ObjectValue"
+                                    ItemsSource="{Binding ObjV_DVKTPhanTuyen, Mode=OneWay}"
+                                    SelectedValueEx="{Binding ObjRefMedicalServiceItem.V_DVKTPhanTuyen, Mode=TwoWay}"
+                                    SelectedValuePath="LookupID"
+                                    Style="{StaticResource MainFrame.ComboBox}" />
+
+                                <CheckBox
+                                    Grid.Row="11"
+                                    Grid.Column="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    Content="Ngoài định suất"
+                                    IsChecked="{Binding ObjRefMedicalServiceItem.NgoaiDinhSuat, Mode=TwoWay}"
+                                    IsThreeState="False" />
+
+                                <CheckBox
+                                    Grid.Row="11"
+                                    Grid.Column="3"
+                                    Margin="15,0,0,0"
+                                    HorizontalAlignment="Right"
+                                    Content="Sử dụng cho gây tê"
+                                    IsChecked="{Binding ObjRefMedicalServiceItem.UseAnalgesic, Mode=TwoWay}"
+                                    IsThreeState="False" />
+                                <CheckBox
+                                    Grid.Row="12"
+                                    Grid.Column="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="5,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    Content="PP Sinh"
+                                    IsChecked="{Binding ObjRefMedicalServiceItem.IsBirthMethod, Mode=TwoWay}"
+                                    IsThreeState="False" />
+                                <CheckBox
+                                    Grid.Row="12"
+                                    Grid.Column="3"
+                                    Margin="77,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    Content="Có thiết bị y tế"
+                                    IsChecked="{Binding ObjRefMedicalServiceItem.IsHaveEquip, Mode=TwoWay}"
+                                    IsThreeState="False" />
+                                <StackPanel
+                                    Grid.Row="13"
+                                    Grid.Column="1"
+                                    Margin="5,0,0,30"
+                                    Orientation="Horizontal">
+                                    <Button
+                                        x:Name="btSave"
+                                        Width="80"
+                                        Margin="0,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource MainFrame.Button}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image
+                                                Width="20"
+                                                Height="18"
+                                                VerticalAlignment="Center"
+                                                Source="/aEMR.CommonViews;component/Assets/Images/saveanddown24x24border.png" />
+                                            <TextBlock
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" />
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Button
+                                        x:Name="btClose"
+                                        Width="80"
+                                        Margin="0,2,5,2"
+                                        HorizontalAlignment="Left"
+                                        Style="{StaticResource MainFrame.Button}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image
+                                                Width="20"
+                                                Height="18"
+                                                VerticalAlignment="Center"
+                                                Source="/aEMR.CommonViews;component/Assets/Images/Button-exit-icon.png" />
+                                            <TextBlock
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}" />
+                                        </StackPanel>
+                                    </Button>
+
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

@@ -1,0 +1,318 @@
+﻿<UserControl
+    x:Class="aEMR.DrugDept.Views.ReportByDDMMYYYYView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="600"
+    d:DesignWidth="950"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <converter:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            x:Name="TitleForm"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="14"
+            FontWeight="Bold"
+            Foreground="#3595CB"
+            Text="{Binding strHienThi}" />
+        <Expander
+            x:Name="RightExpander"
+            Grid.Row="1"
+            Width="Auto"
+            MinWidth="10"
+            Background="#FFDBE5F1"
+            DockPanel.Dock="Right"
+            ExpandDirection="Left"
+            IsExpanded="True"
+            RenderTransformOrigin="0,0">
+            <!--  Header="{Binding G0458_G1_ThSoBC, Source={StaticResource eHCMSResources}}"  -->
+            <Grid Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border
+                    Grid.Row="1"
+                    Margin="2"
+                    Style="{StaticResource LightBlueBorderStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.ColumnSpan="2"
+                            FontWeight="Bold"
+                            Foreground="#FF6F8AA9"
+                            Style="{StaticResource MainFrame.TextBlock.00}"
+                            Text="{Binding G0458_G1_ThSoBC, Source={StaticResource eHCMSResources}}" />
+
+                        <TextBlock
+                            Name="lbl_Choose"
+                            Grid.Row="2"
+                            Height="20"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding G2473_G1_XemTheo, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+                        <ComboBox
+                            Name="cbxCondition"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            MinWidth="100"
+                            Margin="2,1"
+                            cal:Message.Attach="[Event SelectionChanged] = [Action cbxCondition_SelectionChanged($source, $eventArgs)]"
+                            DisplayMemberPath="Text"
+                            ItemsSource="{Binding Conditions}"
+                            SelectedItem="{Binding CurrentCondition, Mode=TwoWay}"
+                            SelectedValuePath="Value"
+                            Style="{StaticResource MainFrame.ComboBox}" />
+
+                        <TextBlock
+                            Name="lblThang"
+                            Grid.Row="3"
+                            Height="20"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding K2162_G1_ChonTh2, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                            Visibility="{Binding IsMonth, Mode=OneWay}" />
+                        <ComboBox
+                            Name="cbx_FillMoth"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            MinWidth="100"
+                            Margin="2,1"
+                            ItemsSource="{Binding ListMonth}"
+                            SelectedValue="{Binding RptParameters.Month, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.ComboBox2}"
+                            Visibility="{Binding IsMonth, Mode=OneWay}" />
+
+                        <TextBlock
+                            Name="lblQuy"
+                            Grid.Row="4"
+                            Height="20"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding K2114_G1_ChonQuy2, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                            Visibility="{Binding IsQuarter, Mode=OneWay}" />
+                        <ComboBox
+                            Name="cbx_FillQuarter"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            MinWidth="100"
+                            Margin="2,1"
+                            ItemsSource="{Binding ListQuartar}"
+                            SelectedValue="{Binding RptParameters.Quarter, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.ComboBox2}"
+                            Visibility="{Binding IsQuarter, Mode=OneWay}" />
+
+                        <TextBlock
+                            Name="lblNam"
+                            Grid.Row="5"
+                            Height="20"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding K2057_G1_ChonNam2, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                            Visibility="{Binding IsYear, Mode=OneWay}" />
+                        <ComboBox
+                            Name="cbx_fillYear"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            MinWidth="100"
+                            Margin="2,1"
+                            ItemsSource="{Binding ListYear}"
+                            SelectedValue="{Binding RptParameters.Year, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.ComboBox2}"
+                            Visibility="{Binding IsYear, Mode=OneWay}" />
+
+                        <TextBlock
+                            Name="lblTuNgay"
+                            Grid.Row="6"
+                            Height="20"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding G1933_G1_TuNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                            Visibility="{Binding IsDate, Mode=OneWay}" />
+                        <DatePicker
+                            Name="dpkFromDate"
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            MinWidth="100"
+                            Margin="2,1"
+                            SelectedDate="{Binding RptParameters.FromDate, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.DatePicker}"
+                            Visibility="{Binding IsDate, Mode=OneWay}" />
+
+                        <TextBlock
+                            Name="lblDenNgay"
+                            Grid.Row="7"
+                            Height="20"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding K3192_G1_DenNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                            Visibility="{Binding IsDate, Mode=OneWay}" />
+                        <DatePicker
+                            Name="dpkToDate"
+                            Grid.Row="7"
+                            Grid.Column="1"
+                            MinWidth="100"
+                            Margin="2,1"
+                            SelectedDate="{Binding RptParameters.ToDate, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.DatePicker}"
+                            Visibility="{Binding IsDate, Mode=OneWay}" />
+
+                        <TextBlock
+                            Grid.Row="9"
+                            Height="20"
+                            Margin="0,0,2,2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding T2701_G1_LoaiCNo, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                            Visibility="{Binding RptParameters.HideTypCongNo, Converter={StaticResource VisibilityConverter}}" />
+                        <StackPanel
+                            Grid.Row="9"
+                            Grid.Column="1"
+                            Margin="2"
+                            Orientation="Vertical"
+                            Visibility="{Binding RptParameters.HideTypCongNo, Converter={StaticResource VisibilityConverter}}">
+                            <RadioButton
+                                Margin="2"
+                                cal:Message.Attach="[Event Checked] = [Action chkNotPay_Checked($source, $eventArgs)]"
+                                Content="{Binding K2255_G1_ChuaTraTienoan, Source={StaticResource eHCMSResources}}"
+                                GroupName="LoaiCongNo"
+                                IsChecked="True"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                            <RadioButton
+                                Margin="2"
+                                cal:Message.Attach="[Event Checked] = [Action chkPay_Checked($source, $eventArgs)]"
+                                Content="{Binding K2821_G1_DaTToanDaDuyet, Source={StaticResource eHCMSResources}}"
+                                GroupName="LoaiCongNo"
+                                Style="{StaticResource MainFrame.RadioButton}" />
+                        </StackPanel>
+                        <TextBlock
+                            Name="lblKho"
+                            Grid.Row="10"
+                            Height="20"
+                            Margin="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Style="{StaticResource MainFrame.TextBlock.01}"
+                            Text="{Binding K1973_G1_ChonKho, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                            Visibility="{Binding RptParameters.HideStore, Converter={StaticResource VisibilityConverter}}" />
+                        <ComboBox
+                            Name="cbx_ChooseKho"
+                            Grid.Row="10"
+                            Grid.Column="1"
+                            MinWidth="100"
+                            Margin="2,1"
+                            cal:Message.Attach="[Event Loaded] = [Action cbx_ChooseKho_Loaded($source, $eventArgs)]"
+                            DisplayMemberPath="swhlName"
+                            ItemsSource="{Binding StoreCbx}"
+                            SelectedValue="{Binding RptParameters.StoreID, Mode=TwoWay}"
+                            SelectedValuePath="StoreID"
+                            Style="{StaticResource MainFrame.ComboBox2}"
+                            Visibility="{Binding RptParameters.HideStore, Converter={StaticResource VisibilityConverter}}" />
+
+                        <CheckBox
+                            Grid.Row="11"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{Binding G2494_G1_XemTgKho, Source={StaticResource eHCMSResources}}"
+                            IsChecked="{Binding RptParameters.IsTongKho, Mode=TwoWay}"
+                            Style="{StaticResource MainFrame.Checkbox}"
+                            Visibility="{Binding RptParameters.HideStore, Converter={StaticResource VisibilityConverter}}" />
+
+                        <StackPanel
+                            Grid.Row="12"
+                            Grid.ColumnSpan="2"
+                            Margin="2,1"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <Button
+                                Name="btnXemIn"
+                                Width="75"
+                                Margin="2,1"
+                                Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                                FontWeight="Normal"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding mXemIn, Converter={StaticResource BooleanToVisibility}}" />
+                            <Button
+                                Name="btnIn"
+                                Width="75"
+                                Margin="2,1"
+                                Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}"
+                                FontWeight="Normal"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding mIn, Converter={StaticResource BooleanToVisibility}}" />
+                            <Button
+                                Name="btnExportExcel"
+                                Width="Auto"
+                                Margin="2,1"
+                                Content="{Binding G2849_G1_XuatExcel, Source={StaticResource eHCMSResources}}"
+                                FontWeight="Normal"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding mXuatExcel, Converter={StaticResource BooleanToVisibility}}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Expander>
+        <dxp:DocumentPreviewControl
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="Auto"
+            Height="875"
+            AutoShowParametersPanel="False"
+            DocumentSource="{Binding ReportModel, Mode=OneWay}"
+            ScrollViewer.CanContentScroll="True" />
+    </Grid>
+</UserControl>

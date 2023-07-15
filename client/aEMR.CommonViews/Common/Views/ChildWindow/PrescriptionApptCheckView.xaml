@@ -1,0 +1,38 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    x:Class="aEMR.Common.Views.PrescriptionApptCheckView" Padding="0,0,0,0" Margin="0,0,0,0" d:DesignWidth="640" d:DesignHeight="480" 
+    Width="250"
+    Height="100"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" > 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>            
+            <RowDefinition Height="40"/>
+            
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding K2240_G1_ChuaChonHenTKChoBN, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" TextWrapping="Wrap"
+                   Grid.Column="1" Margin="0,2,0,0" Style="{StaticResource TextBlock.Heading.04}" />
+
+        
+
+            <CheckBox x:Name="chkHasAppointment" Foreground="Brown"
+                                  IsChecked="{Binding HasAppointment,Mode=TwoWay}" 
+                                  HorizontalAlignment="Center"
+                                  Grid.Row="1" Grid.Column="0" Content="{Binding T1471_G1_HenTK2, Source={StaticResource eHCMSResources}}"                                           
+                                          FontWeight="Bold" VerticalAlignment="Bottom"/>
+
+        
+
+        <Button x:Name="OkCmd" Grid.Row="2" Style="{StaticResource MainFrame.Button}"
+            Width="75" Height="23" HorizontalAlignment="Right" 
+            TabIndex="0" Content="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}" Margin="0,0,20,0" />
+
+    </Grid>
+</UserControl>

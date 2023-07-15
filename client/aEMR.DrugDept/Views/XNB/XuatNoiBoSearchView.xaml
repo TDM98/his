@@ -1,0 +1,194 @@
+﻿<UserControl
+    x:Class="aEMR.DrugDept.Views.XuatNoiBoSearchView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource TBlock.TilteFrom}"
+                    Text="{Binding strHienThi, Mode=OneWay}" />
+            </Grid>
+            <Grid
+                x:Name="Gridsearch"
+                Grid.Row="1"
+                DataContext="{Binding SearchCriteria, Mode=TwoWay}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="2,1,2,1"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource MainFrame.TextBlock.00}"
+                    Text="{Binding T3534_G1_MaPhX, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="2,1,2,1"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource MainFrame.TextBlock.00}"
+                    Text="{Binding T3571_G1_MaPhYC, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="2,1,2,1"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource MainFrame.TextBlock.00}"
+                    Text="{Binding G1933_G1_TuNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="2,1,2,1"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource MainFrame.TextBlock.00}"
+                    Text="{Binding K3192_G1_DenNg, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Grid.Row="2"
+                    MaxWidth="100"
+                    Margin="2,1,2,1"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource MainFrame.TextBlock.00}"
+                    Text="{Binding T0879_G1_TenNguoi_BVNhan, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}"
+                    TextWrapping="Wrap" />
+
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="2"
+                    cal:Message.Attach="[Event KeyUp]=[Action Search_KeyUp_CodeInvoice($source,$eventArgs)]"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding CodeInvoice, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    Margin="2"
+                    cal:Message.Attach="[Event KeyUp]=[Action Search_KeyUp_CodeRequest($source,$eventArgs)]"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding CodeRequest, Mode=TwoWay}" />
+                <DatePicker
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="2"
+                    SelectedDate="{Binding FromDate, Mode=TwoWay}" />
+                <DatePicker
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    Margin="2"
+                    SelectedDate="{Binding ToDate, Mode=TwoWay}" />
+
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Margin="2"
+                    cal:Message.Attach="[Event KeyUp]=[Action Search_KeyUp_CustomerName($source,$eventArgs)]"
+                    Style="{StaticResource MainFrame.TextBox}"
+                    Text="{Binding CustomerName, Mode=TwoWay}" />
+                <StackPanel
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="3"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Right"
+                    DataContext="{Binding ElementName=LayoutRoot, Path=DataContext, Mode=TwoWay}">
+                    <Button
+                        x:Name="btnSearch"
+                        Width="75"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Right"
+                        Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2" Margin="2,2,2,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+                <AxControls:ReadOnlyDataGrid
+                    Name="dataGrid1"
+                    Margin="0"
+                    cal:Message.Attach="[Event DblClick]=[Action dataGrid1_DblClick($source,$eventArgs)]"
+                    AutoGenerateColumns="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding OutwardMedDeptInvoiceList}"
+                    Style="{StaticResource MainFrame.DataGridStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            x:Name="col01"
+                            Binding="{Binding OutInvID}"
+                            Header="{Binding T3534_G1_MaPhX, Source={StaticResource eHCMSResources}}" />
+
+                        <DataGridTextColumn
+                            x:Name="col02"
+                            Binding="{Binding StaffName}"
+                            Header="{Binding N0297_G1_NhVienXuat, Source={StaticResource eHCMSResources}}" />
+
+                        <DataGridTextColumn
+                            x:Name="col03"
+                            Binding="{Binding OutDate, StringFormat='dd/MM/yyyy'}"
+                            Header="{Binding N0130_G1_NgXuat, Source={StaticResource eHCMSResources}}" />
+
+                        <DataGridTextColumn
+                            x:Name="Col04"
+                            Binding="{Binding ReqNumCode}"
+                            Header="{Binding T3571_G1_MaPhYC, Source={StaticResource eHCMSResources}}" />
+
+                        <DataGridTextColumn
+                            x:Name="Col05"
+                            Binding="{Binding TypName}"
+                            Header="{Binding T2873_G1_LoaiXuat, Source={StaticResource eHCMSResources}}" />
+
+                        <DataGridTextColumn
+                            x:Name="Col06"
+                            Binding="{Binding FullName}"
+                            Header="{Binding G2839_G1_XuatCho, Source={StaticResource eHCMSResources}}" />
+
+                        <DataGridTextColumn
+                            x:Name="Col07"
+                            Binding="{Binding OutDrugInvStatus}"
+                            Header="{Binding G1691_G1_TThai, Source={StaticResource eHCMSResources}}" />
+
+                    </DataGrid.Columns>
+
+                </AxControls:ReadOnlyDataGrid>
+                <AxControls:DataPager
+                    Name="dataPager1"
+                    Grid.Row="1"
+                    Margin="0,0,0,0"
+                    Source="{Binding OutwardMedDeptInvoiceList}" />
+            </Grid>
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

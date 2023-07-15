@@ -1,0 +1,113 @@
+﻿<UserControl    x:Class="aEMR.PCLDepartment.Views.SieuAmTimGangSucDobutamineHomeView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                xmlns:converter="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                mc:Ignorable="d" 
+                d:DesignWidth="800"
+                d:DesignHeight="300"> 
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <converter:IsEnableConverter x:Key="IsEnableConverter"/>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Background="White" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <ContentControl Name="vmSearchPCLRequest" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="5*" />
+                        <ColumnDefinition MinWidth="1" Width="1" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <ContentControl x:Name="UCPatientProfileInfo" Grid.Column="0" HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+                    <ContentControl x:Name="UCDoctorProfileInfo" Grid.Column="2" HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <TextBlock FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Text="{Binding S0573_G1_SATGSDobutamine, Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB"/>
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <TabControl Name="TabSieuAm" Margin="0,0,0,0" Style="{StaticResource MainFrame.TabControl}">
+
+                        <!--Name="TabFirst"-->
+                        <TabItem Header="{Binding G1451_G1_TTatBenhSu, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}" Width="150"
+                       HorizontalAlignment="Center" 
+                     cal:Message.Attach="[Event Loaded]=[Action TabFirst_Loaded($source,$eventArgs)]">
+                            <ContentControl x:Name="SATGSDobuBenhSu" Grid.Column="0" Grid.ColumnSpan="3"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </TabItem>
+                        <TabItem Header="{Binding K3445_G1_DienTamDoVaXN, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TabItem}"
+                       Width="190" HorizontalAlignment="Center" Name="TabSieuAmTimDoppler">
+                            <ContentControl x:Name="SATGSDobuDienTamDo" Grid.Column="0" Grid.ColumnSpan="3"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </TabItem>
+
+                        <TabItem Header="{Binding K3567_G1_Dobutamine, Source={StaticResource eHCMSResources}}" Width="100" HorizontalAlignment="Center"
+                       Style="{StaticResource MainFrame.TabItem}">
+                            <ContentControl x:Name="SATGSDobu" Grid.Column="0" Grid.ColumnSpan="3"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </TabItem>
+
+                        <TabItem Header="{Binding T2055_G1_KQua, Source={StaticResource eHCMSResources}}" Width="100" HorizontalAlignment="Center"
+                       Style="{StaticResource MainFrame.TabItem}">
+                            <ContentControl x:Name="SATGSDobuKetQua" Grid.Column="0" Grid.ColumnSpan="3"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </TabItem>
+
+                        <TabItem Header="{Binding T2079_G1_KQuaTheoSoDo, Source={StaticResource eHCMSResources}}" Width="150" HorizontalAlignment="Center"
+                       Style="{StaticResource MainFrame.TabItem}">
+                            <ContentControl x:Name="SATGSDobuHinh" Grid.Column="0" Grid.ColumnSpan="3"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </TabItem>
+
+                        <TabItem Header="{Binding Q0491_G1_QuyTrinh, Source={StaticResource eHCMSResources}}" Width="100" HorizontalAlignment="Center"
+                       Style="{StaticResource MainFrame.TabItem}">
+                            <ContentControl x:Name="SATGSDobuQuyTrinh" Grid.Column="0" Grid.ColumnSpan="3"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </TabItem>
+                        <TabItem Header="{Binding T1520_G1_HA, Source={StaticResource eHCMSResources}}" Width="100" HorizontalAlignment="Center"
+                       Style="{StaticResource MainFrame.TabItem}" Name="TabImage">
+                            <ContentControl x:Name="UCPatientPCLImageResults" Grid.Column="0" Grid.ColumnSpan="3"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </TabItem>
+                        <!--<TabItem Header="{Binding T1536_G1_HinhCapture, Source={StaticResource eHCMSResources}}" Width="100" HorizontalAlignment="Center"
+                       Style="{StaticResource MainFrame.TabItem}" Name="TabHinhAnhCapture">
+                            <ContentControl x:Name="UCPatientPCLImageCapture" Grid.Column="0" Grid.ColumnSpan="3"
+                            HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+                        </TabItem>-->
+                    </TabControl>
+                </Grid>
+                <!--<Grid Grid.Row="4">
+                <ContentControl Name="UCLinkInputPCLImagingView" HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+            </Grid>-->
+                <!--==== 20161129 CMN Begin: Add button save for all pages-->
+                <StackPanel Grid.Row="4"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 10 0 0" >
+                    <Button x:Name="btnSaveCmd" Width="80" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Margin="0,0,20,1" Style="{StaticResource MainFrame.Button}"
+                        IsEnabled="{Binding PatientPCLReqID,TargetNullValue=False,Converter={StaticResource IsEnableConverter}}" />
+                    <!--<Button x:Name="btnPrintCmd" Width="80" Content="{Binding G2398_G1_XemIn, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Margin="0,0,20,1" />-->
+                </StackPanel>
+                <!--==== 20161129 CMN End: Add button save for all pages-->
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

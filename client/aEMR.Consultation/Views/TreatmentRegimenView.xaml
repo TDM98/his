@@ -1,0 +1,217 @@
+﻿<UserControl x:Class="aEMR.ConsultantEPrescription.Views.TreatmentRegimenView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:cal="http://www.caliburnproject.org"
+             VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"
+             xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <Converters:StringFormatConverter x:Key="StringFormatConverter"/>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Converters:BooleanToVisibilityNotConverter x:Key="BooleanToVisibilityNotConverter"/>
+        <DataTemplate x:Key="clEdit">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsEditView, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button cal:Message.Attach="[Event Click]=[Action clEditClick($source, $eventArgs)]"
+                        ToolTipService.ToolTip="Click here for Edit record" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="#FF0066" Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" Width="15" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="clDelete">
+            <StackPanel Orientation="Horizontal" Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsEditView, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button cal:Message.Attach="[Event Click]=[Action clDelete($source, $eventArgs)]"
+                        ToolTipService.ToolTip="Click here for Edit record" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Foreground="#FF0066" Style="{StaticResource MainFrame.HyperlinkButton.01}">
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Width="15" Opacity="1" />
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" FontSize="18" HorizontalAlignment="Center"  VerticalAlignment="Center" Text="{Binding Z2264_G1_PhacDoDieuTri, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#3595CB" Grid.ColumnSpan="4" Grid.Column="0"  />
+        <Button x:Name="btnAddNew" Grid.Row="1" Content="{Binding Z2271_G1_ThemPhacDo, Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.HyperlinkButton.02}" Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsEditView, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+            <Label Content="{Binding T3402_G1_MaICD10,Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsEditView, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <AxControls:AxAutoComplete IsDropDownOpen="True"
+                                        MinimumPopulateDelay="300" MinimumPrefixLength="0" FilterMode="None"
+                                        HorizontalAlignment="Left" Width="200" Height="22" Margin="10 4 0 4"
+                                        cal:Message.Attach="[Event Populating] = [Action RefTreatmentRegimens_Populating($source, $eventArgs)]"
+                                        Style="{StaticResource AxAutoCompleteMyStyle}" ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+                                        Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsEditView, Converter={StaticResource BooleanToVisibilityConverter}}">
+            </AxControls:AxAutoComplete>
+        </StackPanel>
+        <ComboBox Grid.Row="2" Grid.Column="1" Style="{StaticResource MainFrame.ComboBox}" Margin="0 4 0 4"
+                  ItemsSource="{Binding RefTreatmentRegimenCollectionForCombobox, Mode=OneWay}"
+                  SelectedItem="{Binding SelectedRefTreatmentRegimen, Mode=TwoWay}"
+                  DisplayMemberPath="TreatmentRegimenName"
+                  Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsEditView, Converter={StaticResource BooleanToVisibilityNotConverter}}"
+                  cal:Message.Attach="[Event SelectionChanged] = [Action gvRefTreatmentRegimen_SelectionChanged($source, $eventArgs)]"/>
+        <DataGrid Grid.Row="3" Height="Auto"
+                  VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible"
+                  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  AutoGenerateColumns="False" CanUserAddRows="False" RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                  RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                  Style="{StaticResource MainFrame.DataGridStyle}"
+                  ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                  ItemsSource="{Binding CV_RefTreatmentRegimen, Mode=OneWay}"
+                  SelectedItem="{Binding SelectedRefTreatmentRegimen, Mode=TwoWay}"
+                  cal:Message.Attach="[Event SelectionChanged] = [Action gvRefTreatmentRegimen_SelectionChanged($source, $eventArgs)]" IsReadOnly="True"
+                  Visibility="{Binding ElementName=LayoutRoot, Path=DataContext.IsEditView, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn CellTemplate="{StaticResource clEdit}" Header=""/>
+                <DataGridTemplateColumn CellTemplate="{StaticResource clDelete}" Header=""/>
+                <DataGridTextColumn Header="{Binding Z2265_G1_MaPhacDo, Source={StaticResource eHCMSResources}}" Binding="{Binding TreatmentRegimenCode}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding Z2266_G1_TenPhacDo, Source={StaticResource eHCMSResources}}" Binding="{Binding TreatmentRegimenName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T3402_G1_MaICD10, Source={StaticResource eHCMSResources}}" Binding="{Binding ICD10Code}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}" Binding="{Binding TreatmentRegimenNote}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}" Binding="{Binding RecCreatedDate, StringFormat='dd/MM/yyyy'}"></DataGridTextColumn>
+                <DataGridTextColumn Header="{Binding Z1931_G1_NgCNhat, Source={StaticResource eHCMSResources}}" Binding="{Binding LastUpdatedDate, StringFormat='dd/MM/yyyy'}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TabControl Grid.Row="3" Grid.Column="1">
+            <TabItem Header="{Binding T1681_G1_HoatChat, Source={StaticResource eHCMSResources}}">
+                <DataGrid VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                      AutoGenerateColumns="False" CanUserAddRows="False" RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                      RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                      Style="{StaticResource MainFrame.DataGridStyle}"
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                      ItemsSource="{Binding CV_RefTreatmentRegimenDrugDetail, Mode=OneWay}"
+                      HeadersVisibility="All" IsReadOnly="True" VirtualizingPanel.IsVirtualizingWhenGrouping="True">
+                <DataGrid.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="1,1,1,1" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="True" Background="WhiteSmoke" BorderBrush="#FF002255" Foreground="DarkBlue" BorderThickness="1">
+                                                <Expander.Header>
+                                                    <DockPanel>
+                                                        <TextBlock FontWeight="Bold" Foreground="DarkBlue" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="300" />
+                                                    </DockPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+                </DataGrid.GroupStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="{Binding Z2268_G1_MaHoatChat, Source={StaticResource eHCMSResources}}" Binding="{Binding GenericCode}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="{Binding T0857_G1_TenHoatChat, Source={StaticResource eHCMSResources}}" Binding="{Binding GenericName}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}" Binding="{Binding TreatmentRegimenDrugDetailNote}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}" Binding="{Binding RecCreatedDate, StringFormat='dd/MM/yyyy'}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="{Binding Z1931_G1_NgCNhat, Source={StaticResource eHCMSResources}}" Binding="{Binding LastUpdatedDate, StringFormat='dd/MM/yyyy'}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            </TabItem>
+            <TabItem Header="{Binding K1549_G1_CLS, Source={StaticResource eHCMSResources}}">
+                <DataGrid VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                      AutoGenerateColumns="False" CanUserAddRows="False" RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                      RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                      Style="{StaticResource MainFrame.DataGridStyle}"
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                      ItemsSource="{Binding CV_RefTreatmentRegimenPCLDetail, Mode=TwoWay}">
+                    <DataGrid.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Margin" Value="1,1,1,1" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander IsExpanded="True" Background="WhiteSmoke" BorderBrush="#FF002255" Foreground="DarkBlue" BorderThickness="1">
+                                                    <Expander.Header>
+                                                        <DockPanel>
+                                                            <TextBlock FontWeight="Bold" Foreground="DarkBlue" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="300" />
+                                                        </DockPanel>
+                                                    </Expander.Header>
+                                                    <Expander.Content>
+                                                        <ItemsPresenter />
+                                                    </Expander.Content>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{Binding Z1878_G1_MaCLS, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLExamTypeCode}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding T0842_G1_TenCLS, Source={StaticResource eHCMSResources}}" Binding="{Binding PCLExamTypeName}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding T2699_G1_LoaiCLS, Source={StaticResource eHCMSResources}}" Binding="{Binding V_PCLMainCategoryValue, Mode=TwoWay}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}" Binding="{Binding TreatmentRegimenPCLDetailNote, Mode=TwoWay}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}" Binding="{Binding RecCreatedDate, StringFormat='dd/MM/yyyy'}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding Z1931_G1_NgCNhat, Source={StaticResource eHCMSResources}}" Binding="{Binding LastUpdatedDate, StringFormat='dd/MM/yyyy'}" IsReadOnly="True"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="{Binding K3421_G1_DV, Source={StaticResource eHCMSResources}}">
+                <DataGrid VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                      AutoGenerateColumns="False" CanUserAddRows="False" RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                      RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                      Style="{StaticResource MainFrame.DataGridStyle}"
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                      ItemsSource="{Binding CV_RefTreatmentRegimenServiceDetail, Mode=TwoWay}">
+                    <DataGrid.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Margin" Value="1,1,1,1" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander IsExpanded="True" Background="WhiteSmoke" BorderBrush="#FF002255" Foreground="DarkBlue" BorderThickness="1">
+                                                    <Expander.Header>
+                                                        <DockPanel>
+                                                            <TextBlock FontWeight="Bold" Foreground="DarkBlue" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="300" />
+                                                        </DockPanel>
+                                                    </Expander.Header>
+                                                    <Expander.Content>
+                                                        <ItemsPresenter />
+                                                    </Expander.Content>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="{Binding T3320_G1_MaDV, Source={StaticResource eHCMSResources}}" Binding="{Binding MedServiceCode}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding T0844_G1_TenDV, Source={StaticResource eHCMSResources}}" Binding="{Binding MedServiceName}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding T2707_G1_LoaiDV, Source={StaticResource eHCMSResources}}" Binding="{Binding MedicalServiceTypeName}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding T0723_G1_GChu, Source={StaticResource eHCMSResources}}" Binding="{Binding TreatmentRegimenServiceDetailNote, Mode=TwoWay}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding N0111_G1_NgTao, Source={StaticResource eHCMSResources}}" Binding="{Binding RecCreatedDate, StringFormat='dd/MM/yyyy'}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="{Binding Z1931_G1_NgCNhat, Source={StaticResource eHCMSResources}}" Binding="{Binding LastUpdatedDate, StringFormat='dd/MM/yyyy'}" IsReadOnly="True"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

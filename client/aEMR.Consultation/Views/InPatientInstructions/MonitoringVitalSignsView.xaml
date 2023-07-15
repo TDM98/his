@@ -1,0 +1,547 @@
+﻿<UserControl
+    x:Class="aEMR.ConsultantEPrescription.Views.MonitoringVitalSignsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <AxControls:AxGrid
+        x:Name="LayoutRoot"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <!--<TextBlock Margin="15, 2, 5, 2" VerticalAlignment="Center"  HorizontalAlignment="Right" TextWrapping="Wrap" Text="{Binding Z1980_G1_MachHuyetAp, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.02}" />
+        <AxControls:AxTextBox Grid.Column="1" Margin="2" d:LayoutOverrides="Width" Style="{StaticResource MainFrame.TextBox}"  Text="{Binding gInPatientInstruction.PulseAndBloodPressure,Mode=TwoWay}" VerticalAlignment="Top" />-->
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding Z1980_G1_MachHuyetAp, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxComboBox
+            Name="ReconmendTimeForPulseAndBloodPressure"
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="22"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding ListV_ReconmendTime, Mode=OneWay}"
+            SelectedIndex="1"
+            SelectedValue="{Binding gInPatientInstruction.PulseAndBloodPressure, TargetNullValue=null, Mode=TwoWay}"
+            SelectedValuePath="ObjectValue"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <!--<AxControls:AxAutoComplete
+            Name="ReconmendTimeForPulseAndBloodPressure"
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="Auto"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            cal:Message.Attach="[Event Loaded] = [Action ReconmendTime_Loaded($source, $eventArgs)]                                        ;[Event Populating] = [Action ReconmendTime_Populating($source, $eventArgs)]"
+            IsDropDownOpen="True"
+            ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+            ItemsSource="{Binding ListV_ReconmendTime, Mode=OneWay}"
+            MinimumPopulateDelay="300"
+            MinimumPrefixLength="1"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Style="{StaticResource AxAutoCompleteMyStyle}"
+            Text="{Binding gInPatientInstruction.PulseAndBloodPressure, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            ValueMemberBinding="{Binding ObjectValue, Mode=TwoWay}"
+            ValueMemberPath="ObjectValue">
+            <AxControls:AxAutoComplete.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Name="txtReconmendTimeForPulseAndBloodPressure"
+                            Margin="0"
+                            Padding="0"
+                            Style="{StaticResource MainFrame.TextBlock.Auto}"
+                            Text="{Binding ObjectValue}" />
+                    </StackPanel>
+                </DataTemplate>
+            </AxControls:AxAutoComplete.ItemTemplate>
+        </AxControls:AxAutoComplete>-->
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+            Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding N0237_G1_NhipTho, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxComboBox
+            Name="ReconmendTimeForRespiratoryRate"
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="22"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding ListV_ReconmendTime, Mode=OneWay}"
+            SelectedIndex="1"
+            SelectedValue="{Binding gInPatientInstruction.RespiratoryRate, TargetNullValue=null, Mode=TwoWay}"
+            SelectedValuePath="ObjectValue"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+            Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding S0716_G1_SpO2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxComboBox
+            Name="ReconmendTimeForSpO2"
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="22"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding ListV_ReconmendTime, Mode=OneWay}"
+            SelectedIndex="1"
+            SelectedValue="{Binding gInPatientInstruction.SpO2, TargetNullValue=null, Mode=TwoWay}"
+            SelectedValuePath="ObjectValue"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <!--<AxControls:AxAutoComplete
+            Name="ReconmendTimeForSpO2"
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="Auto"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            cal:Message.Attach="[Event Loaded] = [Action ReconmendTime_Loaded($source, $eventArgs)]                                        ;[Event Populating] = [Action ReconmendTime_Populating($source, $eventArgs)]"
+            IsDropDownOpen="True"
+            ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+            ItemsSource="{Binding ListV_ReconmendTime, Mode=OneWay}"
+            MinimumPopulateDelay="300"
+            MinimumPrefixLength="1"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Style="{StaticResource AxAutoCompleteMyStyle}"
+            Text="{Binding gInPatientInstruction.SpO2, Mode=OneWay, UpdateSourceTrigger=LostFocus}"
+            ValueMemberBinding="{Binding ObjectValue, Mode=OneWay}"
+            ValueMemberPath="ObjectValue">
+            <AxControls:AxAutoComplete.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Name="txtReconmendTimeForSpO2"
+                            Margin="0"
+                            Padding="0"
+                            Style="{StaticResource MainFrame.TextBlock.Auto}"
+                            Text="{Binding ObjectValue}" />
+                    </StackPanel>
+                </DataTemplate>
+            </AxControls:AxAutoComplete.ItemTemplate>
+        </AxControls:AxAutoComplete>-->
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+            Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+        <TextBlock
+            Grid.Row="3"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding N0234_G1_NhietDo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxComboBox
+            Name="ReconmendTimeForTemperature"
+            Grid.Row="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="22"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding ListV_ReconmendTime, Mode=OneWay}"
+            SelectedIndex="1"
+            SelectedValue="{Binding gInPatientInstruction.Temperature, TargetNullValue=null, Mode=TwoWay}"
+            SelectedValuePath="ObjectValue"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <!--<AxControls:AxAutoComplete
+            Name="ReconmendTimeForTemperature"
+            Grid.Row="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="Auto"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            cal:Message.Attach="[Event Loaded] = [Action ReconmendTime_Loaded($source, $eventArgs)]                                        ;[Event Populating] = [Action ReconmendTime_Populating($source, $eventArgs)]"
+            IsDropDownOpen="True"
+            ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+            ItemsSource="{Binding ListV_ReconmendTime, Mode=OneWay}"
+            MinimumPopulateDelay="300"
+            MinimumPrefixLength="1"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Style="{StaticResource AxAutoCompleteMyStyle}"
+            Text="{Binding gInPatientInstruction.Temperature, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            ValueMemberBinding="{Binding ObjectValue, Mode=TwoWay}"
+            ValueMemberPath="ObjectValue">
+            <AxControls:AxAutoComplete.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Name="txtReconmendTimeForTemperature"
+                            Margin="0"
+                            Padding="0"
+                            Style="{StaticResource MainFrame.TextBlock.Auto}"
+                            Text="{Binding ObjectValue}" />
+                    </StackPanel>
+                </DataTemplate>
+            </AxControls:AxAutoComplete.ItemTemplate>
+        </AxControls:AxAutoComplete>-->
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+            Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+
+        <TextBlock
+            Grid.Row="4"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding Z1973_G1_DuongHuyet, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxComboBox
+            Name="ReconmendTimeForBloodSugar"
+            Grid.Row="4"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="22"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding ListV_ReconmendTimeForECG, Mode=OneWay}"
+            SelectedIndex="1"
+            SelectedValue="{Binding gInPatientInstruction.BloodSugar, TargetNullValue=null, Mode=TwoWay}"
+            SelectedValuePath="ObjectValue"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <!--<AxControls:AxAutoComplete
+            Name="ReconmendTimeForBloodSugar"
+            Grid.Row="4"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="Auto"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            cal:Message.Attach="[Event Loaded] = [Action ReconmendTime_Loaded($source, $eventArgs)]                                        ;[Event Populating] = [Action ReconmendTime_Populating($source, $eventArgs)]"
+            IsDropDownOpen="True"
+            ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+            ItemsSource="{Binding ListV_ReconmendTime, Mode=OneWay}"
+            MinimumPopulateDelay="300"
+            MinimumPrefixLength="1"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Style="{StaticResource AxAutoCompleteMyStyle}"
+            Text="{Binding gInPatientInstruction.BloodSugar, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            ValueMemberBinding="{Binding ObjectValue, Mode=TwoWay}"
+            ValueMemberPath="ObjectValue">
+            <AxControls:AxAutoComplete.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Name="txtReconmendTimeForTemperature"
+                            Margin="0"
+                            Padding="0"
+                            Style="{StaticResource MainFrame.TextBlock.Auto}"
+                            Text="{Binding ObjectValue}" />
+                    </StackPanel>
+                </DataTemplate>
+            </AxControls:AxAutoComplete.ItemTemplate>
+        </AxControls:AxAutoComplete>-->
+
+        <TextBlock
+            Grid.Row="5"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding T0014_G1_ECG, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxComboBox
+            Name="ReconmendTimeForECG"
+            Grid.Row="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="22"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding ListV_ReconmendTimeForECG, Mode=OneWay}"
+            SelectedIndex="1"
+            SelectedValue="{Binding gInPatientInstruction.ECG, TargetNullValue=null, Mode=TwoWay}"
+            SelectedValuePath="ObjectValue"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <!--<AxControls:AxAutoComplete
+            Name="ReconmendTimeForECG"
+            Grid.Row="5"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="Auto"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            cal:Message.Attach="[Event Loaded] = [Action ReconmendTime_Loaded($source, $eventArgs)]                                        ;[Event Populating] = [Action ReconmendTime_Populating($source, $eventArgs)]"
+            IsDropDownOpen="True"
+            ItemContainerStyle="{StaticResource AxAutoCompleteBoxBkg}"
+            ItemsSource="{Binding ListV_ReconmendTime, Mode=OneWay}"
+            MinimumPopulateDelay="300"
+            MinimumPrefixLength="1"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            Style="{StaticResource AxAutoCompleteMyStyle}"
+            Text="{Binding gInPatientInstruction.ECG, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            ValueMemberBinding="{Binding ObjectValue, Mode=TwoWay}"
+            ValueMemberPath="ObjectValue">
+            <AxControls:AxAutoComplete.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Name="txtReconmendTimeForECG"
+                            Margin="0"
+                            Padding="0"
+                            Style="{StaticResource MainFrame.TextBlock.Auto}"
+                            Text="{Binding ObjectValue}" />
+                    </StackPanel>
+                </DataTemplate>
+            </AxControls:AxAutoComplete.ItemTemplate>
+        </AxControls:AxAutoComplete>-->
+
+        <TextBlock
+            Grid.Row="6"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding Z1974_G1_NuocTieu, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxTextBox
+            Grid.Row="6"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="2,2,5,2"
+            VerticalAlignment="Top"
+            Style="{StaticResource MainFrame.TextBox}"
+            Text="{Binding gInPatientInstruction.Urine, Mode=TwoWay}"
+            d:LayoutOverrides="Width" />
+
+        <TextBlock
+            Grid.Row="7"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding G1780_G1_TriGiac, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxTextBox
+            Grid.Row="7"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="2,2,5,2"
+            VerticalAlignment="Top"
+            Style="{StaticResource MainFrame.TextBox}"
+            Text="{Binding gInPatientInstruction.Sense, Mode=TwoWay}"
+            d:LayoutOverrides="Width" />
+
+        <TextBlock
+            Grid.Row="8"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding K0832_G1_3Khac, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxTextBox
+            Grid.Row="8"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="2,2,5,2"
+            VerticalAlignment="Top"
+            Style="{StaticResource MainFrame.TextBox}"
+            Text="{Binding gInPatientInstruction.PhysicalExamOther, Mode=TwoWay}"
+            d:LayoutOverrides="Width" />
+
+        <TextBlock
+            Grid.Row="9"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding Z1975_G1_CheDoAn, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <!--<AxControls:AxTextBox
+            Grid.Row="9"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="2,2,5,2"
+            VerticalAlignment="Top"
+            Style="{StaticResource MainFrame.TextBox}"
+            Text="{Binding gInPatientInstruction.Diet, Mode=TwoWay}"
+            d:LayoutOverrides="Width" />-->
+        <AxControls:AxComboBox
+            Grid.Row="9"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="22"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            cal:Message.Attach="[Event KeyUp]=[Action cboCdAn_TextChanged($source)];                                  [Event SelectionChanged]=[Action cboCdoAn_SelectionChanged($source,$eventArgs)]"
+            IsEditable="True"
+            SelectedValueEx="{Binding gInPatientInstruction.Diet, TargetNullValue=null, Mode=TwoWay}"
+            SelectedValuePath="Content"
+            Style="{StaticResource MainFrame.ComboBox}"
+            Text="{Binding gInPatientInstruction.Diet, Mode=TwoWay}">
+            <AxControls:AxComboBox.Items>
+                <ComboBoxItem Content="cơm" />
+                <ComboBoxItem Content="cháo" />
+                <ComboBoxItem Content="bún" />
+                <ComboBoxItem Content="sữa" />
+                <ComboBoxItem Content="nhịn ăn" />
+                <ComboBoxItem Content="cho ăn qua sonde" />
+            </AxControls:AxComboBox.Items>
+        </AxControls:AxComboBox>
+        <TextBlock
+            Grid.Row="9"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+            Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+        <TextBlock
+            Grid.Row="10"
+            Grid.Column="0"
+            Margin="15,2,5,2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource MainFrame.TextBlock.02}"
+            Text="{Binding Z1978_G1_ChamSocCap, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+            TextWrapping="Wrap" />
+        <AxControls:AxComboBox
+            Grid.Row="10"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="22"
+            Margin="2,2,5,2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            cal:Message.Attach="[Event SelectionChanged]=[Action cboVLevelCare_SelectionChanged($source,$eventArgs)]"
+            DisplayMemberPath="ObjectValue"
+            ItemsSource="{Binding LevelCareList, Mode=OneWay}"
+            SelectedIndex="1"
+            SelectedItemEx="{Binding gInPatientInstruction.V_LevelCare, TargetNullValue=null, Mode=TwoWay}"
+            SelectedValuePath="LookupID"
+            Style="{StaticResource MainFrame.ComboBox}" />
+        <TextBlock
+            Grid.Row="10"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Style="{StaticResource TBlock.Heading.03.RedAsterisk}"
+            Text="{Binding Z0045_G1_DauSao, Source={StaticResource eHCMSResources}}" />
+        <Button
+            x:Name="SaveCmd"
+            Grid.Row="6"
+            Grid.Column="3"
+            Width="90"
+            Margin="0,5,2,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+            IsEnabled="{Binding EnableSaveCmd, Mode=OneWay}"
+            Style="{StaticResource MainFrame.Button}"
+            Visibility="Collapsed" />
+    </AxControls:AxGrid>
+</UserControl>

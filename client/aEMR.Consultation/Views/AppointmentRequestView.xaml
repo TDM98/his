@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="aEMR.ConsultantEPrescription.Views.AppointmentRequestView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common" >
+<UserControl.Resources>
+	    <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+    </UserControl.Resources>
+    <Grid Height="Auto" HorizontalAlignment="Stretch" Background="White" ShowGridLines="False"
+          Visibility="{Binding mHenBenh_Xem,Converter={StaticResource BooleanToVisibility} }">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="firstRow"  Height="Auto"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition MinWidth="1" Width="1"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock x:Name="TitleForm" Text="{Binding T1455_G1_HBenh, Source={StaticResource eHCMSResources}}" Grid.ColumnSpan="3"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MainFrame.TextBlock.Header.01}"/>
+        <ContentControl x:Name="LoggedUserInfoContent" Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+        <ContentControl x:Name="PatientInfoContent" Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+        
+        <Grid Grid.Row="2" Grid.ColumnSpan="3">
+            <Button x:Name="CreateNewAppointmentRequestCmd"
+                            Content="{Binding T1471_G1_HenTK2, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}"
+                            Width="130"
+                            Style="{StaticResource MainFrame.Button}" />
+                <!--IsEnabled="{Binding CurrentRegistration.PtRegistrationID,Mode=OneWay,Converter={StaticResource CheckIfNotNullConverter}}"/>-->
+        </Grid>
+        <StackPanel HorizontalAlignment="Left" Grid.Row="3">
+        </StackPanel>
+    </Grid>
+</UserControl>

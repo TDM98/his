@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="aEMR.TransactionManager.Views.RptDoanhThuTongHopNoiTruView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Converters:StringFormatConverter x:Key="StringFormatConverter" />
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <!--Header="{Binding K1997_G1_ChonKhoa, Source={StaticResource eHCMSResources}}"-->
+        <Expander x:Name="RightExpander" Margin="0,0,0,0"
+                  Width="Auto" ExpandDirection="Left"
+                  MinWidth="10" IsExpanded="True" Background="#FFDBE5F1"
+                  RenderTransformOrigin="0,0" DockPanel.Dock="Right" >
+            <!--Khoa-->
+            <ContentControl Name="leftContent" />
+            <!--Khoa-->
+        </Expander>
+
+        <!--Col1-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="TitleForm"
+                               Text="{Binding Z2026_G1_BCTgHopDThuNoiTru, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Converter={StaticResource StringFormatConverter}}"
+                               HorizontalAlignment="Center" Foreground="#3595CB"
+                               FontSize="14" FontWeight="Bold" Margin="0,10,0,5" />
+                    <TextBlock Grid.Row="1" Text="{Binding DeptName, Mode=TwoWay}"
+                               HorizontalAlignment="Center" Foreground="DarkRed"
+                               FontSize="12" FontWeight="Bold" Margin="0,10,0,5" />
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1" HorizontalAlignment="Left">
+                <Grid Width="400">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Text="{Binding G1933_G1_TuNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                               Grid.Row="0" Grid.Column="0" Margin="0,2,5,2" />
+                    <DatePicker x:Name="dtFromDate"
+                                SelectedDate="{Binding FromDate, Mode=TwoWay}"
+                                HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" FontWeight="Normal" Foreground="Black" />
+                    <TextBlock HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Text="{Binding K3192_G1_DenNg, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}"
+                               Grid.Row="0" Grid.Column="2" Margin="0,2,5,2" />
+                    <DatePicker x:Name="dtToDate"
+                                SelectedDate="{Binding ToDate, Mode=TwoWay}"
+                                HorizontalAlignment="Left" Grid.Row="0"
+                                Grid.Column="3" FontWeight="Normal"
+                                Foreground="Black" />
+
+                    <CheckBox Name="chk_HasDischarge"
+                              Grid.Row="1"
+                              Content="{Binding K2261_G1_ChuaXV, Source={StaticResource eHCMSResources}}"
+                              VerticalContentAlignment="Center"                              
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              IsChecked="{Binding HasDischarge, Mode=TwoWay}"
+                              Style="{StaticResource MainFrame.Checkbox}" /> 
+                    
+                    <StackPanel Orientation="Horizontal" Grid.Row="2"
+                                Grid.Column="1" Grid.ColumnSpan="3">
+                        <Button Content="{Binding G2849_G1_XuatExcel, Source={StaticResource eHCMSResources}}"
+                                Margin="2,1" Width="75"
+                                Style="{StaticResource MainFrame.Button}"
+                                FontWeight="Normal" Name="btnExportExcel"
+                                Visibility="{Binding mExportToExcel, Converter={StaticResource BooleanToVisibility}}" />
+                        <Button  Margin="2,1" x:Name="btView"
+                                 Content="{Binding G2386_G1_Xem, Source={StaticResource eHCMSResources}}"
+                                 Grid.Row="3" Grid.Column="1" Width="100"
+                                 HorizontalAlignment="Left" 
+                                 Visibility="{Binding mViewAndPrint, Converter={StaticResource BooleanToVisibility}}" />
+                        <Button  Margin="2,1" x:Name="btViewDetail"
+                                 Content="{Binding G2410_G1_XemCTiet, Source={StaticResource eHCMSResources}}"
+                                 Grid.Row="3" Grid.Column="1" Width="100"
+                                 HorizontalAlignment="Left"
+                                 Visibility="{Binding mViewAndPrint, Converter={StaticResource BooleanToVisibility}}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+        <!--Col1-->
+    </Grid>
+</UserControl>

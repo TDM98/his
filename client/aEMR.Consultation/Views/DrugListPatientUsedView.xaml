@@ -1,0 +1,117 @@
+﻿<UserControl    x:Class="aEMR.ConsultantEPrescription.Views.DrugListPatientUsedView"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                xmlns:cal="http://www.caliburnproject.org"
+                xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+                xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+                mc:Ignorable="d"
+                d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:StringFormatConverter x:Key="StringFormatConverter"/>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        <DataTemplate x:Key="ColDeleteTemplate">
+            <Button x:Name="lnkDelete" cal:Message.Attach="[Event Click] = [Action lnkDelete_Click($source, $eventArgs)]" ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button.Content>
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                </Button.Content>
+            </Button>
+        </DataTemplate>
+        
+        
+    </UserControl.Resources>
+    <ContentControl HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" IsEnabled="{Binding PatientID,TargetNullValue=False,Converter={StaticResource IsEnableConverter}}">
+        <Grid x:Name="LayoutRoot">
+            <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ShowGridLines="False" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="4*" />
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="27" MaxHeight="27" />
+                    <RowDefinition  />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <AxControls:DataPager Margin="0,2,0,1" Source="{Binding GetDrugForSellVisitorList,Mode=TwoWay}" Grid.Row="2" Grid.Column="1" Width="Auto"  HorizontalAlignment="Left" Name="dpgFileDetails" PageSize="15" VerticalAlignment="Center" Style="{StaticResource MainFrame.DataPager}" Visibility="Visible"/>
+                <TextBlock Text="{Binding G1434_G1_ToaThuoc, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" Style="{StaticResource MainFrame.TextBlock.01}" Margin="5,0,0,0" />
+                <Button x:Name="hplRefresh" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Content="{Binding R0510_G1_Refresh, Source={StaticResource eHCMSResources}}" VerticalAlignment="Center" FontWeight="Bold" FontSize="11" Foreground="#CC0033" Style="{StaticResource MainFrame.Button}"/>
+                <AxControls:ReadOnlyDataGrid IsReadOnly="True" HeadersVisibility="All" VerticalContentAlignment="Stretch"
+                                  AutoGenerateColumns="False" Grid.Row="1" Grid.Column="1" 
+                                  Name="grdPrescriptions" 
+                                  Margin="0,0,0,0" 
+                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                                              
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"    
+                                  ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" 
+                                  Style="{StaticResource MainFrame.DataGridStyle}"
+                                  ItemsSource="{Binding GetDrugForSellVisitorList}" 
+                                  cal:Message.Attach="[Event Loaded] = [Action grdPrescriptions_Loaded($source, $eventArgs)];
+                                                 [Event LoadingRow] = [Action grdPrescriptions_LoadingRow($source, $eventArgs)]
+                                  ;[Event DblClick] = [Action grdPrescriptions_DblClick($source, $eventArgs)]"
+                                  RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}" >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn CellTemplate="{StaticResource ColDeleteTemplate}"/>
+                        <DataGridTextColumn Header="{Binding T3649_G1_MaThuoc, Source={StaticResource eHCMSResources}}" Binding="{Binding DrugCode}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+                        <DataGridTextColumn Header="{Binding T0904_G1_TenThuoc, Source={StaticResource eHCMSResources}}" Binding="{Binding BrandName}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100"  Width="*"  ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+                        <DataGridTextColumn Header="{Binding N0045_G1_Ng, Source={StaticResource eHCMSResources}}" Binding="{Binding IssuedDateTime,StringFormat='dd/MM/yyyy'}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" ElementStyle="{StaticResource MainFrame.TextBlockLeftAlign}"/>
+                        <DataGridTemplateColumn Width="Auto" >
+                            <DataGridTemplateColumn.HeaderTemplate>
+                            
+                                            <DataTemplate>
+                                                <CheckBox IsThreeState="False" Margin="0,0,0,0" IsChecked="{Binding Path=DataContext.AllChecked, ElementName=LayoutRoot, Mode=TwoWay}" ToolTipService.ToolTip="{Binding K2122_G1_ChonTatCa, Source={StaticResource eHCMSResources}}"/>
+                                            </DataTemplate>
+                               
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Checked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </AxControls:ReadOnlyDataGrid>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="0" Grid.RowSpan="3" Grid.Column="2" Margin="2,1">
+                    <Grid DataContext="{Binding SelectedPrescription}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding G0696_G1_TTinToaThuoc, Source={StaticResource eHCMSResources}, ConverterParameter=Upper, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2"></TextBlock>
+                        <Image Grid.Row="1" Margin="10,0,0,0" Source="/aEMR.CommonViews;component/Assets/Images/Drug.png" Width="100" Height="65" HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                        <TextBlock Grid.Row="2" Text="{Binding G1441_G1_ToaThuocIdPHanh, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2"></TextBlock>
+                        <TextBlock Grid.Row="3" Text="{Binding IssueID}" Style="{StaticResource TBlock.Content.00}" TextWrapping="NoWrap" Margin="10,0,0,0" />
+                        <TextBlock Grid.Row="4" Text="{Binding K0961_G1_BSi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2"></TextBlock>
+                        <TextBlock Grid.Row="5" Text="{Binding ObjIssuerStaffID.FullName}" Style="{StaticResource TBlock.Content.00}" FontWeight="Bold" Foreground="Red" TextWrapping="Wrap" Margin="10,0,0,0" />
+                        <TextBlock Grid.Row="6" Text="{Binding K1746_G1_CDoan, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2"></TextBlock>
+                        <TextBlock Grid.Row="7" Text="{Binding Diagnosis}" Style="{StaticResource TBlock.Content.00}" TextWrapping="Wrap" Margin="10,0,0,0" />
+                        <TextBlock Grid.Row="8" Text="{Binding G0696_G1_TTinToaThuoc, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2"></TextBlock>
+                        <!--ChangedWPF-CMN: Remove Loaded event cause of not working-->
+                        <!--<StackPanel Grid.Row="9" x:Name="PendingClientsGrid" cal:Message.Attach="[Event Loaded] = [Action gvPendingClients_Loaded($source, $eventArgs)]"></StackPanel>-->
+                        <StackPanel Grid.Row="9" x:Name="PendingClientsGrid"></StackPanel>
+                        <!--<TextBlock Grid.Row="9" Text="{Binding PrescriptDetailsStr}" Style="{StaticResource TBlock.Content.00}" TextWrapping="Wrap" Margin="10,0,0,0" />-->
+                        <TextBlock Grid.Row="10" Text="{Binding T2921_G1_LoiKhuyen, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Style="{StaticResource MainFrame.TextBlock.00}" Grid.ColumnSpan="2"></TextBlock>
+                        <TextBlock Grid.Row="11" Text="{Binding DoctorAdvice}" Style="{StaticResource TBlock.Content.00}" TextWrapping="Wrap" Margin="10,0,0,0" />
+
+                    </Grid>
+                </ScrollViewer>
+
+                <Button Name="btnRaToa" Content="{Binding R0501_G1_RaToa, Source={StaticResource eHCMSResources}}" Grid.Row="2" Style="{StaticResource MainFrame.Button}" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="2,1" MinWidth="75"></Button>
+            </Grid>
+        </Grid>
+    </ContentControl>
+</UserControl>

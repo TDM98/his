@@ -1,0 +1,307 @@
+﻿<UserControl
+    x:Class="aEMR.Consultation.Views.ExecuteDoctorInstructionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
+    xmlns:local="clr-namespace:aEMR.Consultation.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <converters:DatetimeConverter x:Key="DatetimeConverter" />
+        <DataTemplate x:Key="AddItemButtonTemplate">
+            <Button
+                x:Name="lnkAdd"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action AddItemCmd($source, $eventArgs)]"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}">
+                <Button.Content>
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/add.png" />
+                </Button.Content>
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="RemoveItemButtonTemplate">
+            <Button
+                x:Name="lnkDelete"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action RemoveItemCmd($source, $eventArgs)]"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}">
+                <Button.Content>
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" />
+                </Button.Content>
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="EditItemButtonTemplate">
+            <Button
+                x:Name="lnkEdit"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                cal:Message.Attach="[Event Click]=[Action EditItemCmd($source, $eventArgs)]"
+                Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                ToolTipService.ToolTip="{Binding K1599_G1_CNhat, Source={StaticResource eHCMSResources}}">
+                <Button.Content>
+                    <Image
+                        Width="13"
+                        Height="13"
+                        Opacity="1"
+                        Source="/aEMR.CommonViews;component/Assets/Images/edit-icon.png" />
+                </Button.Content>
+            </Button>
+        </DataTemplate>
+        <DataTemplate x:Key="gridDetailsList">
+            <Grid Grid.Row="1" MaxWidth="600">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="477*" />
+                    <ColumnDefinition Width="15" />
+                    <ColumnDefinition Width="15" />
+                </Grid.ColumnDefinitions>
+                <AxControls:AxDataGridEx
+                    Name="grdExecuteDrugList"
+                    Grid.ColumnSpan="2"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    CanUserReorderColumns="True"
+                    HeadersVisibility="All"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding ExecuteDrugDetailList, Mode=TwoWay}"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    Style="{StaticResource MainFrame.DataGridStyle}">
+                    <!--<DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="90" />
+                                    </TransformGroup>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.LayoutTransform>
+                        <TransformGroup>
+                            <RotateTransform Angle="-90" />
+                        </TransformGroup>
+                    </DataGrid.LayoutTransform>-->
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                            MinWidth="32"
+                            Binding="{Binding NurseStaff.FullName, Mode=OneWay}"
+                            Header="{Binding Z1928_G1_DieuDuong, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            MinWidth="32"
+                            Binding="{Binding DateExecute, Mode=TwoWay, Converter={StaticResource DatetimeConverter}, StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                            CanUserSort="True"
+                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                            Header="Ngày giờ thực hiện"
+                            IsReadOnly="True"
+                            Visibility="Visible" />
+                        <DataGridTemplateColumn x:Name="colEditItem" CellTemplate="{StaticResource EditItemButtonTemplate}" />
+                        <DataGridTemplateColumn x:Name="colRemoveItem" CellTemplate="{StaticResource RemoveItemButtonTemplate}" />
+                    </DataGrid.Columns>
+                </AxControls:AxDataGridEx>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TabControl
+            Grid.Row="4"
+            cal:Message.Attach="[Event SelectionChanged] = [Action TCMain_SelectionChanged($source, $eventArgs)]"
+            Style="{StaticResource MainFrame.TabControl}">
+            <TabItem Header="Phiếu chăm sóc" Style="{StaticResource MainFrame.TabItem}">
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="477*" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="32" />
+                    </Grid.RowDefinitions>
+                    <AxControls:AxDataGridEx
+                        Name="grdCommonRecord"
+                        Grid.ColumnSpan="2"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserReorderColumns="True"
+                        CanUserResizeColumns="True"
+                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                        HeadersVisibility="All"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding TicketCareList, Mode=TwoWay}"
+                        RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Style="{StaticResource MainFrame.DataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="SizeToCells"
+                                MinWidth="130"
+                                Binding="{Binding DateExcute, Mode=TwoWay, Converter={StaticResource DatetimeConverter}, StringFormat='dd/MM/yyyy HH:mm:ss'}"
+                                CanUserReorder="True"
+                                CanUserResize="True"
+                                CanUserSort="True"
+                                ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"
+                                Header="Ngày giờ thực hiện"
+                                IsReadOnly="True"
+                                Visibility="Visible" />
+                            <DataGridTemplateColumn Width="400" Header="Theo dõi diễn biến">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Text="{Binding OrientedTreatment}"
+                                            TextWrapping="WrapWithOverflow" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="400" Header="Thực hiện y lệnh">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            Text="{Binding ExcuteInstruction}"
+                                            TextWrapping="WrapWithOverflow" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn
+                                MinWidth="200"
+                                Binding="{Binding CreatedStaff.FullName, Mode=OneWay}"
+                                Header="Người tạo" />
+                        </DataGrid.Columns>
+                    </AxControls:AxDataGridEx>
+
+                    <Button
+                        x:Name="AddTicketCareCmd"
+                        Grid.Row="1"
+                        Width="120"
+                        Margin="5,2,5,2"
+                        HorizontalAlignment="Right"
+                        Content="Thêm mới"
+                        Style="{StaticResource MainFrame.Button}" />
+                    <Button
+                        x:Name="PreviewCmd"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Width="90"
+                        Margin="5,2,5,2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Thực hiện y lệnh thuốc" Style="{StaticResource MainFrame.TabItem}">
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="477*" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="32" />
+                    </Grid.RowDefinitions>
+                    <AxControls:AxDataGridEx
+                        Name="grdTicketCare"
+                        Grid.ColumnSpan="2"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserReorderColumns="True"
+                        CanUserResizeColumns="True"
+                        ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                        HeadersVisibility="All"
+                        IsReadOnly="True"
+                        ItemsSource="{Binding ExecuteDrugList, Mode=TwoWay}"
+                        RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Style="{StaticResource MainFrame.DataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                MinWidth="200"
+                                Binding="{Binding DrugInfo.BrandName, Mode=OneWay}"
+                                Header="Tên thuốc" />
+                            <DataGridTextColumn
+                                MinWidth="15"
+                                Binding="{Binding Qty, Mode=OneWay, StringFormat='0.#'}"
+                                Header="SL" />
+                            <DataGridTextColumn
+                                MinWidth="15"
+                                Binding="{Binding NumberOfUse, Mode=OneWay}"
+                                Header="Số lần" />
+                            <DataGridTemplateColumn x:Name="gridDetailsList" CellTemplate="{StaticResource gridDetailsList}" />
+                            <DataGridTemplateColumn x:Name="addDetailsList" CellTemplate="{StaticResource AddItemButtonTemplate}" />
+                        </DataGrid.Columns>
+                    </AxControls:AxDataGridEx>
+                    <Button
+                        x:Name="PreviewExecuteDrugCmd"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Width="90"
+                        Margin="5,2,5,2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{Binding G2521_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                        Style="{StaticResource MainFrame.Button}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Phiếu theo dõi chức năng sống">
+                <StackPanel>
+                    <Button
+                        x:Name="PreviewVitalCmd"
+                        Width="90"
+                        Margin="5,2,5,2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="Xem/In"
+                        Style="{StaticResource MainFrame.Button}" />
+                    <dxp:DocumentPreviewControl
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Width="Auto"
+                        Height="875"
+                        MaxHeight="700"
+                        AutoShowParametersPanel="False"
+                        DocumentSource="{Binding ReportModel, Mode=OneWay}" />
+                </StackPanel>
+
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

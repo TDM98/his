@@ -1,0 +1,111 @@
+﻿<UserControl                   x:Class="aEMR.Pharmacy.Views.ContraindicatorDrugView" 
+                               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                               xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
+                               xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                               xmlns:cal="http://www.caliburnproject.org"      
+                               xmlns:commonctrl="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                               xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                               d:DesignWidth="885" d:DesignHeight="480"   
+                               mc:Ignorable="d" >
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+        
+        <DataTemplate x:Key="ColDeleteTemplate">
+            <Button x:Name="lnkDelete"
+                             cal:Message.Attach="[Event Click]=[Action lnkDelete_Click($source,$eventArgs)]
+                             ;[Event Loaded]=[Action lnkDelete_Loaded($source)]" 
+                ToolTipService.ToolTip="Click here for delete" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button.Content>
+                    <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Height="13" Width="13" Opacity="1" />
+                </Button.Content>
+            </Button>            
+        </DataTemplate>
+    </UserControl.Resources>
+    <!--<toolkit:BusyIndicator HorizontalAlignment="Stretch"
+                                         VerticalAlignment="Stretch"
+                                         IsBusy="{Binding IsLoading, Mode=OneWay}"                                         
+                                         DisplayAfter="0:0:0.100"
+                                         Margin="0,0,0,10">-->
+    <commonctrl:AxGrid x:Name="LayoutRoot" Height="480">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>            
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <TextBlock HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Top" Text="{Binding TitleForm}" FontSize="18"  Style="{StaticResource TextBlock.Heading.02}"/>
+        
+        <Border Grid.Row="1" Style="{StaticResource LightBlueBorderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="189" />
+                    <ColumnDefinition Width="258" />
+                    <ColumnDefinition Width="122" />
+                    <ColumnDefinition Width="316*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock HorizontalAlignment="Right"  VerticalAlignment="Center" Text="{Binding T2736_G1_LoaiDKienSK, StringFormat='{}{0}: ', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}"/>
+                <!--Style="{StaticResource MainFrame.ComboBox}"-->
+                <commonctrl:AxComboBox  Grid.Column="1"  x:Name="cborefMedType" VerticalAlignment="Center" Height="22" 
+                                              ItemsSource="{Binding allRefMedicalConditionType,Mode=OneWay}"                                                     
+                                              SelectedItemEx="{Binding selectedRefMedicalConditionType ,Mode=TwoWay}"   
+                                                        SelectionChanged="cborefMedType_SelectionChanged"
+                                              
+                                              DisplayMemberPath="MedConditionType" SelectedValuePath="MCTypeID"/>
+
+                <Button Name="NewDrugContra" Content="..."  Grid.Column="2" HorizontalAlignment="Left" Margin="2,2,0,2"  VerticalAlignment="Center" Width="33" TabIndex="1000" Grid.ColumnSpan="3" 
+                        Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility} }"/>
+
+                <Button Content="{Binding G0156_G1_Them, Source={StaticResource eHCMSResources}}"  Grid.Column="4" Height="20" HorizontalAlignment="Left" Name="AddContraIndicator" VerticalAlignment="Center" Width="75" Style="{StaticResource MainFrame.Button}"
+                        Visibility="{Binding bThem,Converter={StaticResource BooleanToVisibility} }"
+                                        TabIndex="5" />
+            </Grid>
+        </Border>
+        <Border x:Name="BorderCanvas" Grid.Row="2" 
+                Style="{StaticResource LightBlueBorderStyle}" Margin="1,1,1,1"
+                >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="30"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Height="18" HorizontalAlignment="Left" Text="{Binding K2954_G1_DSCCD, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" Style="{StaticResource TextBlock.Heading.02}" Foreground="#FFE65D0F"  />
+                <DataGrid  Grid.Row="1" Name="grdResources" 
+                      AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+					ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                      ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                           Style="{StaticResource MainFrame.DataGridStyle}"
+					ItemsSource="{Binding allContraIndicatorDrugsRelToMedCond, Mode=OneWay}"                              
+                    SelectedItem="{Binding selectedContraIndicatorDrugsRelToMedCond,Mode=TwoWay}"                      
+                              >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn IsReadOnly="False" CellTemplate="{StaticResource ColDeleteTemplate}"/>
+                        <DataGridTextColumn  
+                                                            Header="{Binding T0845_G1_TenDieuKienSucKhoe, Source={StaticResource eHCMSResources}}"
+                                                            IsReadOnly="True" Binding="{Binding RefMedicalConditionType.MedConditionType, Mode=TwoWay}" 
+                                                            CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="300" Width="SizeToCells"  
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                      
+                        </DataGridTextColumn>
+                        <DataGridTextColumn  
+                                                            Header="{Binding T0904_G1_TenThuoc, Source={StaticResource eHCMSResources}}"                            
+                                                            IsReadOnly="True" Binding="{Binding RefGenericDrugDetail.BrandName  , Mode=TwoWay}" 
+                                                            CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="300" Width="SizeToCells"  
+                                                            ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"  >
+                      
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                <commonctrl:DataPager Grid.Row="2" Grid.Column="0" Margin="1,0,0,0"  PageSize="{Binding PageSize}"
+                               Source="{Binding allContraIndicatorDrugsRelToMedCond,Mode=TwoWay}"/>
+            </Grid>
+            
+        </Border>
+    </commonctrl:AxGrid>
+    <!--</toolkit:BusyIndicator>-->
+</UserControl>

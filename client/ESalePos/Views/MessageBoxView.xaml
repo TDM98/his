@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="aEMRClient.Views.MessageBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:aEMRCommConv="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="400" MinHeight="100" MinWidth="200"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    </UserControl.Resources>
+    <Border BorderThickness="1" BorderBrush="Gray">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border >
+                <TextBlock Text="{Binding MessageBoxText}"  />
+            </Border>
+            <Border BorderThickness="0,1,0,0" Grid.Row="2" BorderBrush="Gray">
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="Ok" Content="{Binding K3847_G1_DongY, Source={StaticResource eHCMSResources}}" Margin="5,5,0,5" Visibility="{Binding OkVisible,Converter={StaticResource boolToVisible}}" 
+                            Style="{StaticResource MainFrame.Button}" Width="80" Height="22">
+                    </Button>
+                    <Button Content="{Binding K1305_G1_BoQua, Source={StaticResource eHCMSResources}}" Name="Cancel" Margin="5,5,0,5" Visibility="{Binding CancelVisible,Converter={StaticResource boolToVisible}}" 
+                            Style="{StaticResource MainFrame.Button}" Width="80" Height="22">
+                    </Button>
+                    <Button Content="{Binding K2405_G1_Co, Source={StaticResource eHCMSResources}}" Name="Yes" Margin="5,5,0,5" Visibility="{Binding YesVisible,Converter={StaticResource boolToVisible}}" 
+                            Style="{StaticResource MainFrame.Button}" Width="80" Height="22">
+                    </Button>
+                    <Button Content="{Binding T2309_G1_Khong, Source={StaticResource eHCMSResources}}" Name="No" Margin="5,5,0,5" Visibility="{Binding NoVisible,Converter={StaticResource boolToVisible}}" 
+                            Style="{StaticResource MainFrame.Button}" Width="80" Height="22">
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

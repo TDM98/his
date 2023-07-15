@@ -1,0 +1,803 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:controls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+                    mc:Ignorable="d">
+    
+    <Thickness x:Key="PagingControlItemMargin">4,0,0,0</Thickness>
+    <Thickness x:Key="PagingControlItemMarginNormal">10,0,0,0</Thickness>
+
+    <Geometry x:Key="LeftArrowGeometry">M 6.5 0 L 0 6.5 6.5 13 Z</Geometry>
+    <Geometry x:Key="RightArrowGeometry">M 0 13 L 6.5 6 L 0 0 Z</Geometry>
+    <Geometry x:Key="DownArrowGeometry">M 0 0 L 6.5 6.5 L 13 0 Z</Geometry>
+    <Geometry x:Key="AdditionGeometry">M0,5 H10 M5,5 V10Z</Geometry>
+    <Geometry x:Key="MinusGeometry">M0,5 H10</Geometry>
+
+    <SolidColorBrush x:Key="ButtonProgressArrowBrush" Color="#FFA510BB"/>
+    <LinearGradientBrush x:Key="ButtonProgressNormalBackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFF4F2F3" Offset="0"/>
+        <GradientStop Color="#FFD5D5D5" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="LabelNormalBrush" Color="#FF000000" />
+
+    <SolidColorBrush x:Key="ButtonProgressDisabledBackgroundBrush" Color="#FFDCDCDC"/>
+    <LinearGradientBrush x:Key="ButtonProgressPressedBackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFFFFFFF" Offset="0"/>
+        <GradientStop Color="#FF999999" Offset="1"/>
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="ButtonDefaultFocusBorderBrush" Color="#FF0EA003" />
+    <SolidColorBrush x:Key="ButtonDefaultDisabledForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="ButtonDefaultPressedForegroundBrush" Color="#FFFFFFFF" />
+    <!--  Focus Style  -->
+    <Style x:Key="ButtonFocusDefaultVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border"
+                            BorderBrush="{StaticResource ButtonDefaultFocusBorderBrush}"
+                            BorderThickness="2"
+                            CornerRadius="3"
+                            Padding="12,0"
+                            RenderTransformOrigin="0.5,0.5" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Focus Decision Style  -->
+    <Style x:Key="ButtonFocusDecisionAdditionMinusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border x:Name="border"
+                            BorderBrush="{DynamicResource ButtonDecisionAdditionMinusFocusBorderBrush}"
+                            BorderThickness="2"
+                            CornerRadius="3"
+                            Padding="12,0"
+                            RenderTransformOrigin="0.5,0.5" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Large Action Style  -->
+    <Style x:Key="ButtonLargeActionStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="MinWidth" Value="110" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDefaultVisual}" />
+        <Setter Property="Foreground" Value="{StaticResource LabelNormalBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultAppFontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource LargeFontSize}" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.25"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{DynamicResource ButtonLargeActionNormalBackgroundBrush}"
+                            CornerRadius="3"
+                            Padding="14,2">
+                        <Grid>
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="12,0" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonLargeActionPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="14,2" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                            <Setter Property="Foreground" Value="{StaticResource ButtonDefaultPressedForegroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonLargeActionDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="14,2" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                            <Setter Property="Foreground" Value="{StaticResource ButtonDefaultDisabledForegroundBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Medium Action Style  -->
+    <Style x:Key="ButtonMediumActionStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="26" />
+        <Setter Property="MinWidth" Value="70" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDefaultVisual}" />
+        <Setter Property="Foreground" Value="{StaticResource LabelNormalBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultAppFontFamily}" />
+        <Setter Property="FontSize" Value="{DynamicResource LargeFontSize}" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.25"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{DynamicResource ButtonMediumActionNormalBackgroundBrush}"
+                            CornerRadius="3"
+                            Padding="14,2">
+                        <Grid>
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="12,0" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="12,0" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonMediumActionPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="14,2" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                            <Setter Property="Foreground" Value="{StaticResource ButtonDefaultPressedForegroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonMediumActionDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                            <Setter Property="Foreground" Value="{StaticResource ButtonDefaultDisabledForegroundBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Small Action Style  -->
+    <Style x:Key="ButtonSmallActionStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="50" />
+        <Setter Property="MinWidth" Value="70" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDefaultVisual}" />
+        <Setter Property="Foreground" Value="{StaticResource LabelNormalBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultAppFontFamily}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="{DynamicResource SmallFontSize}" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.25"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{DynamicResource ButtonSmallActionNormalBackgroundBrush}"
+                            CornerRadius="3"
+                            Padding="14,2">
+                        <Grid>
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="12,0" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonSmallActionPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="14,2" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                            <Setter Property="Foreground" Value="{StaticResource ButtonDefaultPressedForegroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonSmallActionDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="14,2" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                            <Setter Property="Foreground" Value="{StaticResource ButtonDefaultDisabledForegroundBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Decision Yes Action Style  -->
+    <Style x:Key="ButtonDecisionYesActionStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="MinWidth" Value="70" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDecisionAdditionMinusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDecisionActionNormalForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultAppFontFamily}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="{DynamicResource LargeFontSize}" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.69"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{DynamicResource ButtonDecisionYesActionNormalBackgroundBrush}"
+                            CornerRadius="3"
+                            Padding="14,2">
+                        <Grid>
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDecisionAdditionMinusFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="12,0" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDecisionAdditionMinusFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="12,0" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonDecisionYesActionPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="14,2" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonDecisionYesActionDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="14,2" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Decision No Action Style  -->
+    <Style x:Key="ButtonDecisionNoActionStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="MinWidth" Value="70" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDecisionAdditionMinusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDecisionActionNormalForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultAppFontFamily}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="{DynamicResource LargeFontSize}" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.69"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{DynamicResource ButtonDecisionNoActionNormalBackgroundBrush}"
+                            CornerRadius="3"
+                            Padding="14,2">
+                        <Grid>
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDecisionAdditionMinusFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="12,0" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDecisionAdditionMinusFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="12,0" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonDecisionNoActionPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="14,2" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonDecisionNoActionDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="Padding" Value="14,2" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--  Progress Style  -->
+    <Style x:Key="ButtonProgressStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="20" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDecisionAdditionMinusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource ButtonDecisionActionNormalForegroundBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="1"
+                                  Direction="0"
+                                  Opacity="0.30"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{DynamicResource ButtonAdditionOrMinusNormalBackgroundBrush}"
+                            CornerRadius="3">
+                        <Grid>
+                            <Path x:Name="Arrow"
+                                  Width="10"
+                                  Height="10"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource AdditionGeometry}"
+                                  Stroke="{DynamicResource ButtonAdditionOrMinusGeometryBrush}"
+                                  StrokeThickness="2" />
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDecisionAdditionMinusFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ButtonDecisionAdditionMinusFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonDecisionYesActionPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ButtonDecisionYesActionDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  First Button  -->
+    <Style x:Key="ButtonProgressFirstStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="26" />
+        <Setter Property="Width" Value="38" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDefaultVisual}" />
+        <Setter Property="Foreground" Value="{StaticResource LabelNormalBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.25"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{StaticResource ButtonProgressNormalBackgroundBrush}"
+                            CornerRadius="3">
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Path x:Name="Arrow1"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource LeftArrowGeometry}"
+                                  Fill="{StaticResource ButtonProgressArrowBrush}" />
+                            <Path x:Name="Arrow2"
+                                  Grid.Column="1"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource LeftArrowGeometry}"
+                                  Fill="{StaticResource ButtonProgressArrowBrush}" />
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Left Button  -->
+    <Style x:Key="ButtonProgressLeftStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="26" />
+        <Setter Property="Width" Value="38" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDefaultVisual}" />
+        <Setter Property="Foreground" Value="{StaticResource LabelNormalBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.25"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{StaticResource ButtonProgressNormalBackgroundBrush}"
+                            CornerRadius="3">
+                        <Grid>
+                            <Path x:Name="Arrow"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource LeftArrowGeometry}"
+                                  Fill="{StaticResource ButtonProgressArrowBrush}" />
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Right Button  -->
+    <Style x:Key="ButtonProgressRightStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="26" />
+        <Setter Property="Width" Value="38" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDefaultVisual}" />
+        <Setter Property="Foreground" Value="{StaticResource LabelNormalBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.25"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{StaticResource ButtonProgressNormalBackgroundBrush}"
+                            CornerRadius="3">
+                        <Grid>
+                            <Path x:Name="Arrow"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource RightArrowGeometry}"
+                                  Fill="{StaticResource ButtonProgressArrowBrush}" />
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Last Button  -->
+    <Style x:Key="ButtonProgressLastStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="26" />
+        <Setter Property="Width" Value="38" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDefaultVisual}" />
+        <Setter Property="Foreground" Value="{StaticResource LabelNormalBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.25"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{StaticResource ButtonProgressNormalBackgroundBrush}"
+                            CornerRadius="3">
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Path x:Name="Arrow1"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource RightArrowGeometry}"
+                                  Fill="{StaticResource ButtonProgressArrowBrush}" />
+                            <Path x:Name="Arrow2"
+                                  Grid.Column="1"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource RightArrowGeometry}"
+                                  Fill="{StaticResource ButtonProgressArrowBrush}" />
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Down Button  -->
+    <Style x:Key="ButtonDownStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="26" />
+        <Setter Property="Width" Value="38" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusDefaultVisual}" />
+        <Setter Property="Foreground" Value="{StaticResource LabelNormalBrush}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="2"
+                                  Direction="300"
+                                  Opacity="0.25"
+                                  ShadowDepth="1" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Border"
+                            Background="{StaticResource ButtonProgressNormalBackgroundBrush}"
+                            CornerRadius="3">
+                        <Grid>
+                            <Path x:Name="Arrow"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{StaticResource DownArrowGeometry}"
+                                  Fill="{DynamicResource ButtonProgressArrowBrush}" />
+                            <ContentPresenter x:Name="contentPresenter"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource ButtonDefaultFocusBorderBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressPressedBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ButtonProgressDisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type controls:PagingControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:PagingControl}">
+                    <Border>
+                        <Grid x:Name="TemplateGridPanel"
+                              HorizontalAlignment="Right"
+                              DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0"                                   
+                                   Content="Number of items per page" />
+                            <Border Grid.Column="1" BorderBrush="#FFF4F2F3" BorderThickness="1"
+									Margin="{StaticResource PagingControlItemMarginNormal}"
+                                    Background="Transparent"
+                                    CornerRadius="3">
+                                <TextBox x:Name="NumItemTextBox"
+                                     Width="50"
+                                     HorizontalAlignment="Right"
+                                     controls:NumericTextBox.Mask="Integer"
+                                     controls:NumericTextBox.MaximumValue="999"
+                                     controls:NumericTextBox.MinimumValue="1"
+                                     MaxLength="3"
+                                     KeyboardNavigation.TabIndex="59"
+                                     Text="{Binding Path=NumItemOnPage, UpdateSourceTrigger=LostFocus}"
+                                     TextAlignment="Center"
+                                     ToolTip="Number of items per page" 
+                                     />
+                            </Border>
+                            <Button x:Name="GoFirstButton"
+                                    Grid.Column="2"
+                                    Margin="{StaticResource PagingControlItemMargin}"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding Path=GetDataPage}"
+                                    IsEnabled="False"
+                                    KeyboardNavigation.TabIndex="60"
+                                    Style="{StaticResource ButtonProgressFirstStyle}"
+                                    />
+                            <Button x:Name="GoPreviousButton"
+                                    Grid.Column="3"                                    
+                                    Margin="{StaticResource PagingControlItemMargin}"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding Path=GetDataPage}"
+                                    IsEnabled="False"
+                                    KeyboardNavigation.TabIndex="61"
+                                    Style="{StaticResource ButtonProgressLeftStyle}"
+                                   />
+                            <Label x:Name="lblCurrentPage"
+                                   Margin="{StaticResource PagingControlItemMargin}"
+                                   Grid.Column="4"
+                                   Height="24"
+                                   VerticalContentAlignment="Center"
+                                   Content="{Binding Path=DisplayPageResult,
+                                       UpdateSourceTrigger=PropertyChanged,
+                                       Mode=TwoWay}" />
+                            <Button x:Name="GoNextButton"
+                                    Grid.Column="5"                                    
+                                    Margin="{StaticResource PagingControlItemMargin}"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding Path=GetDataPage}"
+                                    IsEnabled="False"
+                                    KeyboardNavigation.TabIndex="62"
+                                    Style="{StaticResource ButtonProgressRightStyle}"
+                                    />
+                            <Button x:Name="GoLastButton"
+                                    Grid.Column="6"                                    
+                                    Margin="{StaticResource PagingControlItemMargin}"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding Path=GetDataPage}"
+                                    IsEnabled="False"
+                                    KeyboardNavigation.TabIndex="63"
+                                    Style="{StaticResource ButtonProgressLastStyle}"
+                                  />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+</ResourceDictionary>

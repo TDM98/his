@@ -1,0 +1,299 @@
+﻿<UserControl x:Class="aEMR.DrugDept.Views.GenericClassView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             cal:Message.Attach="[Event Unloaded]=[Action UserControl_Unloaded($source,$eventArgs)]"
+             d:DesignHeight="1000" d:DesignWidth="1000"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <HierarchicalDataTemplate x:Key="PersonTemplate"
+                                  ItemsSource="{Binding Children}">
+            <TextBlock Text="{Binding NodeText}" />
+            <!--<StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="{Binding NodeText}" />
+                <TextBlock VerticalAlignment="Center" Text=" - " Visibility="{Binding IsChildren, Converter={StaticResource BooleanToVisibility}}"/>
+                <TextBlock VerticalAlignment="Center" Text="{Binding Code}" Visibility="{Binding IsChildren, Converter={StaticResource BooleanToVisibility}}"/>
+            </StackPanel>-->
+        </HierarchicalDataTemplate>        
+        <DataTemplate x:Key="Delete">
+            <Button x:Name="lnkDelete"
+                    cal:Message.Attach="[Event Click]=[Action btnDelete_Click($source,$eventArgs)]"
+                    ToolTipService.ToolTip="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    CommandParameter="{Binding MedServiceID}">
+                <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png"
+                       Height="13" Width="13" Opacity="1" />
+            </Button>
+        </DataTemplate>        
+        <DataTemplate x:Key="CheckTuongTu">
+            <CheckBox IsChecked="{Binding IsSimilar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource MainFrame.Checkbox.Title1}"
+                      IsEnabled="False" />
+        </DataTemplate>
+        <DataTemplate x:Key="CheckTuongTac">
+            <CheckBox IsChecked="{Binding IsInteraction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource MainFrame.Checkbox.Title1}"
+                      IsEnabled="False" />
+        </DataTemplate>
+        <DataTemplate x:Key="InteractionSeverityLevel" >
+            <TextBlock Name="txtInteractionSeverityLevel"
+                       Text="{Binding V_InteractionSeverityLevel.ObjectValue, Mode=TwoWay}"
+                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="grd_InteractionSeverityLevel">
+            <AxControls:KeyEnabledComboBox Name="cbxInteractionSeverityLevel"
+                                           Style="{StaticResource MainFrame.ComboBox}"
+                                           Margin="0,1,0,1"
+                                           DisplayMemberPath="ObjectValue"
+                                           SelectedValuePath="LookupID"
+                                           SelectedItem="{Binding V_InteractionSeverityLevel, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                           ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.InteractionSeverityLevel, Mode=TwoWay}"
+                                           cal:Message.Attach="[Event Loaded] = [Action cbxInteractionSeverityLevel_Loaded($source, $eventArgs)]" />
+        </DataTemplate>
+        <DataTemplate x:Key="InteractionWarningLevel" >
+            <TextBlock Name="txtInteractionWarningLevel"
+                       Text="{Binding V_InteractionWarningLevel.ObjectValue, Mode=TwoWay}"
+                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+        </DataTemplate>
+        <DataTemplate x:Key="grd_InteractionWarningLevel">
+            <AxControls:KeyEnabledComboBox Name="cbxWarningLevel"
+                                           Style="{StaticResource MainFrame.ComboBox}"
+                                           Margin="0,1,0,1"
+                                           DisplayMemberPath="ObjectValue"
+                                           SelectedValuePath="LookupID"
+                                           SelectedItem="{Binding V_InteractionWarningLevel, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                                           ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.WarningLevel, Mode=TwoWay}"
+                                           cal:Message.Attach="[Event Loaded] = [Action cbxWarningLevel_Loaded($source, $eventArgs)]" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}"
+                        IsBusy="{Binding DlgIsBusyFlag}" >
+        <Grid x:Name="LayoutRoot"
+              cal:Message.Attach="[Event MouseLeftButtonDown]=[Action Root_MouseLeftButtonDown($source,$eventArgs)]">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300*" />
+            <ColumnDefinition Width="500*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+        <!--ItemTemplate="{StaticResource PersonTemplate}"-->
+            <Grid x:Name="AreaRL"
+                  cal:Message.Attach="[Event Loaded]=[Action AreaRL_Loaded($source,$eventArgs)]">
+                <Border x:Name="brdRightClickZone"
+                        cal:Message.Attach="[Event Loaded]=[Action brdRightClickZone_Loaded($source,$eventArgs)]">
+                    <TreeView MinHeight="600" VerticalContentAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              Name="treeView1" Margin="2"
+                              SelectedValuePath="NodeID"
+                              ItemsSource="{Binding TreeViewTherapies}"
+                              Style="{StaticResource TreeViewStyle}"
+                              IsEnabled="{Binding IsEnabled}"
+                              ItemTemplate="{StaticResource PersonTemplate}"
+                              VerticalAlignment="Top"
+                              cal:Message.Attach="[Event SelectedItemChanged] = [Action treeView1_SelectedItemChanged($source, $eventArgs)];
+                              [Event Loaded]=[Action treeView1_Loaded($source,$eventArgs)]" />
+                </Border>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid.ColumnDefinitions />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border x:Name="BorderFrame" Width="Auto"
+                        Style="{StaticResource LightBlueBorderStyleNew}"
+                        Margin="2,2,2,2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,2"
+                                   Grid.ColumnSpan="2" Name="textBlock2"
+                                   Text="{Binding TitleForm}"
+                                   Style="{StaticResource MainTilte}"
+                                   VerticalAlignment="Center" />
+                        <TextBlock Margin="10,2" Name="textBlock1"
+                                   Text="{Binding T0883_G1_TenNhom, Source={StaticResource eHCMSResources}}"
+                                   Style="{StaticResource MainFrame.TextBlock.02}"
+                                   Grid.Row="1" VerticalAlignment="Center"
+                                   Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility}}" />
+                        <TextBox Height="22" Margin="2,1" Grid.Row="1"
+                                 Grid.Column="1" Name="FaName"
+                                 VerticalAlignment="Center"
+                                 Style="{StaticResource MainFrame.TextBox}"
+                                 cal:Message.Attach="[Event KeyUp] = [Action txt_search_KeyUp($source, $eventArgs)]"
+                                 IsEnabled="{Binding IsEnabled}"
+                                 Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility}}" />
+                        <Button Content="{Binding G0981_G1_Tim, Source={StaticResource eHCMSResources}}"
+                                HorizontalAlignment="Left" Name="Search"
+                                Margin="2,1" VerticalAlignment="Center"
+                                Style="{StaticResource MainFrame.Button}"
+                                Width="75" Grid.Column="2" Grid.Row="1"
+                                IsEnabled="{Binding IsEnabled}"
+                                Visibility="{Binding bTim,Converter={StaticResource BooleanToVisibility}}" />
+                    </Grid>
+                </Border>
+                
+                <Border x:Name="BorderFrame2" Width="Auto"
+                        Style="{StaticResource LightBlueBorderStyle}"
+                        Margin="2,2,2,2" Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Z0298_G1_TenLop, Source={StaticResource eHCMSResources}}" />
+                        <TextBox Grid.Column="1" Grid.Row="0" Height="25"
+                                 VerticalContentAlignment="Center"
+                                 Text="{Binding CurrentTherapyTree.NodeText, Mode=TwoWay}"
+                                 Margin="10,2,10,2"
+                                 Style="{StaticResource MainFrame.TextBox}"
+                                 IsEnabled="{Binding IsEnabledTxt}" />
+
+                        <!--<TextBlock Grid.Column="0" Grid.Row="1"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Z2268_G1_MaHoatChat, Source={StaticResource eHCMSResources}}" />
+                        <TextBox Grid.Column="1" Grid.Row="1" Height="25"
+                                 VerticalContentAlignment="Center"
+                                 Text="{Binding CurrentTherapyTree.Code, Mode=TwoWay}"
+                                 Margin="10,2,10,2"
+                                 Style="{StaticResource MainFrame.TextBox}"
+                                 IsEnabled="{Binding IsEnabledTxt}" />-->
+
+                        <TextBlock Grid.Column="0" Grid.Row="2"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Z0299_G1_ThuocLop, Source={StaticResource eHCMSResources}}" />
+                        <AxControls:KeyEnabledComboBox Grid.Column="1" Grid.Row="2"
+                                                       Height="25" Margin="10,2,10,2"
+                                                       Name="cbxFamilyTherapy"
+                                                       DisplayMemberPath="FaName"
+                                                       SelectedValuePath="DrugClassID"
+                                                       VerticalContentAlignment="Center"
+                                                       SelectedItem="{Binding CurrentTherapyTree.Parent, TargetNullValue=0, Mode=TwoWay}"
+                                                       ItemsSource="{Binding CurrentTherapyTree, Mode=OneWay}"
+                                                       cal:Message.Attach="[Event Loaded] = [Action cbxFamilyTherapy_Loaded($source, $eventArgs)]"
+                                                       Style="{StaticResource MainFrame.ComboBox}"
+                                                       IsEnabled="{Binding IsEnabledTxt}" />
+
+                        <TextBlock Grid.Column="0" Grid.Row="3"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding M0008_G1_MoTa, Source={StaticResource eHCMSResources}}" />
+                        <TextBox Grid.Column="1" Grid.Row="3" Height="25"
+                                 VerticalContentAlignment="Center"
+                                 Text="{Binding CurrentTherapyTree.Description, Mode=TwoWay}"
+                                 Margin="10,2,10,2"
+                                 Style="{StaticResource MainFrame.TextBox}"
+                                 IsEnabled="{Binding IsEnabledTxt}" />
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right" Grid.Row="4"
+                                    Grid.ColumnSpan="2" Margin="0,20,0,0">
+                            <Button Name="btnAdd" Width="75" Margin="2,1"
+                                    Content="{Binding G0276_G1_ThemMoi, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}"
+                                    Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibility}}" />
+                            <Button Name="btnEdit" Width="75" Margin="2,1"
+                                    Content="{Binding K1872_G1_ChSua, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}"
+                                    Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibility}}" />
+                            <Button Name="btnDelete" Width="75" Margin="2,1"
+                                    Content="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}"
+                                    Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibility}}" />
+                            <Button Name="btnSave" Width="75" Margin="2,1"
+                                    Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}"
+                                    Visibility="{Binding Visibility, Converter={StaticResource BooleanToVisibility}}" />
+                            <Button Name="btnCancel" Width="75" Margin="2,1"
+                                    Content="{Binding T1727_G1_HuyBo, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}"
+                                    Visibility="{Binding Visibility, Converter={StaticResource BooleanToVisibility}}" />
+                        </StackPanel>
+                        
+                        <Button Grid.Row="4" Grid.ColumnSpan="2"
+                                HorizontalAlignment="Left" Name="btnRelation"
+                                Height="22" Width="Auto" VerticalAlignment="Bottom"
+                                Content="{Binding Z2663_G1_ThemQuanHe, Source={StaticResource eHCMSResources}}"
+                                Style="{StaticResource MainFrame.Button}"
+                                Visibility="{Binding VisiAddRelation, Converter={StaticResource BooleanToVisibility}}" />
+                        <DataGrid Grid.Row="5" Grid.ColumnSpan="2"
+                                  Height="400" Margin="0,30,0,0"
+                                  AutoGenerateColumns="False" CanUserAddRows="False"
+                                  x:Name="GridGenericFunc"
+                                  cal:Message.Attach="[Event Loaded] = [Action GridGenericFunc_Loaded($source, $eventArgs)]"
+                                  Style="{StaticResource MainFrame.DataGridStyle}"
+                                  ItemsSource="{Binding ObsRefGenericRelation, Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn CellTemplate="{StaticResource Delete}"
+                                                        IsReadOnly="True" />
+                                <DataGridTextColumn Header="{Binding T0857_G1_TenHoatChat, Source={StaticResource eHCMSResources}}"
+                                                    Binding="{Binding NodeText}"
+                                                    MinWidth="150" IsReadOnly="True" />
+                                <DataGridTemplateColumn Header="{Binding Z2664_G1_TuongTu, Source={StaticResource eHCMSResources}}"
+                                                        CellTemplate="{StaticResource CheckTuongTu}"
+                                                        IsReadOnly="True" />
+                                <DataGridTemplateColumn Header="{Binding Z2665_G1_TuongTac, Source={StaticResource eHCMSResources}}"
+                                                        CellTemplate="{StaticResource CheckTuongTac}"
+                                                        IsReadOnly="True" />
+                                <DataGridTemplateColumn Header="{Binding Z2666_G1_MucDoTuongTac, Source={StaticResource eHCMSResources}}"
+                                                        CanUserReorder="True"
+                                                        CanUserResize="True"
+                                                        CanUserSort="True"
+                                                        CellTemplate="{StaticResource InteractionSeverityLevel}"
+                                                        CellEditingTemplate="{StaticResource grd_InteractionSeverityLevel}" />
+                                <DataGridTemplateColumn Header="{Binding Z2667_G1_MucDoCanhBao, Source={StaticResource eHCMSResources}}"
+                                                        CanUserReorder="True"
+                                                        CanUserResize="True"
+                                                        CanUserSort="True"
+                                                        CellTemplate="{StaticResource InteractionWarningLevel}"
+                                                        CellEditingTemplate="{StaticResource grd_InteractionWarningLevel}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Column="1" Grid.Row="6"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right">
+                            <Button Name="btnCancelGenericRelation"
+                                    HorizontalAlignment="Right"
+                                    Width="75" Margin="0,5,2,0"
+                                    Content="{Binding T1727_G1_HuyBo, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}"
+                                    Visibility="{Binding VisiRelation, Converter={StaticResource BooleanToVisibility}}" />
+                            <Button Name="btnSaveGenericRelation"
+                                    HorizontalAlignment="Right"
+                                    Width="75" Margin="0,5,0,0"
+                                    Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+                                    Style="{StaticResource MainFrame.Button}"
+                                    Visibility="{Binding VisiRelation, Converter={StaticResource BooleanToVisibility}}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+        </Grid>
+    </Grid>
+    </xctk:BusyIndicator>
+</UserControl>

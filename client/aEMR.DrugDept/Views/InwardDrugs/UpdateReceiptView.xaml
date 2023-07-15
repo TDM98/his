@@ -1,0 +1,112 @@
+﻿<UserControl
+    x:Class="aEMR.DrugDept.Views.UpdateReceiptView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AutoBoxTK="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="Me"
+    d:DesignHeight="565"
+    d:DesignWidth="932"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Converters:DecimalConverterRound x:Key="DecimalConverterRound" />
+        <Converters:DecimalConverter3 x:Key="DecimalConverter3" />
+        <Converters:DecimalConverter x:Key="DecimalConverter" />
+        <Converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <Converters:VisibilityElseConverter x:Key="VisibilityElseConverter" />
+    </UserControl.Resources>
+
+    <AxControls:AxGrid DataContext="{Binding CurrentInwardDrugMedDeptInvoice, Mode=TwoWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Margin="2,1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource TBlock.TilteFrom}"
+            Text="Cập nhật số hóa đơn" />
+        <TextBlock
+            Grid.Row="1"
+            Width="45"
+            Margin="5,2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Foreground="Red"
+            Style="{StaticResource Title}"
+            Text="{Binding S0647_G1_SoHD, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5,2"
+            VerticalContentAlignment="Center"
+            MaxLength="50"
+            Style="{StaticResource MainFrame.TextBox}"
+            TabIndex="1"
+            Text="{Binding InvInvoiceNumber, Mode=TwoWay}" />
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="5,2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Foreground="Red"
+            Style="{StaticResource Title}"
+            Text="{Binding Z0003_G1_NgayHD, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+        <DatePicker
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="5,2"
+            SelectedDate="{Binding InvDateInvoice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource MainFrame.DatePicker}"
+            TabIndex="2" />
+        <TextBlock
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="5,2"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Foreground="Red"
+            Style="{StaticResource Title}"
+            Text="{Binding S0688_G1_SoSerial, StringFormat='{}{0} ', Source={StaticResource eHCMSResources}}" />
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="5,2"
+            VerticalContentAlignment="Center"
+            IsReadOnly="False"
+            MaxLength="20"
+            Style="{StaticResource MainFrame.TextBox}"
+            Text="{Binding SerialNumber, Mode=TwoWay}" />
+        <Button
+            Name="btnSave"
+            Grid.Row="4"
+            Width="75"
+            Margin="5,2"
+            Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}"
+            IsEnabled="{Binding IsEnableSaveBtn}"
+            Style="{StaticResource MainFrame.Button}"
+            TabIndex="9"
+            Visibility="{Binding mNhapHangTuKhoDuoc_Them, Converter={StaticResource BooleanToVisibility}}" />
+    </AxControls:AxGrid>
+    <!--</toolkit:BusyIndicator>-->
+</UserControl>

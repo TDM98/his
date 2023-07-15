@@ -1,0 +1,176 @@
+﻿<UserControl
+    x:Class="aEMR.Configuration.BedCategory.Views.BedCategory_AddEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:controlslib="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="220"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <Grid x:Name="LayoutRoot" Background="White">
+            <Grid x:Name="GridMain" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    x:Name="TitleForm"
+                    Grid.Row="0"
+                    Margin="5,5,0,5"
+                    FontSize="14"
+                    FontWeight="Bold"
+                    Foreground="#FF0084FF"
+                    Text="Title" />
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Right"
+                        Content="Mã giường BYT" />
+                    <TextBox
+                        x:Name="tbHIBedCode"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="0,2,5,2"
+                        MaxLength="64"
+                        Text="{Binding ObjBedCategory_Current.HIBedCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                    <Label
+                        Grid.Row="1"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Right"
+                        Content="Tên giường BYT" />
+                    <TextBox
+                        x:Name="tbHIBedName"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,2,5,2"
+                        MaxLength="64"
+                        Text="{Binding ObjBedCategory_Current.HIBedName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                    <Label
+                        Grid.Row="2"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Right"
+                        Content="Mã giường BV" />
+                    <TextBox
+                        x:Name="tbHosBedCode"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="0,2,5,2"
+                        MaxLength="64"
+                        Text="{Binding ObjBedCategory_Current.HosBedCode, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                    <Label
+                        Grid.Row="3"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Right"
+                        Content="Tên giường BV" />
+                    <TextBox
+                        x:Name="tbHosBedName"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="0,2,5,2"
+                        MaxLength="64"
+                        Text="{Binding ObjBedCategory_Current.HosBedName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+                    <Label
+                        Grid.Row="4"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Right"
+                        Content="Loại giường" />
+                    <controlslib:AxComboBox
+                        x:Name="cboBedType"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Width="264"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Left"
+                        DisplayMemberPath="ObjectValue"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        ItemsSource="{Binding BedTypeList}"
+                        SelectedValueEx="{Binding ObjBedCategory_Current.V_BedType, Mode=TwoWay}"
+                        SelectedValuePath="LookupID" />
+                    <Label
+                        Grid.Row="5"
+                        Margin="0,2,5,2"
+                        HorizontalAlignment="Right"
+                        Content="Đang dùng" />
+                    <CheckBox
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Margin="0,2,5,2"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding ObjBedCategory_Current.IsActive, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" />
+
+                    <StackPanel
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Margin="0,0,0,30"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="btSave"
+                            Width="80"
+                            Margin="0,2,5,2"
+                            HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="18"
+                                    VerticalAlignment="Center"
+                                    Source="/aEMR.CommonViews;component/Assets/Images/saveanddown24x24border.png" />
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button
+                            x:Name="btClose"
+                            Width="80"
+                            Margin="0,2,5,2"
+                            HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <Image
+                                    Width="20"
+                                    Height="18"
+                                    VerticalAlignment="Center"
+                                    Source="/aEMR.CommonViews;component/Assets/Images/Button-exit-icon.png" />
+                                <TextBlock
+                                    Margin="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding K3735_G1_Dong, Source={StaticResource eHCMSResources}}" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+
+                    <!--<controlslib:ValidationSummary MaxHeight="1" Grid.Row="4" Grid.ColumnSpan="2"  x:Name="ValidationSummary1" Margin="0,10,0,0"></controlslib:ValidationSummary>-->
+
+                </Grid>
+
+            </Grid>
+            <!--</toolkit:BusyIndicator>-->
+        </Grid>
+    </xctk:BusyIndicator>
+</UserControl>
+

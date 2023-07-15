@@ -1,0 +1,405 @@
+﻿<UserControl x:Class="aEMR.ConsultantEPrescription.Views.SieuAmTim_DropplerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ControlsLibrary="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+             xmlns:Converters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+             xmlns:cal="http://www.caliburnproject.org" 
+             xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+             d:DesignHeight="580" d:DesignWidth="950"
+             mc:Ignorable="d" >
+     
+  <UserControl.Resources>
+	    <Resources:eHCMSResources x:Key="eHCMSResources"/>
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <!--Khai báo EnumBoolConverter mà không xài nên comment lại-->
+        <!--<EnumBoolConverter x:Key="EnumBoolConverter" />-->
+  </UserControl.Resources>
+  <Grid x:Name="LayoutRoot" Background="White">
+    <ControlsLibrary:AxGrid x:Name="DOPPLER" Margin="5">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="120"></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition Width="130"></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="27"></RowDefinition>
+        <RowDefinition Height="Auto"></RowDefinition>
+      </Grid.RowDefinitions>
+      <!--<sdk:ValidationSummary Name="ValidationSummary" Height="5" Width="5" HorizontalAlignment="Left"
+                             VerticalAlignment="Top" cal:Message.Attach="[Event Loaded]=[Action ValidationSummary_Loaded($source,$eventArgs)]" />-->
+      <!--2 lá r0-->
+      <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+        <TextBlock Text="{Binding K3805_G1_Dong2La, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+        <TextBlock Text="{Binding K0663_G1_MitralFlow, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+      </StackPanel>
+
+      <TextBlock Text="{Binding G2199_G1_VelMax, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="0" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="0" Grid.Column="2" Height="23" TabIndex="0"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Mitral_VelMax,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="m/s(N=0,6-1,3m/s)" Grid.Row="0" Grid.Column="3"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding T0711_G1_GdMax, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="1" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="1" Grid.Column="2" Height="23" TabIndex="4"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Mitral_GdMax,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="3" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="MS:" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="2" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="2" Grid.Column="2" Height="23" TabIndex="6"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Mitral_Ms,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="" Grid.Row="2" Grid.Column="3" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="MR:" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="3" Grid.Column="1" />
+
+      <StackPanel Grid.Row="3" Grid.Column="2" Height="22" HorizontalAlignment="Left" Orientation="Horizontal"
+                  VerticalAlignment="Center" Width="100" Margin="0,2" Grid.ColumnSpan="2">
+        <RadioButton IsEnabled="False" Content="(+)" GroupName="gV_DOPPLER_Mitral_Mr" Height="16" HorizontalAlignment="Left"
+                     IsChecked="{Binding curUltraResParams_EchoCardiography.V_DOPPLER_Mitral_Mr, Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                     Margin="0,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" TabIndex="8" />
+        <RadioButton IsEnabled="False" Content="(-)" GroupName="gV_DOPPLER_Mitral_Mr" Height="16" HorizontalAlignment="Left"
+                     IsChecked="True" Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center"
+                     TabIndex="9" />
+      </StackPanel>
+      <TextBlock Text="" Grid.Row="3" Grid.Column="3" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding T0008_G1_EA, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+            
+      <!--<ControlsLibrary:AxComboBox Grid.Row="0" Grid.Column="5" Height="22" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding allValveOpen, Mode=OneWay}"
+                                          Style="{StaticResource MainFrame.ComboBox}"
+                                          SelectedItemEx="{Binding curUltraResParams_EchoCardiography.V_DOPPLER_Mitral_Ea,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"                                          
+                                          DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID"                                           
+                                              />-->
+      <StackPanel Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Height="22" HorizontalAlignment="Left"
+                  Orientation="Horizontal" VerticalAlignment="Center">
+        <!--<RadioButton IsEnabled="False" Content=">1" GroupName="gDOPPLER_Mitral_Ea" Height="16" HorizontalAlignment="Left"
+                     TabIndex="1"
+                     IsChecked="{Binding curUltraResParams_EchoCardiography.LDOPPLER_Mitral_Ea, Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True
+                    ,Converter={StaticResource EnumBoolConverter}, ConverterParameter=Co}"
+                     Margin="0,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" />
+        <RadioButton IsEnabled="False" Content="&lt;1" GroupName="gDOPPLER_Mitral_Ea" Height="16" HorizontalAlignment="Left"
+                     TabIndex="2"
+                     IsChecked="{Binding curUltraResParams_EchoCardiography.LDOPPLER_Mitral_Ea, Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True
+                    ,Converter={StaticResource EnumBoolConverter}, ConverterParameter=Khong}"
+                     Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" />
+        <RadioButton IsEnabled="False" Content="=1" GroupName="gDOPPLER_Mitral_Ea" Height="16" HorizontalAlignment="Left"
+                     TabIndex="3"
+                     IsChecked="{Binding curUltraResParams_EchoCardiography.LDOPPLER_Mitral_Ea, Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True
+                    ,Converter={StaticResource EnumBoolConverter}, ConverterParameter=NghiNgo}"
+                     Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" />-->
+                
+            </StackPanel>
+
+            <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="0" Grid.Column="5" Height="23" TabIndex="5" HorizontalAlignment="Stretch"
+                    Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Mitral_Ea,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                    Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+            <TextBlock Text="{Binding M0022_G1_Moy, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Right"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="1" Grid.Column="5" Height="23" TabIndex="5"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Mitral_Moy,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="1" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding S0622_G1_SMPHT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Right"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="2" Grid.Column="5" Height="23" TabIndex="7"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Mitral_Sm,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding K2396_G1_Cm2, Source={StaticResource eHCMSResources}}" Grid.Row="2" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding T1282_G1_Grade, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="3" Grid.Column="4" HorizontalAlignment="Right"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+
+            <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="3" Grid.Column="5" Height="23" TabIndex="7"
+                                 Text="{Binding curUltraResParams_EchoCardiography.LDOPPLER_Mitral_Grade.ObjectValue,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+        
+            <!--<ControlsLibrary:AxComboBox Grid.Row="3" Grid.Column="5" Height="22" VerticalAlignment="Center"
+                                  ItemsSource="{Binding allValveOpen, Mode=OneWay}" Style="{StaticResource MainFrame.ComboBox}" TabIndex="10"
+                                  SelectedItemEx="{Binding curUltraResParams_EchoCardiography.LDOPPLER_Mitral_Grade,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                  DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID" />-->
+      <TextBlock Text="(1/4)" Grid.Row="3" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <!--ĐMC r4-->
+      <StackPanel Orientation="Vertical" Grid.Row="4" Grid.Column="0">
+        <TextBlock Text="{Binding K3814_G1_DongDMC, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+        <TextBlock Text="{Binding K0610_G1_AorticFlow, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+      </StackPanel>
+
+      <TextBlock Text="{Binding G2199_G1_VelMax, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="4" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="4" Grid.Column="2" Height="23" TabIndex="11"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Aortic_VelMax,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="m/s(N=1,0-1,7m/s)" Grid.Row="4" Grid.Column="3"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding T0711_G1_GdMax, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="5" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="5" Grid.Column="2" Height="23" TabIndex="13"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Aortic_GdMax,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="5" Grid.Column="3" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding K0944_G1_AS2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="6" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="6" Grid.Column="2" Height="23" TabIndex="15"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Aortic_As,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="" Grid.Row="6" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding K0942_G1_AR2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="7" Grid.Column="1" />
+
+      <StackPanel Grid.Row="7" Grid.Column="2" Height="22" HorizontalAlignment="Left" Orientation="Horizontal"
+                  VerticalAlignment="Center" Width="100" Margin="0,2" Grid.ColumnSpan="2">
+        <RadioButton IsEnabled="False" Content="(+)" GroupName="gV_DOPPLER_Aortic_Ar" Height="16" HorizontalAlignment="Left"
+                     IsChecked="{Binding curUltraResParams_EchoCardiography.V_DOPPLER_Aortic_Ar, Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                     Margin="0,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" TabIndex="17" />
+        <RadioButton IsEnabled="False" Content="(-)" GroupName="gV_DOPPLER_Aortic_Ar" Height="16" HorizontalAlignment="Left"
+                     IsChecked="True" Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center"
+                     TabIndex="18" />
+      </StackPanel>
+      <TextBlock Text="" Grid.Row="7" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="moy:" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="5" Grid.Column="4" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="5" Grid.Column="5" Height="23" TabIndex="14"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Aortic_Moy,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="5" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding S0533_G1_SAo, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="6" Grid.Column="4" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="6" Grid.Column="5" Height="23" TabIndex="16"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Aortic_SAo,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding K2396_G1_Cm2, Source={StaticResource eHCMSResources}}" Grid.Row="6" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding T1282_G1_Grade, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="7" Grid.Column="4" />
+
+            <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="7" Grid.Column="5" Height="23" TabIndex="7"
+                                 Text="{Binding curUltraResParams_EchoCardiography.LDOPPLER_Aortic_Grade.ObjectValue,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+
+            <!--<ControlsLibrary:AxComboBox Grid.Row="7" Grid.Column="5" Height="22" VerticalAlignment="Center"
+                                  ItemsSource="{Binding allValveOpen, Mode=OneWay}" Style="{StaticResource MainFrame.ComboBox}" TabIndex="19"
+                                  SelectedItemEx="{Binding curUltraResParams_EchoCardiography.LDOPPLER_Aortic_Grade,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                  DisplayMemberPath="ObjectValue" SelectedValuePath="LookupID" />-->
+      <TextBlock Text="" Grid.Row="5" Grid.Column="7" />
+
+      <TextBlock Text="{Binding P0393_G1_PHT, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="8" Grid.Column="7" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="8" Grid.Column="8" Height="23" TabIndex="20"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Aortic_PHT,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="ms" Grid.Row="8" Grid.Column="9" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding K3330_G1_DFO, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="9" Grid.Column="7" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="9" Grid.Column="8" Height="23" TabIndex="21"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Aortic_Dfo,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0004_G1_mm, Source={StaticResource eHCMSResources}}" Grid.Row="9" Grid.Column="9" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding T0017_G1_EDTD2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="10" Grid.Column="7" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="10" Grid.Column="8" Height="23" TabIndex="22"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Aortic_Edtd,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding K2393_G1_CmS, Source={StaticResource eHCMSResources}}" Grid.Row="10" Grid.Column="9" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding T0651_G1_Extspat2, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="11" Grid.Column="7" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="11" Grid.Column="8" Height="23" TabIndex="23"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Aortic_ExtSpat,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="" Grid.Row="11" Grid.Column="9" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <!--3 lá r12-->
+      <StackPanel Orientation="Vertical" Grid.Row="12" Grid.Column="0">
+        <TextBlock Text="{Binding K3807_G1_Dong3La, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+        <TextBlock Text="{Binding K0709_G1_TricuspidFlow, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+      </StackPanel>
+
+      <TextBlock Text="{Binding G2199_G1_VelMax, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="12" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="12" Grid.Column="2" Height="23" TabIndex="24"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Tricuspid_VelMax,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding T3177_G1_MperS, Source={StaticResource eHCMSResources}}" Grid.Row="12" Grid.Column="3" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="TR:" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="13" Grid.Column="1" />
+
+      <StackPanel Grid.Row="13" Grid.Column="2" Height="22" HorizontalAlignment="Left" Orientation="Horizontal"
+                  VerticalAlignment="Center" Width="100" Margin="0,2" Grid.ColumnSpan="2">
+        <RadioButton IsEnabled="False" Content="(+)" GroupName="gV_DOPPLER_Tricuspid_Tr" Height="16" HorizontalAlignment="Left"
+                     IsChecked="{Binding curUltraResParams_EchoCardiography.V_DOPPLER_Tricuspid_Tr, Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                     Margin="0,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" TabIndex="26" />
+        <RadioButton IsEnabled="False" Content="(-)" GroupName="gV_DOPPLER_Tricuspid_Tr" Height="16" HorizontalAlignment="Left"
+                     IsChecked="True" Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center"
+                     TabIndex="27" />
+      </StackPanel>
+      <TextBlock Text="" Grid.Row="13" Grid.Column="3" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding T0711_G1_GdMax, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="14" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="14" Grid.Column="2" Height="23" TabIndex="28"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Tricuspid_GdMax,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="14" Grid.Column="3" Style="{StaticResource TextBlock.Heading.04}" />
+
+
+      <TextBlock Text="{Binding P0314_G1_PAPs, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="12" Grid.Column="4" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="12" Grid.Column="5" Height="23" TabIndex="25"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Tricuspid_Paps,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="12" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+<TextBlock Text="{Binding T1282_G1_Grade, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="13" Grid.Column="4" HorizontalAlignment="Right"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+            <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="13" Grid.Column="5" Height="23" TabIndex="7"
+                                 Text="{Binding curUltraResParams_EchoCardiography.LDOPPLER_Tricuspid_Grade.ObjectValue,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+
+            <TextBlock Text="moy:" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="14" Grid.Column="4" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="14" Grid.Column="5" Height="23" TabIndex="29"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Tricuspid_Moy,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="14" Grid.Column="6"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+            
+      <!--dòng ĐMP r15-->
+      <StackPanel Orientation="Vertical" Grid.Row="15" Grid.Column="0">
+        <TextBlock Text="{Binding K3816_G1_DongDMPhoi, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+        <TextBlock Text="{Binding K0680_G1_PulmonaryFlow, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+      </StackPanel>
+
+
+      <TextBlock Text="{Binding G2199_G1_VelMax, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="15" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="15" Grid.Column="2" Height="23" TabIndex="30"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Pulmonary_VelMax,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="m/s(N=0,6-0,9m/s)" Grid.Row="15" Grid.Column="3"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding T0711_G1_GdMax, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="16" Grid.Column="1" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="16" Grid.Column="2" Height="23" TabIndex="31"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Pulmonary_GdMax,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="16" Grid.Column="3" Style="{StaticResource TextBlock.Heading.04}" />
+
+
+      <TextBlock Text="{Binding P0403_G1_PR, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="17" Grid.Column="1" />
+
+      <StackPanel Grid.Row="17" Grid.Column="2" Height="22" HorizontalAlignment="Left" Orientation="Horizontal"
+                  VerticalAlignment="Center" Width="100" Margin="0,2" Grid.ColumnSpan="2">
+        <RadioButton IsEnabled="False" Content="(+)" GroupName="gV_DOPPLER_Pulmonary_Pr" Height="16" HorizontalAlignment="Left"
+                     IsChecked="{Binding curUltraResParams_EchoCardiography.V_DOPPLER_Pulmonary_Pr, Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                     Margin="0,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center" TabIndex="33" />
+        <RadioButton IsEnabled="False" Content="(-)" GroupName="gV_DOPPLER_Pulmonary_Pr" Height="16" HorizontalAlignment="Left"
+                     IsChecked="True" Margin="10,0,0,0" Style="{StaticResource MainFrame.RadioButton01}" VerticalAlignment="Center"
+                     TabIndex="34" />
+      </StackPanel>
+      <TextBlock Text="" Grid.Row="17" Grid.Column="3" Style="{StaticResource TextBlock.Heading.04}" />
+
+
+      <TextBlock Text="moy:" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="15" Grid.Column="4" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="15" Grid.Column="5" Height="23" TabIndex="32"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Pulmonary_Moy,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="15" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+
+      <TextBlock Text="{Binding P0313_G1_PAPm, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="16" Grid.Column="4" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="16" Grid.Column="5" Height="23" TabIndex="35"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Pulmonary_Papm,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="16" Grid.Column="6" Style="{StaticResource TextBlock.Heading.04}" />
+<TextBlock Text="{Binding T1282_G1_Grade, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" Grid.Row="17" Grid.Column="4" HorizontalAlignment="Right"
+                 Style="{StaticResource TextBlock.Heading.04}" />
+            <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="17" Grid.Column="5" Height="23" TabIndex="7"
+                                 Text="{Binding curUltraResParams_EchoCardiography.LDOPPLER_Pulmonary_Grade.ObjectValue,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+
+            <TextBlock Text="{Binding P0312_G1_PAPd, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" Style="{StaticResource TextBlock.Heading.04}"
+                 Grid.Row="17" Grid.Column="7" />
+      <ControlsLibrary:AxTextBox IsReadOnly="True" Grid.Row="17" Grid.Column="8" Height="23" TabIndex="36"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Pulmonary_Papd,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 Style="{StaticResource MainFrame.TextBox}" VerticalAlignment="Center" TextAlignment="Right" />
+      <TextBlock Text="{Binding M0005_G1_mmHg, Source={StaticResource eHCMSResources}}" Grid.Row="17" Grid.Column="9" Style="{StaticResource TextBlock.Heading.04}" />
+            
+      <!--Khác r18-->
+      <StackPanel Orientation="Vertical" Grid.Row="18" Grid.Column="0">
+        <TextBlock Text="{Binding K0832_G1_3Khac, StringFormat='{}{0}:', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+        <TextBlock Text="{Binding K0670_G1_Others, StringFormat='{}({0})', Source={StaticResource eHCMSResources}}" HorizontalAlignment="Right" FontWeight="Bold"
+                   Style="{StaticResource TextBlock.Heading.05}" />
+      </StackPanel>
+      <TextBox Grid.Row="18" Grid.Column="1" MaxLength="512" Grid.ColumnSpan="5"
+                                 HorizontalScrollBarVisibility="Auto" Style="{StaticResource MainFrame.TextBox}"
+                                 Text="{Binding curUltraResParams_EchoCardiography.DOPPLER_Pulmonary_Orthers,Mode=OneWay,NotifyOnValidationError=True,ValidatesOnExceptions=True}"
+                                 VerticalScrollBarVisibility="Visible" AcceptsReturn="True" Height="55" TabIndex="37" VerticalAlignment="Top" />
+      <!--<StackPanel Visibility="{Binding bSave}" Orientation="Horizontal" Grid.Column="6" Grid.ColumnSpan="4"
+                  Grid.Row="19" VerticalAlignment="Bottom" Width="250" Height="24" Margin="30,0,0,0" HorizontalAlignment="Left">
+        
+        <Button Name="butSave" Content="{Binding T2937_G1_Luu, Source={StaticResource eHCMSResources}}" Height="22" Width="100"
+                HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Top" Style="{StaticResource MainFrame.Button01}"
+                TabIndex="38" />
+        
+      </StackPanel>-->
+
+
+    </ControlsLibrary:AxGrid>
+  </Grid>
+
+</UserControl>

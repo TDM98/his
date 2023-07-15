@@ -1,0 +1,119 @@
+﻿<customcontrols:AxUserControl       x:Class="aEMR.ConsultantEPrescription.CommonRecs.Views.MedicalConditionsView"
+                                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"                                   
+                                    xmlns:customcontrols="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"                                     
+                                    xmlns:cal="http://www.caliburnproject.org"
+                                    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage" 
+                                    d:DesignHeight="300" d:DesignWidth="400"
+                                    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources"/>
+        <DataTemplate x:Key="DTlnkDelete" >
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkDelete"  IsEnabled="{Binding isDeleted}"  
+                                 
+                                 cal:Message.Attach="[Event Click]=[Action lnkDeleteClick($eventArgs)]
+                                 ;[Event Loaded]=[Action lnkDelete_Loaded($source)]"
+                                 ToolTipService.ToolTip="Click here for Delete this record" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                     Foreground="#FF0066"
+                                                    >
+                    <Button.Content>
+                        <Image Source="/aEMR.CommonViews;component/Assets/Images/Delete.png" Width="15" Opacity="1" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="DTlnkEdit">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkEdit" IsEnabled="{Binding isEdit}"  Click="lnkEdit_Click"
+                                 
+                                 cal:Message.Attach="[Event Click]=[Action lnkEditClick($eventArgs)]
+                                 ;[Event Loaded]=[Action lnkEdit_Loaded($source)]"
+                                 ToolTipService.ToolTip="Click here for Edit record" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                    Content="{Binding Z0055_G1_Edit, Source={StaticResource eHCMSResources}}" Foreground="#FF0066"
+                                                    >
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="DTlnkSave" >
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkSave"   IsEnabled="{Binding isSave}"  Click="lnkSave_Click"
+                                 
+                                 cal:Message.Attach="[Event Click]=[Action lnkSaveClick($eventArgs)]
+                                 ;[Event Loaded]=[Action lnkSave_Loaded($source)]"
+                                 ToolTipService.ToolTip="Click here for save record" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                    Content="{Binding S0544_G1_Save, Source={StaticResource eHCMSResources}}" Foreground="#FF0066"
+                                                    >
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="DTlnkCancel" >
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="lnkCancel" IsEnabled="{Binding isCancel}"  Click="lnkSave_Click"
+                                 
+                                 cal:Message.Attach="[Event Click]=[Action lnkCancel_Click($eventArgs)]
+                                 ;[Event Loaded]=[Action lnkCancel_Loaded($source)]"
+                                 ToolTipService.ToolTip="Click here for save record" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                    Content="{Binding K1565_G1_Cancel, Source={StaticResource eHCMSResources}}" Foreground="#FF0066"
+                                                    >
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CDTRefMedicalCondition">
+            <TextBlock Text="{Binding RefMedicalCondition.MCDescription}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="EDTcborefMedCod">
+            <customcontrols:AxComboBox x:Name="cborefMedCod" Grid.Column="0"                                              
+                                            cal:Message.Attach="[Event Loaded]=[Action cborefMedCod($source)]"
+                                                SelectedItemEx="{Binding RefMedicalCondition,Mode=TwoWay}" 
+                                                DisplayMemberPath="MCDescription" SelectedValuePath="MCID" Style="{StaticResource MainFrame.ComboBox}"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <DockPanel  x:Name="SPLayout" LastChildFill="True" Margin="0,10,0,0" Background="White" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid  Margin="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="44" />
+                </Grid.RowDefinitions>
+                <customcontrols:AxDataGridEx IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="0" Name="grdCommonRecord" Margin="0,0,0,0"                               
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                              ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}" Style="{StaticResource MainFrame.DataGridStyle}" 
+                              cal:Message.Attach="[Event Loaded]=[Action grdCommonRecordLoaded($source,$eventArgs)]
+                                             ;[Event CurrentCellChanged]=[Action grdCommonRecord_CurrentCellChanged($source,$eventArgs)]"
+                                ItemsSource="{Binding PtMedCond, Mode=TwoWay}"
+                              SelectedItem="{Binding selectedPtMedCond,Mode=TwoWay}">
+                    <DataGrid.Columns>
+
+                        <DataGridTemplateColumn x:Name="Delete"  CellTemplate="{StaticResource DTlnkDelete}" Header=""/>
+                        <DataGridTemplateColumn x:Name="Edit" CellTemplate="{StaticResource DTlnkEdit}" Header=""/>
+                        <DataGridTemplateColumn x:Name="Cancel" CellTemplate="{StaticResource DTlnkCancel}" Header=""/>
+                        <DataGridTemplateColumn x:Name="Save" CellTemplate="{StaticResource DTlnkSave}" Header=""/>
+
+                        <DataGridTextColumn Header="{Binding N0094_G1_NgNhap, Source={StaticResource eHCMSResources}}" IsReadOnly="True" Binding="{Binding CommonMedicalRecord.CMRModifiedDate, Mode=TwoWay,StringFormat='dd/MM/yyyy' }" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="80" Width="SizeToHeader" ElementStyle="{StaticResource MainFrame.TextBlockCenterAlign}"/>
+                        <DataGridTemplateColumn Header="{Binding Z0422_G1_DKienSK, Source={StaticResource eHCMSResources}}" CellTemplate="{StaticResource CDTRefMedicalCondition}"
+                                                     CellEditingTemplate="{StaticResource EDTcborefMedCod}"
+                                                     CanUserReorder="True" CanUserResize="True" CanUserSort="True" MinWidth="250" Width="350"/>
+                        <DataGridCheckBoxColumn Header="{Binding Z0435_G1_YesNo, Source={StaticResource eHCMSResources}}" Binding="{Binding MCYesNo,Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="100" Width="SizeToHeader"/>
+                        <DataGridTextColumn Header="{Binding T1155_G1_GTri, Source={StaticResource eHCMSResources}}" Binding="{Binding MCTextValue, Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="SizeToHeader"/>
+                        <DataGridTextColumn Header="{Binding K2235_G1_ChuThich2, Source={StaticResource eHCMSResources}}" Binding="{Binding MCExplainOrNotes,Mode=TwoWay}" CanUserReorder="True" CanUserResize="True" CanUserSort="True"  MinWidth="200" Width="*"/>
+                    </DataGrid.Columns>
+                </customcontrols:AxDataGridEx>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <customcontrols:DataPager Grid.Column="1" Grid.Row="1" Height="22" HorizontalAlignment="Stretch" Name="dpgMedicalConditions" PageSize="10" VerticalAlignment="Center" Style="{StaticResource MainFrame.DataPager}"  Visibility="Collapsed"/>
+                    <!--AutoEllipsis="{Binding IsChecked, ElementName=autoEllipsis}" IsTotalItemCountFixed="{Binding IsChecked, ElementName=totalItemCountFixed}" DisplayMode="FirstLastPreviousNextNumeric"-->
+                    <CheckBox Grid.Row="1" Content="Paging" Height="22" HorizontalAlignment="Left" Margin="7,3,0,-3" Name="chkPaging" VerticalAlignment="Center" Style="{StaticResource MainFrame.Checkbox.Title1}" Visibility="Collapsed" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</customcontrols:AxUserControl>

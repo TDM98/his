@@ -1,0 +1,397 @@
+﻿<UserControl
+    x:Class="aEMR.PCLDepartment.Views.LaboratoryResultAddNewView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AxControls="clr-namespace:aEMR.Controls;assembly=aEMR.Controls"
+    xmlns:Resources="clr-namespace:eHCMSLanguage;assembly=aEMRLanguage"
+    xmlns:aEMRConverters="clr-namespace:aEMR.Common.Converters;assembly=aEMR.Common"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:interact="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    d:DesignHeight="600"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Resources:eHCMSResources x:Key="eHCMSResources" />
+        <aEMRConverters:DecimalConverter3 x:Key="DecimalConverter3" />
+        <aEMRConverters:VisibilityConverter x:Key="VisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <aEMRConverters:FontBoldConverter x:Key="FontBoldConverter" />
+        <DataTemplate x:Key="DTtxtValue">
+            <AxControls:AxTextBox
+                x:Name="txtValue"
+                Width="150"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Text="{Binding Value, Mode=TwoWay}"
+                Visibility="{Binding IsNoNeedResult, Converter={StaticResource VisibilityConverter}}">
+                <interact:Interaction.Triggers>
+                    <interact:EventTrigger EventName="Loaded">
+                        <AxControls:SetFocusTrigger TargetName="txtValue" />
+                    </interact:EventTrigger>
+                </interact:Interaction.Triggers>
+            </AxControls:AxTextBox>
+        </DataTemplate>
+        <DataTemplate x:Key="CTtblName">
+            <TextBlock
+                MinWidth="200"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="{Binding IsBold, Converter={StaticResource FontBoldConverter}}"
+                Text="{Binding PCLExamTestItemName, Mode=TwoWay}" />
+        </DataTemplate>
+        <DataTemplate x:Key="DTtxtValue_Old">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    Width="150"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding Value_Old, Mode=TwoWay}" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <xctk:BusyIndicator BusyContent="{Binding DlgBusyContent}" IsBusy="{Binding DlgIsBusyFlag}">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <AxControls:AxGrid x:Name="LayoutRoot" Background="White">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition MaxHeight="650" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <StackPanel
+                    Width="auto"
+                    Margin="0,10"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                    <TextBlock
+                        Margin="3,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.04}"
+                        Text="{Binding R0372_G1_MauBenhPham, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" />
+                    <AxControls:AxComboBox
+                        Width="120"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="SpecimenName"
+                        ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.AllSpecimen, Mode=OneWay}"
+                        SelectedValue="{Binding curPatientPCLLaboratoryResult.SpecimenID, Mode=TwoWay}"
+                        SelectedValuePath="SpecimenID"
+                        Style="{StaticResource MainFrame.ComboBox}" />
+                    <TextBlock
+                        Margin="25,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.04}"
+                        Text="{Binding Z3321_G1_TimeTiepNhanCode, StringFormat='{} {0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="Red"
+                        Style="{StaticResource MainFrame.TextBlock.02}"
+                        Text="{Binding CurPatientPCLRequest.ReceptionTime, Mode=TwoWay}"
+                        TextWrapping="NoWrap" />
+                    <TextBlock
+                        Margin="25,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.04}"
+                        Text="{Binding Z3322_G1_ChatLuongMau, StringFormat='{} {0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBox
+                        x:Name="txtSampleQuality"
+                        Width="350"
+                        MaxHeight="150"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        IsReadOnly="True"
+                        Text="{Binding curPatientPCLLaboratoryResult.SampleQuality, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="1"
+                    Width="auto"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal"
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                    <TextBlock
+                        Margin="3,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.04}"
+                        Text="{Binding A1142_G1_MaPh, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="Red"
+                        Style="{StaticResource MainFrame.TextBlock.02}"
+                        Text="{Binding CurPatientPCLRequest.PCLRequestNumID, Mode=TwoWay}"
+                        TextWrapping="NoWrap" />
+                    <TextBlock
+                        Margin="15,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.04}"
+                        Text="{Binding G1691_G1_TThai, StringFormat='{} {0}:', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Foreground="Red"
+                        Style="{StaticResource MainFrame.TextBlock.02}"
+                        Text="{Binding CurPatientPCLRequest.V_PCLRequestStatusName, Mode=TwoWay}"
+                        TextWrapping="NoWrap" />
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.04}"
+                        Text="{Binding A1164_G1_TenDV, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" />
+                    <TextBlock
+                        Height="auto"
+                        MaxWidth="620"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TextBlock.Heading.04}"
+                        Text="{Binding CurPatientPCLRequest.PCLExamTypeName}"
+                        TextWrapping="Wrap" />
+                    <WrapPanel
+                        Width="600"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource TextBlock.Heading.04}"
+                            Text="{Binding K3159_G1_DNghi, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}" />
+                        <TextBox
+                            x:Name="txtSuggest"
+                            Width="450"
+                            MaxHeight="150"
+                            Margin="10,0,0,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            AcceptsReturn="True"
+                            Text="{Binding curPatientPCLLaboratoryResult.Suggest, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                            TextWrapping="Wrap"
+                            Visibility="{Binding IsNoNeedResult, Converter={StaticResource VisibilityConverter}}" />
+                        <CheckBox
+                            Margin="5,5,0,0"
+                            VerticalAlignment="Center"
+                            cal:Message.Attach="[Event Click]=[Action ckbIsWaitResult_Click($source,$datacontext)]"
+                            Content="{Binding Z2177_G1_ChoHoanTatXetNghiem, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+                            IsChecked="{Binding CurPatientPCLRequest.IsWaitResult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{Binding IsWaitResultEnabled}"
+                            Visibility="{Binding IsWaitResultVisibility, Converter={StaticResource VisibilityConverter}}" />
+                        <CheckBox
+                            Margin="5,5,0,0"
+                            VerticalAlignment="Center"
+                            Content="{Binding Z2788_G1_DaHoanTat, StringFormat='{} {0}', Source={StaticResource eHCMSResources}}"
+                            IsChecked="{Binding CurPatientPCLRequest.IsDone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="{Binding IsDoneVisibility, Converter={StaticResource VisibilityConverter}}" />
+                    </WrapPanel>
+                </StackPanel>
+                <!--  TBR: TTM 12072018 Anh Tuấn đã check và kêu comment.  -->
+                <!--  SelectionMode="Extended"  -->
+                <!--  IsEnabled="{Binding isEnable,Mode=OneWay}"  -->
+                <!--  <AxControls:DataGridPCL: Có vấn đề cần review code.  -->
+                <DataGrid
+                    x:Name="gridLaboratory"
+                    Grid.Row="2"
+                    Height="620"
+                    MinHeight="300"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    ColumnHeaderStyle="{StaticResource MainFrame.DataGridColumnHeaderStyle}"
+                    HorizontalScrollBarVisibility="Auto"
+                    IsReadOnly="False"
+                    ItemsSource="{Binding allPatientPCLLaboratoryResultDetail, Mode=TwoWay}"
+                    RowHeaderStyle="{StaticResource MainFrame.DataGridRowHeaderStyle}"
+                    RowStyle="{StaticResource MainFrame.DataGridRowStyle.Normal}"
+                    Style="{StaticResource MainFrame.DataGridStyle}"
+                    VerticalScrollBarVisibility="Auto">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        x:Name="btnDeleteHIReport"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action btnDeleteItemResult($datacontext)]"
+                                        Style="{StaticResource MainFrame.HyperlinkButton.01}"
+                                        ToolTipService.ToolTip="{Binding G2410_G1_XemCTiet, Source={StaticResource eHCMSResources}}"
+                                        Visibility="{Binding IsNoNeedResult, Converter={StaticResource BooleanToVisibility}}">
+                                        <Image
+                                            Width="13"
+                                            Height="13"
+                                            Opacity="1"
+                                            Source="/aEMR.CommonViews;component/Assets/Images/Delete.gif" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn
+                            MinWidth="200"
+                            CellTemplate="{StaticResource CTtblName}"
+                            Header="{Binding T0912_G1_TenXetNghiem, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="150"
+                            Binding="{Binding Value, Mode=TwoWay}"
+                            Header="{Binding T2055_G1_KQua, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            MinWidth="100"
+                            Binding="{Binding PCLExamTestItemUnit, Mode=TwoWay}"
+                            Header="{Binding K3681_G1_DVi, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridTextColumn
+                            MinWidth="100"
+                            Binding="{Binding PCLExamTestItemRefScale, Mode=OneWay}"
+                            Header="{Binding G1782_G1_TriSoThamChieu, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTextColumn
+                            Binding="{Binding Value_Old, Mode=TwoWay}"
+                            Header="{Binding T2068_G1_KQuaCu, Source={StaticResource eHCMSResources}}"
+                            IsReadOnly="True" />
+                        <DataGridCheckBoxColumn Binding="{Binding IsAbnormal, Mode=TwoWay}" Header="{Binding Z2390_G1_KquaBatThuong, Source={StaticResource eHCMSResources}}" />
+                        <DataGridTemplateColumn Header="{Binding Z2241_G1_MaMay, Source={StaticResource eHCMSResources}}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <AxControls:AxComboBox
+                                        Width="475"
+                                        MaxWidth="475"
+                                        Margin="0,0,0,5"
+                                        HorizontalAlignment="Left"
+                                        HorizontalContentAlignment="Left"
+                                        cal:Message.Attach="[Event Loaded]=[Action cboHiRepResourceCode_Loaded($source,$eventArgs)]; [Event DropDownClosed]=[Action cboHiRepResourceCode_DropDownClosed($source,$eventArgs)]"
+                                        DisplayMemberPath="ItemName"
+                                        ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.HIRepResourceCodeCollection, Mode=OneWay}"
+                                        SelectedValue="{Binding HIRepResourceCode, Mode=TwoWay}"
+                                        SelectedValuePath="HIRepResourceCode"
+                                        Style="{StaticResource MainFrame.ComboBox}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="50" Header="Khóa">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox
+                                        x:Name="chk"
+                                        HorizontalAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        cal:Message.Attach="[Event Click]=[Action ckbIsChecked_Click($source,$datacontext)]"
+                                        IsChecked="{Binding IsTemporaryBlock, Mode=TwoWay}"
+                                        Style="{StaticResource MainFrame.Checkbox.Title1}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="200" Header="{Binding Z2127_G1_NTH, Source={StaticResource eHCMSResources}}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <AxControls:AxComboBox
+                                        Width="200"
+                                        HorizontalAlignment="Left"
+                                        HorizontalContentAlignment="Left"
+                                        cal:Message.Attach="[Event Loaded]=[Action cboPerformStaff_Loaded($source,$eventArgs)]; [Event DropDownClosed]=[Action cboPerformStaff_DropDownClosed($source,$eventArgs)]"
+                                        DisplayMemberPath="FullName"
+                                        ItemsSource="{Binding ElementName=LayoutRoot, Path=DataContext.PerformStaffs, Mode=OneWay}"
+                                        SelectedValue="{Binding PerformStaffID, Mode=TwoWay}"
+                                        SelectedValuePath="StaffID"
+                                        Style="{StaticResource MainFrame.ComboBox}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Height="24"
+                    MinWidth="250"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="{Binding bSave}">
+                    <!--<Button Name="butReset" IsEnabled="{Binding IsHasPatient}" Content="{Binding G2803_G1_XoaNhapLai, Source={StaticResource eHCMSResources}}" Height="22" Width="100"
+                HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource MainFrame.Button01}" TabIndex="12" />-->
+                    <!--<Button Name="butSave" IsEnabled="{Binding IsHasPatient}"
+                Visibility="{Binding isSave,Converter={StaticResource BooleanToVisibility}}" Content="{Binding S0544_G1_Save, Source={StaticResource eHCMSResources}}" Height="22" Width="100"
+                HorizontalAlignment="Left" Margin="15,0,0,0" VerticalAlignment="Top" Style="{StaticResource MainFrame.Button01}"
+                TabIndex="13" />-->
+                    <Button
+                        Name="butUpdate"
+                        Width="100"
+                        Height="22"
+                        Margin="15,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{Binding Content}"
+                        IsEnabled="{Binding btnUpdateEnable}"
+                        Style="{StaticResource MainFrame.Button01}"
+                        TabIndex="14"
+                        Visibility="{Binding isUpdate, Converter={StaticResource BooleanToVisibility}}" />
+                    <Button
+                        Name="BtnPrint"
+                        Width="100"
+                        Height="22"
+                        Margin="15,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{Binding G2430_G1_XemIn, Source={StaticResource eHCMSResources}}"
+                        IsEnabled="{Binding IsHasPatient}"
+                        Style="{StaticResource MainFrame.Button01}"
+                        TabIndex="14"
+                        Visibility="{Binding isUpdate, Converter={StaticResource BooleanToVisibility}}" />
+                    <Button
+                        Name="btnPrintNew"
+                        Width="100"
+                        Height="22"
+                        Margin="15,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{Binding T1820_G1_In, Source={StaticResource eHCMSResources}}"
+                        IsEnabled="{Binding DataContext.IsCanPrint, ElementName=LayoutRoot, Mode=TwoWay}"
+                        Style="{StaticResource MainFrame.Button01}"
+                        TabIndex="14"
+                        Visibility="{Binding isUpdate, Converter={StaticResource BooleanToVisibility}}" />
+                    <Button
+                        Name="BtnDelete"
+                        Width="100"
+                        Height="22"
+                        Margin="15,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{Binding G2617_G1_Xoa, Source={StaticResource eHCMSResources}}"
+                        IsEnabled="{Binding IsHasPatient}"
+                        Style="{StaticResource MainFrame.Button01}"
+                        TabIndex="14"
+                        Visibility="{Binding isUpdate, Converter={StaticResource BooleanToVisibility}}" />
+                    <Button
+                        Name="BtnPrintBilingual"
+                        Width="100"
+                        Height="22"
+                        Margin="15,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{Binding Z3324_G1_XemInEng, Source={StaticResource eHCMSResources}}"
+                        IsEnabled="{Binding IsHasPatient}"
+                        Style="{StaticResource MainFrame.Button01}"
+                        TabIndex="14"
+                        Visibility="{Binding isUpdate, Converter={StaticResource BooleanToVisibility}}" />
+                </StackPanel>
+            </AxControls:AxGrid>
+        </ScrollViewer>
+    </xctk:BusyIndicator>
+</UserControl>
